@@ -241,6 +241,44 @@
   font-weight: 500;
 }
 
+/* Animated highlighter marker behind a headline word (accent). */
+.highlight-word {
+  position: relative;
+  color: var(--accent);
+  white-space: nowrap;
+  isolation: isolate;
+}
+.highlight-word::before {
+  content: "";
+  position: absolute;
+  left: -0.1em;
+  right: -0.1em;
+  bottom: 0.04em;
+  height: 0.4em;
+  z-index: -1;
+  border-radius: 3px;
+  background: var(--accent-weak);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation:
+    highlight-sweep 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards,
+    highlight-pulse 3.2s ease-in-out 1.35s infinite;
+}
+@keyframes highlight-sweep {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes highlight-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

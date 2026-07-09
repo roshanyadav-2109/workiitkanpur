@@ -3,26 +3,30 @@ import { createClient } from "@/lib/supabase/server";
 import { Logo } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 
-const FEATURES: { title: string; body: string }[] = [
-  {
-    title: "Timed on every attempt",
-    body: "A stopwatch starts the moment a question opens, so practice mirrors the pressure of the proctored exam.",
-  },
-  {
-    title: "Progress you can see",
-    body: "Solved counts, time-per-question trends, accuracy by topic, and streaks — computed from your own attempts.",
-  },
-  {
-    title: "Curated, not scraped",
-    body: "Questions organised by week and difficulty, released one subject at a time. Python is live now.",
-  },
+const BRANCHES: { name: string; note: string }[] = [
+  { name: "Data Science & Applications", note: "Foundation · Diploma · Degree" },
+  { name: "Electronic Systems", note: "Foundation · Diploma · Degree" },
+  { name: "More programmes", note: "Coming soon" },
 ];
 
 export default async function LandingPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const [
+    {
+      data: { user },
+    },
+    { data: subjects },
+  ] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase
+      .from("subjects")
+      .select("slug, name, short_code, is_active")
+      .order("sort_order"),
+  ]);
+
+  const allSubjects = subjects ?? [];
+  const shownSubjects = allSubjects.slice(0, 4);
+  const hasMore = allSubjects.length > 4;
 
   const demoEnabled =
     !!process.env.NEXT_PUBLIC_DEMO_EMAIL &&
@@ -65,18 +69,51 @@ export default async function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="mx-auto w-full max-w-[1080px] px-5 pb-16 pt-16 sm:px-8 sm:pt-24">
+        {/* Hero */}
+        <section className="mx-auto w-full max-w-[1080px] px-5 pb-12 pt-14 sm:px-8 sm:pt-24">
           <p className="text-[12px] font-medium uppercase tracking-[0.08em] text-fg-muted">
-            IIT Madras BS Degree · OPPE preparation
+            IIT Madras BS Degree
           </p>
-          <h1 className="mt-5 max-w-[18ch] text-[40px] font-medium leading-[1.05] tracking-[-0.02em] sm:text-[52px]">
-            Practice the OPPE until it is routine.
+
+          <h1 className="mt-5 max-w-[16ch] text-[40px] font-semibold leading-[1.03] tracking-[-0.02em] sm:text-[64px]">
+            Practice for your{" "}
+            <span className="highlight-word">OPPE exams</span>
           </h1>
-          <p className="mt-6 max-w-[58ch] text-[16px] leading-relaxed text-fg-muted">
-            Curated programming questions, a timer on every attempt, and a clear
-            view of your growth over time. Built for the Online Proctored
-            Programming Exam — quiet, fast, and precise.
+          <p className="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-fg-muted sm:text-[18px]">
+            Curated questions, a live timer on every attempt, and real
+            in-browser code execution — built for the Online Proctored
+            Programming Exam of the IIT Madras BS Degree.
           </p>
+
+          {/* Subjects */}
+          <div className="mt-9">
+            <p className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg-muted">
+              Subjects available with us
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2.5">
+              {shownSubjects.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={s.is_active ? `/app/subjects/${s.slug}` : "/app/subjects"}
+                  className="group inline-flex h-10 items-center gap-2 rounded-md border border-hairline-strong px-4 text-[14px] font-medium transition-colors hover:bg-surface"
+                >
+                  <span className={s.is_active ? "" : "text-fg-muted"}>
+                    {s.name}
+                  </span>
+                  {!s.is_active && (
+                    <span className="text-[11px] font-normal text-fg-faint">
+                      soon
+                    </span>
+                  )}
+                </Link>
+              ))}
+              {hasMore && (
+                <span className="text-[13px] text-fg-muted">and many more</span>
+              )}
+            </div>
+          </div>
+
+          {/* CTAs */}
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href={user ? "/app" : "/signup"}
@@ -88,9 +125,10 @@ export default async function LandingPage() {
               href="/app/subjects"
               className={buttonVariants({ variant: "secondary", size: "lg" })}
             >
-              Browse subjects
+              Browse questions
             </Link>
           </div>
+
           {!user && demoEnabled && (
             <p className="mt-4 text-[13px] text-fg-muted">
               Just exploring?{" "}
@@ -105,20 +143,23 @@ export default async function LandingPage() {
           )}
         </section>
 
-        <section className="border-t border-hairline">
-          <div className="mx-auto grid w-full max-w-[1080px] grid-cols-1 sm:grid-cols-3">
-            {FEATURES.map((f, i) => (
+        {/* Available Branches */}
+        <section className="mx-auto w-full max-w-[1080px] px-5 pb-20 sm:px-8">
+          <h2 className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg-muted">
+            Available Branches
+          </h2>
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            {BRANCHES.map((b) => (
               <div
-                key={f.title}
-                className={
-                  "border-hairline px-5 py-8 sm:px-8" +
-                  (i > 0 ? " border-t sm:border-l sm:border-t-0" : "")
-                }
+                key={b.name}
+                className="rounded-md border border-hairline px-4 py-6 sm:px-5"
               >
-                <h2 className="text-[15px] font-medium">{f.title}</h2>
-                <p className="mt-2 text-[14px] leading-relaxed text-fg-muted">
-                  {f.body}
-                </p>
+                <div className="text-[14px] font-medium leading-snug sm:text-[15px]">
+                  {b.name}
+                </div>
+                <div className="mt-1.5 text-[11px] text-fg-muted sm:text-[12px]">
+                  {b.note}
+                </div>
               </div>
             ))}
           </div>
