@@ -2,7 +2,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Logo } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
-import { IitmEmblem } from "@/components/iitm-emblem";
 import { SubjectLogo } from "@/components/subject-logo";
 
 const BRANCHES: { name: string; note: string }[] = [
@@ -68,10 +67,15 @@ export default async function LandingPage() {
 
       <main className="flex-1">
         {/* Hero — centred */}
-        <section className="mx-auto flex w-full max-w-[860px] flex-col items-center px-5 pb-14 pt-16 text-center sm:pt-24">
-          <IitmEmblem size={56} className="text-fg" />
-          <p className="mt-3 text-[12px] font-medium uppercase tracking-[0.16em] text-fg-muted">
-            IIT Madras BS Degree
+        <section className="mx-auto flex w-[85%] max-w-[1500px] flex-col items-center px-5 pb-14 pt-16 text-center sm:pt-24">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/iitm-logo.svg"
+            alt="IIT Madras"
+            className="h-20 w-auto sm:h-24"
+          />
+          <p className="mt-4 text-[17px] font-semibold text-fg sm:text-[18px]">
+            IIT Madras Online BS Degree
           </p>
 
           <h1 className="mt-5 text-[40px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[60px]">
@@ -111,7 +115,7 @@ export default async function LandingPage() {
         </section>
 
         {/* Available Branches — centred */}
-        <section className="mx-auto w-full max-w-[860px] px-5 pb-20 text-center">
+        <section className="mx-auto w-[85%] max-w-[1500px] px-5 pb-20 text-center">
           <h2 className="text-[12px] font-medium uppercase tracking-[0.1em] text-fg-muted">
             Available Branches
           </h2>
@@ -134,7 +138,7 @@ export default async function LandingPage() {
       </main>
 
       <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-[860px] items-center justify-between gap-4 px-5 py-6 text-[12px] text-fg-muted sm:px-8">
+        <div className="mx-auto flex w-[85%] max-w-[1500px] items-center justify-between gap-4 px-5 py-6 text-[12px] text-fg-muted sm:px-8">
           <span>OPPE Practice</span>
           <span className="text-right">
             Independent practice tool · not affiliated with IIT Madras
