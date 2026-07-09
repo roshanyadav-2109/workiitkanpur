@@ -25,11 +25,11 @@
 
   /* Single accent — applied UNIFORMLY: interactive, positive/solved, and data.
      Neutral content stays monochrome. One hue, one meaning: "this matters". */
-  --accent: #3a5fd9;
-  --accent-hover: #3050c0;
+  --accent: #1b1464;
+  --accent-hover: #2a2185;
   --accent-fg: #ffffff;
-  --accent-weak: rgba(58, 95, 217, 0.1);
-  --accent-border: rgba(58, 95, 217, 0.4);
+  --accent-weak: rgba(27, 20, 100, 0.1);
+  --accent-border: rgba(27, 20, 100, 0.4);
 }
 
 .dark {
