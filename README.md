@@ -46,6 +46,19 @@ SUPABASE_SERVICE_ROLE_KEY=<service role key — server-only, never bundled>
 The `NEXT_PUBLIC_*` keys are safe in the browser. The service-role key is a secret and is
 never imported into any component.
 
+## Deploy (Vercel)
+
+`vercel.json` pins the Next.js framework and build. Import the repo into Vercel, then:
+
+1. Add the three environment variables above in **Project → Settings → Environment
+   Variables** (never commit them — `.env*` is gitignored). Scope `SUPABASE_SERVICE_ROLE_KEY`
+   to the server only.
+2. In **Supabase → Authentication → URL Configuration**, add your Vercel URL to the redirect
+   allow-list (e.g. `https://<your-app>.vercel.app/**`) and set the Site URL, so auth
+   callbacks work in production.
+3. Deploy. The migrations/seed in `supabase/` are applied out-of-band with
+   `scripts/run-sql.mjs` (they are not part of the Vercel build).
+
 ## Database
 
 Schema, RLS, and the profile trigger live in `supabase/migrations/0001_init.sql`.
