@@ -7,8 +7,11 @@ import {
 } from "simple-icons";
 import { IconSubjects } from "@/components/icons";
 
-// Map each subject to its language/tech brand mark (rendered monochrome).
-const SUBJECT_LOGO: Record<string, { path: string } | undefined> = {
+// Map each subject to its language/tech brand mark, rendered in the brand colour.
+const SUBJECT_LOGO: Record<
+  string,
+  { path: string; hex: string } | undefined
+> = {
   python: siPython,
   pdsa: siPython,
   dbms: siPostgresql,
@@ -33,7 +36,7 @@ export function SubjectLogo({
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="currentColor"
+      fill={`#${icon.hex}`}
       aria-hidden="true"
       className={className}
     >

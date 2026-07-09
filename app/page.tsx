@@ -68,15 +68,18 @@ export default async function LandingPage() {
       <main className="flex-1">
         {/* Hero — centred */}
         <section className="mx-auto flex w-[85%] max-w-[1500px] flex-col items-center px-5 pb-14 pt-16 text-center sm:pt-24">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/iitm-logo.svg"
-            alt="IIT Madras"
-            className="h-20 w-auto sm:h-24"
-          />
-          <p className="mt-4 text-[17px] font-semibold text-fg sm:text-[18px]">
-            IIT Madras Online BS Degree
-          </p>
+          <div className="flex items-center justify-center gap-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/iitm-logo-color.svg"
+              alt="IIT Madras"
+              className="h-16 w-auto sm:h-20"
+            />
+            <p className="text-left text-[18px] font-semibold leading-tight text-fg sm:text-[22px]">
+              IIT Madras Online
+              <br className="hidden sm:block" /> BS Degree
+            </p>
+          </div>
 
           <h1 className="mt-5 text-[40px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[60px]">
             Practice for your{" "}
@@ -96,7 +99,7 @@ export default async function LandingPage() {
                 <SubjectLogo
                   slug={s.slug}
                   size={28}
-                  className={s.is_active ? "text-fg" : "text-fg-muted"}
+                  className={s.is_active ? "" : "opacity-50"}
                 />
                 <span className={s.is_active ? "" : "text-fg-muted"}>
                   {s.name}
