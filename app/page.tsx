@@ -24,6 +24,10 @@ export default async function LandingPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const demoEnabled =
+    !!process.env.NEXT_PUBLIC_DEMO_EMAIL &&
+    !!process.env.NEXT_PUBLIC_DEMO_PASSWORD;
+
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="flex h-14 items-center justify-between px-5 sm:px-8">
@@ -87,6 +91,18 @@ export default async function LandingPage() {
               Browse subjects
             </Link>
           </div>
+          {!user && demoEnabled && (
+            <p className="mt-4 text-[13px] text-fg-muted">
+              Just exploring?{" "}
+              <Link
+                href="/login"
+                className="text-accent underline underline-offset-2"
+              >
+                Open the demo account
+              </Link>{" "}
+              — no signup needed.
+            </p>
+          )}
         </section>
 
         <section className="border-t border-hairline">

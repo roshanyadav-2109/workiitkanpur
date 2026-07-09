@@ -24,6 +24,31 @@ export function AuthForm({
   const googleEnabled =
     process.env.NEXT_PUBLIC_ENABLE_GOOGLE_OAUTH === "true";
 
+  const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
+  const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
+  const showDemo = mode === "login" && !!demoEmail && !!demoPassword;
+
+  async function onDemo() {
+    setError(null);
+    setNotice(null);
+    setLoading(true);
+    const supabase = createClient();
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: demoEmail!,
+        password: demoPassword!,
+      });
+      if (error) throw error;
+      router.replace(next);
+      router.refresh();
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Could not open the demo account.",
+      );
+      setLoading(false);
+    }
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -143,6 +168,29 @@ export function AuthForm({
             ? "Create account"
             : "Sign in"}
       </Button>
+
+      {showDemo && (
+        <>
+          <div className="flex items-center gap-3 py-1">
+            <span className="h-px flex-1 bg-hairline" />
+            <span className="text-[12px] text-fg-faint">or</span>
+            <span className="h-px flex-1 bg-hairline" />
+          </div>
+          <Button
+            type="button"
+            variant="secondary"
+            size="lg"
+            className="w-full"
+            onClick={onDemo}
+            disabled={loading}
+          >
+            Explore the demo account
+          </Button>
+          <p className="text-center text-[12px] text-fg-muted">
+            Demo login · {demoEmail} · {demoPassword}
+          </p>
+        </>
+      )}
 
       {googleEnabled && (
         <>

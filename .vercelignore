@@ -1,0 +1,10 @@
+# Never upload local env/secrets or build/link artifacts to Vercel.
+.env
+.env.*
+.vercel
+.git
+node_modules
+.next
+scripts/_questions.json
+*.png
+.playwright-mcp
