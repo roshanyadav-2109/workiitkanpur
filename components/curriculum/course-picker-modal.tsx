@@ -81,7 +81,7 @@ export function CoursePickerModal({
       <button
         aria-label="Close"
         onClick={onClose}
-        className="fixed inset-0 z-40 cursor-default bg-[var(--overlay)]"
+        className="fixed inset-0 z-40 cursor-default bg-[var(--overlay)] backdrop-blur-md"
       />
       <div className="fixed inset-4 z-50 flex flex-col overflow-hidden rounded-md border border-hairline bg-canvas shadow-[var(--shadow-overlay)] sm:inset-[15%]">
         <div className="flex items-center justify-between border-b border-hairline px-6 py-4">
