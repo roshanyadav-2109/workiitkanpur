@@ -16,6 +16,8 @@ import {
   type QuestionRow,
 } from "@/components/question/question-table";
 import type { QuestionStatus } from "@/components/ui/status";
+import { DEGREE_BY_ID, offeringsFor } from "@/lib/curriculum";
+import { SubjectContextBar } from "@/components/curriculum/subject-context-bar";
 
 export async function generateMetadata({
   params,
@@ -29,13 +31,28 @@ export async function generateMetadata({
 
 export default async function SubjectDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ degree?: string; level?: string }>;
 }) {
   const { slug } = await params;
   const subject = await getSubjectBySlug(slug);
   // is_active is the release switch — inactive subjects are not browsable.
   if (!subject || !subject.is_active) notFound();
+
+  // Degree/level context the learner arrived through (falls back to the sole
+  // offering when the subject has exactly one).
+  const sp = await searchParams;
+  const offerings = offeringsFor(slug);
+  let degreeId = sp.degree;
+  let level = sp.level;
+  if (!degreeId && offerings.length === 1) {
+    degreeId = offerings[0].degree;
+    level = offerings[0].level;
+  }
+  const degreeName = degreeId ? DEGREE_BY_ID[degreeId]?.name : undefined;
+  const canChangeContext = offerings.length > 1;
 
   const [topics, questions] = await Promise.all([
     getTopicsForSubject(subject.id),
@@ -95,6 +112,14 @@ export default async function SubjectDetailPage({
             </>
           ) : undefined
         }
+      />
+
+      <SubjectContextBar
+        slug={slug}
+        degreeName={degreeName}
+        level={level}
+        canChange={canChangeContext}
+        subjects={[{ slug, name: subject.name, is_active: true }]}
       />
 
       <QuestionTable
