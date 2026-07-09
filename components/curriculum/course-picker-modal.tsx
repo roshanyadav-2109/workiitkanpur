@@ -10,7 +10,15 @@ import {
   type SubjectLite,
 } from "@/lib/curriculum";
 import { SubjectLogo } from "@/components/subject-logo";
-import { IconClose, IconChevron } from "@/components/icons";
+import {
+  IconClose,
+  IconChevron,
+  IconSubjects,
+  IconProgress,
+} from "@/components/icons";
+
+const HOVER_ARROW =
+  "shrink-0 -translate-x-1 text-accent opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100";
 
 const STEP_TITLE: Record<string, string> = {
   subject: "Choose a subject",
@@ -89,10 +97,10 @@ export function CoursePickerModal({
             {canBack && (
               <button
                 onClick={back}
-                className="inline-flex h-8 items-center gap-1 rounded-md px-2 text-[13px] text-fg-muted transition-colors hover:bg-surface hover:text-fg"
+                aria-label="Back"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface hover:text-fg"
               >
-                <IconChevron size={16} className="rotate-180" />
-                Back
+                <IconChevron size={18} className="rotate-180" />
               </button>
             )}
             <h2 className="text-[16px] font-medium">{STEP_TITLE[step.kind]}</h2>
@@ -117,15 +125,17 @@ export function CoursePickerModal({
                     setState((st) => ({ ...st, subject: s.slug }))
                   }
                   className={cn(
-                    "flex items-center gap-3.5 rounded-md border px-5 py-5 text-left text-[15px] font-medium transition-colors",
+                    "group flex items-center gap-3 rounded-md border px-5 py-5 text-left text-[15px] font-medium transition-colors",
                     s.is_active
                       ? "border-hairline-strong hover:bg-surface"
                       : "border-hairline text-fg-muted opacity-60",
                   )}
                 >
                   <SubjectLogo slug={s.slug} size={28} />
-                  <span className="flex-1">{s.name}</span>
-                  {!s.is_active && (
+                  <span>{s.name}</span>
+                  {s.is_active ? (
+                    <IconChevron size={18} className={HOVER_ARROW} />
+                  ) : (
                     <span className="text-[11px] font-normal text-fg-faint">
                       soon
                     </span>
@@ -141,9 +151,11 @@ export function CoursePickerModal({
                 <button
                   key={d.id}
                   onClick={() => setState((st) => ({ ...st, degree: d.id }))}
-                  className="rounded-md border border-hairline-strong px-5 py-6 text-left text-[15px] font-medium transition-colors hover:bg-surface"
+                  className="group flex items-center gap-3 rounded-md border border-hairline-strong px-5 py-6 text-left text-[15px] font-medium transition-colors hover:bg-surface"
                 >
-                  {d.name}
+                  <IconSubjects size={22} className="shrink-0 text-fg-muted" />
+                  <span>{d.name}</span>
+                  <IconChevron size={18} className={HOVER_ARROW} />
                 </button>
               ))}
             </div>
@@ -155,9 +167,11 @@ export function CoursePickerModal({
                 <button
                   key={lvl}
                   onClick={() => setState((st) => ({ ...st, level: lvl }))}
-                  className="rounded-md border border-hairline-strong px-5 py-6 text-center text-[15px] font-medium transition-colors hover:bg-surface"
+                  className="group flex items-center gap-3 rounded-md border border-hairline-strong px-5 py-6 text-left text-[15px] font-medium transition-colors hover:bg-surface"
                 >
-                  {lvl}
+                  <IconProgress size={22} className="shrink-0 text-fg-muted" />
+                  <span>{lvl}</span>
+                  <IconChevron size={18} className={HOVER_ARROW} />
                 </button>
               ))}
             </div>
