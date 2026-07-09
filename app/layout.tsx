@@ -34,6 +34,8 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full">
+        {/* Accent bar across the very top, above every page's navbar. */}
+        <div className="h-1.5 w-full bg-accent" />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
