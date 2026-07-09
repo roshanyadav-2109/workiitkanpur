@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Logo } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
+import { IitmEmblem } from "@/components/iitm-emblem";
+import { SubjectLogo } from "@/components/subject-logo";
 
 const BRANCHES: { name: string; note: string }[] = [
   { name: "Data Science & Applications", note: "Foundation · Diploma · Degree" },
@@ -27,10 +29,6 @@ export default async function LandingPage() {
   const allSubjects = subjects ?? [];
   const shownSubjects = allSubjects.slice(0, 4);
   const hasMore = allSubjects.length > 4;
-
-  const demoEnabled =
-    !!process.env.NEXT_PUBLIC_DEMO_EMAIL &&
-    !!process.env.NEXT_PUBLIC_DEMO_PASSWORD;
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -69,90 +67,59 @@ export default async function LandingPage() {
       </header>
 
       <main className="flex-1">
-        {/* Hero */}
-        <section className="mx-auto w-full max-w-[1080px] px-5 pb-12 pt-14 sm:px-8 sm:pt-24">
-          <p className="text-[12px] font-medium uppercase tracking-[0.08em] text-fg-muted">
+        {/* Hero — centred */}
+        <section className="mx-auto flex w-full max-w-[860px] flex-col items-center px-5 pb-14 pt-16 text-center sm:pt-24">
+          <IitmEmblem size={56} className="text-fg" />
+          <p className="mt-3 text-[12px] font-medium uppercase tracking-[0.16em] text-fg-muted">
             IIT Madras BS Degree
           </p>
 
-          <h1 className="mt-5 max-w-[16ch] text-[40px] font-semibold leading-[1.03] tracking-[-0.02em] sm:text-[64px]">
+          <h1 className="mt-5 text-[40px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[60px]">
             Practice for your{" "}
-            <span className="highlight-word">OPPE exams</span>
+            <span className="highlight-word">OPPE Exams</span>
           </h1>
-          <p className="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-fg-muted sm:text-[18px]">
-            Curated questions, a live timer on every attempt, and real
-            in-browser code execution — built for the Online Proctored
-            Programming Exam of the IIT Madras BS Degree.
-          </p>
 
-          {/* Subjects */}
-          <div className="mt-9">
-            <p className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg-muted">
-              Subjects available with us
-            </p>
-            <div className="mt-3 flex flex-wrap items-center gap-2.5">
-              {shownSubjects.map((s) => (
-                <Link
-                  key={s.slug}
-                  href={s.is_active ? `/app/subjects/${s.slug}` : "/app/subjects"}
-                  className="group inline-flex h-10 items-center gap-2 rounded-md border border-hairline-strong px-4 text-[14px] font-medium transition-colors hover:bg-surface"
-                >
-                  <span className={s.is_active ? "" : "text-fg-muted"}>
-                    {s.name}
-                  </span>
-                  {!s.is_active && (
-                    <span className="text-[11px] font-normal text-fg-faint">
-                      soon
-                    </span>
-                  )}
-                </Link>
-              ))}
-              {hasMore && (
-                <span className="text-[13px] text-fg-muted">and many more</span>
-              )}
-            </div>
-          </div>
-
-          {/* CTAs */}
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link
-              href={user ? "/app" : "/signup"}
-              className={buttonVariants({ variant: "primary", size: "lg" })}
-            >
-              {user ? "Go to dashboard" : "Start practicing"}
-            </Link>
-            <Link
-              href="/app/subjects"
-              className={buttonVariants({ variant: "secondary", size: "lg" })}
-            >
-              Browse questions
-            </Link>
-          </div>
-
-          {!user && demoEnabled && (
-            <p className="mt-4 text-[13px] text-fg-muted">
-              Just exploring?{" "}
+          {/* Subject blocks — big, with the language mark beside the name */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            {shownSubjects.map((s) => (
               <Link
-                href="/login"
-                className="text-accent underline underline-offset-2"
+                key={s.slug}
+                href={
+                  s.is_active ? `/app/subjects/${s.slug}` : "/app/subjects"
+                }
+                className="group inline-flex h-16 items-center gap-3.5 rounded-md border border-hairline-strong px-6 text-[16px] font-medium transition-colors hover:bg-surface"
               >
-                Open the demo account
-              </Link>{" "}
-              — no signup needed.
-            </p>
-          )}
+                <SubjectLogo
+                  slug={s.slug}
+                  size={28}
+                  className={s.is_active ? "text-fg" : "text-fg-muted"}
+                />
+                <span className={s.is_active ? "" : "text-fg-muted"}>
+                  {s.name}
+                </span>
+                {!s.is_active && (
+                  <span className="text-[11px] font-normal text-fg-faint">
+                    soon
+                  </span>
+                )}
+              </Link>
+            ))}
+            {hasMore && (
+              <span className="text-[14px] text-fg-muted">and many more</span>
+            )}
+          </div>
         </section>
 
-        {/* Available Branches */}
-        <section className="mx-auto w-full max-w-[1080px] px-5 pb-20 sm:px-8">
-          <h2 className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg-muted">
+        {/* Available Branches — centred */}
+        <section className="mx-auto w-full max-w-[860px] px-5 pb-20 text-center">
+          <h2 className="text-[12px] font-medium uppercase tracking-[0.1em] text-fg-muted">
             Available Branches
           </h2>
           <div className="mt-4 grid grid-cols-3 gap-3">
             {BRANCHES.map((b) => (
               <div
                 key={b.name}
-                className="rounded-md border border-hairline px-4 py-6 sm:px-5"
+                className="rounded-md border border-hairline px-4 py-6"
               >
                 <div className="text-[14px] font-medium leading-snug sm:text-[15px]">
                   {b.name}
@@ -167,7 +134,7 @@ export default async function LandingPage() {
       </main>
 
       <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-[1080px] items-center justify-between gap-4 px-5 py-6 text-[12px] text-fg-muted sm:px-8">
+        <div className="mx-auto flex w-full max-w-[860px] items-center justify-between gap-4 px-5 py-6 text-[12px] text-fg-muted sm:px-8">
           <span>OPPE Practice</span>
           <span className="text-right">
             Independent practice tool · not affiliated with IIT Madras
