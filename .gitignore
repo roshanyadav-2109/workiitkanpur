@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local verification artifacts
+/.playwright-mcp
+/*.png
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+scripts/_questions.json

@@ -1,0 +1,183 @@
+/**
+ * Database types for the OPPE Practice Platform.
+ * Hand-authored to match supabase/migrations/0001_init.sql.
+ */
+
+export type Difficulty = "easy" | "medium" | "hard";
+export type QuestionKind = "mcq" | "coding" | "sql" | "shell";
+export type AttemptStatus = "attempted" | "solved";
+
+export interface Profile {
+  id: string;
+  display_name: string | null;
+  created_at: string;
+}
+
+export interface Subject {
+  id: string;
+  slug: string;
+  name: string;
+  short_code: string;
+  description: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+}
+
+export interface Topic {
+  id: string;
+  subject_id: string;
+  name: string;
+  week: number | null;
+  sort_order: number;
+}
+
+export interface TestCase {
+  stdin: string;
+  expected: string;
+  hidden?: boolean;
+}
+
+export interface McqOption {
+  key: string;
+  label: string;
+}
+
+export interface Question {
+  id: string;
+  subject_id: string;
+  topic_id: string | null;
+  title: string;
+  body_md: string;
+  difficulty: Difficulty;
+  kind: QuestionKind;
+  solution_md: string | null;
+  tags: string[];
+  sort_order: number;
+  created_at: string;
+  // Phase 2 execution data
+  tests: TestCase[];
+  mcq_options: McqOption[];
+  mcq_answer: string | null;
+  setup_sql: string | null;
+}
+
+export type ExamStatus = "in_progress" | "submitted" | "expired";
+
+export interface ExamSession {
+  id: string;
+  user_id: string;
+  subject_id: string;
+  question_ids: string[];
+  duration_seconds: number;
+  status: ExamStatus;
+  score: number | null;
+  total: number | null;
+  leave_count: number;
+  started_at: string;
+  submitted_at: string | null;
+}
+
+export interface ExamAnswer {
+  id: string;
+  session_id: string;
+  user_id: string;
+  question_id: string;
+  answer: string | null;
+  is_correct: boolean | null;
+  time_spent_seconds: number;
+}
+
+export interface Attempt {
+  id: string;
+  user_id: string;
+  question_id: string;
+  status: AttemptStatus;
+  time_spent_seconds: number;
+  self_rating: number | null;
+  is_correct: boolean | null;
+  created_at: string;
+}
+
+export interface Note {
+  id: string;
+  user_id: string;
+  question_id: string;
+  content_md: string;
+  updated_at: string;
+}
+
+type Row<T> = T;
+type Insert<T, Optional extends keyof T> = Omit<T, Optional> &
+  Partial<Pick<T, Optional>>;
+type Update<T> = Partial<T>;
+
+export interface Database {
+  public: {
+    Tables: {
+      profiles: {
+        Row: Row<Profile>;
+        Insert: Insert<Profile, "display_name" | "created_at">;
+        Update: Update<Profile>;
+      };
+      subjects: {
+        Row: Row<Subject>;
+        Insert: Insert<
+          Subject,
+          "id" | "description" | "is_active" | "sort_order" | "created_at"
+        >;
+        Update: Update<Subject>;
+      };
+      topics: {
+        Row: Row<Topic>;
+        Insert: Insert<Topic, "id" | "week" | "sort_order">;
+        Update: Update<Topic>;
+      };
+      questions: {
+        Row: Row<Question>;
+        Insert: Insert<
+          Question,
+          | "id"
+          | "topic_id"
+          | "difficulty"
+          | "kind"
+          | "solution_md"
+          | "tags"
+          | "sort_order"
+          | "created_at"
+        >;
+        Update: Update<Question>;
+      };
+      attempts: {
+        Row: Row<Attempt>;
+        Insert: Insert<
+          Attempt,
+          | "id"
+          | "status"
+          | "time_spent_seconds"
+          | "self_rating"
+          | "is_correct"
+          | "created_at"
+        >;
+        Update: Update<Attempt>;
+      };
+      notes: {
+        Row: Row<Note>;
+        Insert: Insert<Note, "id" | "content_md" | "updated_at">;
+        Update: Update<Note>;
+      };
+    };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: {
+      difficulty_level: Difficulty;
+      question_kind: QuestionKind;
+      attempt_status: AttemptStatus;
+    };
+  };
+}
+
+/** Question row joined with its topic (used across list/detail views). */
+export interface QuestionWithTopic extends Question {
+  topic: Pick<Topic, "id" | "name" | "week"> | null;
+}
