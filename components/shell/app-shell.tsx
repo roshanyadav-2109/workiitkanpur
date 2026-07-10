@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { Sidebar } from "@/components/shell/sidebar";
 import { AccountMenu } from "@/components/shell/account-menu";
 import { IconMenu, IconClose, Logo } from "@/components/icons";
@@ -19,16 +20,15 @@ export function AppShell({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
 
-  // Question practice and a subject's question list are focused, full-width
-  // views — no sidebar. ("/app/subjects/" matches a subject, not the list.)
-  const focused =
-    pathname.startsWith("/app/questions/") ||
-    pathname.startsWith("/app/subjects/");
+  // Focused, full-width views (no sidebar). The question IDE fills the viewport
+  // with its own internal scrolling; the subject question list scrolls normally.
+  const ide = pathname.startsWith("/app/questions/");
+  const focused = ide || pathname.startsWith("/app/subjects/");
 
   if (focused) {
     return (
-      <div className="min-h-dvh">
-        <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 border-b border-hairline bg-canvas/95 px-4 backdrop-blur-sm sm:px-6">
+      <div className={cn("flex flex-col", ide ? "h-dvh" : "min-h-dvh")}>
+        <header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-hairline bg-canvas/95 px-4 backdrop-blur-sm sm:px-6">
           <Link
             href="/app/subjects"
             className="flex items-center gap-2.5 text-fg"
@@ -43,9 +43,13 @@ export function AppShell({
           </div>
         </header>
 
-        <main className="w-full px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
-          {children}
-        </main>
+        {ide ? (
+          <main className="min-h-0 flex-1">{children}</main>
+        ) : (
+          <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+            {children}
+          </main>
+        )}
       </div>
     );
   }

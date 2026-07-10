@@ -137,9 +137,10 @@ export function CodeEditor({
       autoCorrect="off"
       rows={minRows}
       wrap="off"
+      style={{ fontSize: "var(--code-font, 13px)" }}
       className={cn(
         "w-full rounded-md border border-hairline bg-surface px-3 py-2.5",
-        "font-mono text-[13px] leading-relaxed text-fg",
+        "font-mono leading-relaxed text-fg",
         "placeholder:text-fg-faint resize-y",
         "focus:outline-none focus-visible:border-accent",
         className,

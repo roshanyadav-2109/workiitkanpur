@@ -31,7 +31,10 @@ const RUNTIME_LABEL: Record<string, string> = {
  * question's `kind`. Adding a new language = add one runtime file + a branch
  * here; the RuntimeProps contract keeps the rest of the page unchanged.
  */
-export function RuntimeArea(props: RuntimeProps) {
+export function RuntimeArea({
+  bare,
+  ...props
+}: RuntimeProps & { bare?: boolean }) {
   const kind = props.question.kind;
 
   let body: React.ReactNode;
@@ -39,6 +42,9 @@ export function RuntimeArea(props: RuntimeProps) {
   else if (kind === "mcq") body = <McqRuntime {...props} />;
   else if (kind === "sql") body = <SqlRuntime {...props} />;
   else body = <UnavailableRuntime kind={kind} />;
+
+  // Bare: just the runtime, for hosts that supply their own header/frame (IDE).
+  if (bare) return <>{body}</>;
 
   return (
     <section className="rounded-md border border-hairline">
