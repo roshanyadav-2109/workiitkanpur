@@ -19,8 +19,11 @@ export function AppShell({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
 
-  // Question practice is a focused, full-width view — no sidebar.
-  const focused = pathname.startsWith("/app/questions/");
+  // Question practice and a subject's question list are focused, full-width
+  // views — no sidebar. ("/app/subjects/" matches a subject, not the list.)
+  const focused =
+    pathname.startsWith("/app/questions/") ||
+    pathname.startsWith("/app/subjects/");
 
   if (focused) {
     return (
