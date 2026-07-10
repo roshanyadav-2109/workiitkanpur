@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/shell/sidebar";
 import { AccountMenu } from "@/components/shell/account-menu";
-import { IconMenu, IconClose } from "@/components/icons";
+import { IconMenu, IconClose, Logo } from "@/components/icons";
 
 export function AppShell({
   email,
@@ -16,6 +17,35 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Question practice is a focused, full-width view — no sidebar.
+  const focused = pathname.startsWith("/app/questions/");
+
+  if (focused) {
+    return (
+      <div className="min-h-dvh">
+        <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 border-b border-hairline bg-canvas/95 px-4 backdrop-blur-sm sm:px-6">
+          <Link
+            href="/app/subjects"
+            className="flex items-center gap-2.5 text-fg"
+          >
+            <Logo size={22} />
+            <span className="text-[15px] font-medium tracking-[-0.01em]">
+              OPPE Practice
+            </span>
+          </Link>
+          <div className="flex items-center gap-1.5">
+            <AccountMenu email={email} displayName={displayName} />
+          </div>
+        </header>
+
+        <main className="w-full px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+          {children}
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-dvh">
@@ -55,11 +85,7 @@ export function AppShell({
           </div>
         </header>
 
-        <main
-          className={cn(
-            "mx-auto w-full max-w-[1080px] px-4 py-8 sm:px-6 lg:px-10 lg:py-10",
-          )}
-        >
+        <main className="mx-auto w-full max-w-[1080px] px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
           {children}
         </main>
       </div>
