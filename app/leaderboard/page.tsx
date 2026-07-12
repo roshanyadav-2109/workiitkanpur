@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   getCurrentUser,
@@ -215,20 +216,106 @@ export default async function LeaderboardPage() {
                 </Link>
               </div>
             ) : (
-              <div className="flex flex-col justify-center rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-5 text-center lg:h-[81%]">
-                <h2 className="text-[16px] font-semibold">Track your progress</h2>
-                <p className="mt-1.5 text-[13px] text-fg-muted">
-                  Sign in to see your rank, percentile and solved count.
-                </p>
-                <Link
-                  href="/login?next=/leaderboard"
-                  className={cn(
-                    buttonVariants({ variant: "primary", size: "md" }),
-                    "mt-4",
-                  )}
-                >
-                  Sign in →
-                </Link>
+              <div className="flex flex-col rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-3 lg:h-[81%]">
+                {/* violet header — inset, matches the logged-in card */}
+                <div className="relative overflow-hidden rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 py-5 text-white">
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -right-3 -top-5 select-none text-[88px] leading-none text-white/10"
+                  >
+                    ◎
+                  </span>
+                  <h2 className="relative text-[17px] font-semibold">
+                    Track your progress
+                  </h2>
+                  <p className="relative mt-1 text-[13px] text-white/85">
+                    Sign in to see where you stand against everyone.
+                  </p>
+                </div>
+
+                {/* what you unlock */}
+                <div className="flex flex-1 flex-col px-2 pt-4">
+                  <ul className="space-y-3">
+                    <Perk>Your live rank &amp; percentile</Perk>
+                    <Perk>Solved count across every subject</Perk>
+                    <Perk>Daily streak &amp; activity heatmap</Perk>
+                    <Perk>Per-question detailed analysis</Perk>
+                  </ul>
+
+                  {/* custom podium artifact */}
+                  <div className="flex flex-1 items-center justify-center py-3">
+                    <svg
+                      viewBox="0 0 220 120"
+                      className="w-[80%] max-w-[210px]"
+                      aria-hidden
+                    >
+                      <defs>
+                        <linearGradient id="lbPodium" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0" stopColor="#8b7bf0" />
+                          <stop offset="1" stopColor="#5a48d6" />
+                        </linearGradient>
+                      </defs>
+                      {/* confetti */}
+                      <circle cx="60" cy="9" r="1.8" fill="#5a48d6" opacity="0.5" />
+                      <circle cx="120" cy="6" r="1.8" fill="#f5c542" />
+                      <circle cx="185" cy="20" r="2.2" fill="#f5c542" />
+                      <rect x="30" y="14" width="4" height="4" rx="1" fill="#8b7bf0" transform="rotate(20 32 16)" />
+                      <rect x="150" y="10" width="4" height="4" rx="1" fill="#5a48d6" opacity="0.5" transform="rotate(-15 152 12)" />
+                      {/* crown on the winner */}
+                      <g>
+                        {/* body with three points */}
+                        <path
+                          d="M97,40 L100,25 L106,33 L110,20 L114,33 L120,25 L123,40 Z"
+                          fill="#ffd75e"
+                          stroke="#d99400"
+                          strokeWidth="0.9"
+                          strokeLinejoin="round"
+                        />
+                        {/* band */}
+                        <rect x="95" y="39.5" width="30" height="6.5" rx="2" fill="#f5c542" stroke="#d99400" strokeWidth="0.8" />
+                        {/* band gems */}
+                        <circle cx="103" cy="42.8" r="1.3" fill="#5a48d6" />
+                        <circle cx="110" cy="42.8" r="1.5" fill="#d1344b" />
+                        <circle cx="117" cy="42.8" r="1.3" fill="#5a48d6" />
+                        {/* pearl tips */}
+                        <circle cx="100" cy="24" r="2.3" fill="#ffe595" stroke="#d99400" strokeWidth="0.7" />
+                        <circle cx="110" cy="19" r="2.7" fill="#ffe595" stroke="#d99400" strokeWidth="0.7" />
+                        <circle cx="120" cy="24" r="2.3" fill="#ffe595" stroke="#d99400" strokeWidth="0.7" />
+                      </g>
+                      {/* podium blocks (2nd / 1st / 3rd) */}
+                      <rect x="25" y="68" width="54" height="42" rx="3" fill="#d7d0f5" />
+                      <rect x="141" y="80" width="54" height="30" rx="3" fill="#e7e2f8" />
+                      <rect x="83" y="52" width="54" height="58" rx="3" fill="url(#lbPodium)" />
+                      {/* ground */}
+                      <line x1="18" y1="110" x2="202" y2="110" stroke="#e7e2f8" strokeWidth="2" strokeLinecap="round" />
+                      {/* ranks */}
+                      <text x="52" y="95" textAnchor="middle" fontSize="16" fontWeight="800" fill="#5a48d6">2</text>
+                      <text x="110" y="87" textAnchor="middle" fontSize="20" fontWeight="800" fill="#fff">1</text>
+                      <text x="168" y="100" textAnchor="middle" fontSize="14" fontWeight="800" fill="#7b6ce0">3</text>
+                    </svg>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Link
+                      href="/login?next=/leaderboard"
+                      className={cn(
+                        buttonVariants({ variant: "primary", size: "md" }),
+                        "w-full",
+                      )}
+                    >
+                      Sign in →
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className={cn(
+                        buttonVariants({ variant: "ghost", size: "md" }),
+                        "w-full",
+                      )}
+                    >
+                      Create a free account
+                    </Link>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -254,6 +341,25 @@ export default async function LeaderboardPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+function Perk({ children }: { children: ReactNode }) {
+  return (
+    <li className="flex items-start gap-2.5 text-[13.5px] text-fg">
+      <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent-weak text-accent">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M5 12.5 L10 17.5 L19 7"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
+      <span>{children}</span>
+    </li>
   );
 }
 

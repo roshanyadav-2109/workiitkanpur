@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 360" width="1600" height="360" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d5ce2"/>
+      <stop offset="1" stop-color="#3a2b8c"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="360" rx="0" fill="url(#bg)"/>
+  <rect width="1600" height="360" fill="url(#sheen)"/>
+  <!-- decorative rings -->
+  <g stroke="#ffffff" stroke-opacity="0.12" fill="none" stroke-width="2">
+    <circle cx="1320" cy="180" r="70"/>
+    <circle cx="1320" cy="180" r="120"/>
+    <circle cx="1320" cy="180" r="170"/>
+  </g>
+  <!-- mock code window -->
+  <g transform="translate(1050 96)">
+    <rect width="330" height="168" rx="14" fill="#ffffff" fill-opacity="0.10"/>
+    <circle cx="24" cy="26" r="5" fill="#ffffff" fill-opacity="0.5"/>
+    <circle cx="42" cy="26" r="5" fill="#ffffff" fill-opacity="0.35"/>
+    <circle cx="60" cy="26" r="5" fill="#ffffff" fill-opacity="0.25"/>
+    <rect x="24" y="56" width="150" height="10" rx="5" fill="#c9c0f7"/>
+    <rect x="24" y="80" width="230" height="10" rx="5" fill="#ffffff" fill-opacity="0.55"/>
+    <rect x="24" y="104" width="180" height="10" rx="5" fill="#ffffff" fill-opacity="0.4"/>
+    <rect x="24" y="128" width="120" height="10" rx="5" fill="#8fe3b8"/>
+  </g>
+  <!-- copy -->
+  <text x="96" y="150" fill="#ffffff" font-size="62" font-weight="800" letter-spacing="-1">Practice for your OPPE exams</text>
+  <text x="98" y="200" fill="#ffffff" fill-opacity="0.85" font-size="26" font-weight="500">Unlimited questions · instant grading · real timed mocks</text>
+  <g transform="translate(98 236)">
+    <rect width="234" height="52" rx="10" fill="#ffffff"/>
+    <text x="28" y="34" fill="#3a2b8c" font-size="20" font-weight="700">Start practising  →</text>
+  </g>
+</svg>

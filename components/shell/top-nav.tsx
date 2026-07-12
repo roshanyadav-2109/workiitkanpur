@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Logo } from "@/components/icons";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 
 /**
@@ -11,10 +10,9 @@ export function TopNav({ right }: { right?: React.ReactNode }) {
   return (
     <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-6 border-b border-hairline bg-canvas/95 px-5 backdrop-blur-sm sm:px-8">
       <div className="flex items-center gap-8">
-        <Link href="/" className="flex items-center gap-2.5 text-fg">
-          <Logo size={22} />
+        <Link href="/" className="flex items-center text-fg">
           <span className="text-[15px] font-medium tracking-[-0.01em]">
-            OPPE Practice
+            IITM BS Community
           </span>
         </Link>
         <MarketingNav />

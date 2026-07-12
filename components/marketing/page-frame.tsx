@@ -40,7 +40,7 @@ export function PageFrame({
 
       <footer className="border-t border-hairline">
         <div className="mx-auto flex w-full max-w-[720px] items-center justify-between gap-4 px-5 py-6 text-[12px] text-fg-muted">
-          <span>OPPE Practice</span>
+          <span>IITM BS Community</span>
           <span>Independent practice tool · not affiliated with IIT Madras</span>
         </div>
       </footer>

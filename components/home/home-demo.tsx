@@ -2,8 +2,43 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SubjectLogo } from "@/components/subject-logo";
+import { RankMedal } from "@/components/progress/rank-medal";
 
-/* ── High-fidelity mock screens (the real app design, a few rows each) ────── */
+/* ── count-up number — replays on remount (screens are keyed) ─────────────── */
+function CountUp({
+  to,
+  dur = 1100,
+  prefix = "",
+  suffix = "",
+}: {
+  to: number;
+  dur?: number;
+  prefix?: string;
+  suffix?: string;
+}) {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const start = performance.now();
+    const ease = (p: number) => 1 - Math.pow(1 - p, 3);
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / dur);
+      setV(Math.round(ease(p) * to));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, dur]);
+  return (
+    <>
+      {prefix}
+      {v}
+      {suffix}
+    </>
+  );
+}
+
+/* ── High-fidelity mock screens ───────────────────────────────────────────── */
 
 function ExamChip({ children }: { children: React.ReactNode }) {
   return (
@@ -40,8 +75,14 @@ function SubjectCard({
       </p>
       <div className="mt-3 text-[12px] text-fg-muted">Exams</div>
       <div className="mt-1.5 flex gap-2">
-        {exams.map((e) => (
-          <ExamChip key={e}>{e}</ExamChip>
+        {exams.map((e, i) => (
+          <span
+            key={e}
+            className="demo-pop flex-1"
+            style={{ animationDelay: `${250 + i * 130}ms` }}
+          >
+            <ExamChip>{e}</ExamChip>
+          </span>
         ))}
       </div>
       <span className="mt-3 flex h-9 items-center justify-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] text-[12.5px] font-semibold text-white">
@@ -52,22 +93,33 @@ function SubjectCard({
 }
 
 function ScreenSubjects() {
+  const cards = [
+    {
+      slug: "python",
+      name: "Programming in Python",
+      line: "Data Science & Applications | Foundation | Diploma",
+      count: 25,
+      exams: ["OPPE 1", "OPPE 2"],
+    },
+    {
+      slug: "dbms",
+      name: "Database Management",
+      line: "Data Science & Applications | Diploma",
+      count: 4,
+      exams: ["OPPE 1"],
+    },
+  ];
   return (
     <div className="grid grid-cols-2 gap-4 p-6">
-      <SubjectCard
-        slug="python"
-        name="Programming in Python"
-        line="Data Science & Applications | Foundation | Diploma"
-        count={25}
-        exams={["OPPE 1", "OPPE 2"]}
-      />
-      <SubjectCard
-        slug="dbms"
-        name="Database Management"
-        line="Data Science & Applications | Diploma"
-        count={4}
-        exams={["OPPE 1"]}
-      />
+      {cards.map((c, idx) => (
+        <div
+          key={c.slug}
+          className="demo-rise"
+          style={{ animationDelay: `${idx * 130}ms` }}
+        >
+          <SubjectCard {...c} />
+        </div>
+      ))}
     </div>
   );
 }
@@ -76,21 +128,42 @@ function ScreenAttempt() {
   // Exact snapshot of the real coding interface (captured from the live app).
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src="/demo-coding.png"
-      alt="Coding interface"
-      className="block w-full"
-    />
+    <img src="/demo-coding.png" alt="Coding interface" className="block w-full" />
   );
 }
 
-function ScreenGrading({ active }: { active: boolean }) {
-  const rows = [
-    { io: "4 1 4 9 9 2 → 4", hidden: false },
-    { io: "3 6 9 12 → 4", hidden: false },
-    { io: "1 2 4 5 → 0", hidden: true },
-    { io: "9 9 9 → 3", hidden: true },
-  ];
+function DemoProgressLine({
+  label,
+  passed,
+  total,
+  delay,
+}: {
+  label: string;
+  passed: number;
+  total: number;
+  delay: string;
+}) {
+  const pct = total ? (passed / total) * 100 : 0;
+  return (
+    <div>
+      <div className="mb-1 flex items-center justify-between text-[12px]">
+        <span className="font-medium text-fg">{label}</span>
+        <span className="tnum text-fg-muted">
+          {passed}/{total} passed
+        </span>
+      </div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-surface">
+        <div
+          className="demo-grow-x h-full rounded-full bg-ok"
+          style={{ width: `${pct}%`, animationDelay: delay }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ScreenGrading() {
+  const publicTests = [{ stdin: "4 1 4 9 9 2", expected: "4" }];
   return (
     <div className="p-6 text-[12.5px]">
       <div className="mb-3 flex gap-5 border-b border-hairline pb-2">
@@ -100,75 +173,91 @@ function ScreenGrading({ active }: { active: boolean }) {
         </span>
         <span className="text-fg-muted">Solution</span>
       </div>
-      <div className="mb-3 grid grid-cols-2 gap-4">
-        <div>
-          <div className="mb-1 flex justify-between text-[11.5px]">
-            <span className="text-fg-muted">Public</span>
-            <span className="font-semibold text-ok">2 / 2</span>
-          </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-surface">
-            <div className="h-full w-full bg-ok" />
-          </div>
-        </div>
-        <div>
-          <div className="mb-1 flex justify-between text-[11.5px]">
-            <span className="text-fg-muted">Private</span>
-            <span className="font-semibold text-ok">2 / 2</span>
-          </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-surface">
-            <div className="h-full w-full bg-ok" />
-          </div>
-        </div>
+
+      {/* pass/fail summary — the real ProgressLine block */}
+      <div className="space-y-2.5 rounded-[3px] border border-hairline p-3">
+        <DemoProgressLine label="Public tests" passed={1} total={1} delay="0.1s" />
+        <DemoProgressLine label="Private tests" passed={4} total={4} delay="0.28s" />
       </div>
-      <div className="space-y-2">
-        {rows.map((r, i) => (
+
+      {/* submit verdict */}
+      <div
+        className="demo-rise mt-3 rounded-[3px] border border-ok/40 bg-ok-weak px-3 py-2.5 text-[13px] font-medium text-ok"
+        style={{ animationDelay: "0.5s" }}
+      >
+        Correct — your result matches the expected output.
+      </div>
+
+      {/* public test cases with Input / Expected */}
+      <div className="mt-3 space-y-3">
+        {publicTests.map((t, i) => (
           <div
             key={i}
-            className="flex items-center gap-2.5 rounded-[7px] border border-[#c3e6cf] bg-[#eafaf1] px-3 py-2"
+            className="demo-rise overflow-hidden rounded-[3px] border border-hairline"
+            style={{ animationDelay: `${0.58 + i * 0.12}s` }}
           >
-            <span
-              className="demo-check grid h-5 w-5 place-items-center rounded-full bg-ok"
-              style={{ animationDelay: active ? `${i * 170}ms` : "0ms" }}
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M5 12.5 L10 17 L19 7"
-                  stroke="#fff"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <span className="font-mono text-[12px] text-fg">{r.io}</span>
-            <span className="ml-auto text-[11px] font-medium text-fg-muted">
-              {r.hidden ? "Private" : "Public"}
-            </span>
+            <div className="border-b border-hairline px-3 py-1.5 text-[12px] font-medium text-fg">
+              Test {i + 1}
+            </div>
+            <div className="grid grid-cols-2 gap-3 p-3">
+              <div>
+                <div className="mb-1 text-[11px] text-fg-muted">Input</div>
+                <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
+                  {t.stdin}
+                </pre>
+              </div>
+              <div>
+                <div className="mb-1 text-[11px] text-fg-muted">Expected</div>
+                <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
+                  {t.expected}
+                </pre>
+              </div>
+            </div>
           </div>
         ))}
+        <p className="text-[13px] text-fg-muted">
+          + 4 private tests run on Test Run and Submit.
+        </p>
       </div>
     </div>
   );
 }
 
 function ScreenMock() {
+  const answered = 4;
+  const total = 12;
   return (
     <div className="text-[12.5px]">
       <div className="flex items-center justify-between border-b border-hairline px-5 py-3">
-        <span className="font-semibold text-fg">Set 1 · Section 1 · Basics</span>
-        <span className="rounded-[6px] bg-[#241a4d] px-3 py-1 font-mono text-[12px] font-semibold text-white">
+        <span className="flex items-center gap-2 font-semibold text-fg">
+          <span className="demo-soft-pulse h-2 w-2 rounded-full bg-[#e0510e]" />
+          Set 1 · Section 1 · Basics
+        </span>
+        <span className="demo-soft-pulse rounded-[6px] bg-[#241a4d] px-3 py-1 font-mono text-[12px] font-semibold text-white">
           01:29:42
         </span>
       </div>
       <div className="flex gap-5 p-5">
         <div className="flex-1">
-          <h4 className="text-[14px] font-semibold text-fg">
-            Sum of Even Numbers
-          </h4>
+          <h4 className="text-[14px] font-semibold text-fg">Sum of Even Numbers</h4>
           <p className="mt-2 text-[12.5px] leading-relaxed text-fg-muted">
             Read n integers and print the sum of the even ones.
           </p>
-          <div className="mt-3 h-20 rounded-[6px] border border-hairline bg-[#fbfbfd]" />
+          <div className="mt-3 h-20 overflow-hidden rounded-[6px] border border-hairline bg-[#0f0b1e] p-2.5 font-mono text-[11px] leading-relaxed">
+            {[
+              <><span className="text-[#c792ea]">n</span> <span className="text-[#89ddff]">=</span> <span className="text-[#f78c6c]">int</span>(input())</>,
+              <><span className="text-[#c792ea]">xs</span> <span className="text-[#89ddff]">=</span> [<span className="text-[#f78c6c]">int</span>(x) …]</>,
+              <><span className="text-[#f78c6c]">print</span>(<span className="text-[#f78c6c]">sum</span>(x <span className="text-[#89ddff]">for</span> x …))</>,
+            ].map((ln, k) => (
+              <div
+                key={k}
+                className="demo-rise text-white/90"
+                style={{ animationDelay: `${0.2 + k * 0.18}s` }}
+              >
+                {ln}
+              </div>
+            ))}
+          </div>
           <div className="mt-3 flex gap-2">
             <span className="flex h-8 items-center rounded-[6px] border border-accent-border bg-white px-3 text-[12px] font-medium text-accent">
               Test Run
@@ -179,21 +268,25 @@ function ScreenMock() {
           </div>
         </div>
         <div className="w-40">
-          <div className="mb-2 text-[11.5px] font-medium text-fg-muted">
-            Questions
+          <div className="mb-2 flex items-center justify-between text-[11.5px] font-medium text-fg-muted">
+            <span>Questions</span>
+            <span className="text-fg">
+              <CountUp to={answered} dur={900} />/{total}
+            </span>
           </div>
           <div className="grid grid-cols-4 gap-1.5">
-            {Array.from({ length: 12 }).map((_, i) => (
+            {Array.from({ length: total }).map((_, i) => (
               <span
                 key={i}
                 className={
-                  "grid h-7 w-7 place-items-center rounded-[5px] text-[10.5px] font-semibold " +
+                  "demo-pop grid h-7 w-7 place-items-center rounded-[5px] text-[10.5px] font-semibold " +
                   (i < 4
                     ? "bg-ok text-white"
                     : i === 4
                       ? "bg-accent text-white"
                       : "border border-hairline-strong text-fg-muted")
                 }
+                style={{ animationDelay: `${0.15 + i * 0.05}s` }}
               >
                 {i + 1}
               </span>
@@ -208,44 +301,170 @@ function ScreenMock() {
   );
 }
 
+function ScreenProgress() {
+  const bars = [
+    { label: "Accuracy", value: 78 },
+    { label: "Speed", value: 62 },
+    { label: "Coverage", value: 72 },
+  ];
+  // coverage ring
+  const R = 22;
+  const C = 2 * Math.PI * R;
+  const ringTo = C * (1 - 0.72);
+  const spark = "M0,40 L30,30 L60,34 L90,18 L120,24 L150,10 L180,14";
+  return (
+    <div className="p-6 text-[12.5px]">
+      <div className="mb-4 flex items-center justify-between">
+        <span className="text-[14px] font-semibold text-fg">Your progress</span>
+        <span className="rounded-full bg-accent-weak px-2.5 py-0.5 text-[11px] font-semibold text-accent">
+          Rank #3 · Top 29%
+        </span>
+      </div>
+
+      {/* stat tiles */}
+      <div className="mb-4 grid grid-cols-3 gap-3">
+        {[
+          { label: "Solved", node: <><CountUp to={21} />/29</> },
+          { label: "Day streak", node: <CountUp to={9} suffix="d" /> },
+          { label: "Avg time", node: "02:12" },
+        ].map((s, i) => (
+          <div
+            key={s.label}
+            className="demo-rise rounded-[9px] border border-hairline bg-white p-3"
+            style={{ animationDelay: `${i * 0.1}s` }}
+          >
+            <div className="text-[11px] text-fg-muted">{s.label}</div>
+            <div className="mt-0.5 text-[17px] font-semibold tracking-[-0.01em] text-fg">
+              {s.node}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-[1fr_150px] gap-4">
+        {/* growing skill bars */}
+        <div className="flex flex-col rounded-[10px] border border-hairline bg-white p-3">
+          <div className="mb-2 text-[11.5px] font-medium text-fg-muted">
+            Coding profile
+          </div>
+          <div className="flex min-h-[120px] flex-1 items-end gap-4">
+            {bars.map((b, i) => (
+              <div key={b.label} className="flex flex-1 flex-col items-center">
+                <div className="flex w-full flex-1 items-end justify-center">
+                  <div
+                    className="demo-grow-y relative w-8 rounded-t-[4px] bg-gradient-to-t from-[#5a48d6] to-[#8b7bf0]"
+                    style={{
+                      height: `${b.value}%`,
+                      animationDelay: `${0.15 + i * 0.12}s`,
+                    }}
+                  >
+                    <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[10.5px] font-semibold text-fg">
+                      {b.value}
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-1.5 text-[10px] text-fg-muted">{b.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* coverage ring + drawing sparkline */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3 rounded-[10px] border border-hairline bg-white p-3">
+            <svg width="56" height="56" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r={R} fill="none" stroke="#eceafb" strokeWidth="6" />
+              <circle
+                cx="28"
+                cy="28"
+                r={R}
+                fill="none"
+                stroke="#5a48d6"
+                strokeWidth="6"
+                strokeLinecap="round"
+                strokeDasharray={C}
+                transform="rotate(-90 28 28)"
+                className="demo-ring"
+                style={
+                  {
+                    "--ring-from": `${C}`,
+                    "--ring-to": `${ringTo}`,
+                  } as React.CSSProperties
+                }
+              />
+            </svg>
+            <div>
+              <div className="text-[16px] font-semibold text-fg">
+                <CountUp to={72} suffix="%" />
+              </div>
+              <div className="text-[10.5px] text-fg-muted">coverage</div>
+            </div>
+          </div>
+          <div className="flex-1 rounded-[10px] border border-hairline bg-white p-3">
+            <div className="mb-1 text-[10.5px] text-fg-muted">Time / solved</div>
+            <svg viewBox="0 0 180 50" className="h-[42px] w-full" fill="none">
+              <path
+                d={spark}
+                stroke="#5a48d6"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="demo-draw"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ScreenLeaderboard() {
   const rows = [
-    { r: "1", m: "#f5b301", name: "aarav_s", t: "00:41" },
-    { r: "2", m: "#9aa4b2", name: "meera.k", t: "00:47" },
-    { r: "3", m: "#cd7f32", name: "rohan22", t: "00:52" },
-    { r: "4", m: "#9aa4b2", name: "priya_d", t: "01:03" },
-    { r: "5", m: "#9aa4b2", name: "kabir.m", t: "01:08" },
+    { name: "Aarav Sharma", t: "00:41", d: "fastest", me: true },
+    { name: "Meera Krishnan", t: "00:47", d: "+00:06" },
+    { name: "Rohan Verma", t: "00:52", d: "+00:11" },
+    { name: "Priya Das", t: "01:03", d: "+00:22" },
+    { name: "Kabir Mehta", t: "01:08", d: "+00:27" },
   ];
   return (
     <div className="p-6 text-[12.5px]">
-      <div className="mb-3 flex items-center justify-between">
-        <span className="text-[14px] font-semibold text-fg">
-          Leaderboard · Count Digits Divisible by Three
-        </span>
-        <span className="rounded-full bg-accent-weak px-2.5 py-0.5 text-[11px] font-semibold text-accent">
-          Fastest time
-        </span>
+      <div className="mb-1 text-[15px] font-semibold text-fg">
+        Count Digits Divisible by Three
       </div>
+      <p className="mb-3 text-[12.5px] text-fg-muted">
+        Top solvers · fastest correct solutions
+      </p>
       <div className="space-y-2">
         {rows.map((row, i) => (
           <div
-            key={row.r}
+            key={row.name}
             className={
-              "flex items-center gap-3 rounded-[7px] px-3 py-2.5 " +
-              (i === 0
-                ? "border border-accent-border bg-[#eef0fd]"
-                : "border border-hairline bg-white")
+              "demo-rise flex items-center gap-4 rounded-[4px] border-2 border-[#3d3d3d] px-4 py-3 text-[14px] " +
+              (row.me ? "bg-accent-weak" : "bg-white")
             }
+            style={{ animationDelay: `${i * 0.1}s` }}
           >
-            <span
-              className="grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold text-white"
-              style={{ backgroundColor: row.m }}
-            >
-              {row.r}
+            <span className="flex w-9 justify-center">
+              {i < 3 ? (
+                <RankMedal rank={i + 1} className="h-8 w-auto" />
+              ) : (
+                <span className="tnum text-fg-muted">{i + 1}</span>
+              )}
             </span>
-            <span className="font-mono text-[12.5px] text-fg">{row.name}</span>
-            <span className="ml-auto font-mono text-[12px] font-semibold text-accent">
+            <span className="flex-1 truncate font-medium text-fg">
+              {row.name}
+              {row.me && (
+                <span className="ml-2 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                  You
+                </span>
+              )}
+            </span>
+            <span className="tnum w-16 text-right font-medium text-fg">
               {row.t}
+            </span>
+            <span className="tnum w-16 text-right text-[12px] text-fg-muted">
+              {row.d}
             </span>
           </div>
         ))}
@@ -275,15 +494,22 @@ const STEPS = [
     title: "Run & get graded",
     desc: "Run against the public and private test cases and see what passes.",
     cx: 40,
-    cy: 40,
-    screen: (active: boolean) => <ScreenGrading active={active} />,
+    cy: 60,
+    screen: () => <ScreenGrading />,
   },
   {
     title: "Take a timed mock",
     desc: "Sit a full test series with a live countdown and question palette.",
-    cx: 80,
-    cy: 84,
+    cx: 62,
+    cy: 74,
     screen: () => <ScreenMock />,
+  },
+  {
+    title: "Track your progress",
+    desc: "Watch your accuracy, streak and coverage climb over time.",
+    cx: 34,
+    cy: 40,
+    screen: () => <ScreenProgress />,
   },
   {
     title: "Climb the leaderboard",
@@ -301,7 +527,7 @@ export function HomeDemo() {
   useEffect(() => {
     const id = window.setInterval(() => {
       if (!paused.current) setI((p) => (p + 1) % STEPS.length);
-    }, 3600);
+    }, 4200);
     return () => window.clearInterval(id);
   }, []);
 
@@ -363,7 +589,7 @@ export function HomeDemo() {
           })}
         </ol>
 
-        {/* Browser frame — a captured slice of the real UI */}
+        {/* Browser frame — a slice of the real UI */}
         <div className="overflow-hidden rounded-[12px] border-2 border-[#3d3d3d] bg-white">
           <div className="flex items-center gap-2 border-b border-hairline bg-surface px-4 py-2.5">
             <span className="h-2.5 w-2.5 rounded-full bg-[#f87171]" />
@@ -374,8 +600,8 @@ export function HomeDemo() {
             </span>
           </div>
           <div className="relative h-[420px] overflow-hidden">
-            <div key={i} className="demo-in absolute inset-0">
-              {step.screen(true)}
+            <div key={i} className="demo-in absolute inset-0 overflow-auto">
+              {step.screen()}
             </div>
 
             {/* gliding cursor with a click ripple */}

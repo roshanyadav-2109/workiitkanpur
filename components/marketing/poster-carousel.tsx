@@ -105,20 +105,6 @@ export function PosterCarousel() {
             </div>
           ))}
         </div>
-
-        {/* dots */}
-        <div className="absolute bottom-3.5 left-1/2 flex -translate-x-1/2 gap-1.5">
-          {POSTERS.map((p, d) => (
-            <button
-              key={p.title}
-              type="button"
-              aria-label={`Show poster ${d + 1}`}
-              onClick={() => setI(d)}
-              className="h-1.5 rounded-full bg-white transition-all"
-              style={{ width: d === i ? 20 : 6, opacity: d === i ? 0.95 : 0.4 }}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );

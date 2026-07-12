@@ -21,7 +21,7 @@ export function AppShell({
     pathname.startsWith("/app/questions/") ||
     (pathname.startsWith("/app/test/") && pathname.endsWith("/run"));
   const progress = pathname.startsWith("/app/progress");
-  const wide = pathname === "/app/subjects" || progress;
+  const wide = pathname.startsWith("/app/subjects") || progress;
 
   // One consistent top bar everywhere — no sidebar.
   const mainClass = ide

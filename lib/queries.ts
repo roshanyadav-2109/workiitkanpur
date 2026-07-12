@@ -235,6 +235,27 @@ export async function getQuestionLeaderboard(
   return (data as QuestionLeaderRow[]) ?? [];
 }
 
+export interface Banner {
+  id: string;
+  image_url: string;
+  href: string | null;
+  alt: string | null;
+}
+
+/** Active image banners for the subject-page carousel, in display order.
+ *  Rows without an actual image are skipped so nothing empty ever renders. */
+export async function getCarouselBanners(): Promise<Banner[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("carousel_banners")
+    .select("id, image_url, href, alt")
+    .eq("is_active", true)
+    .order("sort_order", { ascending: true });
+  return ((data as Banner[]) ?? []).filter(
+    (b) => typeof b.image_url === "string" && b.image_url.trim() !== "",
+  );
+}
+
 /** All topics (for progress grouping). */
 export async function getAllTopics(): Promise<Topic[]> {
   const supabase = await createClient();

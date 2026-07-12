@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
+  getCarouselBanners,
   getCurrentUser,
   getQuestionsForSubject,
   getSubjectBySlug,
@@ -17,6 +18,7 @@ import {
 import type { QuestionStatus } from "@/components/ui/status";
 import { SubjectSections } from "@/components/curriculum/subject-sections";
 import { TestSeriesList } from "@/components/curriculum/test-series-list";
+import { BannerCarousel } from "@/components/curriculum/banner-carousel";
 import { buildSetsForSubject, setMeta } from "@/lib/test-series";
 
 export async function generateMetadata({
@@ -42,9 +44,10 @@ export default async function SubjectDetailPage({
   // is_active is the release switch — inactive subjects are not browsable.
   if (!subject || !subject.is_active) notFound();
 
-  const [topics, questions] = await Promise.all([
+  const [topics, questions, banners] = await Promise.all([
     getTopicsForSubject(subject.id),
     getQuestionsForSubject(subject.id),
+    getCarouselBanners(),
   ]);
 
   const user = await getCurrentUser();
@@ -73,6 +76,14 @@ export default async function SubjectDetailPage({
 
   return (
     <>
+      {/* Image banner carousel (DB-managed) — breaks out of the page container
+          to ~95vw. Slides & their links live in the carousel_banners table. */}
+      {banners.length > 0 && (
+        <div className="relative left-1/2 mb-8 w-[95vw] max-w-[1820px] -translate-x-1/2">
+          <BannerCarousel banners={banners} />
+        </div>
+      )}
+
       {/* Masthead — subject name. */}
       <header className="mb-8">
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">

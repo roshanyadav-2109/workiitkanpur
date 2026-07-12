@@ -15,8 +15,6 @@ export default async function SignupPage({
 
   return (
     <AuthShell
-      title="Create your account"
-      subtitle="Save progress, time your attempts, and track your growth."
       footer={
         <>
           Already have an account?{" "}
