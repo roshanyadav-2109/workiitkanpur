@@ -14,6 +14,7 @@ export interface QuestionMinimal {
   subject_id: string;
   topic_id: string | null;
   difficulty: Difficulty;
+  exam: string | null;
 }
 
 export async function getCurrentUser() {
@@ -166,8 +167,72 @@ export async function getAllQuestionsMinimal(): Promise<QuestionMinimal[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("questions")
-    .select("id, subject_id, topic_id, difficulty");
+    .select("id, subject_id, topic_id, difficulty, exam");
   return (data as QuestionMinimal[]) ?? [];
+}
+
+export interface LeaderboardRow {
+  user_id: string;
+  name: string;
+  solved: number;
+  total_seconds: number;
+}
+
+/** Cross-user leaderboard (reads the aggregated, RLS-bypassing view). */
+export async function getLeaderboard(limit = 50): Promise<LeaderboardRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("leaderboard_overall")
+    .select("user_id, name, solved, total_seconds")
+    .order("solved", { ascending: false })
+    .order("total_seconds", { ascending: true })
+    .limit(limit);
+  return (data as LeaderboardRow[]) ?? [];
+}
+
+export interface MockRow {
+  set_id: string;
+  set_name: string;
+  user_id: string;
+  name: string;
+  score: number;
+  total: number;
+  time_seconds: number;
+  submitted_at: string;
+}
+
+/** All mock/exam best-attempts across users (RLS-bypassing view), per set. */
+export async function getMockBoard(): Promise<MockRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("mock_leaderboard")
+    .select("set_id, set_name, user_id, name, score, total, time_seconds, submitted_at")
+    .order("set_id", { ascending: true })
+    .order("score", { ascending: false })
+    .order("time_seconds", { ascending: true });
+  return (data as MockRow[]) ?? [];
+}
+
+export interface QuestionLeaderRow {
+  question_id: string;
+  user_id: string;
+  name: string;
+  best_time: number;
+}
+
+/** Fastest solvers of a single question (across all users). */
+export async function getQuestionLeaderboard(
+  questionId: string,
+  limit = 10,
+): Promise<QuestionLeaderRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("question_leaderboard")
+    .select("question_id, user_id, name, best_time")
+    .eq("question_id", questionId)
+    .order("best_time", { ascending: true })
+    .limit(limit);
+  return (data as QuestionLeaderRow[]) ?? [];
 }
 
 /** All topics (for progress grouping). */

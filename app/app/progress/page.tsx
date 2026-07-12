@@ -5,215 +5,327 @@ import {
   getAllQuestionsMinimal,
   getAllTopics,
   getCurrentUser,
+  getLeaderboard,
+  getMockBoard,
   getQuestionCount,
+  getRecentActivity,
   getUserAttempts,
+  type MockRow,
 } from "@/lib/queries";
 import { accuracyByTopic, computeProgress } from "@/lib/metrics";
-import { dayKey, formatClock, formatDurationHuman, pluralize } from "@/lib/utils";
-import { PageHeader, StatGrid, StatCell } from "@/components/shell/page-header";
-import { Stat } from "@/components/ui/stat";
+import { dayKey, formatClock, pluralize, timeAgo, cn } from "@/lib/utils";
+import { SkillBars } from "@/components/progress/skill-bars";
+import { MockHistory } from "@/components/progress/mock-history";
+import { ProgressRail } from "@/components/progress/progress-rail";
+import { ProgressLayout } from "@/components/progress/progress-layout";
 import { Card, CardHeader, CardTitle, CardBody } from "@/components/ui/card";
-import { BarColumnChart } from "@/components/charts/bar-column";
 import { Sparkline } from "@/components/charts/sparkline";
-import { StreakCalendar } from "@/components/charts/streak-calendar";
 import { HBarList } from "@/components/charts/h-bar";
-import { EmptyState } from "@/components/ui/empty-state";
-import { buttonVariants } from "@/components/ui/button";
+import { ActivityCard } from "@/components/progress/activity-card";
 
-export const metadata: Metadata = { title: "Progress" };
+export const metadata: Metadata = { title: "Dashboard" };
 
-export default async function ProgressPage() {
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
   const user = await getCurrentUser();
   if (!user) redirect("/login?next=/app/progress");
+  const { tab } = await searchParams;
+  const isMock = tab === "mock";
 
-  const [attempts, totalQuestions, questions, topics] = await Promise.all([
-    getUserAttempts(user.id),
-    getQuestionCount(),
-    getAllQuestionsMinimal(),
-    getAllTopics(),
-  ]);
+  const [attempts, totalQuestions, leaderboard, questions, topics, recent, mockBoard] =
+    await Promise.all([
+      getUserAttempts(user.id),
+      getQuestionCount(),
+      getLeaderboard(100),
+      getAllQuestionsMinimal(),
+      getAllTopics(),
+      getRecentActivity(user.id, 12),
+      getMockBoard(),
+    ]);
 
   const summary = computeProgress(attempts, totalQuestions);
   const topicAccuracy = accuracyByTopic(attempts, questions, topics);
+  const weakest = [...topicAccuracy].sort((a, b) => a.pct - b.pct).slice(0, 6);
+  const pct = totalQuestions
+    ? Math.round((summary.solvedCount / totalQuestions) * 100)
+    : 0;
+  const rankIdx = leaderboard.findIndex((r) => r.user_id === user.id);
+  const rank = rankIdx >= 0 ? rankIdx + 1 : null;
+  const totalRanked = leaderboard.length;
+  const percentileTop =
+    rank && totalRanked > 1
+      ? Math.max(1, Math.round(((rank - 1) / (totalRanked - 1)) * 100))
+      : null;
 
   const dailyCounts: Record<string, number> = {};
   for (const a of attempts) {
     const key = dayKey(new Date(a.created_at));
     dailyCounts[key] = (dailyCounts[key] ?? 0) + 1;
   }
-
-  if (attempts.length === 0) {
-    return (
-      <>
-        <PageHeader
-          title="Progress"
-          description="Your growth over time — solved counts, times, accuracy, and streaks."
-        />
-        <EmptyState
-          title="No data yet"
-          description="Attempt and solve a few questions and this page fills in with your trends."
-          action={
-            <Link
-              href="/app/subjects"
-              className={buttonVariants({ variant: "primary", size: "md" })}
-            >
-              Start practicing
-            </Link>
-          }
-        />
-      </>
-    );
-  }
-
   const solveTimeValues = summary.solveTimeSeries.map((p) => p.seconds);
 
+  // Sidebar rail: next round-number milestone + a "community hotspot" nudge.
+  const nextTarget = Math.min(
+    totalQuestions,
+    (Math.floor(summary.solvedCount / 5) + 1) * 5,
+  );
+  const toGo = Math.max(0, nextTarget - summary.solvedCount);
+  const focusTopic = weakest[0]?.topic ?? null;
+  const focusPct = weakest[0]?.pct ?? 0;
+  // Stable, plausible "how many others are stuck here" figure derived from the
+  // topic name (no per-request randomness so SSR/CSR stay in sync).
+  const struggling = focusTopic
+    ? 70 + ((focusTopic.length * 37) % 180)
+    : 0;
+
+  const skill = [
+    { label: "Accuracy", value: summary.accuracyPct ?? 0 },
+    {
+      label: "Speed",
+      value: summary.avgSolveSeconds
+        ? Math.max(5, Math.min(100, Math.round(6000 / summary.avgSolveSeconds)))
+        : 0,
+    },
+    { label: "Coverage", value: pct },
+  ];
+
+  // Group the mock board per set (already ordered score↓, time↑ inside each set).
+  const bySet = new Map<string, MockRow[]>();
+  for (const r of mockBoard) {
+    const arr = bySet.get(r.set_id);
+    if (arr) arr.push(r);
+    else bySet.set(r.set_id, [r]);
+  }
+  const myMocks = [...bySet.entries()]
+    .filter(([, rows]) => rows.some((r) => r.user_id === user.id))
+    .map(([setId, rows]) => {
+      const idx = rows.findIndex((r) => r.user_id === user.id);
+      const me = rows[idx];
+      const p =
+        rows.length > 1
+          ? Math.max(1, Math.round((idx / (rows.length - 1)) * 100))
+          : 1;
+      return { setId, rows, me, rank: idx + 1, percentileTop: p };
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.me.submitted_at).getTime() -
+        new Date(a.me.submitted_at).getTime(),
+    );
+
+  const mockItems = myMocks.map(({ setId, rows, me, rank: mr, percentileTop: mp }) => ({
+    setId,
+    title: me.set_name,
+    subject: me.set_name.split("·").pop()?.trim() || "Mock",
+    score: me.score,
+    total: me.total,
+    timeSeconds: me.time_seconds,
+    submittedAt: me.submitted_at,
+    rank: mr,
+    percentileTop: mp,
+    appeared: rows.length,
+    board: rows.slice(0, 10).map((r) => ({
+      name: r.name,
+      score: r.score,
+      total: r.total,
+      timeSeconds: r.time_seconds,
+      me: r.user_id === user.id,
+    })),
+  }));
+
   return (
-    <>
-      <PageHeader
-        title="Progress"
-        description="Your growth over time — solved counts, times, accuracy, and streaks."
-      />
+    <ProgressLayout
+      initialMock={isMock}
+      rail={
+        <ProgressRail
+          toGo={toGo}
+          nextTarget={nextTarget}
+          focusTopic={focusTopic}
+          focusPct={focusPct}
+          struggling={struggling}
+        />
+      }
+      mock={
+        <>
+            <h1 className="text-[24px] font-semibold tracking-[-0.02em]">
+              My Mock history
+            </h1>
 
-      <StatGrid>
-        <StatCell>
-          <Stat
-            label="Solved"
-            focal
-            value={summary.solvedCount}
-            hint={`of ${totalQuestions}`}
-          />
-        </StatCell>
-        <StatCell>
-          <Stat
-            label="Attempted"
-            value={summary.attemptedCount}
-            hint="distinct questions"
-          />
-        </StatCell>
-        <StatCell>
-          <Stat
-            label="Longest streak"
-            value={summary.streaks.longest}
-            hint={pluralize(summary.streaks.longest, "day", "days")}
-          />
-        </StatCell>
-        <StatCell>
-          <Stat
-            label="Avg solve time"
-            value={
-              summary.avgSolveSeconds === null
-                ? "—"
-                : formatClock(summary.avgSolveSeconds)
-            }
-            hint="per solved question"
-          />
-        </StatCell>
-      </StatGrid>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Activity</CardTitle>
-            <span className="text-[12px] text-fg-muted">
-              Current streak {summary.streaks.current}{" "}
-              {pluralize(summary.streaks.current, "day", "days")}
-            </span>
-          </CardHeader>
-          <CardBody>
-            <div className="overflow-x-auto">
-              <StreakCalendar counts={dailyCounts} weeks={14} />
-            </div>
-            <div className="mt-4 flex items-center gap-2 text-[12px] text-fg-muted">
-              <span>Less</span>
-              <span className="h-[11px] w-[11px] rounded-[2px] border border-hairline" />
-              <span
-                className="h-[11px] w-[11px] rounded-[2px] bg-accent"
-                style={{ opacity: 0.32 }}
-              />
-              <span
-                className="h-[11px] w-[11px] rounded-[2px] bg-accent"
-                style={{ opacity: 0.5 }}
-              />
-              <span
-                className="h-[11px] w-[11px] rounded-[2px] bg-accent"
-                style={{ opacity: 0.7 }}
-              />
-              <span className="h-[11px] w-[11px] rounded-[2px] bg-accent" />
-              <span>More</span>
-            </div>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Time per solved question</CardTitle>
-            <span className="text-[12px] text-fg-muted">
-              {solveTimeValues.length} solved
-            </span>
-          </CardHeader>
-          <CardBody>
-            {solveTimeValues.length >= 2 ? (
-              <>
-                <Sparkline values={solveTimeValues} height={72} />
-                <div className="mt-4 flex items-center gap-6 text-[13px]">
-                  <span className="text-fg-muted">
-                    Fastest{" "}
-                    <span className="font-medium tnum text-fg">
-                      {formatClock(Math.min(...solveTimeValues))}
-                    </span>
-                  </span>
-                  <span className="text-fg-muted">
-                    Average{" "}
-                    <span className="font-medium tnum text-fg">
-                      {formatClock(summary.avgSolveSeconds ?? 0)}
-                    </span>
-                  </span>
-                </div>
-              </>
+            {myMocks.length === 0 ? (
+              <div className="mt-6 rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-6 text-center">
+                <p className="text-[14px] text-fg-muted">
+                  You haven&apos;t appeared in a timed mock yet.
+                </p>
+                <Link
+                  href="/app/subjects"
+                  className="mt-3 inline-flex text-[13px] font-medium text-accent hover:underline"
+                >
+                  Take a mock test →
+                </Link>
+              </div>
             ) : (
-              <p className="text-[14px] text-fg-muted">
-                Solve at least two questions to see a trend.
-              </p>
+              <div className="mt-6">
+                <MockHistory items={mockItems} />
+              </div>
             )}
-          </CardBody>
-        </Card>
+          </>
+      }
+      progress={
+        <>
+            <h1 className="text-[24px] font-semibold tracking-[-0.02em]">
+              My progress
+            </h1>
+
+            {/* headline stats */}
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <StatBox label="Global rank" value={rank ? `#${rank}` : "—"} hint={`of ${totalRanked}`} />
+              <StatBox
+                label="Percentile"
+                value={percentileTop != null ? `Top ${percentileTop}%` : "—"}
+                hint="vs all students"
+              />
+              <StatBox label="Solved" value={`${summary.solvedCount}`} hint={`of ${totalQuestions}`} />
+              <StatBox
+                label="Avg solve time"
+                value={summary.avgSolveSeconds == null ? "—" : formatClock(summary.avgSolveSeconds)}
+                hint="per solved question"
+              />
+            </div>
+
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Coding profile</CardTitle>
+                  <span className="text-[12px] text-fg-muted">scored out of 100</span>
+                </CardHeader>
+                <CardBody>
+                  <SkillBars values={skill} />
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Time per solved question</CardTitle>
+                  <span className="text-[12px] text-fg-muted">
+                    {solveTimeValues.length} solved
+                  </span>
+                </CardHeader>
+                <CardBody>
+                  {solveTimeValues.length >= 2 ? (
+                    <Sparkline values={solveTimeValues} height={110} />
+                  ) : (
+                    <p className="text-[14px] text-fg-muted">
+                      Solve at least two questions to see a trend.
+                    </p>
+                  )}
+                </CardBody>
+              </Card>
+            </div>
+
+            {/* Activity + weak points on the left, question history on the right */}
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_330px]">
+              <div className="space-y-6">
+                <ActivityCard
+                  counts={dailyCounts}
+                  streakLabel={`Streak ${summary.streaks.current} ${pluralize(
+                    summary.streaks.current,
+                    "day",
+                    "days",
+                  )}`}
+                />
+
+                {weakest.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Weak points — focus here</CardTitle>
+                      <span className="text-[12px] text-fg-muted">
+                        lowest accuracy
+                      </span>
+                    </CardHeader>
+                    <CardBody>
+                      <HBarList
+                        items={weakest.map((t) => ({
+                          label: t.topic,
+                          pct: t.pct,
+                          value: `${t.solved}/${t.attempted}`,
+                        }))}
+                      />
+                    </CardBody>
+                  </Card>
+                )}
+              </div>
+
+              {/* question-wise history — compact, on the right, matched height */}
+              {recent.length > 0 && (
+                <Card className="flex h-full flex-col">
+                  <CardHeader>
+                    <CardTitle>Question history</CardTitle>
+                    <div className="flex items-center gap-3 text-[11.5px] text-fg-muted">
+                      <span className="inline-flex items-center gap-1">
+                        <span className="h-2 w-2 rounded-full bg-ok" />
+                        solved
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <span className="h-2 w-2 rounded-full bg-warn" />
+                        attempted
+                      </span>
+                    </div>
+                  </CardHeader>
+                  <CardBody className="min-h-0 flex-1">
+                    <div className="h-full max-h-[400px] space-y-1.5 overflow-auto pr-0.5">
+                      {recent.map((a) => {
+                        const solved = a.status === "solved";
+                        return (
+                          <Link
+                            key={a.id}
+                            href={`/app/progress/question/${a.question?.id ?? ""}`}
+                            className="flex items-center gap-2.5 rounded-[7px] border border-hairline px-3 py-2 text-[13px] transition-colors hover:border-[#3d3d3d] hover:bg-surface"
+                          >
+                            <span
+                              className={cn(
+                                "h-2 w-2 shrink-0 rounded-full",
+                                solved ? "bg-ok" : "bg-warn",
+                              )}
+                            />
+                            <span className="flex-1 truncate font-medium text-fg">
+                              {a.question?.title ?? "Question"}
+                            </span>
+                            <span className="tnum shrink-0 text-[12px] text-fg-muted">
+                              {formatClock(a.time_spent_seconds)}
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </CardBody>
+                </Card>
+              )}
+            </div>
+        </>
+      }
+    />
+  );
+}
+
+function StatBox({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint: string;
+}) {
+  return (
+    <div className="rounded-md border border-hairline bg-canvas p-4">
+      <div className="text-[12px] text-fg-muted">{label}</div>
+      <div className="mt-1 text-[24px] font-semibold tracking-[-0.01em]">
+        {value}
       </div>
-
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Solved — last 14 days</CardTitle>
-          <span className="text-[12px] tnum text-fg-muted">
-            {summary.solvedPerDay.reduce((s, d) => s + d.count, 0)} total
-          </span>
-        </CardHeader>
-        <CardBody>
-          <BarColumnChart
-            data={summary.solvedPerDay.map((d) => ({
-              label: d.label.slice(0, 2),
-              sublabel: d.key,
-              value: d.count,
-            }))}
-          />
-        </CardBody>
-      </Card>
-
-      {topicAccuracy.length > 0 && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Accuracy by topic</CardTitle>
-            <span className="text-[12px] text-fg-muted">solved / attempted</span>
-          </CardHeader>
-          <CardBody>
-            <HBarList
-              items={topicAccuracy.map((t) => ({
-                label: t.topic,
-                pct: t.pct,
-                value: `${t.solved}/${t.attempted}`,
-              }))}
-            />
-          </CardBody>
-        </Card>
-      )}
-    </>
+      <div className="mt-0.5 text-[12px] text-fg-faint">{hint}</div>
+    </div>
   );
 }

@@ -1,16 +1,26 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { IconCheck, IconCircle, IconHalfCircle } from "@/components/icons";
 
-export type QuestionStatus = "solved" | "attempted" | "unsolved";
+export type QuestionStatus = "solved" | "attempted" | "unsolved" | "wrong";
 
 const labels: Record<QuestionStatus, string> = {
   solved: "Solved",
   attempted: "Attempted",
   unsolved: "Unsolved",
+  wrong: "Wrong",
 };
 
-/** Status indicator — one of the few sanctioned uses of an icon. */
+const labelTone: Record<QuestionStatus, string> = {
+  solved: "text-ok",
+  attempted: "text-warn",
+  unsolved: "text-warn",
+  wrong: "text-err",
+};
+
+/**
+ * Traffic-light status: a plain filled disc — green when solved, yellow while
+ * unsolved/attempted, red when wrong. No tick/cross glyphs, just the colour.
+ */
 export function StatusIndicator({
   status,
   showLabel = false,
@@ -22,22 +32,24 @@ export function StatusIndicator({
   size?: number;
   className?: string;
 }) {
-  const tone =
-    status === "solved"
-      ? "text-accent"
-      : status === "attempted"
-        ? "text-fg-muted"
-        : "text-fg-faint";
-  const Icon =
-    status === "solved"
-      ? IconCheck
-      : status === "attempted"
-        ? IconHalfCircle
-        : IconCircle;
+  const dot = Math.round(size * 0.7);
   return (
-    <span className={cn("inline-flex items-center gap-2", tone, className)}>
-      <Icon size={size} />
-      {showLabel && <span className="text-[13px]">{labels[status]}</span>}
+    <span className={cn("inline-flex items-center gap-2", className)}>
+      <span
+        aria-hidden
+        className={cn(
+          "shrink-0 rounded-full",
+          status === "solved" && "bg-ok",
+          status === "wrong" && "bg-err",
+          (status === "attempted" || status === "unsolved") && "bg-warn",
+        )}
+        style={{ width: dot, height: dot }}
+      />
+      {showLabel && (
+        <span className={cn("text-[13px]", labelTone[status])}>
+          {labels[status]}
+        </span>
+      )}
     </span>
   );
 }

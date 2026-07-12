@@ -1,10 +1,39 @@
 "use client";
 
 import * as React from "react";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 const INDENT = "    "; // 4 spaces
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/**
+ * Editor highlighting — only `#` comments are coloured (green, like a compiler).
+ * All other code stays the default ink colour.
+ */
+function highlight(code: string): string {
+  const re = /(#[^\n]*)|([\s\S])/g;
+  let out = "";
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(code))) {
+    if (m[1]) {
+      out += `<span style="color:#2f9e63">${escapeHtml(m[1])}</span>`;
+    } else {
+      out += escapeHtml(m[2]);
+    }
+  }
+  // Trailing newline keeps the last line's height in sync with the textarea.
+  return out + "\n";
+}
+
+const boxClass =
+  "px-3 py-2.5 font-mono leading-relaxed [tab-size:4]";
 
 /**
  * Monospace code editor built on a textarea, with real editor behaviour:
@@ -12,6 +41,7 @@ const INDENT = "    "; // 4 spaces
  *    line ending in `:` `(` `[` `{` (so Python blocks indent automatically).
  *  - Tab / Shift+Tab indent / dedent the cursor line or the whole selection.
  *  - Backspace inside leading whitespace deletes a full indent level.
+ * A highlighted layer sits behind a transparent textarea for syntax colour.
  */
 export function CodeEditor({
   value,
@@ -20,6 +50,7 @@ export function CodeEditor({
   ariaLabel,
   className,
   minRows = 10,
+  fill = false,
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -27,10 +58,15 @@ export function CodeEditor({
   ariaLabel?: string;
   className?: string;
   minRows?: number;
+  /** Grow to fill the parent (parent must have a bounded height). */
+  fill?: boolean;
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
   // Selection to apply after a programmatic value change (controlled textarea).
   const pendingSelection = useRef<[number, number] | null>(null);
+
+  const html = useMemo(() => highlight(value), [value]);
 
   useLayoutEffect(() => {
     if (pendingSelection.current && ref.current) {
@@ -40,6 +76,13 @@ export function CodeEditor({
       pendingSelection.current = null;
     }
   });
+
+  function syncScroll() {
+    if (ref.current && preRef.current) {
+      preRef.current.scrollTop = ref.current.scrollTop;
+      preRef.current.scrollLeft = ref.current.scrollLeft;
+    }
+  }
 
   function apply(next: string, selStart: number, selEnd = selStart) {
     pendingSelection.current = [selStart, selEnd];
@@ -78,9 +121,7 @@ export function CodeEditor({
         const block = value.slice(blockStart, end);
         const lines = block.split("\n");
         if (e.shiftKey) {
-          const outLines = lines.map((l) =>
-            l.replace(/^( {1,4}|\t)/, ""),
-          );
+          const outLines = lines.map((l) => l.replace(/^( {1,4}|\t)/, ""));
           const removedFirst = lines[0].length - outLines[0].length;
           const out = outLines.join("\n");
           const next = value.slice(0, blockStart) + out + value.slice(end);
@@ -125,26 +166,44 @@ export function CodeEditor({
   }
 
   return (
-    <textarea
-      ref={ref}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      onKeyDown={onKeyDown}
-      placeholder={placeholder}
-      aria-label={ariaLabel}
-      spellCheck={false}
-      autoCapitalize="off"
-      autoCorrect="off"
-      rows={minRows}
-      wrap="off"
-      style={{ fontSize: "var(--code-font, 13px)" }}
+    <div
       className={cn(
-        "w-full rounded-md border border-hairline bg-surface px-3 py-2.5",
-        "font-mono leading-relaxed text-fg",
-        "placeholder:text-fg-faint resize-y",
-        "focus:outline-none focus-visible:border-accent",
+        "relative overflow-hidden rounded-md border border-hairline bg-surface",
+        "focus-within:border-accent",
+        fill ? "h-full" : "",
         className,
       )}
-    />
+      style={{ fontSize: "var(--code-font, 13px)" }}
+    >
+      <pre
+        ref={preRef}
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-0 m-0 overflow-hidden whitespace-pre text-fg",
+          boxClass,
+        )}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+      <textarea
+        ref={ref}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={onKeyDown}
+        onScroll={syncScroll}
+        placeholder={placeholder}
+        aria-label={ariaLabel}
+        spellCheck={false}
+        autoCapitalize="off"
+        autoCorrect="off"
+        rows={fill ? undefined : minRows}
+        wrap="off"
+        className={cn(
+          "relative block w-full bg-transparent text-transparent caret-[#0a0a0a]",
+          "placeholder:text-fg-faint focus:outline-none",
+          boxClass,
+          fill ? "h-full resize-none" : "resize-y",
+        )}
+      />
+    </div>
   );
 }

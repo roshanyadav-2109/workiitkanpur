@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import {
   getAllQuestionsMinimal,
@@ -7,10 +6,12 @@ import {
   getUserAttempts,
 } from "@/lib/queries";
 import { statusByQuestion } from "@/lib/metrics";
-import { PageHeader } from "@/components/shell/page-header";
-import { Tag } from "@/components/ui/tag";
 import { EmptyState } from "@/components/ui/empty-state";
-import { IconChevron } from "@/components/icons";
+import {
+  SubjectsBrowser,
+  type SubjectCard,
+} from "@/components/curriculum/subjects-browser";
+import { offeringsFor } from "@/lib/curriculum";
 import type { QuestionStatus } from "@/components/ui/status";
 
 export const metadata: Metadata = { title: "Subjects" };
@@ -28,83 +29,47 @@ export default async function SubjectsPage() {
     status = statusByQuestion(attempts);
   }
 
-  const countsFor = (subjectId: string) => {
-    const subjectQuestions = questions.filter((q) => q.subject_id === subjectId);
-    const solved = subjectQuestions.filter(
-      (q) => status.get(q.id) === "solved",
-    ).length;
-    return { total: subjectQuestions.length, solved };
-  };
+  const cards: SubjectCard[] = subjects.map((s) => {
+    const qs = questions.filter((q) => q.subject_id === s.id);
+    const solved = qs.filter((q) => status.get(q.id) === "solved").length;
+    const exams = Array.from(
+      new Set(qs.map((q) => q.exam).filter((e): e is string => !!e)),
+    ).sort();
+    const offerings = offeringsFor(s.slug);
+    // Group offerings by branch so each (branch → its levels) is one display row.
+    const byBranch = new Map<string, string[]>();
+    for (const o of offerings) {
+      const levels = byBranch.get(o.degree) ?? [];
+      if (!levels.includes(o.level)) levels.push(o.level);
+      byBranch.set(o.degree, levels);
+    }
+    return {
+      id: s.id,
+      slug: s.slug,
+      name: s.name,
+      active: s.is_active,
+      total: qs.length,
+      solved,
+      showProgress: !!user,
+      exams,
+      branches: Array.from(new Set(offerings.map((o) => o.degree))),
+      levels: Array.from(new Set(offerings.map((o) => o.level))),
+      offerings: Array.from(byBranch, ([branch, levels]) => ({
+        branch,
+        levels,
+      })),
+    };
+  });
 
   return (
     <>
-      <PageHeader
-        title="Subjects"
-        description="Curated practice for the IIT Madras BS Degree OPPE. Subjects are released one at a time."
-      />
-
-      {subjects.length === 0 ? (
+      {cards.length === 0 ? (
         <EmptyState
           title="No subjects yet"
           description="Content is on its way. Check back shortly."
         />
       ) : (
-        <div className="space-y-3">
-          {subjects.map((s) => {
-            const { total, solved } = countsFor(s.id);
-
-            if (!s.is_active) {
-              return (
-                <div
-                  key={s.id}
-                  className="flex items-center justify-between gap-4 rounded-md border border-hairline bg-canvas p-5"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-[15px] font-medium text-fg-muted">
-                        {s.name}
-                      </span>
-                      <Tag>Coming soon</Tag>
-                    </div>
-                    {s.description && (
-                      <p className="mt-1 max-w-[62ch] text-[13px] text-fg-faint">
-                        {s.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <Link
-                key={s.id}
-                href={`/app/subjects/${s.slug}`}
-                className="group flex items-center justify-between gap-4 rounded-md border border-hairline bg-canvas p-5 transition-colors hover:bg-surface"
-              >
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-[15px] font-medium">{s.name}</span>
-                    <Tag>{s.short_code}</Tag>
-                  </div>
-                  {s.description && (
-                    <p className="mt-1 max-w-[62ch] text-[13px] text-fg-muted">
-                      {s.description}
-                    </p>
-                  )}
-                  <div className="mt-3 text-[12px] tnum text-fg-muted">
-                    {total} {total === 1 ? "question" : "questions"}
-                    {user && ` · ${solved} solved`}
-                  </div>
-                </div>
-                <IconChevron
-                  size={18}
-                  className="shrink-0 text-fg-faint transition-colors group-hover:text-fg"
-                />
-              </Link>
-            );
-          })}
-        </div>
+        <SubjectsBrowser cards={cards} />
       )}
     </>
   );

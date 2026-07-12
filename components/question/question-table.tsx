@@ -2,16 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
-import { StatusIndicator, type QuestionStatus } from "@/components/ui/status";
-import { Difficulty } from "@/components/ui/tag";
+import { type QuestionStatus } from "@/components/ui/status";
 import { Input, Select } from "@/components/ui/input";
-import { SegmentedGroup, segmentedItemClass } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui/empty-state";
 import { IconSearch } from "@/components/icons";
-import { formatClock } from "@/lib/utils";
-import type { Difficulty as DifficultyLevel, QuestionKind } from "@/lib/types";
+import { formatClock, cn } from "@/lib/utils";
+import { DEGREE_BY_ID } from "@/lib/curriculum";
+import type { QuestionKind } from "@/lib/types";
 
 export interface QuestionRow {
   id: string;
@@ -19,22 +16,24 @@ export interface QuestionRow {
   topicId: string | null;
   topicName: string | null;
   week: number | null;
-  difficulty: DifficultyLevel;
   kind: QuestionKind;
+  exam: string | null;
+  branch?: string | null;
+  level?: string | null;
   tags: string[];
   status: QuestionStatus;
   bestTimeSeconds: number | null;
 }
 
-type DifficultyFilter = "all" | DifficultyLevel;
 type StatusFilter = "all" | "solved" | "unsolved";
+type KindFilter = "all" | QuestionKind;
 
-const DIFFICULTY_FILTERS: { value: DifficultyFilter; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "easy", label: "Easy" },
-  { value: "medium", label: "Medium" },
-  { value: "hard", label: "Hard" },
-];
+const KIND_LABEL: Record<QuestionKind, string> = {
+  coding: "Coding",
+  mcq: "MCQ",
+  sql: "SQL",
+  shell: "Shell",
+};
 
 const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
   { value: "all", label: "All" },
@@ -45,21 +44,54 @@ const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
 export function QuestionTable({
   rows,
   topics,
+  initialExam,
 }: {
   rows: QuestionRow[];
   topics: { id: string; name: string; week: number | null }[];
+  initialExam?: string;
 }) {
-  const router = useRouter();
   const [query, setQuery] = useState("");
-  const [difficulty, setDifficulty] = useState<DifficultyFilter>("all");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [topic, setTopic] = useState<string>("all");
+  const [exam, setExam] = useState<string>(initialExam ?? "all");
+  const [branch, setBranch] = useState<string>("all");
+  const [level, setLevel] = useState<string>("all");
+  // Question-kind (MCQ / coding) filtering stays wired up for when other exam
+  // types go live, but the control is hidden while everything is coding-only.
+  const [kind] = useState<KindFilter>("all");
+
+  // Filter options come only from tags the questions actually carry.
+  const exams = useMemo(
+    () =>
+      Array.from(
+        new Set(rows.map((r) => r.exam).filter((e): e is string => !!e)),
+    ).sort(),
+    [rows],
+  );
+  const branches = useMemo(
+    () =>
+      Array.from(
+        new Set(rows.map((r) => r.branch).filter((b): b is string => !!b)),
+    ),
+    [rows],
+  );
+  const levels = useMemo(
+    () =>
+      Array.from(
+        new Set(rows.map((r) => r.level).filter((l): l is string => !!l)),
+    ),
+    [rows],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return rows.filter((r) => {
-      if (difficulty !== "all" && r.difficulty !== difficulty) return false;
       if (topic !== "all" && r.topicId !== topic) return false;
+      if (exam !== "all" && r.exam !== exam) return false;
+      // Branch/level only narrow when a question actually carries the tag.
+      if (branch !== "all" && r.branch && r.branch !== branch) return false;
+      if (level !== "all" && r.level && r.level !== level) return false;
+      if (kind !== "all" && r.kind !== kind) return false;
       if (status === "solved" && r.status !== "solved") return false;
       if (status === "unsolved" && r.status === "solved") return false;
       if (q) {
@@ -68,32 +100,77 @@ export function QuestionTable({
       }
       return true;
     });
-  }, [rows, query, difficulty, topic, status]);
+  }, [rows, query, topic, exam, branch, level, status, kind]);
+
+  // Bigger controls with a solid black border that doesn't recolour on focus.
+  const filterCls =
+    "h-11 rounded-[8px] border-[#3d3d3d]! text-[15px] focus-visible:border-[#3d3d3d]!";
 
   return (
     <div>
-      <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div className="relative w-full max-w-xs">
-          <IconSearch
-            size={16}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fg-faint"
-          />
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search questions"
-            className="pl-9"
-            aria-label="Search questions"
-          />
-        </div>
+      {/* Filters + search in one row */}
+      <div className="mb-5 flex flex-wrap items-center gap-2">
+        {branches.length > 0 && (
+          <div className="w-[13rem] max-w-full">
+            <Select
+              value={branch}
+              onChange={(e) => setBranch(e.target.value)}
+              aria-label="Filter by branch"
+              className={filterCls}
+            >
+              <option value="all">All branches</option>
+              {branches.map((b) => (
+                <option key={b} value={b}>
+                  {DEGREE_BY_ID[b]?.name ?? b}
+                </option>
+              ))}
+            </Select>
+          </div>
+        )}
 
-        <div className="flex flex-wrap items-center gap-2">
-          {topics.length > 0 && (
+        {levels.length > 0 && (
+          <div className="w-[9.5rem] max-w-full">
+            <Select
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+              aria-label="Filter by level"
+              className={filterCls}
+            >
+              <option value="all">All levels</option>
+              {levels.map((l) => (
+                <option key={l} value={l}>
+                  {l}
+                </option>
+              ))}
+            </Select>
+          </div>
+        )}
+
+        {exams.length > 0 && (
+          <div className="w-[10rem] max-w-full">
+            <Select
+              value={exam}
+              onChange={(e) => setExam(e.target.value)}
+              aria-label="Filter by exam"
+              className={filterCls}
+            >
+              <option value="all">All exams</option>
+              {exams.map((ex) => (
+                <option key={ex} value={ex}>
+                  {ex}
+                </option>
+              ))}
+            </Select>
+          </div>
+        )}
+
+        {topics.length > 0 && (
+          <div className="w-[12rem] max-w-full">
             <Select
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               aria-label="Filter by topic"
-              className="w-auto min-w-[10rem]"
+              className={filterCls}
             >
               <option value="all">All topics</option>
               {topics.map((t) => (
@@ -103,33 +180,36 @@ export function QuestionTable({
                 </option>
               ))}
             </Select>
-          )}
+          </div>
+        )}
 
-          <SegmentedGroup>
-            {DIFFICULTY_FILTERS.map((f) => (
-              <button
-                key={f.value}
-                type="button"
-                onClick={() => setDifficulty(f.value)}
-                className={segmentedItemClass(difficulty === f.value)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </SegmentedGroup>
-
-          <SegmentedGroup>
+        <div className="w-[9rem] max-w-full">
+          <Select
+            value={status}
+            onChange={(e) => setStatus(e.target.value as StatusFilter)}
+            aria-label="Filter by status"
+            className={filterCls}
+          >
             {STATUS_FILTERS.map((f) => (
-              <button
-                key={f.value}
-                type="button"
-                onClick={() => setStatus(f.value)}
-                className={segmentedItemClass(status === f.value)}
-              >
-                {f.label}
-              </button>
+              <option key={f.value} value={f.value}>
+                {f.value === "all" ? "All status" : f.label}
+              </option>
             ))}
-          </SegmentedGroup>
+          </Select>
+        </div>
+
+        <div className="relative min-w-[12rem] flex-1">
+          <IconSearch
+            size={16}
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fg-faint"
+          />
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search questions"
+            className={cn("w-full pl-9", filterCls)}
+            aria-label="Search questions"
+          />
         </div>
       </div>
 
@@ -139,62 +219,47 @@ export function QuestionTable({
           description="Try a different search term or clear the filters."
         />
       ) : (
-        <div className="overflow-hidden rounded-md border border-hairline">
-          <Table>
-            <THead>
-              <TR>
-                <TH className="w-10 pl-4" />
-                <TH>Question</TH>
-                <TH className="hidden md:table-cell">Topic</TH>
-                <TH>Difficulty</TH>
-                <TH className="hidden sm:table-cell text-right pr-4">
-                  Best time
-                </TH>
-              </TR>
-            </THead>
-            <TBody>
-              {filtered.map((r) => (
-                <TR
-                  key={r.id}
-                  onClick={(e) => {
-                    // Let the title link handle its own (and modifier) clicks.
-                    if ((e.target as HTMLElement).closest("a")) return;
-                    router.push(`/app/questions/${r.id}`);
-                  }}
-                  className="cursor-pointer transition-colors hover:bg-surface"
+        <div className="space-y-3">
+          {filtered.map((r) => {
+            const solved = r.status === "solved";
+            return (
+              <div
+                key={r.id}
+                className={cn(
+                  "flex items-center justify-between gap-4 rounded-[8px] border border-[#3d3d3d] px-5 py-4",
+                  solved ? "bg-[#e7f6ec]" : "bg-[#f7f7f6]",
+                )}
+              >
+                <div className="min-w-0">
+                  <h3 className="truncate text-[15.5px] font-semibold tracking-[-0.005em] text-fg">
+                    {r.title}
+                  </h3>
+                  <p className="mt-1 truncate text-[13px] text-fg-muted">
+                    {r.week != null ? `Week ${r.week}` : ""}
+                    {r.topicName
+                      ? `${r.week != null ? " · " : ""}${r.topicName}`
+                      : ""}
+                    {r.kind !== "coding" ? ` · ${KIND_LABEL[r.kind]}` : ""}
+                    {solved && r.bestTimeSeconds != null ? (
+                      <>
+                        {" · Best "}
+                        <span className="tnum font-medium text-fg">
+                          {formatClock(r.bestTimeSeconds)}
+                        </span>
+                      </>
+                    ) : null}
+                  </p>
+                </div>
+
+                <Link
+                  href={`/app/questions/${r.id}`}
+                  className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
                 >
-                  <TD className="pl-4">
-                    <StatusIndicator status={r.status} />
-                  </TD>
-                  <TD>
-                    <Link
-                      href={`/app/questions/${r.id}`}
-                      className="font-medium text-[14px] hover:underline"
-                    >
-                      {r.title}
-                    </Link>
-                    {r.kind !== "coding" && (
-                      <span className="ml-2 align-middle text-[11px] uppercase tracking-[0.04em] text-fg-faint">
-                        {r.kind}
-                      </span>
-                    )}
-                  </TD>
-                  <TD className="hidden md:table-cell text-[13px] text-fg-muted">
-                    {r.week != null ? `W${r.week} · ` : ""}
-                    {r.topicName ?? "—"}
-                  </TD>
-                  <TD>
-                    <Difficulty level={r.difficulty} showLabel={false} />
-                  </TD>
-                  <TD className="hidden sm:table-cell text-right pr-4 tnum text-[13px] text-fg-muted">
-                    {r.bestTimeSeconds != null
-                      ? formatClock(r.bestTimeSeconds)
-                      : "—"}
-                  </TD>
-                </TR>
-              ))}
-            </TBody>
-          </Table>
+                  {solved ? "Solve again" : "Attempt"}
+                </Link>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

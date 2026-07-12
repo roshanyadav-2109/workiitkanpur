@@ -46,6 +46,25 @@ function uniq<T>(arr: T[]): T[] {
   return [...new Set(arr)];
 }
 
+const LEVEL_ORDER = ["Foundation", "Diploma", "Degree"];
+
+/** Distinct levels offered in a degree (branch), in curriculum order. */
+export function levelsForDegree(degreeId: string): string[] {
+  return uniq(
+    Object.values(OFFERINGS)
+      .flat()
+      .filter((o) => o.degree === degreeId)
+      .map((o) => o.level),
+  ).sort((a, b) => LEVEL_ORDER.indexOf(a) - LEVEL_ORDER.indexOf(b));
+}
+
+/** Subject slugs offered at a specific (degree, level). */
+function subjectSlugsForDegreeLevel(degreeId: string, level: string): string[] {
+  return Object.keys(OFFERINGS).filter((slug) =>
+    OFFERINGS[slug].some((o) => o.degree === degreeId && o.level === level),
+  );
+}
+
 export function subjectSlugsForDegree(degreeId: string): string[] {
   return Object.keys(OFFERINGS).filter((slug) =>
     OFFERINGS[slug].some((o) => o.degree === degreeId),
@@ -79,15 +98,25 @@ export function resolveStep(
   state: PickerState,
   subjects: SubjectLite[],
 ): PickerStep {
-  // 1. Subject — pick one (optionally constrained to a degree's subjects).
-  if (!state.subject) {
-    const slugs = state.degree
-      ? subjectSlugsForDegree(state.degree)
-      : subjects.map((s) => s.slug);
+  // Branch-first entry: a degree is fixed with no subject yet → pick the level
+  // for that branch, then a subject offered at that (degree, level). The same
+  // subject can appear under different branches/levels, so it's filtered by both.
+  if (state.degree && !state.subject) {
+    const levels = levelsForDegree(state.degree);
+    if (!state.level && levels.length > 1) {
+      return { kind: "level", options: levels };
+    }
+    const level = state.level ?? levels[0];
+    const slugs = subjectSlugsForDegreeLevel(state.degree, level);
     return {
       kind: "subject",
       options: subjects.filter((s) => slugs.includes(s.slug)),
     };
+  }
+
+  // 1. Subject-first entry — pick any subject.
+  if (!state.subject) {
+    return { kind: "subject", options: subjects };
   }
 
   let offs = offeringsFor(state.subject);

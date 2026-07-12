@@ -10,7 +10,7 @@ export interface ButtonVariantProps {
 }
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md font-medium " +
+  "inline-flex items-center justify-center gap-2 rounded-[3px] font-medium " +
   "whitespace-nowrap select-none transition-colors " +
   "disabled:opacity-40 disabled:pointer-events-none";
 

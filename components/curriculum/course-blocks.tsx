@@ -16,11 +16,11 @@ export function SubjectBlock({ subject }: { subject: SubjectLite }) {
       onClick={() =>
         subject.is_active ? goToSubject(subject.slug) : router.push("/app/subjects")
       }
-      className="group inline-flex h-16 items-center gap-3.5 rounded-md border border-hairline-strong px-6 text-[16px] font-medium transition-colors hover:bg-surface"
+      className="group inline-flex h-14 items-center gap-3 rounded-[10px] border-2 border-[#3d3d3d] px-5 text-[15px] font-semibold transition-colors hover:bg-surface"
     >
       <SubjectLogo
         slug={subject.slug}
-        size={28}
+        size={24}
         className={subject.is_active ? "" : "opacity-50"}
       />
       <span className={subject.is_active ? "" : "text-fg-muted"}>
@@ -51,14 +51,16 @@ export function BranchBlock({
       disabled={disabled}
       onClick={() => degreeId && openPicker({ degree: degreeId })}
       className={cn(
-        "rounded-md border border-hairline px-4 py-6 text-center transition-colors",
-        disabled ? "opacity-70" : "hover:bg-surface hover:border-hairline-strong",
+        "rounded-[10px] border-2 border-[#3d3d3d] px-4 py-6 text-center transition-colors",
+        disabled ? "opacity-50" : "hover:bg-surface",
       )}
     >
-      <div className="text-[14px] font-medium leading-snug sm:text-[15px]">
+      <div className="text-[16px] font-semibold leading-snug sm:text-[17px]">
         {name}
       </div>
-      <div className="mt-1.5 text-[11px] text-fg-muted sm:text-[12px]">{note}</div>
+      <div className="mt-1.5 text-[12.5px] text-fg-muted sm:text-[13px]">
+        {note}
+      </div>
     </button>
   );
 }

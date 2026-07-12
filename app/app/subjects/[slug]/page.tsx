@@ -9,15 +9,15 @@ import {
   getUserAttempts,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
-import { PageHeader } from "@/components/shell/page-header";
 import { buttonVariants } from "@/components/ui/button";
 import {
   QuestionTable,
   type QuestionRow,
 } from "@/components/question/question-table";
 import type { QuestionStatus } from "@/components/ui/status";
-import { DEGREE_BY_ID, offeringsFor } from "@/lib/curriculum";
-import { SubjectContextBar } from "@/components/curriculum/subject-context-bar";
+import { SubjectSections } from "@/components/curriculum/subject-sections";
+import { TestSeriesList } from "@/components/curriculum/test-series-list";
+import { buildSetsForSubject, setMeta } from "@/lib/test-series";
 
 export async function generateMetadata({
   params,
@@ -34,25 +34,13 @@ export default async function SubjectDetailPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ degree?: string; level?: string }>;
+  searchParams: Promise<{ exam?: string }>;
 }) {
   const { slug } = await params;
+  const { exam } = await searchParams;
   const subject = await getSubjectBySlug(slug);
   // is_active is the release switch — inactive subjects are not browsable.
   if (!subject || !subject.is_active) notFound();
-
-  // Degree/level context the learner arrived through (falls back to the sole
-  // offering when the subject has exactly one).
-  const sp = await searchParams;
-  const offerings = offeringsFor(slug);
-  let degreeId = sp.degree;
-  let level = sp.level;
-  if (!degreeId && offerings.length === 1) {
-    degreeId = offerings[0].degree;
-    level = offerings[0].level;
-  }
-  const degreeName = degreeId ? DEGREE_BY_ID[degreeId]?.name : undefined;
-  const canChangeContext = offerings.length > 1;
 
   const [topics, questions] = await Promise.all([
     getTopicsForSubject(subject.id),
@@ -74,58 +62,43 @@ export default async function SubjectDetailPage({
     topicId: q.topic?.id ?? q.topic_id,
     topicName: q.topic?.name ?? null,
     week: q.topic?.week ?? null,
-    difficulty: q.difficulty,
     kind: q.kind,
+    exam: q.exam,
     tags: q.tags ?? [],
     status: status.get(q.id) ?? "unsolved",
     bestTimeSeconds: best.get(q.id) ?? null,
   }));
 
-  const solvedCount = rows.filter((r) => r.status === "solved").length;
+  const testSets = buildSetsForSubject(questions).map(setMeta);
 
   return (
     <>
-      <div className="mb-2">
-        <Link
-          href="/app/subjects"
-          className="text-[13px] text-fg-muted transition-colors hover:text-fg"
-        >
-          Subjects
-        </Link>
-      </div>
-      <PageHeader
-        eyebrow={subject.short_code}
-        title={subject.name}
-        description={subject.description ?? undefined}
-        actions={
-          user ? (
-            <>
-              <span className="text-[13px] tnum text-fg-muted">
-                {solvedCount} / {rows.length} solved
-              </span>
-              <Link
-                href="/app/exam"
-                className={buttonVariants({ variant: "secondary", size: "sm" })}
-              >
-                Timed exam
-              </Link>
-            </>
-          ) : undefined
-        }
-      />
+      {/* Masthead — subject name. */}
+      <header className="mb-8">
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+          <h1 className="text-[30px] font-semibold leading-[1.04] tracking-[-0.02em]">
+            {subject.name}
+          </h1>
+          {user && (
+            <Link
+              href="/app/exam"
+              className={buttonVariants({ variant: "secondary", size: "sm" })}
+            >
+              Timed exam
+            </Link>
+          )}
+        </div>
+      </header>
 
-      <SubjectContextBar
-        slug={slug}
-        degreeName={degreeName}
-        level={level}
-        canChange={canChangeContext}
-        subjects={[{ slug, name: subject.name, is_active: true }]}
-      />
-
-      <QuestionTable
-        rows={rows}
-        topics={topics.map((t) => ({ id: t.id, name: t.name, week: t.week }))}
-      />
+      <SubjectSections
+        testSeries={<TestSeriesList slug={slug} sets={testSets} />}
+      >
+        <QuestionTable
+          rows={rows}
+          topics={topics.map((t) => ({ id: t.id, name: t.name, week: t.week }))}
+          initialExam={exam}
+        />
+      </SubjectSections>
     </>
   );
 }

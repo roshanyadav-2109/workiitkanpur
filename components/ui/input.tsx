@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { IconChevron } from "@/components/icons";
 
 const fieldBase =
-  "w-full rounded-md border border-hairline-strong bg-canvas text-fg " +
+  "w-full rounded-[3px] border border-hairline-strong bg-canvas text-fg " +
   "placeholder:text-fg-faint " +
   "transition-colors focus:outline-none focus-visible:border-accent " +
   "disabled:opacity-50 disabled:cursor-not-allowed";

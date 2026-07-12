@@ -27,11 +27,22 @@ export function PythonRuntime({
   onAnswerChange,
   onGraded,
   initialAnswer,
+  stdin: stdinProp,
+  onStdinChange,
+  ide,
+  onOutcomes,
+  onRunOutput,
+  exam,
+  onSubmit,
 }: RuntimeProps) {
   const storageKey = `oppe:code:${question.id}`;
   const runner = usePythonRunner();
   const [code, setCode] = useState(initialAnswer ?? "");
-  const [stdin, setStdin] = useState("");
+  const [stdinInternal, setStdinInternal] = useState("");
+  // When the host supplies its own custom-input UI, stdin is controlled.
+  const controlledStdin = onStdinChange !== undefined;
+  const stdin = controlledStdin ? (stdinProp ?? "") : stdinInternal;
+  const setStdin = onStdinChange ?? setStdinInternal;
   const [running, setRunning] = useState(false);
   const [testing, setTesting] = useState(false);
   const [runOut, setRunOut] = useState<{
@@ -42,15 +53,19 @@ export function PythonRuntime({
   const [outcomes, setOutcomes] = useState<Outcome[] | null>(null);
   const ready = useRef(false);
 
+  // The question's own boilerplate (a def skeleton / hint) seeds the editor when
+  // there's nothing saved yet; otherwise a generic starter comment.
+  const starter = question.starter_code || STARTER;
+
   // Load persisted code (practice) or the provided initial answer (exam).
   useEffect(() => {
     if (mode === "exam") {
-      setCode(initialAnswer ?? STARTER);
+      setCode(initialAnswer ?? starter);
     } else {
       try {
-        setCode(localStorage.getItem(storageKey) ?? STARTER);
+        setCode(localStorage.getItem(storageKey) ?? starter);
       } catch {
-        setCode(STARTER);
+        setCode(starter);
       }
     }
     ready.current = true;
@@ -79,8 +94,11 @@ export function PythonRuntime({
   async function onRun() {
     setRunning(true);
     setRunOut(null);
+    onRunOutput?.(null);
     const res = await runner.run(code, stdin);
-    setRunOut({ stdout: res.stdout, stderr: res.stderr, timedOut: res.timedOut });
+    const out = { stdout: res.stdout, stderr: res.stderr, timedOut: res.timedOut };
+    setRunOut(out);
+    onRunOutput?.(out);
     setRunning(false);
   }
 
@@ -109,9 +127,142 @@ export function PythonRuntime({
     setTesting(false);
   }
 
+  // IDE flow: Run checks public (visible) tests; Submit checks private (hidden)
+  // tests. Results are bubbled up to the host's Test Cases panel.
+  async function runGraded(action: "run" | "testrun" | "submit") {
+    setTesting(true);
+    // "run" checks public only; "testrun"/"submit" check everything.
+    const runAll = action !== "run";
+    const indexed = question.tests.map((t, index) => ({ t, index }));
+    const toRun = runAll ? indexed : indexed.filter((x) => !x.t.hidden);
+    const results: Outcome[] = [];
+    for (const { t, index } of toRun) {
+      const res = await runner.run(code, t.stdin);
+      const passed = res.ok && gradeOutput(t, res.stdout);
+      results.push({
+        index,
+        hidden: !!t.hidden,
+        passed,
+        stdin: t.stdin,
+        expected: normalizeOutput(t.expected),
+        got: normalizeOutput(res.stdout),
+        stderr: res.stderr,
+      });
+    }
+
+    const publicTotal = indexed.filter((x) => !x.t.hidden).length;
+    const privateTotal = indexed.filter((x) => x.t.hidden).length;
+    const publicPassed = results.filter((r) => !r.hidden && r.passed).length;
+    const privatePassed = runAll
+      ? results.filter((r) => r.hidden && r.passed).length
+      : null;
+    const solved =
+      runAll &&
+      question.tests.length > 0 &&
+      publicPassed === publicTotal &&
+      (privatePassed ?? 0) === privateTotal;
+
+    const summary = {
+      action: (action === "run" ? "run" : "submit") as "run" | "submit",
+      publicPassed,
+      publicTotal,
+      privatePassed,
+      privateTotal,
+      solved,
+      results,
+    };
+    onOutcomes?.(summary);
+    if (action === "submit") {
+      onGraded?.({
+        correct: solved,
+        passed: publicPassed + (privatePassed ?? 0),
+        total: question.tests.length,
+      });
+      onSubmit?.(summary);
+    }
+    setTesting(false);
+  }
+
   const loading = runner.status === "loading";
   const passedCount = outcomes?.filter((o) => o.passed).length ?? 0;
   const allPassed = outcomes && passedCount === outcomes.length;
+
+  if (ide) {
+    const visibleCount = question.tests.filter((t) => !t.hidden).length;
+    const hiddenCount = question.tests.filter((t) => t.hidden).length;
+    return (
+      <div className="flex h-full min-h-0 flex-col gap-2">
+        <div className="min-h-0 flex-1">
+          <CodeEditor
+            value={code}
+            onChange={setCode}
+            ariaLabel="Python code"
+            placeholder="# Your Python solution"
+            fill
+          />
+        </div>
+
+        <div className="flex shrink-0 items-center justify-end gap-2">
+          {loading && (
+            <span className="mr-auto text-[12px] text-fg-muted">
+              Setting up the editor…
+            </span>
+          )}
+          {exam ? (
+            <>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => runGraded("testrun")}
+                disabled={running || testing}
+                title="Run against all public and private test cases"
+              >
+                <IconPlay size={15} />
+                {testing ? "Running…" : "Test Run"}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => runGraded("submit")}
+                disabled={running || testing}
+              >
+                {testing ? "Submitting…" : "Submit"}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onRun}
+                disabled={running || testing}
+                title="Run your code against the custom input"
+              >
+                <IconPlay size={15} />
+                {running ? "Running…" : "Run code"}
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => runGraded("run")}
+                disabled={running || testing || visibleCount === 0}
+              >
+                {testing ? "Running…" : `Run (${visibleCount} public)`}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => runGraded("submit")}
+                disabled={running || testing}
+              >
+                {testing ? "Checking…" : `Submit (${hiddenCount} private)`}
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-3">
@@ -147,31 +298,33 @@ export function PythonRuntime({
         )}
         {loading && (
           <span className="text-[12px] text-fg-muted">
-            Loading Python — first run downloads ~10 MB…
+            Setting up the editor…
           </span>
         )}
       </div>
 
-      {/* Custom-input run */}
-      <details className="rounded-md border border-hairline">
-        <summary className="cursor-pointer px-3 py-2 text-[13px] text-fg-muted">
-          Custom input (stdin)
-        </summary>
-        <div className="border-t border-hairline p-3">
-          <textarea
-            value={stdin}
-            onChange={(e) => setStdin(e.target.value)}
-            placeholder="Type input the program should read"
-            className="w-full rounded-md border border-hairline bg-canvas px-3 py-2 font-mono text-[13px] resize-y focus:outline-none focus-visible:border-accent"
-            rows={3}
-            aria-label="Standard input"
-          />
-        </div>
-      </details>
+      {/* Custom-input run — hidden when the host owns the input UI (IDE). */}
+      {!controlledStdin && (
+        <details className="rounded-md border border-hairline">
+          <summary className="cursor-pointer px-3 py-2 text-[13px] text-fg-muted">
+            Custom input (stdin)
+          </summary>
+          <div className="border-t border-hairline p-3">
+            <textarea
+              value={stdin}
+              onChange={(e) => setStdin(e.target.value)}
+              placeholder="Type input the program should read"
+              className="w-full rounded-md border border-hairline bg-canvas px-3 py-2 font-mono text-[13px] resize-y focus:outline-none focus-visible:border-accent"
+              rows={3}
+              aria-label="Standard input"
+            />
+          </div>
+        </details>
+      )}
 
       {runOut && (
         <div className="rounded-md border border-hairline">
-          <div className="border-b border-hairline px-3 py-2 text-[12px] font-medium uppercase tracking-[0.04em] text-fg-muted">
+          <div className="border-b border-hairline px-3 py-2 text-[12px] font-medium text-fg">
             Output
           </div>
           <div className="p-3">
@@ -250,9 +403,7 @@ export function PythonRuntime({
 function Snippet({ label, text }: { label: string; text: string }) {
   return (
     <div>
-      <div className="mb-1 text-[11px] uppercase tracking-[0.04em] text-fg-faint">
-        {label}
-      </div>
+      <div className="mb-1 text-[11px] text-fg-muted">{label}</div>
       <pre className="max-h-28 overflow-auto rounded border border-hairline bg-surface p-2 font-mono text-[12px] whitespace-pre-wrap">
         {text || "—"}
       </pre>

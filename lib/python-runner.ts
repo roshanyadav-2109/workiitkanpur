@@ -148,7 +148,7 @@ export function usePythonRunner(runTimeoutMs = 15000) {
       const r = readyRef.current;
       setStatus("error");
       disposeWorker();
-      r?.reject(new Error("Python worker crashed."));
+      r?.reject(new Error("Something went wrong. Please run again."));
     };
 
     worker.postMessage({ id: ++seq.current, type: "init" });
@@ -173,7 +173,11 @@ export function usePythonRunner(runTimeoutMs = 15000) {
       }
       const worker = workerRef.current;
       if (!worker) {
-        return { ok: false, stdout: "", stderr: "Runtime unavailable." };
+        return {
+          ok: false,
+          stdout: "",
+          stderr: "The editor isn't ready yet. Please try again in a moment.",
+        };
       }
       const id = ++seq.current;
       return new Promise<RunResult>((resolve) => {

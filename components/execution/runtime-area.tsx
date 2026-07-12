@@ -12,7 +12,7 @@ const SqlRuntime = dynamic(
   {
     ssr: false,
     loading: () => (
-      <p className="text-[13px] text-fg-muted">Loading SQL runtime…</p>
+      <p className="text-[13px] text-fg-muted">Setting up the editor…</p>
     ),
   },
 );

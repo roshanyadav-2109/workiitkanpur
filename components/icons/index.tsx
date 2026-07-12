@@ -1,21 +1,65 @@
 /**
- * Bespoke monochrome icon set — NO icon library by design.
+ * App icon set — Phosphor icons (https://phosphoricons.com), imported from the
+ * SSR-safe entry so they render in both server and client components.
  *
- * Every icon obeys one drawing spec so the family reads as a single hand:
- *   viewBox 0 0 24 24, artwork optically centred in a ~20px live area,
- *   fill none, stroke currentColor, stroke-width 1.5, round caps + joins.
- * Colour is inherited (currentColor) so icons are theme-aware automatically.
- * Rendered at 16-18px. Solid fill is avoided everywhere.
+ * Every icon is exposed under the app's own `Icon*` name and wrapped so the
+ * whole family shares one weight ("bold" — a semibold-looking stroke) and a
+ * default size. Colour is inherited via `currentColor`, so icons stay
+ * theme-aware automatically. To restyle every icon, change WEIGHT below.
  */
 import * as React from "react";
+// Per-icon deep imports (not the barrel) so bundlers only compile what we use.
+import { ArrowSquareOutIcon as ArrowSquareOut } from "@phosphor-icons/react/dist/ssr/ArrowSquareOut";
+import { BooksIcon as Books } from "@phosphor-icons/react/dist/ssr/Books";
+import { CaretDoubleRightIcon as CaretDoubleRight } from "@phosphor-icons/react/dist/ssr/CaretDoubleRight";
+import { CaretRightIcon as CaretRight } from "@phosphor-icons/react/dist/ssr/CaretRight";
+import { ChartLineUpIcon as ChartLineUp } from "@phosphor-icons/react/dist/ssr/ChartLineUp";
+import { CheckCircleIcon as CheckCircle } from "@phosphor-icons/react/dist/ssr/CheckCircle";
+import { CircleIcon as Circle } from "@phosphor-icons/react/dist/ssr/Circle";
+import { CircleHalfIcon as CircleHalf } from "@phosphor-icons/react/dist/ssr/CircleHalf";
+import { GearIcon as Gear } from "@phosphor-icons/react/dist/ssr/Gear";
+import { ListIcon as List } from "@phosphor-icons/react/dist/ssr/List";
+import { LockIcon as Lock } from "@phosphor-icons/react/dist/ssr/Lock";
+import { LockSimpleIcon as LockSimple } from "@phosphor-icons/react/dist/ssr/LockSimple";
+import { MagnifyingGlassIcon as MagnifyingGlass } from "@phosphor-icons/react/dist/ssr/MagnifyingGlass";
+import { MoonIcon as Moon } from "@phosphor-icons/react/dist/ssr/Moon";
+import { NotePencilIcon as NotePencil } from "@phosphor-icons/react/dist/ssr/NotePencil";
+import { PlayIcon as Play } from "@phosphor-icons/react/dist/ssr/Play";
+import { PlayCircleIcon as PlayCircle } from "@phosphor-icons/react/dist/ssr/PlayCircle";
+import { PlusIcon as Plus } from "@phosphor-icons/react/dist/ssr/Plus";
+import { SunIcon as Sun } from "@phosphor-icons/react/dist/ssr/Sun";
+import { TerminalWindowIcon as TerminalWindow } from "@phosphor-icons/react/dist/ssr/TerminalWindow";
+import { TimerIcon as Timer } from "@phosphor-icons/react/dist/ssr/Timer";
+import { UserIcon as User } from "@phosphor-icons/react/dist/ssr/User";
+import { XIcon as X } from "@phosphor-icons/react/dist/ssr/X";
 
 export type IconProps = React.SVGProps<SVGSVGElement> & { size?: number };
 
-function IconBase({
-  size = 18,
-  children,
-  ...props
-}: IconProps & { children: React.ReactNode }) {
+type IconWeight = "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
+type PhosphorIcon = React.ComponentType<
+  React.SVGProps<SVGSVGElement> & { size?: number | string; weight?: IconWeight }
+>;
+
+/** Shared weight for the whole set — "bold" reads as a semibold stroke. */
+const WEIGHT: IconWeight = "bold";
+
+/** Wrap a Phosphor icon as an app icon with our default size + weight. */
+function icon(Glyph: PhosphorIcon, weight: IconWeight = WEIGHT) {
+  function Wrapped({ size = 18, ...props }: IconProps) {
+    // Phosphor accepts size/weight/color/className and forwards SVG props.
+    return <Glyph size={size} weight={weight} {...(props as object)} />;
+  }
+  Wrapped.displayName = `Icon(${Glyph.displayName ?? "phosphor"})`;
+  return Wrapped;
+}
+
+/**
+ * Bespoke dashboard glyph — an asymmetric 2×2 grid: the two short blocks
+ * (top-left + bottom-right) match, and the two tall blocks (top-right +
+ * bottom-left) match, giving a real "dashboard layout" feel. Drawn with a
+ * bold stroke so it sits with the Phosphor family.
+ */
+export function IconDashboard({ size = 18, ...props }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,207 +68,43 @@ function IconBase({
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
+      strokeWidth={2}
       strokeLinejoin="round"
       aria-hidden="true"
       focusable="false"
       {...props}
     >
-      {children}
+      {/* top-left — short */}
+      <rect x="3" y="3.5" width="7.5" height="5" rx="1.8" />
+      {/* bottom-left — tall */}
+      <rect x="3" y="11.5" width="7.5" height="9" rx="1.8" />
+      {/* top-right — tall */}
+      <rect x="13.5" y="3.5" width="7.5" height="9" rx="1.8" />
+      {/* bottom-right — short */}
+      <rect x="13.5" y="15.5" width="7.5" height="5" rx="1.8" />
     </svg>
   );
 }
-
-export function IconDashboard(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
-      <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
-      <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
-      <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
-    </IconBase>
-  );
-}
-
-export function IconSubjects(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <rect x="4.5" y="4" width="15" height="16" rx="1.5" />
-      <path d="M8.5 4 V20" />
-      <path d="M11.5 9.5 H16.5" />
-      <path d="M11.5 13 H16.5" />
-    </IconBase>
-  );
-}
-
-export function IconProgress(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M5 4 V19 H20" />
-      <path d="M8 15.5 L11 12 L14 13.5 L18.5 8" />
-    </IconBase>
-  );
-}
-
-export function IconSettings(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M4 8 H12.5" />
-      <path d="M17.5 8 H20" />
-      <circle cx="15" cy="8" r="2.5" />
-      <path d="M4 16 H8.5" />
-      <path d="M13.5 16 H20" />
-      <circle cx="11" cy="16" r="2.5" />
-    </IconBase>
-  );
-}
-
-export function IconAccount(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="12" cy="8.5" r="3.5" />
-      <path d="M5.5 19.5 a6.5 6.5 0 0 1 13 0" />
-    </IconBase>
-  );
-}
-
-export function IconSearch(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="M16 16 L20 20" />
-    </IconBase>
-  );
-}
-
-export function IconTimer(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="12" cy="13.5" r="7" />
-      <path d="M9.5 3 H14.5" />
-      <path d="M12 3 V6.5" />
-      <path d="M12 13.5 V9.5" />
-    </IconBase>
-  );
-}
-
-/** Solved. Pairs with IconCircle (a bare ring) as the not-solved state. */
-export function IconCheck(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="12" cy="12" r="8" />
-      <path d="M8.5 12.5 L11 15 L15.5 9.5" />
-    </IconBase>
-  );
-}
-
-/** Unsolved / attempted. */
-export function IconCircle(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="12" cy="12" r="8" />
-    </IconBase>
-  );
-}
-
-/** Attempted-but-not-solved: half-marked ring. */
-export function IconHalfCircle(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="12" cy="12" r="8" />
-      <path d="M12 4 a8 8 0 0 1 0 16 Z" fill="currentColor" stroke="none" />
-    </IconBase>
-  );
-}
-
-/** Disclosure chevron, points right; rotate via CSS for up/down/left. */
-export function IconChevron(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M9.5 6.5 L15 12 L9.5 17.5" />
-    </IconBase>
-  );
-}
-
-export function IconPlay(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M8.5 6.5 L18 12 L8.5 17.5 Z" />
-    </IconBase>
-  );
-}
-
-export function IconPlus(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M12 5 V19" />
-      <path d="M5 12 H19" />
-    </IconBase>
-  );
-}
-
-export function IconSun(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <circle cx="12" cy="12" r="3.8" />
-      <path d="M12 2.5 V4.8" />
-      <path d="M12 19.2 V21.5" />
-      <path d="M21.5 12 H19.2" />
-      <path d="M4.8 12 H2.5" />
-      <path d="M18.9 5.1 L17.3 6.7" />
-      <path d="M6.7 17.3 L5.1 18.9" />
-      <path d="M18.9 18.9 L17.3 17.3" />
-      <path d="M6.7 6.7 L5.1 5.1" />
-    </IconBase>
-  );
-}
-
-export function IconMoon(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M20.5 14 A8.5 8.5 0 1 1 10 3.5 A6.5 6.5 0 0 0 20.5 14 Z" />
-    </IconBase>
-  );
-}
-
-export function IconClose(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M6.5 6.5 L17.5 17.5" />
-      <path d="M17.5 6.5 L6.5 17.5" />
-    </IconBase>
-  );
-}
-
-export function IconExternalLink(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M10 5 H6 a1 1 0 0 0 -1 1 V18 a1 1 0 0 0 1 1 H18 a1 1 0 0 0 1 -1 V14" />
-      <path d="M14 5 H19 V10" />
-      <path d="M19 5 L12 12" />
-    </IconBase>
-  );
-}
-
-/** Responsive sidebar toggle. */
-export function IconMenu(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <path d="M4 7 H20" />
-      <path d="M4 12 H20" />
-      <path d="M4 17 H20" />
-    </IconBase>
-  );
-}
-
-/** Bespoke wordmark glyph: a terminal prompt in a rounded frame. */
-export function Logo(props: IconProps) {
-  return (
-    <IconBase {...props}>
-      <rect x="3" y="4" width="18" height="16" rx="3" />
-      <path d="M7.5 9.5 L10.5 12 L7.5 14.5" />
-      <path d="M12.5 15 H16" />
-    </IconBase>
-  );
-}
+export const IconResources = icon(PlayCircle);
+export const IconSubjects = icon(Books);
+export const IconProgress = icon(ChartLineUp);
+export const IconSettings = icon(Gear);
+export const IconAccount = icon(User);
+export const IconSearch = icon(MagnifyingGlass);
+export const IconTimer = icon(Timer);
+export const IconCheck = icon(CheckCircle);
+export const IconCircle = icon(Circle);
+export const IconHalfCircle = icon(CircleHalf, "fill");
+export const IconChevron = icon(CaretRight);
+export const IconChevronDouble = icon(CaretDoubleRight);
+export const IconPlay = icon(Play, "fill");
+export const IconPlus = icon(Plus);
+export const IconSun = icon(Sun);
+export const IconMoon = icon(Moon);
+export const IconClose = icon(X);
+export const IconExternalLink = icon(ArrowSquareOut);
+export const IconLock = icon(LockSimple);
+export const IconLockFilled = icon(Lock, "fill");
+export const IconNote = icon(NotePencil);
+export const IconMenu = icon(List);
+export const Logo = icon(TerminalWindow);

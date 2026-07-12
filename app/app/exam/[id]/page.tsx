@@ -34,7 +34,9 @@ export default async function ExamSessionPage({
     // Exam-safe payload: NO mcq_answer, NO solution_md.
     const { data: qs } = await supabase
       .from("questions")
-      .select("id, title, kind, difficulty, body_md, tests, mcq_options, setup_sql")
+      .select(
+        "id, title, kind, difficulty, body_md, tests, mcq_options, setup_sql, starter_code, language",
+      )
       .in("id", session.question_ids);
 
     const order = new Map<string, number>(
@@ -56,6 +58,8 @@ export default async function ExamSessionPage({
           tests: ExamQuestion["tests"];
           mcq_options: ExamQuestion["mcq_options"];
           setup_sql: string | null;
+          starter_code: string | null;
+          language: string | null;
         }) => ({
           id: q.id,
           title: q.title,
@@ -66,6 +70,8 @@ export default async function ExamSessionPage({
           mcq_options: q.mcq_options ?? [],
           mcq_answer: null, // never sent to the client during an exam
           setup_sql: q.setup_sql,
+          starter_code: q.starter_code,
+          language: q.language,
         }),
       );
 

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay } from "@/components/icons";
+import { cn } from "@/lib/utils";
 import type { RuntimeProps } from "@/components/execution/types";
 
 interface QueryResult {
@@ -22,10 +23,17 @@ export function SqlRuntime({
   question,
   onAnswerChange,
   initialAnswer,
+  ide,
+  onSqlOutcome,
 }: RuntimeProps) {
   const [query, setQuery] = useState(initialAnswer ?? "");
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<QueryResult | null>(null);
+  const [graded, setGraded] = useState<{
+    passed: boolean;
+    expected: QueryResult;
+    got: QueryResult;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pgModuleRef = useRef<any>(null);
@@ -35,15 +43,13 @@ export function SqlRuntime({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  const run = useCallback(async () => {
-    setRunning(true);
-    setResult(null);
-    try {
+  // Run a statement against a fresh database seeded with the question's setup.
+  const execFresh = useCallback(
+    async (sql: string): Promise<QueryResult> => {
       if (!pgModuleRef.current) {
         setLoading(true);
-        // Load from CDN (self-contained WASM) rather than the bundled package,
-        // whose WASM asset does not instantiate under Turbopack. turbopackIgnore
-        // leaves this as a native runtime import.
+        // CDN import (self-contained WASM) — the bundled package's WASM does not
+        // instantiate under Turbopack. turbopackIgnore keeps this a runtime import.
         const cdn =
           "https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js";
         pgModuleRef.current = await import(/* turbopackIgnore: true */ cdn);
@@ -51,27 +57,188 @@ export function SqlRuntime({
       }
       const { PGlite } = pgModuleRef.current;
       const db = new PGlite();
-      if (question.setup_sql) await db.exec(question.setup_sql);
-      const res = await db.query(query);
-      const columns = (res.fields ?? []).map(
-        (f: { name: string }) => f.name,
-      );
-      const rows = (res.rows ?? []).map((r: Record<string, unknown>) =>
-        columns.map((c: string) => r[c]),
-      );
-      setResult({ columns, rows, affected: res.affectedRows });
-      await db.close();
-    } catch (err) {
-      setResult({
-        columns: [],
-        rows: [],
-        error: err instanceof Error ? err.message : String(err),
-      });
-    } finally {
-      setLoading(false);
-      setRunning(false);
-    }
-  }, [query, question.setup_sql]);
+      try {
+        if (question.setup_sql) await db.exec(question.setup_sql);
+        const res = await db.query(sql);
+        const columns = (res.fields ?? []).map((f: { name: string }) => f.name);
+        const rows = (res.rows ?? []).map((r: Record<string, unknown>) =>
+          columns.map((c: string) => r[c]),
+        );
+        return { columns, rows, affected: res.affectedRows };
+      } catch (err) {
+        return {
+          columns: [],
+          rows: [],
+          error: err instanceof Error ? err.message : String(err),
+        };
+      } finally {
+        await db.close();
+      }
+    },
+    [question.setup_sql],
+  );
+
+  const run = useCallback(async () => {
+    setRunning(true);
+    setResult(null);
+    setGraded(null);
+    const r = await execFresh(query);
+    // In the IDE, results live in the host's Test Cases panel (like Python).
+    if (onSqlOutcome) onSqlOutcome({ mode: "run", result: r });
+    else setResult(r);
+    setRunning(false);
+  }, [execFresh, query, onSqlOutcome]);
+
+  // Grade by comparing the learner's result to the reference query's result.
+  const reference = question.reference_sql;
+  const grade = useCallback(async () => {
+    if (!reference) return;
+    setRunning(true);
+    setResult(null);
+    setGraded(null);
+    const got = await execFresh(query);
+    const expected = await execFresh(reference);
+    const passed =
+      !got.error &&
+      !expected.error &&
+      JSON.stringify(got.columns) === JSON.stringify(expected.columns) &&
+      JSON.stringify(got.rows) === JSON.stringify(expected.rows);
+    if (onSqlOutcome)
+      onSqlOutcome({ mode: "submit", result: got, expected, passed });
+    else setGraded({ passed, expected, got });
+    setRunning(false);
+  }, [execFresh, query, reference, onSqlOutcome]);
+
+  const queryTable = (qr: QueryResult) =>
+    qr.error ? (
+      <pre className="max-h-52 overflow-auto whitespace-pre-wrap p-3 font-mono text-[12px] text-err">
+        {qr.error}
+      </pre>
+    ) : qr.columns.length === 0 ? (
+      <p className="p-3 text-[13px] text-fg-muted">
+        Statement ran{" "}
+        {qr.affected != null ? `(${qr.affected} rows affected)` : ""}. No rows
+        returned.
+      </p>
+    ) : (
+      <div className="max-h-52 overflow-auto">
+        <table className="w-full text-left text-[13px]">
+          <thead>
+            <tr className="border-b border-hairline">
+              {qr.columns.map((c) => (
+                <th
+                  key={c}
+                  className="whitespace-nowrap px-3 py-2 text-[12px] font-medium tracking-[0.02em] text-fg-muted"
+                >
+                  {c}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {qr.rows.map((row, ri) => (
+              <tr key={ri} className="border-b border-hairline last:border-0">
+                {row.map((cell, ci) => (
+                  <td
+                    key={ci}
+                    className="whitespace-nowrap px-3 py-2 font-mono text-[12px]"
+                  >
+                    {cell === null ? "NULL" : String(cell)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+
+  const resultView = result && (
+    <div className="overflow-hidden rounded-md border border-hairline">
+      {queryTable(result)}
+    </div>
+  );
+
+  const gradedView = graded && (
+    <div className="space-y-2.5">
+      <div
+        className={cn(
+          "rounded-md border px-3 py-2 text-[13px] font-medium",
+          graded.passed
+            ? "border-ok/40 bg-ok-weak text-ok"
+            : "border-err/40 bg-err-weak text-err",
+        )}
+      >
+        {graded.passed
+          ? "Correct — your result matches the expected output."
+          : "Not matching — your result differs from the expected output."}
+      </div>
+      {!graded.passed && (
+        <div className="grid gap-2.5 sm:grid-cols-2">
+          <div>
+            <div className="mb-1 text-[11px] text-fg-muted">Expected</div>
+            <div className="overflow-hidden rounded-md border border-hairline">
+              {queryTable(graded.expected)}
+            </div>
+          </div>
+          <div>
+            <div className="mb-1 text-[11px] text-fg-muted">Your result</div>
+            <div className="overflow-hidden rounded-md border border-hairline">
+              {queryTable(graded.got)}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const runButton = (
+    <Button
+      variant="secondary"
+      size="sm"
+      onClick={run}
+      disabled={running || !query.trim()}
+    >
+      <IconPlay size={15} />
+      {running ? "Running…" : "Run query"}
+    </Button>
+  );
+  const submitButton = reference && (
+    <Button
+      variant="primary"
+      size="sm"
+      onClick={grade}
+      disabled={running || !query.trim()}
+    >
+      {running ? "Checking…" : "Submit"}
+    </Button>
+  );
+  const loadingNote = loading && (
+    <span className="text-[12px] text-fg-muted">Setting up the editor…</span>
+  );
+
+  // IDE layout — full-height editor + bottom action bar, matching the code
+  // editor so the frame is identical across subjects.
+  if (ide) {
+    return (
+      <div className="flex h-full min-h-0 flex-col gap-2">
+        <div className="min-h-0 flex-1">
+          <CodeEditor
+            value={query}
+            onChange={setQuery}
+            ariaLabel="SQL query"
+            placeholder="SELECT ..."
+            fill
+          />
+        </div>
+        <div className="flex shrink-0 items-center justify-end gap-2">
+          {loadingNote}
+          {runButton}
+          {submitButton}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-3">
@@ -83,71 +250,12 @@ export function SqlRuntime({
         placeholder="SELECT ..."
       />
       <div className="flex items-center gap-2">
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={run}
-          disabled={running || !query.trim()}
-        >
-          <IconPlay size={15} />
-          {running ? "Running…" : "Run query"}
-        </Button>
-        {loading && (
-          <span className="text-[12px] text-fg-muted">
-            Loading Postgres (WASM)…
-          </span>
-        )}
+        {runButton}
+        {submitButton}
+        {loadingNote}
       </div>
-
-      {result && (
-        <div className="rounded-md border border-hairline">
-          {result.error ? (
-            <pre className="overflow-x-auto whitespace-pre-wrap p-3 font-mono text-[12px] text-fg-muted">
-              {result.error}
-            </pre>
-          ) : result.columns.length === 0 ? (
-            <p className="p-3 text-[13px] text-fg-muted">
-              Statement ran{" "}
-              {result.affected != null ? `(${result.affected} rows affected)` : ""}
-              . No rows returned.
-            </p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-[13px]">
-                <thead>
-                  <tr className="border-b border-hairline">
-                    {result.columns.map((c) => (
-                      <th
-                        key={c}
-                        className="px-3 py-2 font-medium text-[12px] tracking-[0.02em] text-fg-muted whitespace-nowrap"
-                      >
-                        {c}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.rows.map((row, ri) => (
-                    <tr
-                      key={ri}
-                      className="border-b border-hairline last:border-0"
-                    >
-                      {row.map((cell, ci) => (
-                        <td
-                          key={ci}
-                          className="px-3 py-2 font-mono text-[12px] whitespace-nowrap"
-                        >
-                          {cell === null ? "NULL" : String(cell)}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      )}
+      {gradedView}
+      {resultView}
     </div>
   );
 }

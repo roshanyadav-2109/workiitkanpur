@@ -82,10 +82,17 @@ export default async function QuestionPage({
         difficulty: question.difficulty,
         body_md: question.body_md,
         solution_md: question.solution_md,
+        input_labels: question.input_labels,
         tests: question.tests,
         mcq_options: question.mcq_options,
         mcq_answer: question.mcq_answer,
         setup_sql: question.setup_sql,
+        starter_code: question.starter_code,
+        language: question.language,
+        reference_sql:
+          question.kind === "sql"
+            ? extractSqlBlock(question.solution_md)
+            : null,
         topicName: topic?.name ?? null,
         week: topic?.week ?? null,
       }}
@@ -96,4 +103,11 @@ export default async function QuestionPage({
       initialBestSeconds={bestSeconds}
     />
   );
+}
+
+/** Pull the first ```sql fenced block out of a solution, for SQL grading. */
+function extractSqlBlock(md: string | null): string | null {
+  if (!md) return null;
+  const m = md.match(/```sql\s*([\s\S]*?)```/i);
+  return m ? m[1].trim() : null;
 }

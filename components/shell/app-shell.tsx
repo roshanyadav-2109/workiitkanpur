@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Sidebar } from "@/components/shell/sidebar";
 import { AccountMenu } from "@/components/shell/account-menu";
-import { IconMenu, IconClose, Logo } from "@/components/icons";
+import { TopNav } from "@/components/shell/top-nav";
 
 export function AppShell({
   email,
@@ -17,85 +14,28 @@ export function AppShell({
   displayName: string | null;
   children: React.ReactNode;
 }) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
 
-  // Focused, full-width views (no sidebar). The question IDE fills the viewport
-  // with its own internal scrolling; the subject question list scrolls normally.
-  const ide = pathname.startsWith("/app/questions/");
-  const focused = ide || pathname.startsWith("/app/subjects/");
+  // The question IDE / test runner fill the viewport with their own scrolling.
+  const ide =
+    pathname.startsWith("/app/questions/") ||
+    (pathname.startsWith("/app/test/") && pathname.endsWith("/run"));
+  const progress = pathname.startsWith("/app/progress");
+  const wide = pathname === "/app/subjects" || progress;
 
-  if (focused) {
-    return (
-      <div className={cn("flex flex-col", ide ? "h-dvh" : "min-h-dvh")}>
-        <header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-hairline bg-canvas/95 px-4 backdrop-blur-sm sm:px-6">
-          <Link
-            href="/app/subjects"
-            className="flex items-center gap-2.5 text-fg"
-          >
-            <Logo size={22} />
-            <span className="text-[15px] font-medium tracking-[-0.01em]">
-              OPPE Practice
-            </span>
-          </Link>
-          <div className="flex items-center gap-1.5">
-            <AccountMenu email={email} displayName={displayName} />
-          </div>
-        </header>
-
-        {ide ? (
-          <main className="min-h-0 flex-1">{children}</main>
-        ) : (
-          <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
-            {children}
-          </main>
-        )}
-      </div>
-    );
-  }
+  // One consistent top bar everywhere — no sidebar.
+  const mainClass = ide
+    ? "min-h-0 flex-1"
+    : progress
+      ? "w-full flex-1 px-4 py-6 sm:px-6 lg:py-8"
+      : wide
+        ? "mx-auto w-full max-w-[90%] flex-1 px-4 py-6 sm:px-6 lg:py-8"
+        : "mx-auto w-full max-w-[1080px] flex-1 px-4 py-8 sm:px-6 lg:px-10 lg:py-10";
 
   return (
-    <div className="min-h-dvh">
-      {/* Fixed left sidebar (desktop). */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 border-r border-hairline bg-canvas lg:block">
-        <Sidebar />
-      </aside>
-
-      {/* Mobile drawer. */}
-      {drawerOpen && (
-        <div className="lg:hidden">
-          <button
-            aria-label="Close navigation"
-            onClick={() => setDrawerOpen(false)}
-            className="fixed inset-0 z-40 bg-[var(--overlay)]"
-          />
-          <aside className="fixed inset-y-0 left-0 z-50 w-64 border-r border-hairline bg-canvas">
-            <Sidebar onNavigate={() => setDrawerOpen(false)} />
-          </aside>
-        </div>
-      )}
-
-      <div className="lg:pl-60">
-        {/* Top bar. */}
-        <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 border-b border-hairline bg-canvas/95 px-4 backdrop-blur-sm sm:px-6">
-          <button
-            type="button"
-            aria-label="Open navigation"
-            onClick={() => setDrawerOpen(true)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-fg-muted hover:bg-surface hover:text-fg lg:hidden"
-          >
-            {drawerOpen ? <IconClose size={18} /> : <IconMenu size={18} />}
-          </button>
-          <div className="flex-1" />
-          <div className="flex items-center gap-1.5">
-            <AccountMenu email={email} displayName={displayName} />
-          </div>
-        </header>
-
-        <main className="mx-auto w-full max-w-[1080px] px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
-          {children}
-        </main>
-      </div>
+    <div className={cn("flex flex-col", ide ? "h-dvh" : "min-h-dvh")}>
+      <TopNav right={<AccountMenu email={email} displayName={displayName} />} />
+      <main className={mainClass}>{children}</main>
     </div>
   );
 }

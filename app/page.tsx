@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Logo } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { CoursePickerProvider } from "@/components/curriculum/course-picker-provider";
 import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks";
+import { HomeCarousel } from "@/components/home/home-carousel";
+import { HomeDemo } from "@/components/home/home-demo";
+import { TopNav } from "@/components/shell/top-nav";
 import type { SubjectLite } from "@/lib/curriculum";
 
 const BRANCHES: { degreeId: string | null; name: string; note: string }[] = [
@@ -45,15 +47,9 @@ export default async function LandingPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="flex h-14 items-center justify-between px-5 sm:px-8">
-        <div className="flex items-center gap-2.5">
-          <Logo size={22} className="text-fg" />
-          <span className="text-[15px] font-medium tracking-[-0.01em]">
-            OPPE Practice
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {user ? (
+      <TopNav
+        right={
+          user ? (
             <Link
               href="/app"
               className={buttonVariants({ variant: "primary", size: "sm" })}
@@ -75,33 +71,33 @@ export default async function LandingPage() {
                 Sign up
               </Link>
             </>
-          )}
-        </div>
-      </header>
+          )
+        }
+      />
 
       <CoursePickerProvider subjects={allSubjects}>
         <main className="flex-1">
           {/* Hero — centred */}
-          <section className="mx-auto flex w-[85%] max-w-[1500px] flex-col items-center px-5 pb-14 pt-16 text-center sm:pt-24">
-            <div className="flex items-center justify-center gap-4">
+          <section className="mx-auto flex w-[85%] max-w-[1500px] flex-col items-center px-5 pb-10 pt-12 text-center sm:pt-16">
+            <div className="flex items-center justify-center gap-3.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/iitm-logo-color.svg"
                 alt="IIT Madras"
-                className="h-16 w-auto sm:h-20"
+                className="h-12 w-auto sm:h-14"
               />
-              <p className="text-left text-[18px] font-semibold leading-tight text-fg sm:text-[22px]">
+              <p className="text-left text-[16px] font-semibold leading-tight text-fg sm:text-[18px]">
                 IIT Madras Online
                 <br className="hidden sm:block" /> BS Degree
               </p>
             </div>
 
-            <h1 className="mt-5 text-[40px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[60px]">
+            <h1 className="mt-4 text-[32px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[46px]">
               Practice for your{" "}
               <span className="highlight-word">OPPE Exams</span>
             </h1>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               {shownSubjects.map((s) => (
                 <SubjectBlock key={s.slug} subject={s} />
               ))}
@@ -111,12 +107,12 @@ export default async function LandingPage() {
             </div>
           </section>
 
-          {/* Available Branches — centred */}
-          <section className="mx-auto w-[85%] max-w-[1500px] px-5 pb-20 text-center">
-            <h2 className="text-[12px] font-medium uppercase tracking-[0.1em] text-fg-muted">
-              Available Branches
+          {/* Available courses — left-aligned */}
+          <section className="mx-auto w-[85%] max-w-[1500px] px-5 pb-12">
+            <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
+              Available courses
             </h2>
-            <div className="mt-4 grid grid-cols-3 gap-3">
+            <div className="mt-6 grid grid-cols-3 gap-3">
               {BRANCHES.map((b) => (
                 <BranchBlock
                   key={b.name}
@@ -126,6 +122,16 @@ export default async function LandingPage() {
                 />
               ))}
             </div>
+          </section>
+
+          {/* Feature carousel — near full width, ~5% total side margin */}
+          <section className="mx-auto w-[95%] max-w-[1820px] px-5 pb-12">
+            <HomeCarousel />
+          </section>
+
+          {/* How it works — animated product demo */}
+          <section className="mx-auto w-[90%] max-w-[1500px] px-5 pb-20">
+            <HomeDemo />
           </section>
         </main>
       </CoursePickerProvider>

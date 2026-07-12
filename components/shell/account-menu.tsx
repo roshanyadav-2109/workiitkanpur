@@ -86,6 +86,14 @@ export function AccountMenu({
             </div>
             <div className="p-1">
               <Link
+                href="/app/progress"
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="flex h-9 items-center rounded-md px-2.5 text-[14px] text-fg-muted hover:bg-surface hover:text-fg"
+              >
+                My progress
+              </Link>
+              <Link
                 href="/app/settings"
                 role="menuitem"
                 onClick={() => setOpen(false)}

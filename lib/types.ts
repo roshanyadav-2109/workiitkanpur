@@ -60,6 +60,14 @@ export interface Question {
   mcq_options: McqOption[];
   mcq_answer: string | null;
   setup_sql: string | null;
+  /** Names for each stdin line, shown in the guided Custom input form. */
+  input_labels: string[] | null;
+  /** Which OPPE this question belongs to, e.g. "OPPE 1" / "OPPE 2". */
+  exam: string | null;
+  /** Pre-filled editor boilerplate (a def skeleton / hint), if any. */
+  starter_code: string | null;
+  /** Fixed authoring language (python / sql / c / java / bash). Not user-changeable. */
+  language: string | null;
 }
 
 export type ExamStatus = "in_progress" | "submitted" | "expired";

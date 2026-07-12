@@ -25,11 +25,19 @@
 
   /* Single accent — applied UNIFORMLY: interactive, positive/solved, and data.
      Neutral content stays monochrome. One hue, one meaning: "this matters". */
-  --accent: #1b1464;
-  --accent-hover: #2a2185;
+  --accent: #5a48d6;
+  --accent-hover: #6d5ce2;
   --accent-fg: #ffffff;
-  --accent-weak: rgba(27, 20, 100, 0.1);
-  --accent-border: rgba(27, 20, 100, 0.4);
+  --accent-weak: rgba(90, 72, 214, 0.1);
+  --accent-border: rgba(90, 72, 214, 0.4);
+
+  /* Pass/fail signalling for test runs — the one place red/green earns its keep. */
+  --ok: #15803d;
+  --ok-weak: rgba(21, 128, 61, 0.12);
+  --warn: #eab308;
+  --warn-weak: rgba(234, 179, 8, 0.14);
+  --err: #dc2626;
+  --err-weak: rgba(220, 38, 38, 0.1);
 }
 
 .dark {
@@ -49,6 +57,13 @@
   --accent-fg: #0b0b0b;
   --accent-weak: rgba(122, 151, 255, 0.14);
   --accent-border: rgba(122, 151, 255, 0.4);
+
+  --ok: #4ade80;
+  --ok-weak: rgba(74, 222, 128, 0.16);
+  --warn: #eab308;
+  --warn-weak: rgba(234, 179, 8, 0.16);
+  --err: #f87171;
+  --err-weak: rgba(248, 113, 113, 0.16);
 }
 
 @theme inline {
@@ -64,12 +79,18 @@
   --color-accent-fg: var(--accent-fg);
   --color-accent-weak: var(--accent-weak);
   --color-accent-border: var(--accent-border);
+  --color-ok: var(--ok);
+  --color-ok-weak: var(--ok-weak);
+  --color-warn: var(--warn);
+  --color-warn-weak: var(--warn-weak);
+  --color-err: var(--err);
+  --color-err-weak: var(--err-weak);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* One radius everywhere. */
-  --radius-md: 6px;
+  --radius-md: 3px;
 
   /* Subtle motion only. */
   --default-transition-duration: 150ms;
@@ -277,6 +298,94 @@
   50% {
     opacity: 0.5;
   }
+}
+
+/* Minimalist falling-sand loop for the learning-environment hourglass. */
+@keyframes sand-fall {
+  0% {
+    transform: translateY(-1px);
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(13px);
+    opacity: 0;
+  }
+}
+.sand-fall {
+  animation: sand-fall 1.1s linear infinite;
+}
+
+/* "How it works" demo — screen reveal, cursor tap + click ripple. */
+@keyframes demo-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.demo-in {
+  animation: demo-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes demo-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}
+.demo-ripple {
+  animation: demo-ripple 1.6s ease-out infinite;
+}
+@keyframes demo-tap {
+  0%,
+  68%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.82);
+  }
+}
+.demo-tap {
+  animation: demo-tap 1.6s ease-in-out infinite;
+}
+@keyframes demo-check {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.demo-check {
+  animation: demo-check 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Exam proctoring — on returning from a tab switch the screen is blurred with a
+   warning, then the blur clears slowly. */
+@keyframes exam-blur-fade {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.exam-blur {
+  animation: exam-blur-fade 2.2s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
