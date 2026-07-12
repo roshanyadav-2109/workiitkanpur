@@ -123,7 +123,9 @@ export default async function DashboardPage() {
           </CardHeader>
           {recent.length === 0 ? (
             <CardBody>
-              <p className="text-[14px] text-fg-muted">No attempts yet.</p>
+              <p className="text-[14px] text-fg-muted">
+                Nothing here yet — the questions you attempt will show up here.
+              </p>
             </CardBody>
           ) : (
             <ul className="divide-y divide-hairline">

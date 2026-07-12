@@ -25,6 +25,7 @@ export function SqlRuntime({
   initialAnswer,
   ide,
   onSqlOutcome,
+  onCodeSubmit,
 }: RuntimeProps) {
   const [query, setQuery] = useState(initialAnswer ?? "");
   const [running, setRunning] = useState(false);
@@ -106,8 +107,9 @@ export function SqlRuntime({
     if (onSqlOutcome)
       onSqlOutcome({ mode: "submit", result: got, expected, passed });
     else setGraded({ passed, expected, got });
+    onCodeSubmit?.(query);
     setRunning(false);
-  }, [execFresh, query, reference, onSqlOutcome]);
+  }, [execFresh, query, reference, onSqlOutcome, onCodeSubmit]);
 
   const queryTable = (qr: QueryResult) =>
     qr.error ? (

@@ -42,7 +42,7 @@ export default async function ExamStartPage() {
     <>
       <PageHeader
         title="Timed mock exam"
-        description="Exam conditions: a single countdown, no solutions, and answers graded only at submit. Mirrors the OPPE."
+        description="Real exam conditions — one countdown, no solutions, and answers graded only when you submit. Built to feel like the OPPE."
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -53,7 +53,7 @@ export default async function ExamStartPage() {
           <CardBody>
             {activeSubjects.length === 0 ? (
               <p className="text-[14px] text-fg-muted">
-                No active subjects available.
+                No subjects are open for exams yet — check back soon.
               </p>
             ) : (
               <form action={startExam} className="space-y-4">

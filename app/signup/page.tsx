@@ -11,7 +11,10 @@ export default async function SignupPage({
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
-  const target = next && next.startsWith("/app") ? next : "/app";
+  const target =
+    next && next.startsWith("/") && !next.startsWith("//")
+      ? next
+      : "/app/subjects";
 
   return (
     <AuthShell

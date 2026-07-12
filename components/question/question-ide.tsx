@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn, formatClock } from "@/lib/utils";
 import { useStopwatch } from "@/lib/use-stopwatch";
-import { saveNote } from "@/lib/actions";
+import { saveNote, saveSubmission } from "@/lib/actions";
 import { Markdown } from "@/components/markdown";
 import { RuntimeArea } from "@/components/execution/runtime-area";
 import { StatusIndicator, type QuestionStatus } from "@/components/ui/status";
@@ -92,7 +92,7 @@ function ProgressLine({
       <div className="mb-1 flex items-center justify-between text-[12px]">
         <span className="font-medium text-fg">{label}</span>
         <span className="tnum text-fg-muted">
-          {ran ? `${passed}/${total} passed` : `${total} — run on Submit`}
+          {ran ? `${passed}/${total} passed` : `${total} tests, run when you submit`}
         </span>
       </div>
       <div className="flex h-2 w-full overflow-hidden rounded-full bg-surface">
@@ -266,6 +266,19 @@ export function QuestionIDE({
     // Reflect the outcome locally only (no attempt recorded in practice):
     // green when all tests pass, red when a submission fails.
     setStatus(r.correct ? "solved" : "wrong");
+  }
+
+  // Persist the last submitted code (signed-in users only) so it can be shown
+  // in the question analysis / comparison view.
+  function handleCodeSubmit(code: string) {
+    if (!isAuthed) return;
+    startTransition(async () => {
+      await saveSubmission({
+        questionId: current.id,
+        code,
+        language: current.language,
+      });
+    });
   }
 
   function onSaveNote() {
@@ -595,12 +608,12 @@ export function QuestionIDE({
                   Custom input
                 </div>
                 <p className="text-[12px] text-fg-muted">
-                  Each row is one value your program reads with{" "}
+                  Each row is one line your program reads with{" "}
                   <code className="rounded bg-surface px-1 py-0.5 font-mono text-[11px]">
                     input()
                   </code>
-                  . The labels are fixed — edit only the green values, then press{" "}
-                  <span className="font-medium text-fg">Run code</span>.
+                  . Edit only the highlighted values (the labels stay fixed), then
+                  press <span className="font-medium text-fg">Run code</span>.
                 </p>
 
                 <div className="space-y-2">
@@ -646,7 +659,7 @@ export function QuestionIDE({
             {tab === "solution" &&
               (!current.solution_md ? (
                 <p className="text-[13px] text-fg-muted">
-                  No solution available.
+                  A written solution for this question is coming soon.
                 </p>
               ) : revealed ? (
                 <div>
@@ -766,8 +779,8 @@ export function QuestionIDE({
                 )}
 
                 <p className="text-[12px] leading-relaxed text-fg-faint">
-                  In test-series mode this panel shows your full test progress
-                  instead of a single question.
+                  During a full test, this panel tracks your progress across all
+                  questions, not just this one.
                 </p>
               </div>
             </>
@@ -824,6 +837,7 @@ export function QuestionIDE({
               onOutcomes={handleOutcomes}
               onRunOutput={handleRunOutput}
               onSqlOutcome={handleSqlOutcome}
+              onCodeSubmit={handleCodeSubmit}
               bare
             />
           </div>

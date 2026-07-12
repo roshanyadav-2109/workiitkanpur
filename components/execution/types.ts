@@ -71,6 +71,8 @@ export interface RuntimeProps {
   onSubmit?: (summary: RunSummary) => void;
   /** SQL: bubble the query result / grading up to the host's Test Cases panel. */
   onSqlOutcome?: (outcome: SqlOutcome | null) => void;
+  /** Fired on Submit with the submitted code, so the host can persist it. */
+  onCodeSubmit?: (code: string) => void;
 }
 
 /** Raw output of a custom-input run. */

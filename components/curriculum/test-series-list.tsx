@@ -39,7 +39,7 @@ export function TestSeriesList({
             onClick={() => setPicking(s)}
             className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
           >
-            Attempt →
+            Start test →
           </button>
         </div>
       ))}
@@ -51,10 +51,10 @@ export function TestSeriesList({
         >
           <div className="min-w-0">
             <h3 className="text-[15.5px] font-semibold text-fg">
-              SET {n} — Full OPPE Mock
+              Set {n} — Full OPPE Mock
             </h3>
             <p className="mt-1 text-[13px] text-fg-muted">
-              Unlocks after SET {n - 1}
+              Unlocks after you finish Set {n - 1}
             </p>
           </div>
           <span className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-[#ececeb] px-5 text-[13px] font-medium text-fg-faint">

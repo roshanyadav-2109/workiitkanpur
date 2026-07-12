@@ -423,7 +423,7 @@ export function TestRunner({
         <div className="flex flex-wrap gap-x-3.5 gap-y-1.5 border-t border-hairline p-3 text-[11px] text-fg-muted">
           <Legend cls="bg-ok" text="Submitted" />
           <Legend cls="bg-[#d08700]" text="For review" />
-          <Legend cls="bg-hairline-strong" text="Not visited" />
+          <Legend cls="bg-hairline-strong" text="Not attempted" />
         </div>
       </aside>
 
@@ -543,7 +543,7 @@ export function TestRunner({
                     <Markdown>{question.solution_md}</Markdown>
                   ) : (
                     <p className="text-[13px] text-fg-muted">
-                      No solution available.
+                      A written solution for this question is coming soon.
                     </p>
                   )
                 ) : (
@@ -767,7 +767,7 @@ function ExamInstructions({
     <>
       Use the question palette on the left to move between sections and
       questions. Questions are colour-coded — green (submitted), amber (marked
-      for review) and grey (not visited).
+      for review) and grey (not attempted).
     </>,
     <>Solutions remain locked until you submit the corresponding question.</>,
     <>

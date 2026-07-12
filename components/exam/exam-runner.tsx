@@ -184,12 +184,14 @@ export function ExamRunner({
         <div className="flex items-center gap-2">
           {confirming ? (
             <>
-              <span className="text-[13px] text-fg-muted">End exam?</span>
+              <span className="text-[13px] text-fg-muted">
+                Submit and end the exam?
+              </span>
               <Button size="sm" variant="secondary" onClick={() => setConfirming(false)}>
                 Cancel
               </Button>
               <Button size="sm" variant="primary" onClick={doSubmit}>
-                Submit
+                Submit exam
               </Button>
             </>
           ) : (

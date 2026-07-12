@@ -25,7 +25,7 @@ export function ProgressLine({
       <div className="mb-1 flex items-center justify-between text-[12px]">
         <span className="font-medium text-fg">{label}</span>
         <span className="tnum text-fg-muted">
-          {ran ? `${passed}/${total} passed` : `${total} — run on submit`}
+          {ran ? `${passed}/${total} passed` : `${total} tests, run when you submit`}
         </span>
       </div>
       <div className="flex h-2 w-full overflow-hidden rounded-full bg-surface">
@@ -48,9 +48,9 @@ function SqlTable({ data }: { data: SqlResultData }) {
   if (data.columns.length === 0) {
     return (
       <p className="rounded-[3px] border border-hairline p-3 text-[13px] text-fg-muted">
-        Statement ran
-        {data.affected != null ? ` (${data.affected} rows affected)` : ""}. No
-        rows returned.
+        Query ran successfully
+        {data.affected != null ? ` (${data.affected} rows affected)` : ""} — it
+        returned no rows.
       </p>
     );
   }
@@ -162,13 +162,13 @@ export function TestCasesPanel({
       {summary && (
         <div className="space-y-2.5 rounded-[3px] border border-hairline p-3">
           <ProgressLine
-            label="Public tests"
+            label="Sample tests"
             passed={summary.publicPassed}
             total={summary.publicTotal}
             ran
           />
           <ProgressLine
-            label="Private tests"
+            label="Hidden tests"
             passed={summary.privatePassed ?? 0}
             total={summary.privateTotal}
             ran={summary.privatePassed !== null}
@@ -206,8 +206,8 @@ export function TestCasesPanel({
           ))}
           {privateCount > 0 && (
             <p className="text-[13px] text-fg-muted">
-              + {privateCount} private {privateCount === 1 ? "test" : "tests"}{" "}
-              run on Test Run and Submit.
+              Plus {privateCount} hidden {privateCount === 1 ? "test" : "tests"}{" "}
+              that run when you test or submit.
             </p>
           )}
         </div>

@@ -71,7 +71,9 @@ export function AuthForm({
       router.refresh();
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Could not open the demo account.",
+        err instanceof Error
+          ? err.message
+          : "Could not open the demo account. Please try again.",
       );
       setLoading(false);
     }

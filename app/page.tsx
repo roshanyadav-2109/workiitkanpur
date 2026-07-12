@@ -137,10 +137,11 @@ export default async function LandingPage() {
       </CoursePickerProvider>
 
       <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-[85%] max-w-[1500px] items-center justify-between gap-4 px-5 py-6 text-[12px] text-fg-muted sm:px-8">
-          <span>IITM BS Community</span>
-          <span className="text-right">
-            Independent practice tool · not affiliated with IIT Madras
+        <div className="mx-auto flex w-[85%] max-w-[1500px] items-center justify-between gap-4 px-5 py-6 text-[12px] sm:px-8">
+          <span className="text-fg-muted">IITM BS Community</span>
+          <span className="text-right font-medium text-accent">
+            Independent website by IITM BS Student Community — not affiliated with
+            IIT Madras
           </span>
         </div>
       </footer>

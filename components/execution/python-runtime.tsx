@@ -34,6 +34,7 @@ export function PythonRuntime({
   onRunOutput,
   exam,
   onSubmit,
+  onCodeSubmit,
 }: RuntimeProps) {
   const storageKey = `oppe:code:${question.id}`;
   const runner = usePythonRunner();
@@ -179,6 +180,7 @@ export function PythonRuntime({
         total: question.tests.length,
       });
       onSubmit?.(summary);
+      onCodeSubmit?.(code);
     }
     setTesting(false);
   }
@@ -215,10 +217,10 @@ export function PythonRuntime({
                 size="sm"
                 onClick={() => runGraded("testrun")}
                 disabled={running || testing}
-                title="Run against all public and private test cases"
+                title="Runs every test so you can check your code — nothing is submitted."
               >
                 <IconPlay size={15} />
-                {testing ? "Running…" : "Test Run"}
+                {testing ? "Running…" : "Test run"}
               </Button>
               <Button
                 variant="primary"
@@ -246,16 +248,18 @@ export function PythonRuntime({
                 size="sm"
                 onClick={() => runGraded("run")}
                 disabled={running || testing || visibleCount === 0}
+                title={`Runs the ${visibleCount} sample tests you can see.`}
               >
-                {testing ? "Running…" : `Run (${visibleCount} public)`}
+                {testing ? "Running…" : "Run sample tests"}
               </Button>
               <Button
                 variant="primary"
                 size="sm"
                 onClick={() => runGraded("submit")}
                 disabled={running || testing}
+                title={`Runs all ${visibleCount + hiddenCount} tests (including hidden ones) and records your attempt.`}
               >
-                {testing ? "Checking…" : `Submit (${hiddenCount} private)`}
+                {testing ? "Checking…" : "Submit"}
               </Button>
             </>
           )}
@@ -313,7 +317,7 @@ export function PythonRuntime({
             <textarea
               value={stdin}
               onChange={(e) => setStdin(e.target.value)}
-              placeholder="Type input the program should read"
+              placeholder="Enter the input your program should read"
               className="w-full rounded-md border border-hairline bg-canvas px-3 py-2 font-mono text-[13px] resize-y focus:outline-none focus-visible:border-accent"
               rows={3}
               aria-label="Standard input"

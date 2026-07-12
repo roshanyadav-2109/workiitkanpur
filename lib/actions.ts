@@ -14,6 +14,8 @@ export async function recordAttempt(input: {
   timeSpentSeconds: number;
   selfRating?: number | null;
   isCorrect?: boolean | null;
+  code?: string | null;
+  language?: string | null;
 }): Promise<ActionResult> {
   const supabase = await createClient();
   const {
@@ -31,9 +33,50 @@ export async function recordAttempt(input: {
   });
   if (error) return { ok: false, error: error.message };
 
+  // Keep only the last submitted code per question (no full history).
+  if (input.code != null && input.code.trim() !== "") {
+    await supabase.from("submissions").upsert(
+      {
+        user_id: user.id,
+        question_id: input.questionId,
+        code: input.code,
+        language: input.language ?? null,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,question_id" },
+    );
+  }
+
   revalidatePath("/app");
   revalidatePath("/app/progress");
   revalidatePath(`/app/questions/${input.questionId}`);
+  return { ok: true };
+}
+
+/** Store the last code the user submitted for a question (upsert, no history). */
+export async function saveSubmission(input: {
+  questionId: string;
+  code: string;
+  language?: string | null;
+}): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "You need to sign in to save your code." };
+  if (!input.code.trim()) return { ok: true };
+
+  const { error } = await supabase.from("submissions").upsert(
+    {
+      user_id: user.id,
+      question_id: input.questionId,
+      code: input.code,
+      language: input.language ?? null,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,question_id" },
+  );
+  if (error) return { ok: false, error: error.message };
   return { ok: true };
 }
 

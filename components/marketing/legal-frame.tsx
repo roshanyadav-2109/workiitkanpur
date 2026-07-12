@@ -92,9 +92,12 @@ export function LegalFrame({
       </main>
 
       <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-[92%] max-w-[1240px] items-center justify-between gap-4 py-6 text-[12px] text-fg-muted">
-          <span>IITM BS Community</span>
-          <span>Independent practice tool · not affiliated with IIT Madras</span>
+        <div className="mx-auto flex w-[92%] max-w-[1240px] items-center justify-between gap-4 py-6 text-[12px]">
+          <span className="text-fg-muted">IITM BS Community</span>
+          <span className="font-medium text-accent">
+            Independent website by IITM BS Student Community — not affiliated with
+            IIT Madras
+          </span>
         </div>
       </footer>
     </div>

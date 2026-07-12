@@ -6,7 +6,11 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const nextParam = searchParams.get("next");
-  const next = nextParam && nextParam.startsWith("/app") ? nextParam : "/app";
+  // Return the user to where they were; otherwise go straight to practice.
+  const next =
+    nextParam && nextParam.startsWith("/") && !nextParam.startsWith("//")
+      ? nextParam
+      : "/app/subjects";
 
   if (code) {
     const supabase = await createClient();

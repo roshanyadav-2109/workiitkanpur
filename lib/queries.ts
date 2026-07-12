@@ -235,6 +235,45 @@ export async function getQuestionLeaderboard(
   return (data as QuestionLeaderRow[]) ?? [];
 }
 
+export interface QuestionSolution {
+  user_id: string;
+  name: string;
+  best_time: number;
+  code: string | null;
+  language: string | null;
+  note: string | null;
+}
+
+/** Top solvers of a question with their last submitted code + note, fastest first. */
+export async function getQuestionTopSolutions(
+  questionId: string,
+  limit = 10,
+): Promise<QuestionSolution[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("question_top_solutions")
+    .select("user_id, name, best_time, code, language, note")
+    .eq("question_id", questionId)
+    .order("best_time", { ascending: true })
+    .limit(limit);
+  return (data as QuestionSolution[]) ?? [];
+}
+
+/** The current user's own last submitted code for a question (RLS: own row). */
+export async function getMySubmission(
+  userId: string,
+  questionId: string,
+): Promise<{ code: string; language: string | null } | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("submissions")
+    .select("code, language")
+    .eq("user_id", userId)
+    .eq("question_id", questionId)
+    .maybeSingle();
+  return (data as { code: string; language: string | null } | null) ?? null;
+}
+
 export interface Banner {
   id: string;
   image_url: string;
