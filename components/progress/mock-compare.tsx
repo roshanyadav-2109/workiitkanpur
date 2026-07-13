@@ -99,7 +99,8 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
 
   return (
     <>
-      <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+      {/* left arm of the L — sits beside the leaderboard notch */}
+      <div className="lg:mr-[336px] lg:min-h-[356px]">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-[15px] font-semibold text-fg">Compare solutions</h3>
@@ -191,9 +192,10 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
       </div>
       </div>
 
-      <div className="min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-3">
+      {/* full-width foot of the L */}
+      <div>
       {/* answers */}
-      <div className="grid gap-3 lg:grid-cols-3">
+      <div className="mt-4 grid gap-3 lg:grid-cols-3">
         <AnswerCol
           title="You solved"
           accent

@@ -151,23 +151,27 @@ export function MockHistory({
       </div>
 
       {inDetail ? (
-        // L-layout: stats + compare (controls/question) fill the left beside the
-        // leaderboard; the answers span full width below it. Leaderboard stays a
-        // separate block in the top-right notch.
-        <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">
-          <div className="lg:col-start-1 lg:row-start-1">
-            <SetDetail item={active!} />
-          </div>
-          <aside className="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-[74px]">
-            {boardSet ? (
-              <LeaderboardBlock item={boardSet} />
-            ) : (
-              <div className="rounded-[10px] border border-hairline bg-canvas p-5 text-[13px] text-fg-muted">
-                No leaderboard to show yet.
-              </div>
-            )}
-          </aside>
-          {compare.length > 0 && <MockCompare items={compare} />}
+        <div className="space-y-5">
+          <SetDetail item={active!} />
+
+          {compare.length > 0 ? (
+            // One common compare section, L-shaped, with the leaderboard sitting
+            // in the top-right notch (a separate block, outside the section).
+            <div className="relative">
+              {boardSet && (
+                <aside className="mb-4 lg:absolute lg:right-0 lg:top-0 lg:mb-0 lg:h-[356px] lg:w-[320px] lg:overflow-hidden">
+                  <LeaderboardBlock item={boardSet} />
+                </aside>
+              )}
+              <section className="rounded-[10px] border border-hairline bg-canvas p-4 sm:p-5 lg:rounded-[10px] lg:border-0 lg:[clip-path:polygon(0%_0,calc(100%-336px)_0,calc(100%-336px)_356px,100%_356px,100%_100%,0_100%)]">
+                <MockCompare items={compare} />
+              </section>
+            </div>
+          ) : (
+            <div className="lg:w-[320px]">
+              {boardSet && <LeaderboardBlock item={boardSet} />}
+            </div>
+          )}
         </div>
       ) : (
         <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">
