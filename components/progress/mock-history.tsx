@@ -154,24 +154,22 @@ export function MockHistory({
         <div className="space-y-5">
           <SetDetail item={active!} />
 
-          {compare.length > 0 ? (
-            // One common compare section, L-shaped, with the leaderboard sitting
-            // in the top-right notch (a separate block, outside the section).
-            <div className="relative">
-              {boardSet && (
-                <aside className="mb-4 lg:absolute lg:right-0 lg:top-0 lg:mb-0 lg:h-[356px] lg:w-[320px] lg:overflow-hidden">
-                  <LeaderboardBlock item={boardSet} />
-                </aside>
-              )}
-              <section className="rounded-[10px] border border-hairline bg-canvas p-4 sm:p-5 lg:rounded-[10px] lg:border-0 lg:[clip-path:polygon(0%_0,calc(100%-336px)_0,calc(100%-336px)_356px,100%_356px,100%_100%,0_100%)]">
-                <MockCompare items={compare} />
-              </section>
-            </div>
-          ) : (
-            <div className="lg:w-[320px]">
-              {boardSet && <LeaderboardBlock item={boardSet} />}
-            </div>
-          )}
+          {/* One common compare section — the leaderboard floats into the
+              top-right and the compare content wraps around it. */}
+          <section className="overflow-hidden rounded-[10px] border border-hairline bg-canvas p-4 sm:p-5">
+            {boardSet && (
+              <aside className="mb-4 lg:float-right lg:mb-4 lg:ml-5 lg:w-[320px]">
+                <LeaderboardBlock item={boardSet} />
+              </aside>
+            )}
+            {compare.length > 0 ? (
+              <MockCompare items={compare} />
+            ) : (
+              <p className="text-[13px] text-fg-muted">
+                No shared solutions to compare yet.
+              </p>
+            )}
+          </section>
         </div>
       ) : (
         <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">

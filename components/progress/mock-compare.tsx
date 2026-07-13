@@ -98,9 +98,7 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
   }
 
   return (
-    <>
-      {/* left arm of the L — sits beside the leaderboard notch */}
-      <div className="lg:mr-[336px] lg:min-h-[356px]">
+    <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-[15px] font-semibold text-fg">Compare solutions</h3>
@@ -162,7 +160,7 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
           </div>
           {active.samples.length > 0 && (
             <div className="lg:w-[300px] lg:shrink-0">
-              <div className="mb-1.5 text-[11.5px] font-medium text-fg-muted">
+              <div className="mb-1.5 text-[11.5px] font-medium text-fg">
                 Example
               </div>
               <div className="space-y-2">
@@ -190,12 +188,9 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
           )}
         </div>
       </div>
-      </div>
 
-      {/* full-width foot of the L */}
-      <div>
-      {/* answers */}
-      <div className="mt-4 grid gap-3 lg:grid-cols-3">
+      {/* answers — clear the floated leaderboard, full width below it */}
+      <div className="mt-4 grid gap-3 lg:clear-right lg:grid-cols-3">
         <AnswerCol
           title="You solved"
           accent
@@ -242,7 +237,6 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
           solution (rank #{Math.min(topRank, active.tops.length - 1) + 1}).
         </p>
       )}
-      </div>
-    </>
+    </div>
   );
 }
