@@ -2,6 +2,63 @@
 
 import { useState } from "react";
 import { IconChevron } from "@/components/icons";
+import AE from "country-flag-icons/react/3x2/AE";
+import AU from "country-flag-icons/react/3x2/AU";
+import BD from "country-flag-icons/react/3x2/BD";
+import BH from "country-flag-icons/react/3x2/BH";
+import BR from "country-flag-icons/react/3x2/BR";
+import CA from "country-flag-icons/react/3x2/CA";
+import CH from "country-flag-icons/react/3x2/CH";
+import CN from "country-flag-icons/react/3x2/CN";
+import DE from "country-flag-icons/react/3x2/DE";
+import EG from "country-flag-icons/react/3x2/EG";
+import ES from "country-flag-icons/react/3x2/ES";
+import FR from "country-flag-icons/react/3x2/FR";
+import GB from "country-flag-icons/react/3x2/GB";
+import HK from "country-flag-icons/react/3x2/HK";
+import ID from "country-flag-icons/react/3x2/ID";
+import IE from "country-flag-icons/react/3x2/IE";
+import IL from "country-flag-icons/react/3x2/IL";
+import IN from "country-flag-icons/react/3x2/IN";
+import IT from "country-flag-icons/react/3x2/IT";
+import JP from "country-flag-icons/react/3x2/JP";
+import KE from "country-flag-icons/react/3x2/KE";
+import KR from "country-flag-icons/react/3x2/KR";
+import KW from "country-flag-icons/react/3x2/KW";
+import LK from "country-flag-icons/react/3x2/LK";
+import MX from "country-flag-icons/react/3x2/MX";
+import MY from "country-flag-icons/react/3x2/MY";
+import NG from "country-flag-icons/react/3x2/NG";
+import NL from "country-flag-icons/react/3x2/NL";
+import NP from "country-flag-icons/react/3x2/NP";
+import NZ from "country-flag-icons/react/3x2/NZ";
+import OM from "country-flag-icons/react/3x2/OM";
+import PH from "country-flag-icons/react/3x2/PH";
+import PK from "country-flag-icons/react/3x2/PK";
+import QA from "country-flag-icons/react/3x2/QA";
+import RU from "country-flag-icons/react/3x2/RU";
+import SA from "country-flag-icons/react/3x2/SA";
+import SE from "country-flag-icons/react/3x2/SE";
+import SG from "country-flag-icons/react/3x2/SG";
+import TH from "country-flag-icons/react/3x2/TH";
+import TR from "country-flag-icons/react/3x2/TR";
+import TW from "country-flag-icons/react/3x2/TW";
+import US from "country-flag-icons/react/3x2/US";
+import VN from "country-flag-icons/react/3x2/VN";
+import ZA from "country-flag-icons/react/3x2/ZA";
+
+type FlagComp = React.ComponentType<{ title?: string; className?: string }>;
+const FLAGS: Record<string, FlagComp> = {
+  AE, AU, BD, BH, BR, CA, CH, CN, DE, EG, ES, FR, GB, HK, ID, IE, IL, IN, IT,
+  JP, KE, KR, KW, LK, MX, MY, NG, NL, NP, NZ, OM, PH, PK, QA, RU, SA, SE, SG,
+  TH, TR, TW, US, VN, ZA,
+};
+
+function Flag({ iso, className }: { iso: string; className?: string }) {
+  const C = FLAGS[iso];
+  if (!C) return null;
+  return <C className={className} />;
+}
 
 interface Country {
   iso: string;
@@ -59,14 +116,6 @@ export const COUNTRIES: Country[] = [
   { iso: "IL", name: "Israel", dial: "+972", max: 9 },
 ];
 
-export function flagEmoji(iso: string) {
-  return iso
-    .toUpperCase()
-    .replace(/./g, (c) =>
-      String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65),
-    );
-}
-
 export function countryFor(iso: string): Country {
   return COUNTRIES.find((c) => c.iso === iso) ?? COUNTRIES[0];
 }
@@ -115,7 +164,7 @@ export function PhoneInput({
           aria-label={`Country code, currently ${country.name} ${country.dial}`}
           className="flex h-11 items-center gap-1.5 rounded-[8px] border border-hairline-strong bg-canvas px-3 text-[14px] text-fg"
         >
-          <span className="text-[17px] leading-none">{flagEmoji(country.iso)}</span>
+          <Flag iso={country.iso} className="h-[15px] w-[22px] rounded-[2px]" />
           <span className="tnum">{country.dial}</span>
           <IconChevron size={13} className="rotate-90 text-fg-muted" />
         </button>
@@ -151,9 +200,7 @@ export function PhoneInput({
                       }}
                       className="flex w-full items-center gap-2.5 rounded-[6px] px-2.5 py-2 text-left text-[13.5px] hover:bg-surface"
                     >
-                      <span className="text-[17px] leading-none">
-                        {flagEmoji(c.iso)}
-                      </span>
+                      <Flag iso={c.iso} className="h-[15px] w-[22px] shrink-0 rounded-[2px]" />
                       <span className="flex-1 truncate text-fg">{c.name}</span>
                       <span className="tnum text-[12.5px] text-fg-muted">
                         {c.dial}
