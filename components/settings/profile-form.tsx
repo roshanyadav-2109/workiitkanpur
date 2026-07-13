@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
+import { PhoneInput, parsePhone, countryFor } from "./phone-input";
 
 function ReadRow({ label, value }: { label: string; value: string }) {
   return (
@@ -26,16 +27,21 @@ export function ProfileForm({
   initialPhone: string;
 }) {
   const router = useRouter();
+  const parsed = parsePhone(initialPhone);
   const [editing, setEditing] = useState(false);
-  const [phone, setPhone] = useState(initialPhone);
+  const [iso, setIso] = useState(parsed.iso);
+  const [number, setNumber] = useState(parsed.number);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  // Stored as a single string: country code + number (no flag). e.g. "+91 9876543210".
+  const combined = number.trim() ? `${countryFor(iso).dial} ${number}` : "";
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     startTransition(async () => {
-      const res = await updateProfile({ displayName: initialName, phone });
+      const res = await updateProfile({ displayName: initialName, phone: combined });
       if (res.ok) {
         setEditing(false);
         router.refresh();
@@ -46,7 +52,9 @@ export function ProfileForm({
   }
 
   function cancel() {
-    setPhone(initialPhone);
+    const p = parsePhone(initialPhone);
+    setIso(p.iso);
+    setNumber(p.number);
     setError(null);
     setEditing(false);
   }
@@ -56,7 +64,7 @@ export function ProfileForm({
     return (
       <div className="space-y-5">
         <ReadRow label="Email" value={email} />
-        <ReadRow label="Phone number" value={phone} />
+        <ReadRow label="Phone number" value={initialPhone} />
         <button
           type="button"
           onClick={() => setEditing(true)}
@@ -83,19 +91,19 @@ export function ProfileForm({
           className="mt-1.5 h-11 w-full cursor-default rounded-[8px] border border-hairline bg-surface px-3.5 text-[14px] text-fg-muted focus:outline-none"
         />
       </div>
+
       <div>
-        <label htmlFor="phone" className="block text-[13px] font-medium text-fg">
+        <label className="block text-[13px] font-medium text-fg">
           Phone number
         </label>
-        <input
-          id="phone"
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="e.g. +91 98765 43210"
-          autoFocus
-          className="mt-1.5 h-11 w-full rounded-[8px] border border-hairline-strong bg-canvas px-3.5 text-[14px] text-fg transition-colors focus:outline-none focus-visible:border-accent"
-        />
+        <div className="mt-1.5">
+          <PhoneInput
+            iso={iso}
+            number={number}
+            onIso={setIso}
+            onNumber={setNumber}
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-3 pt-1">
