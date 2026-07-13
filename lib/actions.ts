@@ -105,19 +105,22 @@ export async function saveNote(input: {
   return { ok: true };
 }
 
-export async function updateDisplayName(
-  displayName: string,
-): Promise<ActionResult> {
+export async function updateProfile(input: {
+  displayName: string;
+  phone: string;
+}): Promise<ActionResult> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in." };
 
-  const trimmed = displayName.trim().slice(0, 80);
   const { error } = await supabase
     .from("profiles")
-    .update({ display_name: trimmed })
+    .update({
+      display_name: input.displayName.trim().slice(0, 80),
+      phone: input.phone.trim().slice(0, 20) || null,
+    })
     .eq("id", user.id);
   if (error) return { ok: false, error: error.message };
 

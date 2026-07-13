@@ -8,12 +8,11 @@ import {
 } from "@/lib/queries";
 import { computeProgress } from "@/lib/metrics";
 import { pluralize } from "@/lib/utils";
-import { DisplayNameForm } from "@/components/settings/display-name-form";
-import { Button } from "@/components/ui/button";
+import { ProfileForm } from "@/components/settings/profile-form";
 
 export const metadata: Metadata = { title: "Settings" };
 
-function GoogleG({ size = 15 }: { size?: number }) {
+function GoogleG({ size = 14 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden>
       <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -32,7 +31,11 @@ export default async function SettingsPage() {
   if (!user) redirect("/login?next=/app/settings");
 
   const [{ data: profile }, attempts, totalQuestions, board] = await Promise.all([
-    supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("display_name, phone")
+      .eq("id", user.id)
+      .maybeSingle(),
     getUserAttempts(user.id),
     getQuestionCount(),
     getLeaderboard(100),
@@ -41,13 +44,14 @@ export default async function SettingsPage() {
   const meta = user.user_metadata ?? {};
   const displayName =
     profile?.display_name || meta.full_name || meta.name || user.email?.split("@")[0] || "Student";
+  const phone: string = profile?.phone ?? "";
   const avatarUrl: string | null = meta.avatar_url ?? meta.picture ?? null;
-  const provider = (user.app_metadata?.provider as string | undefined) ?? "email";
-  const isGoogle = provider === "google";
+  const isGoogle = (user.app_metadata?.provider as string | undefined) === "google";
 
   const summary = computeProgress(attempts, totalQuestions);
   const rankIdx = board.findIndex((r) => r.user_id === user.id);
   const rank = rankIdx >= 0 ? rankIdx + 1 : null;
+  const initial = displayName.trim().charAt(0).toUpperCase() || "?";
 
   const stats = [
     { label: "Questions solved", value: `${summary.solvedCount}` },
@@ -58,10 +62,8 @@ export default async function SettingsPage() {
     { label: "Global rank", value: rank ? `#${rank}` : "—" },
   ];
 
-  const initial = displayName.trim().charAt(0).toUpperCase() || "?";
-
   return (
-    <div className="mx-auto w-full max-w-[860px]">
+    <div className="mx-auto w-full max-w-[1000px]">
       <h1
         className="text-[30px] font-semibold tracking-[-0.01em] text-fg"
         style={{ fontFamily: "var(--font-fraunces)" }}
@@ -72,113 +74,91 @@ export default async function SettingsPage() {
         Your profile and account, in one place.
       </p>
 
-      {/* Identity card — the signature element */}
-      <div className="mt-6 overflow-hidden rounded-[14px] border border-hairline bg-canvas">
-        {/* violet band with a soft concentric-ring motif */}
-        <div className="relative h-28 bg-gradient-to-br from-[#6d5ce2] to-[#4a39b8]">
-          <div
-            aria-hidden
-            className="absolute -right-8 -top-10 h-48 w-48 rounded-full border border-white/15"
-          />
-          <div
-            aria-hidden
-            className="absolute right-6 top-6 h-28 w-28 rounded-full border border-white/10"
-          />
-        </div>
-
-        <div className="px-6 pb-6">
-          <div className="flex flex-wrap items-end gap-4">
-            {/* avatar, overlapping the band */}
-            <div className="-mt-12 grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-[#8b7bf0] to-[#5a48d6] text-white ring-4 ring-canvas">
-              {avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <span className="text-[36px] font-semibold">{initial}</span>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[300px_1fr] lg:items-start">
+        {/* LEFT — profile frame + vertical stats */}
+        <aside className="space-y-6">
+          {/* profile frame */}
+          <section className="overflow-hidden rounded-[14px] border border-hairline bg-canvas">
+            <div className="relative h-20 bg-gradient-to-br from-[#6d5ce2] to-[#4a39b8]">
+              <div
+                aria-hidden
+                className="absolute -right-6 -top-8 h-32 w-32 rounded-full border border-white/15"
+              />
+            </div>
+            <div className="flex flex-col items-center px-5 pb-5 text-center">
+              <div className="-mt-12 grid h-24 w-24 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-[#8b7bf0] to-[#5a48d6] text-white ring-4 ring-canvas">
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={avatarUrl}
+                    alt=""
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span className="text-[36px] font-semibold">{initial}</span>
+                )}
+              </div>
+              <div
+                className="mt-3 text-[17px] font-semibold text-fg"
+                style={{ fontFamily: "var(--font-fraunces)" }}
+              >
+                {displayName}
+              </div>
+              {isGoogle && (
+                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-hairline-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-fg">
+                  <GoogleG /> Google
+                </span>
               )}
             </div>
+          </section>
 
-            <div className="min-w-0 flex-1 pb-1">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <h2
-                  className="text-[24px] font-semibold leading-tight tracking-[-0.01em] text-fg"
-                  style={{ fontFamily: "var(--font-fraunces)" }}
+          {/* vertical stats column */}
+          <section className="rounded-[14px] border border-hairline bg-canvas p-5">
+            <div className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg-muted">
+              Your activity
+            </div>
+            <dl className="mt-3 divide-y divide-hairline">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
                 >
-                  {displayName}
-                </h2>
-                {isGoogle && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-hairline-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-fg">
-                    <GoogleG /> Google
-                  </span>
-                )}
-              </div>
-              <p className="mt-0.5 truncate text-[13.5px] text-fg-muted">
-                {user.email}
-              </p>
-            </div>
-          </div>
-
-          {/* real product stats — grounds this in the exam-prep world */}
-          <div className="mt-5 grid grid-cols-3 gap-3 border-t border-hairline pt-5">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <div className="text-[19px] font-semibold tracking-[-0.01em] text-fg sm:text-[22px]">
-                  {s.value}
+                  <dt className="text-[13.5px] text-fg-muted">{s.label}</dt>
+                  <dd className="text-[16px] font-semibold tracking-[-0.01em] text-fg">
+                    {s.value}
+                  </dd>
                 </div>
-                <div className="mt-0.5 text-[12px] text-fg-muted">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              ))}
+            </dl>
+          </section>
+        </aside>
 
-      {/* Name + account */}
-      <div className="mt-6 grid gap-6 sm:grid-cols-2">
-        <section className="rounded-[14px] border border-hairline bg-canvas p-5">
-          <h3 className="text-[15px] font-semibold text-fg">Your name</h3>
+        {/* RIGHT — name / email / phone */}
+        <section className="rounded-[14px] border border-hairline bg-canvas p-6">
+          <h2 className="text-[16px] font-semibold text-fg">Profile details</h2>
           <p className="mt-1 text-[13px] text-fg-muted">
-            This is the name shown on the leaderboard and across the app.
+            Your name shows on the leaderboard. Email and phone stay private.
           </p>
-          <div className="mt-4">
-            <DisplayNameForm initial={displayName} />
+          <div className="mt-5">
+            <ProfileForm
+              initialName={displayName}
+              email={user.email ?? ""}
+              initialPhone={phone}
+            />
           </div>
-        </section>
 
-        <section className="flex flex-col rounded-[14px] border border-hairline bg-canvas p-5">
-          <h3 className="text-[15px] font-semibold text-fg">Account</h3>
-          <p className="mt-1 text-[13px] text-fg-muted">
-            How you sign in. Your photo and email come from{" "}
-            {isGoogle ? "your Google account" : "your account"}.
-          </p>
-
-          <dl className="mt-4 space-y-3 text-[13.5px]">
-            <div className="flex items-center justify-between gap-3">
-              <dt className="text-fg-muted">Email</dt>
-              <dd className="truncate font-medium text-fg">{user.email}</dd>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <dt className="text-fg-muted">Sign-in method</dt>
-              <dd className="inline-flex items-center gap-1.5 font-medium text-fg">
-                {isGoogle ? (
-                  <>
-                    <GoogleG size={14} /> Google
-                  </>
-                ) : (
-                  "Email"
-                )}
-              </dd>
-            </div>
-          </dl>
-
-          <form action="/auth/signout" method="post" className="mt-auto pt-5">
-            <Button type="submit" variant="secondary" size="sm" className="w-full">
+          <form
+            action="/auth/signout"
+            method="post"
+            className="mt-6 border-t border-hairline pt-5"
+          >
+            <button
+              type="submit"
+              className="text-[13.5px] font-medium text-fg-muted transition-colors hover:text-fg"
+            >
               Sign out
-            </Button>
+            </button>
           </form>
         </section>
       </div>
