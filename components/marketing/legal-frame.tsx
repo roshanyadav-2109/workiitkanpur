@@ -44,7 +44,7 @@ export function LegalFrame({
 
       {/* header band */}
       <div className="border-b border-hairline">
-        <div className="mx-auto w-[92%] max-w-[1240px] py-10 sm:py-12">
+        <div className="mx-auto w-full max-w-[1240px] px-3 py-10 sm:w-[92%] sm:px-0 sm:py-12">
           <h1 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] sm:text-[40px]">
             {title}
           </h1>
@@ -52,7 +52,7 @@ export function LegalFrame({
         </div>
       </div>
 
-      <main className="mx-auto w-[92%] max-w-[1240px] flex-1 py-12 sm:py-14">
+      <main className="mx-auto w-full max-w-[1240px] flex-1 px-3 py-12 sm:w-[92%] sm:px-0 sm:py-14">
         <div className="grid gap-x-14 gap-y-8 lg:grid-cols-[260px_1fr]">
           {/* contents rail */}
           <aside className="lg:sticky lg:top-[88px] lg:self-start">
@@ -92,7 +92,7 @@ export function LegalFrame({
       </main>
 
       <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-[92%] max-w-[1240px] items-center justify-between gap-4 py-6 text-[12px]">
+        <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-3 py-6 text-[12px] sm:w-[92%] sm:px-0">
           <span className="text-fg-muted">IITM BS Community</span>
           <span className="rounded-full bg-accent px-3 py-1 font-medium text-white">
             Independent website by IITM BS Student Community — not affiliated with

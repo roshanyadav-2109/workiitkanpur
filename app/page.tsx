@@ -78,7 +78,7 @@ export default async function LandingPage() {
       <CoursePickerProvider subjects={allSubjects}>
         <main className="flex-1">
           {/* Hero — centred */}
-          <section className="mx-auto flex w-[85%] max-w-[1500px] flex-col items-center px-5 pb-10 pt-12 text-center sm:pt-16">
+          <section className="mx-auto flex w-full max-w-[1500px] flex-col items-center px-3 pb-10 pt-12 text-center sm:w-[85%] sm:px-5 sm:pt-16">
             <div className="flex items-center justify-center gap-3.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -108,7 +108,7 @@ export default async function LandingPage() {
           </section>
 
           {/* Available courses — left-aligned */}
-          <section className="mx-auto w-[85%] max-w-[1500px] px-5 pb-12">
+          <section className="mx-auto w-full max-w-[1500px] px-3 pb-12 sm:w-[85%] sm:px-5">
             <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
               Available courses
             </h2>
@@ -130,14 +130,14 @@ export default async function LandingPage() {
           </section>
 
           {/* How it works — animated product demo */}
-          <section className="mx-auto w-[90%] max-w-[1500px] px-5 pb-20">
+          <section className="mx-auto w-full max-w-[1500px] px-3 pb-20 sm:w-[90%] sm:px-5">
             <HomeDemo />
           </section>
         </main>
       </CoursePickerProvider>
 
       <footer className="bg-accent text-white">
-        <div className="mx-auto flex w-[85%] max-w-[1500px] items-center justify-between gap-4 px-5 py-3.5 text-[12px] sm:px-8">
+        <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-4 px-3 py-3.5 text-[12px] sm:w-[85%] sm:px-8">
           <span className="font-medium">IITM BS Community</span>
           <span className="text-right font-medium">
             Independent website by IITM BS Student Community — not affiliated with

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
@@ -10,7 +9,6 @@ import {
   getUserAttempts,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
-import { buttonVariants } from "@/components/ui/button";
 import {
   QuestionTable,
   type QuestionRow,
@@ -85,23 +83,14 @@ export default async function SubjectDetailPage({
       )}
 
       {/* Masthead — subject name. */}
-      <header className="mb-8">
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
-          <h1 className="text-[30px] font-semibold leading-[1.04] tracking-[-0.02em]">
-            {subject.name}
-          </h1>
-          {user && (
-            <Link
-              href="/app/exam"
-              className={buttonVariants({ variant: "secondary", size: "sm" })}
-            >
-              Timed exam
-            </Link>
-          )}
-        </div>
+      <header className="mb-5">
+        <h1 className="text-[26px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[30px]">
+          {subject.name}
+        </h1>
       </header>
 
       <SubjectSections
+        examHref={user ? "/app/exam" : null}
         testSeries={<TestSeriesList slug={slug} sets={testSets} />}
       >
         <QuestionTable

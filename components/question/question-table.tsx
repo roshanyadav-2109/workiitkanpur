@@ -102,16 +102,17 @@ export function QuestionTable({
     });
   }, [rows, query, topic, exam, branch, level, status, kind]);
 
-  // Bigger controls with a solid black border that doesn't recolour on focus.
+  // Solid black border that doesn't recolour on focus. Compact on mobile,
+  // roomier from sm up.
   const filterCls =
-    "h-11 rounded-[8px] border-[#3d3d3d]! text-[15px] focus-visible:border-[#3d3d3d]!";
+    "h-10 rounded-[8px] border-[#3d3d3d]! text-[13.5px] focus-visible:border-[#3d3d3d]! sm:h-11 sm:text-[15px]";
 
   return (
     <div>
-      {/* Filters + search in one row */}
-      <div className="mb-5 flex flex-wrap items-center gap-2">
+      {/* Filters + search — two per row on mobile, one flowing row from sm up */}
+      <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-5 sm:flex sm:flex-wrap sm:items-center">
         {branches.length > 0 && (
-          <div className="w-[13rem] max-w-full">
+          <div className="w-full sm:w-[13rem] sm:max-w-full">
             <Select
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
@@ -129,7 +130,7 @@ export function QuestionTable({
         )}
 
         {levels.length > 0 && (
-          <div className="w-[9.5rem] max-w-full">
+          <div className="w-full sm:w-[9.5rem] sm:max-w-full">
             <Select
               value={level}
               onChange={(e) => setLevel(e.target.value)}
@@ -147,7 +148,7 @@ export function QuestionTable({
         )}
 
         {exams.length > 0 && (
-          <div className="w-[10rem] max-w-full">
+          <div className="w-full sm:w-[10rem] sm:max-w-full">
             <Select
               value={exam}
               onChange={(e) => setExam(e.target.value)}
@@ -165,7 +166,7 @@ export function QuestionTable({
         )}
 
         {topics.length > 0 && (
-          <div className="w-[12rem] max-w-full">
+          <div className="w-full sm:w-[12rem] sm:max-w-full">
             <Select
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
@@ -183,7 +184,7 @@ export function QuestionTable({
           </div>
         )}
 
-        <div className="w-[9rem] max-w-full">
+        <div className="w-full sm:w-[9rem] sm:max-w-full">
           <Select
             value={status}
             onChange={(e) => setStatus(e.target.value as StatusFilter)}
@@ -198,7 +199,7 @@ export function QuestionTable({
           </Select>
         </div>
 
-        <div className="relative min-w-[12rem] flex-1">
+        <div className="relative w-full sm:min-w-[12rem] sm:flex-1">
           <IconSearch
             size={16}
             className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fg-faint"

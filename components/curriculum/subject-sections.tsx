@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface Section {
@@ -37,22 +38,30 @@ const SECTIONS: Section[] = [
   },
 ];
 
-/** Section switcher for a subject. Practice renders `children`, Test Series
+/** Section switcher for a subject.
+ *  Desktop: a left section sidebar (plus a Timed-exam shortcut).
+ *  Mobile: a horizontal, scrollable filter row of chips below the title.
+ *  Content renders once either way — Practice renders `children`, Test Series
  *  renders `testSeries`; the rest are placeholders until their content ships. */
 export function SubjectSections({
   children,
   testSeries,
+  examHref,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
+  examHref?: string | null;
 }) {
   const [active, setActive] = useState("practice");
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
 
+  const chip =
+    "flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[8px] border px-3.5 py-2 text-[13.5px] font-medium transition-colors";
+
   return (
-    <div className="flex flex-col gap-6 lg:flex-row lg:gap-7">
-      {/* Left section nav */}
-      <aside className="shrink-0 lg:w-56">
+    <div className="flex flex-col gap-4 lg:flex-row lg:gap-7">
+      {/* Desktop — left section nav */}
+      <aside className="hidden shrink-0 lg:block lg:w-56">
         <nav className="overflow-hidden rounded-[3px] border border-hairline">
           {SECTIONS.map((s) => {
             const on = s.id === active;
@@ -77,13 +86,61 @@ export function SubjectSections({
               </button>
             );
           })}
+          {examHref && (
+            <Link
+              href={examHref}
+              className="flex w-full items-center justify-between gap-2 border-t border-hairline px-4 py-3 text-left text-[14px] font-normal text-fg-muted transition-colors hover:text-fg"
+            >
+              <span>Timed exam</span>
+              <span aria-hidden>→</span>
+            </Link>
+          )}
         </nav>
       </aside>
 
-      {/* Content — one common section block */}
+      {/* Content column */}
       <div className="min-w-0 flex-1">
-        <section className="rounded-[3px] border border-hairline p-4 sm:p-5">
-          <header className="mb-5 rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-6 py-5 ring-1 ring-inset ring-white/20">
+        {/* Mobile — horizontal scrollable filter row */}
+        <div className="-mx-3 mb-4 flex gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+          {SECTIONS.map((s) => {
+            const on = s.id === active;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setActive(s.id)}
+                aria-current={on ? "page" : undefined}
+                className={cn(
+                  chip,
+                  on
+                    ? "border-transparent bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] text-white ring-1 ring-inset ring-white/20"
+                    : "border-hairline text-fg-muted hover:border-[#3d3d3d] hover:text-fg",
+                )}
+              >
+                <span>{s.label}</span>
+                {!s.available && (
+                  <span
+                    className={cn(
+                      "rounded-full px-1.5 py-0.5 text-[10px] font-normal",
+                      on ? "bg-white/20 text-white" : "bg-surface text-fg-faint",
+                    )}
+                  >
+                    soon
+                  </span>
+                )}
+              </button>
+            );
+          })}
+          {examHref && (
+            <Link href={examHref} className={cn(chip, "border-[#3d3d3d] text-fg")}>
+              Timed exam →
+            </Link>
+          )}
+        </div>
+
+        <section className="rounded-[3px] border border-hairline p-3 sm:p-4 lg:p-5">
+          {/* Desktop keeps the strong section header; on mobile the chip is the label */}
+          <header className="mb-5 hidden rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-6 py-5 ring-1 ring-inset ring-white/20 lg:block">
             <h2 className="text-[28px] font-normal tracking-[-0.01em] text-white">
               {current.label}
             </h2>

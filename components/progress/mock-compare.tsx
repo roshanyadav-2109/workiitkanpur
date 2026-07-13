@@ -106,9 +106,9 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
             Your code, the top solvers&apos;, and the model solution.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center gap-2 sm:w-auto">
           {/* section filter */}
-          <div className="w-[13rem]">
+          <div className="min-w-0 flex-1 sm:w-[13rem] sm:flex-none">
             <Select
               value={section}
               onChange={(e) => {
@@ -127,7 +127,7 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
             </Select>
           </div>
           {/* left / right sweep */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-1.5">
             <button
               type="button"
               onClick={() => move(-1)}
