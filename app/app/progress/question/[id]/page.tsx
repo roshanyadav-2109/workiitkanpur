@@ -10,6 +10,7 @@ import {
   getQuestionTopSolutions,
 } from "@/lib/queries";
 import { Markdown } from "@/components/markdown";
+import { IconChevron } from "@/components/icons";
 import { RankMedal } from "@/components/progress/rank-medal";
 import {
   SolutionCompare,
@@ -61,10 +62,14 @@ export default async function QuestionAnalysisPage({
 
   return (
     <div className="w-full">
-      {/* Back link */}
-      <div className="mb-3 text-[12px] text-fg-muted">
-        <Link href="/app/progress" className="hover:text-fg">
-          ← Back to My progress
+      {/* Back button */}
+      <div className="mb-3">
+        <Link
+          href="/app/progress"
+          aria-label="Back to My progress"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-[8px] border border-hairline bg-canvas text-fg-muted transition-colors hover:border-[#3d3d3d] hover:text-fg"
+        >
+          <IconChevron size={16} className="rotate-180" />
         </Link>
       </div>
 

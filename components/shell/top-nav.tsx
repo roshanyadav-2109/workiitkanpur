@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
+import { MobileNav } from "@/components/marketing/mobile-nav";
 
 /**
  * The one site-wide top bar: brand + primary nav on the left, an auth/account
@@ -8,8 +9,9 @@ import { MarketingNav } from "@/components/marketing/marketing-nav";
  */
 export function TopNav({ right }: { right?: React.ReactNode }) {
   return (
-    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-6 border-b border-hairline bg-canvas/95 px-5 backdrop-blur-sm sm:px-8">
-      <div className="flex items-center gap-8">
+    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-hairline bg-canvas/95 px-4 backdrop-blur-sm sm:gap-6 sm:px-8">
+      <div className="flex items-center gap-3 sm:gap-8">
+        <MobileNav />
         <Link href="/" className="flex items-center text-fg">
           <span className="text-[15px] font-medium tracking-[-0.01em]">
             IITM BS Community

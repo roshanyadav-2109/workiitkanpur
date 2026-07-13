@@ -51,7 +51,7 @@ export default async function LandingPage() {
         right={
           user ? (
             <Link
-              href="/app"
+              href="/app/progress"
               className={buttonVariants({ variant: "primary", size: "sm" })}
             >
               Dashboard
@@ -112,7 +112,7 @@ export default async function LandingPage() {
             <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
               Available courses
             </h2>
-            <div className="mt-6 grid grid-cols-3 gap-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
               {BRANCHES.map((b) => (
                 <BranchBlock
                   key={b.name}

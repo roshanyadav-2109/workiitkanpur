@@ -63,7 +63,7 @@ export function PosterCarousel() {
 
   return (
     <div>
-      <div className="relative h-[85vh] overflow-hidden rounded-[10px]">
+      <div className="relative h-[320px] overflow-hidden rounded-[10px] lg:h-[85vh]">
         <div
           className="flex h-full transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ transform: `translateX(-${i * 100}%)` }}

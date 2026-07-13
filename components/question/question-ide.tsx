@@ -350,7 +350,7 @@ export function QuestionIDE({
       {/* LEFT NAV — questions in this subject */}
       <aside
         className={cn(
-          "shrink-0 overflow-hidden border-r border-hairline transition-[width] duration-200",
+          "hidden shrink-0 overflow-hidden border-r border-hairline transition-[width] duration-200 lg:block",
           navCollapsed ? "w-12" : "w-72",
         )}
       >
@@ -450,10 +450,10 @@ export function QuestionIDE({
         )}
       </aside>
 
-      <div className="flex min-w-0 flex-1">
+      <div className="flex min-w-0 flex-1 flex-col lg:flex-row">
         {/* MIDDLE — question / tests / solution / notes (hidden in Resources view) */}
         {rightView === "editor" && (
-        <section className="flex min-w-0 flex-1 flex-col border-r border-hairline">
+        <section className="flex min-h-0 min-w-0 flex-1 flex-col border-b border-hairline lg:border-b-0 lg:border-r">
           <div className="flex items-start justify-between gap-3 border-b border-hairline px-4 py-2.5">
             <div className="flex min-w-0 items-start gap-2">
               <Link
@@ -695,7 +695,7 @@ export function QuestionIDE({
 
         {/* RIGHT — code editor / runtime (spans full width in Resources view) */}
         <section
-          className="flex min-w-0 flex-1 flex-col"
+          className="flex min-h-0 min-w-0 flex-1 flex-col"
           style={{ ["--code-font" as string]: `${fontSize}px` } as CSSProperties}
         >
           {rightView === "resources" ? (
