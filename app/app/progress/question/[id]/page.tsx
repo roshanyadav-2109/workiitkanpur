@@ -213,12 +213,7 @@ export default async function QuestionAnalysisPage({
                         </span>
                       )}
                       <span className="flex-1 truncate font-medium">
-                        {b.name}
-                        {me && (
-                          <span className="ml-1.5 rounded-full bg-accent px-1.5 py-0.5 text-[9.5px] font-semibold text-white">
-                            You
-                          </span>
-                        )}
+                        {me ? <span className="font-semibold text-accent">You</span> : b.name}
                       </span>
                       <span className="tnum text-[12.5px] font-medium">
                         {formatClock(b.best_time)}

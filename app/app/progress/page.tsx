@@ -8,10 +8,14 @@ import {
   getLeaderboard,
   getMockBoard,
   getQuestionCount,
+  getQuestionsByIds,
   getRecentActivity,
+  getTopSolutionMap,
   getUserAttempts,
+  getUserSubmissions,
   type MockRow,
 } from "@/lib/queries";
+import type { CompareItem } from "@/components/progress/mock-compare";
 import { accuracyByTopic, computeProgress } from "@/lib/metrics";
 import { dayKey, formatClock, pluralize, timeAgo, cn } from "@/lib/utils";
 import { SkillBars } from "@/components/progress/skill-bars";
@@ -136,6 +140,31 @@ export default async function Dashboard({
     })),
   }));
 
+  // Three-way solution comparison — your solved questions vs top solver vs model.
+  const mySubmissions = await getUserSubmissions(user.id);
+  const compareIds = mySubmissions.map((s) => s.question_id);
+  const [compareQ, topSolMap] = await Promise.all([
+    getQuestionsByIds(compareIds),
+    getTopSolutionMap(compareIds),
+  ]);
+  const qMetaById = new Map(compareQ.map((q) => [q.id, q]));
+  const myCodeById = new Map(mySubmissions.map((s) => [s.question_id, s.code]));
+  const compareItems: CompareItem[] = compareIds.flatMap((qid) => {
+    const q = qMetaById.get(qid);
+    if (!q) return [];
+    const top = topSolMap[qid];
+    return [
+      {
+        questionId: qid,
+        title: q.title,
+        myCode: myCodeById.get(qid) ?? null,
+        topName: top?.name ?? null,
+        topCode: top?.code ?? null,
+        solution: q.solution_md,
+      },
+    ];
+  });
+
   return (
     <ProgressLayout
       initialMock={isMock}
@@ -168,7 +197,7 @@ export default async function Dashboard({
               </div>
             ) : (
               <div className="mt-6">
-                <MockHistory items={mockItems} />
+                <MockHistory items={mockItems} compare={compareItems} />
               </div>
             )}
           </>

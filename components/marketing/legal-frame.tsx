@@ -94,7 +94,7 @@ export function LegalFrame({
       <footer className="border-t border-hairline">
         <div className="mx-auto flex w-[92%] max-w-[1240px] items-center justify-between gap-4 py-6 text-[12px]">
           <span className="text-fg-muted">IITM BS Community</span>
-          <span className="font-medium text-accent">
+          <span className="rounded-full bg-accent px-3 py-1 font-medium text-white">
             Independent website by IITM BS Student Community — not affiliated with
             IIT Madras
           </span>

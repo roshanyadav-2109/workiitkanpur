@@ -26,7 +26,11 @@ export function SubjectBlock({ subject }: { subject: SubjectLite }) {
       <span className={subject.is_active ? "" : "text-fg-muted"}>
         {subject.name}
       </span>
-      {!subject.is_active && (
+      {subject.is_active ? (
+        <span className="-translate-x-1 text-fg-muted opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+          ›
+        </span>
+      ) : (
         <span className="text-[11px] font-normal text-fg-faint">soon</span>
       )}
     </button>
@@ -51,12 +55,17 @@ export function BranchBlock({
       disabled={disabled}
       onClick={() => degreeId && openPicker({ degree: degreeId })}
       className={cn(
-        "rounded-[10px] border-2 border-[#3d3d3d] px-4 py-6 text-center transition-colors",
+        "group rounded-[10px] border-2 border-[#3d3d3d] px-4 py-6 text-center transition-colors",
         disabled ? "opacity-50" : "hover:bg-surface",
       )}
     >
-      <div className="text-[16px] font-semibold leading-snug sm:text-[17px]">
+      <div className="flex items-center justify-center gap-1.5 text-[16px] font-semibold leading-snug sm:text-[17px]">
         {name}
+        {!disabled && (
+          <span className="-translate-x-1 text-fg-muted opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+            ›
+          </span>
+        )}
       </div>
       <div className="mt-1.5 text-[12.5px] text-fg-muted sm:text-[13px]">
         {note}

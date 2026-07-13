@@ -259,6 +259,55 @@ export async function getQuestionTopSolutions(
   return (data as QuestionSolution[]) ?? [];
 }
 
+/** All of the current user's submissions (question_id → last code). */
+export async function getUserSubmissions(
+  userId: string,
+): Promise<{ question_id: string; code: string | null }[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("submissions")
+    .select("question_id, code")
+    .eq("user_id", userId);
+  return (data as { question_id: string; code: string | null }[]) ?? [];
+}
+
+/** Title + model solution for a set of questions. */
+export async function getQuestionsByIds(
+  ids: string[],
+): Promise<{ id: string; title: string; solution_md: string | null }[]> {
+  if (ids.length === 0) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("questions")
+    .select("id, title, solution_md")
+    .in("id", ids);
+  return (
+    (data as { id: string; title: string; solution_md: string | null }[]) ?? []
+  );
+}
+
+/** Fastest solver (name + code) per question, for a set of question ids. */
+export async function getTopSolutionMap(
+  ids: string[],
+): Promise<Record<string, { name: string; code: string | null }>> {
+  if (ids.length === 0) return {};
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("question_top_solutions")
+    .select("question_id, name, code, best_time")
+    .in("question_id", ids)
+    .order("best_time", { ascending: true });
+  const map: Record<string, { name: string; code: string | null }> = {};
+  for (const r of (data ?? []) as {
+    question_id: string;
+    name: string;
+    code: string | null;
+  }[]) {
+    if (!map[r.question_id]) map[r.question_id] = { name: r.name, code: r.code };
+  }
+  return map;
+}
+
 /** The current user's own last submitted code for a question (RLS: own row). */
 export async function getMySubmission(
   userId: string,

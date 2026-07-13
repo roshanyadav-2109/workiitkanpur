@@ -5,6 +5,7 @@ import { cn, formatDurationHuman, timeAgo } from "@/lib/utils";
 import { IconChevron } from "@/components/icons";
 import { Select } from "@/components/ui/input";
 import { RankMedal } from "@/components/progress/rank-medal";
+import { MockCompare, type CompareItem } from "@/components/progress/mock-compare";
 
 export interface MockBoardRow {
   name: string;
@@ -27,7 +28,13 @@ export interface MockItem {
   board: MockBoardRow[];
 }
 
-export function MockHistory({ items }: { items: MockItem[] }) {
+export function MockHistory({
+  items,
+  compare = [],
+}: {
+  items: MockItem[];
+  compare?: CompareItem[];
+}) {
   const subjects = useMemo(
     () => Array.from(new Set(items.map((i) => i.subject))),
     [items],
@@ -94,7 +101,7 @@ export function MockHistory({ items }: { items: MockItem[] }) {
         {/* left: list of sets OR the selected set's detailed analysis */}
         <div>
           {inDetail ? (
-            <SetDetail item={active!} />
+            <SetDetail item={active!} compare={compare} />
           ) : (
             <div className="space-y-2.5">
               {filtered.map((m) => (
@@ -150,7 +157,13 @@ export function MockHistory({ items }: { items: MockItem[] }) {
 }
 
 /* ── Detailed analysis of one set ──────────────────────────────────────── */
-function SetDetail({ item }: { item: MockItem }) {
+function SetDetail({
+  item,
+  compare,
+}: {
+  item: MockItem;
+  compare: CompareItem[];
+}) {
   const scores = item.board.map((r) => r.score);
   const times = item.board.map((r) => r.timeSeconds);
   const avgScore = scores.length
@@ -201,6 +214,13 @@ function SetDetail({ item }: { item: MockItem }) {
           of the {item.appeared} students who sat this set.
         </p>
       </div>
+
+      {/* three-way solution comparison */}
+      {compare.length > 0 && (
+        <div className="rounded-[10px] border border-hairline bg-canvas p-4">
+          <MockCompare items={compare} />
+        </div>
+      )}
     </div>
   );
 }
@@ -282,12 +302,7 @@ function LeaderboardBlock({ item }: { item: MockItem }) {
               </span>
             )}
             <span className="flex-1 truncate font-medium">
-              {r.name}
-              {r.me && (
-                <span className="ml-2 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-white">
-                  You
-                </span>
-              )}
+              {r.me ? <span className="font-semibold text-accent">You</span> : r.name}
             </span>
             <span className="tnum w-12 text-right">
               {r.score}/{r.total}

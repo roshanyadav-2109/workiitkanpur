@@ -42,7 +42,7 @@ function CountUp({
 
 function ExamChip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-8 flex-1 items-center justify-center rounded-[8px] bg-accent-weak text-[12px] font-medium text-accent">
+    <span className="flex h-8 w-full items-center justify-center rounded-[8px] bg-accent-weak text-[12px] font-medium text-accent">
       {children}
     </span>
   );
@@ -78,7 +78,7 @@ function SubjectCard({
         {exams.map((e, i) => (
           <span
             key={e}
-            className="demo-pop flex-1"
+            className="demo-pop block flex-1"
             style={{ animationDelay: `${250 + i * 130}ms` }}
           >
             <ExamChip>{e}</ExamChip>
@@ -125,10 +125,67 @@ function ScreenSubjects() {
 }
 
 function ScreenAttempt() {
-  // Exact snapshot of the real coding interface (captured from the live app).
+  // A rendered mock of the coding interface (question left, editor right) — no
+  // image asset, so nothing can fail to load.
+  const codeLines = [
+    <><span className="text-[#c792ea]">def</span> <span className="text-[#82aaff]">solve</span>():</>,
+    <>{"    "}n <span className="text-[#89ddff]">=</span> <span className="text-[#f78c6c]">int</span>(input())</>,
+    <>{"    "}xs <span className="text-[#89ddff]">=</span> <span className="text-[#f78c6c]">list</span>(<span className="text-[#f78c6c]">map</span>(<span className="text-[#f78c6c]">int</span>, input().split()))</>,
+    <>{"    "}<span className="text-[#f78c6c]">print</span>(<span className="text-[#f78c6c]">sum</span>(x <span className="text-[#c792ea]">for</span> x <span className="text-[#c792ea]">in</span> xs <span className="text-[#c792ea]">if</span> x <span className="text-[#89ddff]">%</span> <span className="text-[#f78c6c]">2</span>))</>,
+    <><span className="text-[#82aaff]">solve</span>()</>,
+  ];
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/demo-coding.png" alt="Coding interface" className="block w-full" />
+    <div className="flex h-full text-[12.5px]">
+      {/* left — question */}
+      <div className="flex w-1/2 flex-col border-r border-hairline">
+        <div className="flex items-center gap-4 border-b border-hairline px-5 py-2.5 text-[12px]">
+          <span className="border-b-2 border-accent pb-2 font-semibold text-accent">
+            Question
+          </span>
+          <span className="text-fg-muted">Test Cases</span>
+          <span className="text-fg-muted">Solution</span>
+        </div>
+        <div className="flex-1 overflow-hidden p-5">
+          <h4 className="text-[14px] font-semibold text-fg">Sum of Even Numbers</h4>
+          <p className="mt-2 leading-relaxed text-fg-muted">
+            Read <span className="font-mono text-fg">n</span> integers and print
+            the sum of the even ones.
+          </p>
+          <div className="mt-3 text-[11.5px] text-fg-muted">Example</div>
+          <pre className="mt-1 rounded-[6px] border border-hairline bg-surface p-2.5 font-mono text-[12px] text-fg">
+            4 1 4 9 9 2 → 4
+          </pre>
+        </div>
+      </div>
+
+      {/* right — editor */}
+      <div className="flex w-1/2 flex-col">
+        <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 text-[11.5px]">
+          <span className="uppercase tracking-[0.04em] text-fg-faint">Python 3</span>
+          <span className="text-fg-faint">runs in your browser</span>
+        </div>
+        <div className="flex-1 overflow-hidden bg-[#0f0b1e] p-4 font-mono text-[12px] leading-relaxed">
+          {codeLines.map((ln, k) => (
+            <div
+              key={k}
+              className="demo-rise text-white/90"
+              style={{ animationDelay: `${0.15 + k * 0.16}s` }}
+            >
+              <span className="mr-3 select-none text-white/25">{k + 1}</span>
+              {ln}
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-end gap-2 border-t border-hairline px-4 py-2.5">
+          <span className="flex h-8 items-center rounded-[6px] border border-hairline px-3 text-[12px] font-medium text-fg">
+            Run sample tests
+          </span>
+          <span className="flex h-8 items-center rounded-[6px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3 text-[12px] font-semibold text-white">
+            Submit
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }
 

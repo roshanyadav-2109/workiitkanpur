@@ -139,7 +139,7 @@ export default async function LandingPage() {
       <footer className="border-t border-hairline">
         <div className="mx-auto flex w-[85%] max-w-[1500px] items-center justify-between gap-4 px-5 py-6 text-[12px] sm:px-8">
           <span className="text-fg-muted">IITM BS Community</span>
-          <span className="text-right font-medium text-accent">
+          <span className="rounded-full bg-accent px-3 py-1 text-right font-medium text-white">
             Independent website by IITM BS Student Community — not affiliated with
             IIT Madras
           </span>
