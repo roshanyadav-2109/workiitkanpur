@@ -9,6 +9,8 @@ import {
 import { computeProgress } from "@/lib/metrics";
 import { pluralize } from "@/lib/utils";
 import { ProfileForm } from "@/components/settings/profile-form";
+import { CountryFlag } from "@/components/settings/phone-input";
+import { parsePhone } from "@/lib/phone";
 
 export const metadata: Metadata = { title: "Settings" };
 
@@ -51,6 +53,7 @@ export default async function SettingsPage() {
   const summary = computeProgress(attempts, totalQuestions);
   const rankIdx = board.findIndex((r) => r.user_id === user.id);
   const rank = rankIdx >= 0 ? rankIdx + 1 : null;
+  const phoneIso = phone.trim() ? parsePhone(phone).iso : null;
 
   const stats = [
     { label: "Questions solved", value: `${summary.solvedCount}` },
@@ -69,26 +72,37 @@ export default async function SettingsPage() {
         <aside className="space-y-6">
           {/* profile image — no card, no purple header */}
           <div className="flex flex-col items-center text-center">
-            <div className="grid h-28 w-28 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-[#8b7bf0] to-[#5a48d6] text-white ring-1 ring-hairline-strong">
-              {avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                // Default avatar until a Google photo is available.
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-16 w-16 text-white/90"
-                  fill="currentColor"
-                  aria-hidden
-                >
-                  <circle cx="12" cy="8.6" r="4.1" />
-                  <path d="M12 14.2c-4.2 0-7.2 2.5-7.2 6.1 0 .4.3.7.7.7h13c.4 0 .7-.3.7-.7 0-3.6-3-6.1-7.2-6.1z" />
-                </svg>
+            <div className="relative">
+              <div className="grid h-28 w-28 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-[#8b7bf0] to-[#5a48d6] text-white ring-1 ring-hairline-strong">
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={avatarUrl}
+                    alt=""
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  // Default avatar until a Google photo is available.
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-16 w-16 text-white/90"
+                    fill="currentColor"
+                    aria-hidden
+                  >
+                    <circle cx="12" cy="8.6" r="4.1" />
+                    <path d="M12 14.2c-4.2 0-7.2 2.5-7.2 6.1 0 .4.3.7.7.7h13c.4 0 .7-.3.7-.7 0-3.6-3-6.1-7.2-6.1z" />
+                  </svg>
+                )}
+              </div>
+              {/* country flag from the phone number, top-right */}
+              {phoneIso && (
+                <span className="absolute right-0 top-1 overflow-hidden rounded-[5px] ring-2 ring-accent-weak">
+                  <CountryFlag
+                    iso={phoneIso}
+                    className="block h-[18px] w-[27px]"
+                  />
+                </span>
               )}
             </div>
             <div

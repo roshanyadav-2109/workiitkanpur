@@ -4,7 +4,8 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
-import { PhoneInput, parsePhone, countryFor } from "./phone-input";
+import { PhoneInput } from "./phone-input";
+import { parsePhone, countryFor } from "@/lib/phone";
 
 function ReadRow({ label, value }: { label: string; value: string }) {
   return (
@@ -34,12 +35,20 @@ export function ProfileForm({
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
+  const country = countryFor(iso);
   // Stored as a single string: country code + number (no flag). e.g. "+91 9876543210".
-  const combined = number.trim() ? `${countryFor(iso).dial} ${number}` : "";
+  const combined = number.trim() ? `${country.dial} ${number}` : "";
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    // A partial number is invalid — require the full national length before saving.
+    if (number.length > 0 && number.length < country.max) {
+      setError(
+        `Enter a full ${country.max}-digit phone number for ${country.name}.`,
+      );
+      return;
+    }
     startTransition(async () => {
       const res = await updateProfile({ displayName: initialName, phone: combined });
       if (res.ok) {
