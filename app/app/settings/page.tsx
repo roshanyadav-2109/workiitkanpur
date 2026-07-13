@@ -128,9 +128,6 @@ export default async function SettingsPage() {
         {/* RIGHT — name / email / phone */}
         <section className="rounded-[14px] border border-hairline bg-canvas p-6">
           <h2 className="text-[16px] font-semibold text-fg">Profile details</h2>
-          <p className="mt-1 text-[13px] text-fg-muted">
-            Your email and phone number are private to you.
-          </p>
           <div className="mt-5">
             <ProfileForm
               initialName={displayName}
