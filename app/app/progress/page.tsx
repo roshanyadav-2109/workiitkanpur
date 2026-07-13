@@ -181,12 +181,13 @@ export default async function Dashboard({
       }
       mock={
         <>
-            <h1 className="text-[24px] font-semibold tracking-[-0.02em]">
+            {/* On mobile the dropdown already names the view — hide the repeat title */}
+            <h1 className="hidden text-[24px] font-semibold tracking-[-0.02em] lg:block">
               My Mock history
             </h1>
 
             {myMocks.length === 0 ? (
-              <div className="mt-6 rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-6 text-center">
+              <div className="rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-6 text-center lg:mt-6">
                 <p className="text-[14px] text-fg-muted">
                   You haven&apos;t appeared in a timed mock yet.
                 </p>
@@ -198,7 +199,7 @@ export default async function Dashboard({
                 </Link>
               </div>
             ) : (
-              <div className="mt-6">
+              <div className="lg:mt-6">
                 <MockHistory items={mockItems} compare={compareItems} />
               </div>
             )}
@@ -206,12 +207,13 @@ export default async function Dashboard({
       }
       progress={
         <>
-            <h1 className="text-[24px] font-semibold tracking-[-0.02em]">
+            {/* On mobile the dropdown already names the view — hide the repeat title */}
+            <h1 className="hidden text-[24px] font-semibold tracking-[-0.02em] lg:block">
               My progress
             </h1>
 
-            {/* headline stats */}
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* headline stats — 2×2 on mobile, single row on desktop */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:mt-5 lg:grid-cols-4">
               <StatBox label="Global rank" value={rank ? `#${rank}` : "—"} hint={`of ${totalRanked}`} />
               <StatBox
                 label="Percentile"
@@ -226,7 +228,7 @@ export default async function Dashboard({
               />
             </div>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Coding profile</CardTitle>
@@ -257,8 +259,8 @@ export default async function Dashboard({
             </div>
 
             {/* Activity + weak points on the left, question history on the right */}
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_330px]">
-              <div className="space-y-6">
+            <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[1fr_330px] lg:gap-6">
+              <div className="space-y-4 lg:space-y-6">
                 <ActivityCard
                   counts={dailyCounts}
                   streakLabel={`Streak ${summary.streaks.current} ${pluralize(

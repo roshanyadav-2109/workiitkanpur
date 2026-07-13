@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Select } from "@/components/ui/input";
 
 /* Bespoke tab icons (not from an icon library). */
 function IconMyProgress({ size = 18 }: { size?: number }) {
@@ -64,8 +65,8 @@ export function ProgressLayout({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[248px_1fr]">
-      {/* Page sidebar — tabs + motivational rail, one unified tinted surface */}
-      <aside className="lg:sticky lg:top-[74px] lg:self-start">
+      {/* Page sidebar — tabs + motivational rail (desktop only) */}
+      <aside className="hidden lg:sticky lg:top-[74px] lg:block lg:self-start">
         <div className="flex flex-col gap-3 rounded-[10px] bg-accent-weak p-3 lg:h-[calc(100dvh-6rem)]">
           <nav className="flex flex-col gap-1">
             {TABS.map((t) => {
@@ -98,7 +99,19 @@ export function ProgressLayout({
       </aside>
 
       {/* Content — its own tinted section (no border) */}
-      <div className="rounded-[10px] bg-accent-weak p-5 sm:p-6">
+      <div className="rounded-[10px] bg-accent-weak p-4 sm:p-6">
+        {/* Mobile: tabs become a dropdown */}
+        <div className="mb-4 lg:hidden">
+          <Select
+            value={isMock ? "mock" : "progress"}
+            onChange={(e) => select(e.target.value === "mock")}
+            aria-label="Switch dashboard view"
+            className="h-11 rounded-[8px] border-[#3d3d3d]! text-[15px] font-medium focus-visible:border-[#3d3d3d]!"
+          >
+            <option value="progress">My progress</option>
+            <option value="mock">My Mock history</option>
+          </Select>
+        </div>
         <div className={isMock ? undefined : "hidden"}>{mock}</div>
         <div className={isMock ? "hidden" : undefined}>{progress}</div>
       </div>

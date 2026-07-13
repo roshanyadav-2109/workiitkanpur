@@ -110,7 +110,7 @@ function ScreenSubjects() {
     },
   ];
   return (
-    <div className="grid grid-cols-2 gap-4 p-6">
+    <div className="grid grid-cols-2 gap-3 p-4 sm:gap-4 sm:p-6">
       {cards.map((c, idx) => (
         <div
           key={c.slug}
@@ -135,17 +135,17 @@ function ScreenAttempt() {
     <><span className="text-[#82aaff]">solve</span>()</>,
   ];
   return (
-    <div className="flex h-full text-[12.5px]">
+    <div className="flex h-full flex-col text-[12.5px] sm:flex-row">
       {/* left — question */}
-      <div className="flex w-1/2 flex-col border-r border-hairline">
-        <div className="flex items-center gap-4 border-b border-hairline px-5 py-2.5 text-[12px]">
+      <div className="flex flex-col border-b border-hairline sm:w-1/2 sm:border-b-0 sm:border-r">
+        <div className="flex items-center gap-4 border-b border-hairline px-4 py-2.5 text-[12px] sm:px-5">
           <span className="border-b-2 border-accent pb-2 font-semibold text-accent">
             Question
           </span>
           <span className="text-fg-muted">Test Cases</span>
           <span className="text-fg-muted">Solution</span>
         </div>
-        <div className="flex-1 overflow-hidden p-5">
+        <div className="flex-1 overflow-hidden p-4 sm:p-5">
           <h4 className="text-[14px] font-semibold text-fg">Sum of Even Numbers</h4>
           <p className="mt-2 leading-relaxed text-fg-muted">
             Read <span className="font-mono text-fg">n</span> integers and print
@@ -159,10 +159,10 @@ function ScreenAttempt() {
       </div>
 
       {/* right — editor */}
-      <div className="flex w-1/2 flex-col">
+      <div className="flex flex-1 flex-col sm:w-1/2">
         <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 text-[11.5px]">
           <span className="uppercase tracking-[0.04em] text-fg-faint">Python 3</span>
-          <span className="text-fg-faint">runs in your browser</span>
+          <span className="hidden text-fg-faint sm:inline">runs in your browser</span>
         </div>
         <div className="flex-1 overflow-hidden bg-[#0f0b1e] p-4 font-mono text-[12px] leading-relaxed">
           {codeLines.map((ln, k) => (
@@ -222,7 +222,7 @@ function DemoProgressLine({
 function ScreenGrading() {
   const publicTests = [{ stdin: "4 1 4 9 9 2", expected: "4" }];
   return (
-    <div className="p-6 text-[12.5px]">
+    <div className="p-4 text-[12.5px] sm:p-6">
       <div className="mb-3 flex gap-5 border-b border-hairline pb-2">
         <span className="text-fg-muted">Question</span>
         <span className="border-b-2 border-accent pb-2 font-semibold text-accent">
@@ -294,7 +294,7 @@ function ScreenMock() {
           01:29:42
         </span>
       </div>
-      <div className="flex gap-5 p-5">
+      <div className="flex flex-col gap-4 p-4 sm:flex-row sm:gap-5 sm:p-5">
         <div className="flex-1">
           <h4 className="text-[14px] font-semibold text-fg">Sum of Even Numbers</h4>
           <p className="mt-2 text-[12.5px] leading-relaxed text-fg-muted">
@@ -324,7 +324,7 @@ function ScreenMock() {
             </span>
           </div>
         </div>
-        <div className="w-40">
+        <div className="w-full sm:w-40">
           <div className="mb-2 flex items-center justify-between text-[11.5px] font-medium text-fg-muted">
             <span>Questions</span>
             <span className="text-fg">
@@ -370,7 +370,7 @@ function ScreenProgress() {
   const ringTo = C * (1 - 0.72);
   const spark = "M0,40 L30,30 L60,34 L90,18 L120,24 L150,10 L180,14";
   return (
-    <div className="p-6 text-[12.5px]">
+    <div className="p-4 text-[12.5px] sm:p-6">
       <div className="mb-4 flex items-center justify-between">
         <span className="text-[14px] font-semibold text-fg">Your progress</span>
         <span className="rounded-full bg-accent-weak px-2.5 py-0.5 text-[11px] font-semibold text-accent">
@@ -379,7 +379,7 @@ function ScreenProgress() {
       </div>
 
       {/* stat tiles */}
-      <div className="mb-4 grid grid-cols-3 gap-3">
+      <div className="mb-4 grid grid-cols-3 gap-2.5 sm:gap-3">
         {[
           { label: "Solved", node: <><CountUp to={21} />/29</> },
           { label: "Day streak", node: <CountUp to={9} suffix="d" /> },
@@ -398,27 +398,28 @@ function ScreenProgress() {
         ))}
       </div>
 
-      <div className="grid grid-cols-[1fr_150px] gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_150px] sm:gap-4">
         {/* growing skill bars */}
         <div className="flex flex-col rounded-[10px] border border-hairline bg-white p-3">
           <div className="mb-2 text-[11.5px] font-medium text-fg-muted">
             Coding profile
           </div>
-          <div className="flex min-h-[120px] flex-1 items-end gap-4">
+          <div className="flex h-[124px] items-end gap-4">
             {bars.map((b, i) => (
-              <div key={b.label} className="flex flex-1 flex-col items-center">
-                <div className="flex w-full flex-1 items-end justify-center">
-                  <div
-                    className="demo-grow-y relative w-8 rounded-t-[4px] bg-gradient-to-t from-[#5a48d6] to-[#8b7bf0]"
-                    style={{
-                      height: `${b.value}%`,
-                      animationDelay: `${0.15 + i * 0.12}s`,
-                    }}
-                  >
-                    <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[10.5px] font-semibold text-fg">
-                      {b.value}
-                    </span>
-                  </div>
+              <div
+                key={b.label}
+                className="flex flex-1 flex-col items-center justify-end"
+              >
+                <div
+                  className="demo-grow-y relative w-8 rounded-t-[4px] bg-gradient-to-t from-[#5a48d6] to-[#8b7bf0]"
+                  style={{
+                    height: `${Math.round(b.value * 1.05)}px`,
+                    animationDelay: `${0.15 + i * 0.12}s`,
+                  }}
+                >
+                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[10.5px] font-semibold text-fg">
+                    {b.value}
+                  </span>
                 </div>
                 <div className="mt-1.5 text-[10px] text-fg-muted">{b.label}</div>
               </div>
@@ -485,7 +486,7 @@ function ScreenLeaderboard() {
     { name: "Kabir Mehta", t: "01:08", d: "+00:27" },
   ];
   return (
-    <div className="p-6 text-[12.5px]">
+    <div className="p-4 text-[12.5px] sm:p-6">
       <div className="mb-1 text-[15px] font-semibold text-fg">
         Count Digits Divisible by Three
       </div>
@@ -497,7 +498,7 @@ function ScreenLeaderboard() {
           <div
             key={row.name}
             className={
-              "demo-rise flex items-center gap-4 rounded-[4px] border-2 border-[#3d3d3d] px-4 py-3 text-[14px] " +
+              "demo-rise flex items-center gap-3 rounded-[4px] border-2 border-[#3d3d3d] px-3 py-3 text-[14px] sm:gap-4 sm:px-4 " +
               (row.me ? "bg-accent-weak" : "bg-white")
             }
             style={{ animationDelay: `${i * 0.1}s` }}

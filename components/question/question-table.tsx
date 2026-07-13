@@ -230,8 +230,8 @@ export function QuestionTable({
                   solved ? "bg-[#e7f6ec]" : "bg-[#f7f7f6]",
                 )}
               >
-                <div className="min-w-0">
-                  <h3 className="truncate text-[15.5px] font-semibold tracking-[-0.005em] text-fg">
+                <div className="min-w-0 flex-1">
+                  <h3 className="line-clamp-2 text-[15.5px] font-semibold leading-snug tracking-[-0.005em] text-fg sm:truncate">
                     {r.title}
                   </h3>
                   <p className="mt-1 truncate text-[13px] text-fg-muted">
@@ -253,7 +253,7 @@ export function QuestionTable({
 
                 <Link
                   href={`/app/questions/${r.id}`}
-                  className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
+                  className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3.5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd] sm:px-5"
                 >
                   {solved ? "Solve again" : "Attempt"}
                 </Link>

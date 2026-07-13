@@ -95,7 +95,7 @@ export default async function QuestionAnalysisPage({
           </div>
 
           {/* your time comparison */}
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3">
             <StatBox
               label="Your best time"
               value={myTime != null ? formatClock(myTime) : "—"}
@@ -243,12 +243,16 @@ function StatBox({
   hint: string;
 }) {
   return (
-    <div className="rounded-[10px] border border-hairline bg-canvas p-4">
-      <div className="text-[12px] text-fg-muted">{label}</div>
-      <div className="mt-1 text-[22px] font-semibold tracking-[-0.01em]">
+    <div className="rounded-[10px] border border-hairline bg-canvas p-3 sm:p-4">
+      <div className="text-[11.5px] leading-tight text-fg-muted sm:text-[12px]">
+        {label}
+      </div>
+      <div className="mt-1 text-[19px] font-semibold tracking-[-0.01em] sm:text-[22px]">
         {value}
       </div>
-      <div className="mt-0.5 text-[12px] text-fg-faint">{hint}</div>
+      <div className="mt-0.5 truncate text-[11.5px] text-fg-faint sm:text-[12px]">
+        {hint}
+      </div>
     </div>
   );
 }
