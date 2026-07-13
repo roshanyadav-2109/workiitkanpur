@@ -58,21 +58,18 @@ export function ProfileForm({
   initialPhone: string;
 }) {
   const router = useRouter();
-  const [name, setName] = useState(initialName);
   const [phone, setPhone] = useState(initialPhone);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const dirty =
-    (name.trim() !== initialName.trim() && name.trim().length > 0) ||
-    phone.trim() !== initialPhone.trim();
+  const dirty = phone.trim() !== initialPhone.trim();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     startTransition(async () => {
-      const res = await updateProfile({ displayName: name, phone });
+      const res = await updateProfile({ displayName: initialName, phone });
       if (res.ok) {
         setSaved(true);
         router.refresh();
@@ -85,16 +82,6 @@ export function ProfileForm({
 
   return (
     <form onSubmit={onSubmit} className="space-y-5">
-      <LabeledInput
-        id="name"
-        label="Name"
-        value={name}
-        onChange={(v) => {
-          setName(v);
-          setSaved(false);
-        }}
-        placeholder="Your name"
-      />
       <LabeledInput
         id="email"
         label="Email"

@@ -64,58 +64,40 @@ export default async function SettingsPage() {
 
   return (
     <div className="mx-auto w-full max-w-[1000px]">
-      <h1
-        className="text-[30px] font-semibold tracking-[-0.01em] text-fg"
-        style={{ fontFamily: "var(--font-fraunces)" }}
-      >
-        Settings
-      </h1>
-      <p className="mt-1 text-[14px] text-fg-muted">
-        Your profile and account, in one place.
-      </p>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-[300px_1fr] lg:items-start">
-        {/* LEFT — profile frame + vertical stats */}
+      <div className="grid gap-6 lg:grid-cols-[300px_1fr] lg:items-start">
+        {/* LEFT — profile image + vertical stats */}
         <aside className="space-y-6">
-          {/* profile frame */}
-          <section className="overflow-hidden rounded-[14px] border border-hairline bg-canvas">
-            <div className="relative h-20 bg-gradient-to-br from-[#6d5ce2] to-[#4a39b8]">
-              <div
-                aria-hidden
-                className="absolute -right-6 -top-8 h-32 w-32 rounded-full border border-white/15"
-              />
-            </div>
-            <div className="flex flex-col items-center px-5 pb-5 text-center">
-              <div className="-mt-12 grid h-24 w-24 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-[#8b7bf0] to-[#5a48d6] text-white ring-4 ring-canvas">
-                {avatarUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={avatarUrl}
-                    alt=""
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <span className="text-[36px] font-semibold">{initial}</span>
-                )}
-              </div>
-              <div
-                className="mt-3 text-[17px] font-semibold text-fg"
-                style={{ fontFamily: "var(--font-fraunces)" }}
-              >
-                {displayName}
-              </div>
-              {isGoogle && (
-                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-hairline-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-fg">
-                  <GoogleG /> Google
-                </span>
+          {/* profile image — no card, no purple header */}
+          <div className="flex flex-col items-center text-center">
+            <div className="grid h-28 w-28 place-items-center overflow-hidden rounded-full bg-gradient-to-b from-[#8b7bf0] to-[#5a48d6] text-white ring-1 ring-hairline-strong">
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={avatarUrl}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <span className="text-[42px] font-semibold">{initial}</span>
               )}
             </div>
-          </section>
+            <div
+              className="mt-3.5 text-[18px] font-semibold text-fg"
+              style={{ fontFamily: "var(--font-fraunces)" }}
+            >
+              {displayName}
+            </div>
+            {isGoogle && (
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-hairline-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-fg">
+                <GoogleG /> Google
+              </span>
+            )}
+          </div>
 
           {/* vertical stats column */}
           <section className="rounded-[14px] border border-hairline bg-canvas p-5">
-            <div className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg-muted">
+            <div className="text-[12px] font-medium uppercase tracking-[0.06em] text-fg">
               Your activity
             </div>
             <dl className="mt-3 divide-y divide-hairline">
@@ -124,7 +106,7 @@ export default async function SettingsPage() {
                   key={s.label}
                   className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
                 >
-                  <dt className="text-[13.5px] text-fg-muted">{s.label}</dt>
+                  <dt className="text-[13.5px] text-fg">{s.label}</dt>
                   <dd className="text-[16px] font-semibold tracking-[-0.01em] text-fg">
                     {s.value}
                   </dd>
@@ -138,7 +120,7 @@ export default async function SettingsPage() {
         <section className="rounded-[14px] border border-hairline bg-canvas p-6">
           <h2 className="text-[16px] font-semibold text-fg">Profile details</h2>
           <p className="mt-1 text-[13px] text-fg-muted">
-            Your name shows on the leaderboard. Email and phone stay private.
+            Your email and phone number are private to you.
           </p>
           <div className="mt-5">
             <ProfileForm
