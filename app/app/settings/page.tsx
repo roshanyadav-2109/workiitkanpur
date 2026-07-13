@@ -51,7 +51,6 @@ export default async function SettingsPage() {
   const summary = computeProgress(attempts, totalQuestions);
   const rankIdx = board.findIndex((r) => r.user_id === user.id);
   const rank = rankIdx >= 0 ? rankIdx + 1 : null;
-  const initial = displayName.trim().charAt(0).toUpperCase() || "?";
 
   const stats = [
     { label: "Questions solved", value: `${summary.solvedCount}` },
@@ -80,7 +79,16 @@ export default async function SettingsPage() {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <span className="text-[42px] font-semibold">{initial}</span>
+                // Default avatar until a Google photo is available.
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-16 w-16 text-white/90"
+                  fill="currentColor"
+                  aria-hidden
+                >
+                  <circle cx="12" cy="8.6" r="4.1" />
+                  <path d="M12 14.2c-4.2 0-7.2 2.5-7.2 6.1 0 .4.3.7.7.7h13c.4 0 .7-.3.7-.7 0-3.6-3-6.1-7.2-6.1z" />
+                </svg>
               )}
             </div>
             <div
