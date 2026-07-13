@@ -38,41 +38,41 @@ export function MobileNav() {
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="grid h-9 w-9 place-items-center rounded-[8px] border border-hairline text-fg"
+        className="grid h-9 w-9 place-items-center rounded-[8px] text-fg"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-          {open ? (
-            <path
-              d="M6 6 L18 18 M18 6 L6 18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          ) : (
-            <path
-              d="M4 7h16 M4 12h16 M4 17h16"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          )}
+        {/* single chevron that flips open/closed */}
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden
+          className={"transition-transform " + (open ? "rotate-180" : "")}
+        >
+          <path
+            d="M6 9 L12 15 L18 9"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
 
       {open && (
         <>
-          {/* backdrop */}
+          {/* invisible click-catcher to close on outside tap — no dimming colour */}
           <button
             type="button"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
-            className="fixed inset-0 top-14 z-40 bg-black/30"
+            className="fixed inset-0 top-14 z-40 bg-transparent"
           />
-          {/* panel */}
-          <div className="fixed inset-x-0 top-14 z-50 max-h-[calc(100dvh-3.5rem)] overflow-auto border-b-2 border-b-[#3d3d3d] bg-canvas px-5 py-4">
+          {/* dropdown panel, dropped straight below the bar */}
+          <div className="fixed inset-x-0 top-14 z-50 max-h-[calc(100dvh-3.5rem)] overflow-auto border-b-2 border-b-[#3d3d3d] bg-canvas px-4 py-4">
             {SECTIONS.map((s) => (
               <div key={s.title} className="mb-4 last:mb-0">
-                <div className="mb-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] text-fg-muted">
+                <div className="mb-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] text-fg">
                   {s.title}
                 </div>
                 <ul>
@@ -87,8 +87,8 @@ export function MobileNav() {
                           href={it.href}
                           onClick={() => setOpen(false)}
                           className={
-                            "block rounded-[7px] px-2 py-2.5 text-[15px] " +
-                            (active ? "font-semibold text-fg" : "text-fg-muted")
+                            "block rounded-[7px] px-2 py-2.5 text-[15px] text-fg " +
+                            (active ? "font-semibold" : "font-normal")
                           }
                         >
                           {it.label}
