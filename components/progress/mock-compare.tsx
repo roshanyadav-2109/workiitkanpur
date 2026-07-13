@@ -152,8 +152,8 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
         </div>
       </div>
 
-      {/* the question — statement left, example test cases right */}
-      <div className="rounded-[10px] border border-hairline bg-canvas p-4">
+      {/* the question — sits beside the floated leaderboard (own formatting context) */}
+      <div className="overflow-hidden rounded-[10px] border border-hairline bg-canvas p-4">
         <h4 className="text-[16px] font-semibold text-fg">{active.title}</h4>
         <div className="mt-2 flex flex-col gap-4 lg:flex-row">
           <div className="prose-oppe max-h-[240px] flex-1 overflow-auto text-[13.5px]">

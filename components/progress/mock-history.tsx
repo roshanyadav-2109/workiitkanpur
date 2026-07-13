@@ -151,8 +151,9 @@ export function MockHistory({
       </div>
 
       {inDetail ? (
-        // L-layout: stats + compare-controls/question fill the left beside the
-        // leaderboard; the answers span full width below it.
+        // L-layout: stats + compare (controls/question) fill the left beside the
+        // leaderboard; the answers span full width below it. Leaderboard stays a
+        // separate block in the top-right notch.
         <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">
           <div className="lg:col-start-1 lg:row-start-1">
             <SetDetail item={active!} />
