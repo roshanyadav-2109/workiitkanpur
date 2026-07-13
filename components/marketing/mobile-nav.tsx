@@ -48,7 +48,7 @@ function ChevronRight() {
 }
 
 const rowCls =
-  "flex w-full items-center justify-between gap-2 border-b border-hairline px-3.5 py-3 text-left text-[15px] text-fg last:border-b-0";
+  "flex w-full items-center justify-between gap-2 border-b border-[#3d3d3d] px-4 py-3.5 text-left text-[15px] font-normal text-fg last:border-b-0";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -79,6 +79,30 @@ export function MobileNav() {
 
   const activeTab = TABS.find((t) => t.label === sub);
 
+  // Violet account / login button — pinned to the bottom of both screens so it
+  // stays consistent whether you're at the root or inside a tab.
+  const accountButton = user ? (
+    <Link
+      href="/app/progress"
+      onClick={close}
+      className="mx-4 mt-3 flex items-center gap-3 rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3 py-2.5 text-white ring-1 ring-inset ring-white/20"
+    >
+      <Avatar photo={user.photo} />
+      <span className="min-w-0 flex-1 truncate text-[15px] font-normal">
+        {user.name}
+      </span>
+      <ChevronRight />
+    </Link>
+  ) : (
+    <Link
+      href="/login"
+      onClick={close}
+      className="mx-4 mt-3 flex h-11 items-center justify-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] text-[15px] font-semibold text-white ring-1 ring-inset ring-white/20"
+    >
+      Login
+    </Link>
+  );
+
   return (
     <div className="md:hidden">
       {/* Big three-line menu button */}
@@ -108,17 +132,17 @@ export function MobileNav() {
             onClick={close}
             className="fixed inset-0 top-14 z-40 bg-transparent"
           />
-          {/* dropdown panel, dropped straight below the bar */}
-          <div className="fixed inset-x-0 top-14 z-50 flex max-h-[calc(100dvh-3.5rem)] flex-col overflow-auto border-b-2 border-b-[#3d3d3d] bg-canvas px-3 py-3">
+          {/* dropdown panel, dropped straight below the bar — slightly rounded bottom */}
+          <div className="fixed inset-x-0 top-14 z-50 flex max-h-[calc(100dvh-3.5rem)] flex-col overflow-hidden rounded-b-[14px] border-b-2 border-x border-b-[#3d3d3d] border-x-[#3d3d3d] bg-canvas py-2">
             {activeTab ? (
               /* ── Sub-screen: back + the tab's inner options ── */
-              <div>
+              <div className="flex flex-col">
                 <button
                   type="button"
                   onClick={() => setSub(null)}
-                  className="mb-2 flex items-center gap-1.5 px-1.5 py-1.5 text-[14px] font-semibold text-fg"
+                  className="flex w-full items-center gap-2 px-4 py-3.5 text-[19px] font-semibold text-fg"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
                     <path
                       d="M15 6 L9 12 L15 18"
                       stroke="currentColor"
@@ -129,35 +153,31 @@ export function MobileNav() {
                   </svg>
                   {activeTab.label}
                 </button>
-                <div className="overflow-hidden rounded-[3px] border border-hairline">
-                  {activeTab.children!.map((it) => {
-                    const active = pathname.startsWith(it.href.split("?")[0]);
-                    return (
-                      <Link
-                        key={it.label}
-                        href={it.href}
-                        onClick={close}
-                        className={
-                          rowCls + (active ? " font-semibold" : " font-normal")
-                        }
-                      >
-                        {it.label}
-                      </Link>
-                    );
-                  })}
+                <div>
+                  {activeTab.children!.map((it) => (
+                    <Link
+                      key={it.label}
+                      href={it.href}
+                      onClick={close}
+                      className={rowCls}
+                    >
+                      {it.label}
+                    </Link>
+                  ))}
                 </div>
+                {accountButton}
               </div>
             ) : (
               /* ── Root screen: tabs (table-like) + violet login / profile ── */
               <div className="flex flex-col">
-                <div className="overflow-hidden rounded-[3px] border border-hairline">
+                <div>
                   {TABS.map((t) =>
                     t.children ? (
                       <button
                         key={t.label}
                         type="button"
                         onClick={() => setSub(t.label)}
-                        className={rowCls + " font-medium"}
+                        className={rowCls}
                       >
                         {t.label}
                         <ChevronRight />
@@ -167,15 +187,7 @@ export function MobileNav() {
                         key={t.label}
                         href={t.href!}
                         onClick={close}
-                        className={
-                          rowCls +
-                          (pathname.startsWith(t.href!.split("?")[0]) &&
-                          t.href !== "/"
-                            ? " font-semibold"
-                            : pathname === t.href
-                              ? " font-semibold"
-                              : " font-medium")
-                        }
+                        className={rowCls}
                       >
                         {t.label}
                       </Link>
@@ -183,27 +195,7 @@ export function MobileNav() {
                   )}
                 </div>
 
-                {/* Violet account / login button — no divider line above it */}
-                {user ? (
-                  <Link
-                    href="/app/settings"
-                    onClick={close}
-                    className="mt-3 flex items-center gap-3 rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3 py-2.5 text-white ring-1 ring-inset ring-white/20"
-                  >
-                    <Avatar photo={user.photo} />
-                    <span className="truncate text-[15px] font-semibold">
-                      {user.name}
-                    </span>
-                  </Link>
-                ) : (
-                  <Link
-                    href="/login"
-                    onClick={close}
-                    className="mt-3 flex h-11 items-center justify-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] text-[15px] font-semibold text-white ring-1 ring-inset ring-white/20"
-                  >
-                    Login
-                  </Link>
-                )}
+                {accountButton}
               </div>
             )}
           </div>
