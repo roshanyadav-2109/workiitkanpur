@@ -229,7 +229,7 @@ export default async function Dashboard({
             </div>
 
             <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
-              <Card>
+              <Card className="min-w-0">
                 <CardHeader>
                   <CardTitle>Coding profile</CardTitle>
                   <span className="text-[12px] text-fg-muted">scored out of 100</span>
@@ -239,7 +239,7 @@ export default async function Dashboard({
                 </CardBody>
               </Card>
 
-              <Card>
+              <Card className="min-w-0">
                 <CardHeader>
                   <CardTitle>Time per solved question</CardTitle>
                   <span className="text-[12px] text-fg-muted">
@@ -260,7 +260,7 @@ export default async function Dashboard({
 
             {/* Activity + weak points on the left, question history on the right */}
             <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[1fr_330px] lg:gap-6">
-              <div className="space-y-4 lg:space-y-6">
+              <div className="min-w-0 space-y-4 lg:space-y-6">
                 <ActivityCard
                   counts={dailyCounts}
                   streakLabel={`Streak ${summary.streaks.current} ${pluralize(
@@ -293,7 +293,7 @@ export default async function Dashboard({
 
               {/* question-wise history — compact, on the right, matched height */}
               {recent.length > 0 && (
-                <Card className="flex h-full flex-col">
+                <Card className="flex h-full min-w-0 flex-col">
                   <CardHeader>
                     <CardTitle>Question history</CardTitle>
                     <div className="flex items-center gap-3 text-[11.5px] text-fg-muted">
@@ -323,7 +323,7 @@ export default async function Dashboard({
                                 solved ? "bg-ok" : "bg-warn",
                               )}
                             />
-                            <span className="flex-1 truncate font-medium text-fg">
+                            <span className="min-w-0 flex-1 truncate font-medium text-fg">
                               {a.question?.title ?? "Question"}
                             </span>
                             <span className="tnum shrink-0 text-[12px] text-fg-muted">

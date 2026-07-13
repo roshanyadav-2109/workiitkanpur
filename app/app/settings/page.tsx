@@ -66,7 +66,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="mx-auto w-full max-w-[1040px]">
-      <div className="rounded-[10px] bg-accent-weak p-5 sm:p-6">
+      <div className="rounded-[10px] bg-accent-weak p-3 sm:p-6">
         <div className="grid gap-6 lg:grid-cols-[300px_1fr] lg:items-start">
         {/* LEFT — profile image + vertical stats */}
         <aside className="space-y-6">

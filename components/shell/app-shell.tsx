@@ -27,10 +27,10 @@ export function AppShell({
   const mainClass = ide
     ? "min-h-0 flex-1"
     : progress
-      ? "w-full flex-1 px-4 py-6 sm:px-6 lg:py-8"
+      ? "w-full flex-1 px-3 py-4 sm:px-6 sm:py-6 lg:py-8"
       : wide
-        ? "mx-auto w-full max-w-[90%] flex-1 px-4 py-6 sm:px-6 lg:py-8"
-        : "mx-auto w-full max-w-[1080px] flex-1 px-4 py-8 sm:px-6 lg:px-10 lg:py-10";
+        ? "mx-auto w-full max-w-[90%] flex-1 px-3 py-4 sm:px-6 sm:py-6 lg:py-8"
+        : "mx-auto w-full max-w-[1080px] flex-1 px-3 py-5 sm:px-6 sm:py-8 lg:px-10 lg:py-10";
 
   return (
     <div className={cn("flex flex-col", ide ? "h-dvh" : "min-h-dvh")}>

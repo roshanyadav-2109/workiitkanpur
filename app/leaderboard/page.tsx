@@ -75,7 +75,7 @@ export default async function LeaderboardPage() {
           </aside>
 
           {/* MIDDLE — leaderboard, each student an independent block */}
-          <section className="order-1 lg:order-2">
+          <section className="order-1 min-w-0 lg:order-2">
             <div className="mb-3 flex items-center justify-between px-1">
               <h1 className="text-[18px] font-semibold tracking-[-0.01em]">
                 Leaderboard
@@ -134,7 +134,7 @@ export default async function LeaderboardPage() {
           </section>
 
           {/* RIGHT — your progress (or a sign-in prompt) + promo */}
-          <aside className="order-2 flex flex-col lg:order-3 lg:sticky lg:top-[74px] lg:h-[85vh] lg:self-start">
+          <aside className="order-2 flex min-w-0 flex-col lg:order-3 lg:sticky lg:top-[74px] lg:h-[85vh] lg:self-start">
             {summary ? (
               <div className="flex flex-col rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-3 lg:h-[81%]">
                 {/* purple padded section — header, solved bar, stat blocks */}

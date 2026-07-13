@@ -75,7 +75,7 @@ export default async function QuestionAnalysisPage({
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
         {/* MAIN — one common purple section */}
-        <div className="rounded-[10px] bg-accent-weak p-5 sm:p-6">
+        <div className="min-w-0 rounded-[10px] bg-accent-weak p-3 sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h1 className="text-[24px] font-semibold tracking-[-0.02em]">
@@ -182,7 +182,7 @@ export default async function QuestionAnalysisPage({
         </div>
 
         {/* RIGHT — fixed, non-scrolling leaderboard column */}
-        <aside className="lg:sticky lg:top-[74px] lg:self-start">
+        <aside className="min-w-0 lg:sticky lg:top-[74px] lg:self-start">
           <div className="overflow-hidden rounded-[10px] border border-hairline bg-canvas">
             <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
               <span className="text-[14px] font-semibold">Leaderboard</span>

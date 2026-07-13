@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { Select } from "@/components/ui/input";
 
 /* Bespoke tab icons (not from an icon library). */
 function IconMyProgress({ size = 18 }: { size?: number }) {
@@ -99,18 +98,29 @@ export function ProgressLayout({
       </aside>
 
       {/* Content — its own tinted section (no border) */}
-      <div className="rounded-[10px] bg-accent-weak p-4 sm:p-6">
-        {/* Mobile: tabs become a dropdown */}
-        <div className="mb-4 lg:hidden">
-          <Select
-            value={isMock ? "mock" : "progress"}
-            onChange={(e) => select(e.target.value === "mock")}
-            aria-label="Switch dashboard view"
-            className="h-11 rounded-[8px] border-[#3d3d3d]! text-[15px] font-medium focus-visible:border-[#3d3d3d]!"
-          >
-            <option value="progress">My progress</option>
-            <option value="mock">My Mock history</option>
-          </Select>
+      <div className="min-w-0 rounded-[10px] bg-accent-weak p-3 sm:p-6">
+        {/* Mobile: tabs become a segmented filter, both in one row */}
+        <div className="mb-4 grid grid-cols-2 gap-1 rounded-[10px] border border-hairline bg-canvas p-1 lg:hidden">
+          {TABS.map((t) => {
+            const active = t.mock === isMock;
+            return (
+              <button
+                key={t.label}
+                type="button"
+                onClick={() => select(t.mock)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex items-center justify-center gap-1.5 rounded-[7px] px-2 py-2 text-[13.5px] font-medium transition-colors",
+                  active
+                    ? "bg-accent text-white"
+                    : "text-fg-muted hover:text-fg",
+                )}
+              >
+                <t.Icon size={16} />
+                {t.label}
+              </button>
+            );
+          })}
         </div>
         <div className={isMock ? undefined : "hidden"}>{mock}</div>
         <div className={isMock ? "hidden" : undefined}>{progress}</div>
