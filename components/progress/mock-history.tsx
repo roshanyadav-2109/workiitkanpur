@@ -28,6 +28,54 @@ export interface MockItem {
   board: MockBoardRow[];
 }
 
+/** An averaged "overall standing" across every mock — per student, mean score
+ *  and mean time over the mocks they sat, ranked by average score then speed. */
+function aggregateBoard(items: MockItem[]): MockItem {
+  const acc = new Map<
+    string,
+    { name: string; me: boolean; sSum: number; tSum: number; timeSum: number; n: number }
+  >();
+  for (const it of items) {
+    for (const r of it.board) {
+      const e =
+        acc.get(r.name) ??
+        { name: r.name, me: false, sSum: 0, tSum: 0, timeSum: 0, n: 0 };
+      e.sSum += r.score;
+      e.tSum += r.total;
+      e.timeSum += r.timeSeconds;
+      e.n += 1;
+      e.me = e.me || r.me;
+      acc.set(r.name, e);
+    }
+  }
+  const board: MockBoardRow[] = [...acc.values()]
+    .map((e) => ({
+      name: e.name,
+      me: e.me,
+      score: Math.round((e.sSum / e.n) * 10) / 10,
+      total: Math.round(e.tSum / e.n),
+      timeSeconds: Math.round(e.timeSum / e.n),
+    }))
+    .sort(
+      (a, b) =>
+        b.score / (b.total || 1) - a.score / (a.total || 1) ||
+        a.timeSeconds - b.timeSeconds,
+    );
+  return {
+    setId: "__all__",
+    title: "Overall standing",
+    subject: "all",
+    score: 0,
+    total: 0,
+    timeSeconds: 0,
+    submittedAt: "",
+    rank: 0,
+    percentileTop: 0,
+    appeared: board.length,
+    board: board.slice(0, 10),
+  };
+}
+
 export function MockHistory({
   items,
   compare = [],
@@ -53,9 +101,14 @@ export function MockHistory({
     ? filtered.find((i) => i.setId === activeId) ?? null
     : null;
 
-  // The right-hand leaderboard block always shows *something*: the open set in
-  // detail view, otherwise the most-recent set in the current filter.
-  const boardSet = active ?? filtered[0] ?? null;
+  // The right-hand leaderboard: the open set in detail view; for "All mocks" an
+  // averaged standing across every mock; otherwise the current filter's set.
+  const boardSet =
+    active ??
+    (subject === "all" && items.length > 0
+      ? aggregateBoard(items)
+      : filtered[0]) ??
+    null;
   const inDetail = active != null;
 
   return (
@@ -101,7 +154,7 @@ export function MockHistory({
         {/* left: list of sets OR the selected set's detailed analysis */}
         <div>
           {inDetail ? (
-            <SetDetail item={active!} compare={compare} />
+            <SetDetail item={active!} />
           ) : (
             <div className="space-y-2.5">
               {filtered.map((m) => (
@@ -152,18 +205,19 @@ export function MockHistory({
           )}
         </aside>
       </div>
+
+      {/* full-width three-way solution comparison (detail view) */}
+      {inDetail && compare.length > 0 && (
+        <div className="mt-5 rounded-[10px] border border-hairline bg-canvas p-4 sm:p-5">
+          <MockCompare items={compare} />
+        </div>
+      )}
     </div>
   );
 }
 
 /* ── Detailed analysis of one set ──────────────────────────────────────── */
-function SetDetail({
-  item,
-  compare,
-}: {
-  item: MockItem;
-  compare: CompareItem[];
-}) {
+function SetDetail({ item }: { item: MockItem }) {
   const scores = item.board.map((r) => r.score);
   const times = item.board.map((r) => r.timeSeconds);
   const avgScore = scores.length
@@ -214,13 +268,6 @@ function SetDetail({
           of the {item.appeared} students who sat this set.
         </p>
       </div>
-
-      {/* three-way solution comparison */}
-      {compare.length > 0 && (
-        <div className="rounded-[10px] border border-hairline bg-canvas p-4">
-          <MockCompare items={compare} />
-        </div>
-      )}
     </div>
   );
 }
@@ -279,11 +326,16 @@ function CompareBar({
 
 /* ── Leaderboard block (right column) ──────────────────────────────────── */
 function LeaderboardBlock({ item }: { item: MockItem }) {
+  const overall = item.setId === "__all__";
   return (
     <div className="overflow-hidden rounded-[10px] border border-hairline bg-canvas">
       <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-        <div className="text-[14px] font-semibold text-fg">Leaderboard</div>
-        <div className="text-[11.5px] text-fg-muted">{item.appeared} sat</div>
+        <div className="text-[14px] font-semibold text-fg">
+          {overall ? "Overall standing" : "Leaderboard"}
+        </div>
+        <div className="text-[11.5px] text-fg-muted">
+          {overall ? "avg · all mocks" : `${item.appeared} sat`}
+        </div>
       </div>
       <div className="max-h-[520px] space-y-1.5 overflow-auto p-3">
         {item.board.map((r, i) => (

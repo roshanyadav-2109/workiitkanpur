@@ -157,6 +157,9 @@ export default async function Dashboard({
       {
         questionId: qid,
         title: q.title,
+        section: q.section,
+        week: q.week,
+        body: q.body_md,
         myCode: myCodeById.get(qid) ?? null,
         topName: top?.name ?? null,
         topCode: top?.code ?? null,

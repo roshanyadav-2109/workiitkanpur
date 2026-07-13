@@ -271,19 +271,41 @@ export async function getUserSubmissions(
   return (data as { question_id: string; code: string | null }[]) ?? [];
 }
 
-/** Title + model solution for a set of questions. */
+export interface CompareQuestion {
+  id: string;
+  title: string;
+  body_md: string;
+  solution_md: string | null;
+  section: string;
+  week: number | null;
+}
+
+/** Question body + model solution + section, for a set of questions. */
 export async function getQuestionsByIds(
   ids: string[],
-): Promise<{ id: string; title: string; solution_md: string | null }[]> {
+): Promise<CompareQuestion[]> {
   if (ids.length === 0) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("questions")
-    .select("id, title, solution_md")
+    .select("id, title, body_md, solution_md, topic:topics(name, week)")
     .in("id", ids);
   return (
-    (data as { id: string; title: string; solution_md: string | null }[]) ?? []
-  );
+    (data as unknown as {
+      id: string;
+      title: string;
+      body_md: string;
+      solution_md: string | null;
+      topic: { name: string; week: number | null } | null;
+    }[]) ?? []
+  ).map((q) => ({
+    id: q.id,
+    title: q.title,
+    body_md: q.body_md,
+    solution_md: q.solution_md,
+    section: q.topic?.name ?? "Other",
+    week: q.topic?.week ?? null,
+  }));
 }
 
 /** Fastest solver (name + code) per question, for a set of question ids. */
