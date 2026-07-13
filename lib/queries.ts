@@ -278,9 +278,10 @@ export interface CompareQuestion {
   solution_md: string | null;
   section: string;
   week: number | null;
+  samples: { stdin: string; expected: string }[];
 }
 
-/** Question body + model solution + section, for a set of questions. */
+/** Question body + model solution + section + sample tests, for a set of ids. */
 export async function getQuestionsByIds(
   ids: string[],
 ): Promise<CompareQuestion[]> {
@@ -288,7 +289,7 @@ export async function getQuestionsByIds(
   const supabase = await createClient();
   const { data } = await supabase
     .from("questions")
-    .select("id, title, body_md, solution_md, topic:topics(name, week)")
+    .select("id, title, body_md, solution_md, tests, topic:topics(name, week)")
     .in("id", ids);
   return (
     (data as unknown as {
@@ -296,6 +297,7 @@ export async function getQuestionsByIds(
       title: string;
       body_md: string;
       solution_md: string | null;
+      tests: { stdin: string; expected: string; hidden?: boolean }[] | null;
       topic: { name: string; week: number | null } | null;
     }[]) ?? []
   ).map((q) => ({
@@ -305,13 +307,16 @@ export async function getQuestionsByIds(
     solution_md: q.solution_md,
     section: q.topic?.name ?? "Other",
     week: q.topic?.week ?? null,
+    samples: (q.tests ?? [])
+      .filter((t) => !t.hidden)
+      .map((t) => ({ stdin: t.stdin, expected: t.expected })),
   }));
 }
 
-/** Fastest solver (name + code) per question, for a set of question ids. */
-export async function getTopSolutionMap(
+/** Up to the top 3 fastest solvers (name + code) per question. */
+export async function getTopSolutionsMap(
   ids: string[],
-): Promise<Record<string, { name: string; code: string | null }>> {
+): Promise<Record<string, { name: string; code: string | null }[]>> {
   if (ids.length === 0) return {};
   const supabase = await createClient();
   const { data } = await supabase
@@ -319,13 +324,14 @@ export async function getTopSolutionMap(
     .select("question_id, name, code, best_time")
     .in("question_id", ids)
     .order("best_time", { ascending: true });
-  const map: Record<string, { name: string; code: string | null }> = {};
+  const map: Record<string, { name: string; code: string | null }[]> = {};
   for (const r of (data ?? []) as {
     question_id: string;
     name: string;
     code: string | null;
   }[]) {
-    if (!map[r.question_id]) map[r.question_id] = { name: r.name, code: r.code };
+    const arr = map[r.question_id] ?? (map[r.question_id] = []);
+    if (arr.length < 3) arr.push({ name: r.name, code: r.code });
   }
   return map;
 }

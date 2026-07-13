@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { Markdown } from "@/components/markdown";
 import { IconChevron } from "@/components/icons";
+import { Select } from "@/components/ui/input";
+import { RankMedal } from "@/components/progress/rank-medal";
 import { cn } from "@/lib/utils";
 
 export interface CompareItem {
@@ -11,22 +13,22 @@ export interface CompareItem {
   section: string;
   week: number | null;
   body: string;
+  samples: { stdin: string; expected: string }[];
   myCode: string | null;
-  topName: string | null;
-  topCode: string | null;
+  tops: { name: string; code: string | null }[];
   solution: string | null;
 }
 
 function AnswerCol({
   title,
-  subtitle,
+  header,
   code,
   solution,
   empty,
   accent,
 }: {
   title: string;
-  subtitle?: string;
+  header?: React.ReactNode;
   code?: string | null;
   solution?: string | null;
   empty: string;
@@ -34,7 +36,7 @@ function AnswerCol({
 }) {
   return (
     <div className="flex flex-col overflow-hidden rounded-[10px] border border-hairline bg-canvas">
-      <div className="border-b border-hairline px-3.5 py-2.5">
+      <div className="flex min-h-[46px] items-center justify-between gap-2 border-b border-hairline px-3.5 py-2">
         <div
           className={
             "text-[13px] font-semibold " + (accent ? "text-accent" : "text-fg")
@@ -42,11 +44,11 @@ function AnswerCol({
         >
           {title}
         </div>
-        {subtitle && <div className="text-[11.5px] text-fg-muted">{subtitle}</div>}
+        {header}
       </div>
       {solution !== undefined ? (
         solution ? (
-          <div className="prose-oppe max-h-[300px] overflow-auto p-3.5 text-[13px]">
+          <div className="prose-oppe max-h-[320px] overflow-auto p-3.5 text-[13px]">
             <Markdown>{solution}</Markdown>
           </div>
         ) : (
@@ -55,7 +57,7 @@ function AnswerCol({
           </div>
         )
       ) : code ? (
-        <pre className="max-h-[300px] overflow-auto bg-[#0f0b1e] p-3.5 font-mono text-[12px] leading-relaxed text-white/90">
+        <pre className="max-h-[320px] overflow-auto bg-[#0f0b1e] p-3.5 font-mono text-[12px] leading-relaxed text-white/90">
           {code}
         </pre>
       ) : (
@@ -68,123 +70,177 @@ function AnswerCol({
 }
 
 export function MockCompare({ items }: { items: CompareItem[] }) {
-  // Group questions by section (topic), ordered by week.
+  // Sections (topics) ordered by week.
   const sections = useMemo(() => {
-    const map = new Map<string, CompareItem[]>();
-    for (const it of items) {
-      const arr = map.get(it.section);
-      if (arr) arr.push(it);
-      else map.set(it.section, [it]);
-    }
-    return [...map.entries()]
-      .map(([name, qs]) => ({ name, week: qs[0].week, qs }))
-      .sort((a, b) => (a.week ?? 99) - (b.week ?? 99));
+    const seen = new Map<string, number | null>();
+    for (const it of items) if (!seen.has(it.section)) seen.set(it.section, it.week);
+    return [...seen.entries()]
+      .sort((a, b) => (a[1] ?? 99) - (b[1] ?? 99))
+      .map(([name]) => name);
   }, [items]);
 
-  const [selectedId, setSelectedId] = useState(items[0]?.questionId ?? "");
-  const [openSection, setOpenSection] = useState(sections[0]?.name ?? "");
-  const active =
-    items.find((i) => i.questionId === selectedId) ?? items[0] ?? null;
+  const [section, setSection] = useState(sections[0] ?? "");
+  const [idx, setIdx] = useState(0);
+  const [topRank, setTopRank] = useState(0);
 
-  if (!active) return null;
+  const inSection = items.filter((i) => i.section === section);
+  const active = inSection[Math.min(idx, inSection.length - 1)] ?? null;
+  const top = active?.tops[Math.min(topRank, (active?.tops.length ?? 1) - 1)];
+
+  if (items.length === 0 || !active) return null;
+
+  function move(delta: number) {
+    setIdx((i) => {
+      const n = inSection.length;
+      return ((i + delta) % n + n) % n;
+    });
+    setTopRank(0);
+  }
 
   return (
-    <div>
-      <div className="mb-4">
-        <h3 className="text-[15px] font-semibold text-fg">Compare solutions</h3>
-        <p className="text-[12.5px] text-fg-muted">
-          Pick a question — see your code, the fastest solver&apos;s, and the
-          model solution.
-        </p>
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-[220px_1fr] lg:items-start">
-        {/* section sidebar */}
-        <aside className="overflow-hidden rounded-[10px] border border-hairline bg-canvas">
-          {sections.map((s) => {
-            const on = openSection === s.name;
-            return (
-              <div key={s.name} className="border-b border-hairline last:border-0">
-                <button
-                  type="button"
-                  onClick={() => setOpenSection(on ? "" : s.name)}
-                  className="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-[13px] font-semibold text-fg hover:bg-surface"
-                >
-                  {s.name}
-                  <IconChevron
-                    size={13}
-                    className={cn(
-                      "shrink-0 text-fg-muted transition-transform",
-                      on ? "rotate-[270deg]" : "rotate-90",
-                    )}
-                  />
-                </button>
-                {on && (
-                  <ul className="pb-1.5">
-                    {s.qs.map((q) => {
-                      const sel = q.questionId === active.questionId;
-                      return (
-                        <li key={q.questionId}>
-                          <button
-                            type="button"
-                            onClick={() => setSelectedId(q.questionId)}
-                            className={cn(
-                              "flex w-full items-center gap-1.5 py-1.5 pl-4 pr-3 text-left text-[12.5px] transition-colors",
-                              sel
-                                ? "font-semibold text-accent"
-                                : "text-fg-muted hover:text-fg",
-                            )}
-                          >
-                            <span className={sel ? "text-accent" : "text-fg-faint"}>
-                              ›
-                            </span>
-                            <span className="truncate">{q.title}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </div>
-            );
-          })}
-        </aside>
-
-        {/* question + answers */}
-        <div className="space-y-4">
-          <div className="rounded-[10px] border border-hairline bg-canvas p-4">
-            <div className="text-[11px] font-medium uppercase tracking-[0.06em] text-fg-muted">
-              {active.section}
-            </div>
-            <h4 className="mt-1 text-[16px] font-semibold text-fg">
-              {active.title}
-            </h4>
-            <div className="prose-oppe mt-2 max-h-[220px] overflow-auto text-[13.5px]">
-              <Markdown>{active.body}</Markdown>
-            </div>
+    <>
+      <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 className="text-[15px] font-semibold text-fg">Compare solutions</h3>
+          <p className="text-[12.5px] text-fg-muted">
+            Your code, the top solvers&apos;, and the model solution.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          {/* section filter */}
+          <div className="w-[13rem]">
+            <Select
+              value={section}
+              onChange={(e) => {
+                setSection(e.target.value);
+                setIdx(0);
+                setTopRank(0);
+              }}
+              aria-label="Filter by section"
+              className="h-10 rounded-[8px] border-[#3d3d3d]! text-[13.5px] focus-visible:border-[#3d3d3d]!"
+            >
+              {sections.map((s) => (
+                <option key={s} value={s}>
+                  {s} ({items.filter((i) => i.section === s).length})
+                </option>
+              ))}
+            </Select>
           </div>
-
-          <div className="grid gap-3 lg:grid-cols-3">
-            <AnswerCol
-              title="You solved"
-              accent
-              code={active.myCode}
-              empty="You haven't submitted this question."
-            />
-            <AnswerCol
-              title="Top solver"
-              subtitle={active.topName ?? undefined}
-              code={active.topCode}
-              empty="No shared solution yet."
-            />
-            <AnswerCol
-              title="Model solution"
-              solution={active.solution}
-              empty="A model solution is coming soon."
-            />
+          {/* left / right sweep */}
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => move(-1)}
+              aria-label="Previous question"
+              className="grid h-10 w-10 place-items-center rounded-[8px] border-2 border-[#3d3d3d] bg-canvas text-fg transition-colors hover:bg-surface"
+            >
+              <IconChevron size={16} className="rotate-180" />
+            </button>
+            <span className="tnum min-w-[3.5rem] text-center text-[12.5px] text-fg-muted">
+              {Math.min(idx, inSection.length - 1) + 1} / {inSection.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => move(1)}
+              aria-label="Next question"
+              className="grid h-10 w-10 place-items-center rounded-[8px] border-2 border-[#3d3d3d] bg-canvas text-fg transition-colors hover:bg-surface"
+            >
+              <IconChevron size={16} />
+            </button>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* the question — statement left, example test cases right */}
+      <div className="rounded-[10px] border border-hairline bg-canvas p-4">
+        <h4 className="text-[16px] font-semibold text-fg">{active.title}</h4>
+        <div className="mt-2 flex flex-col gap-4 lg:flex-row">
+          <div className="prose-oppe max-h-[240px] flex-1 overflow-auto text-[13.5px]">
+            <Markdown>{active.body}</Markdown>
+          </div>
+          {active.samples.length > 0 && (
+            <div className="lg:w-[300px] lg:shrink-0">
+              <div className="mb-1.5 text-[11.5px] font-medium text-fg-muted">
+                Example
+              </div>
+              <div className="space-y-2">
+                {active.samples.map((s, i) => (
+                  <div
+                    key={i}
+                    className="grid grid-cols-2 gap-2 rounded-[7px] border border-hairline bg-surface p-2.5 text-[12px]"
+                  >
+                    <div>
+                      <div className="mb-1 text-[11px] text-fg-muted">Input</div>
+                      <pre className="whitespace-pre-wrap font-mono text-fg">
+                        {s.stdin || "—"}
+                      </pre>
+                    </div>
+                    <div>
+                      <div className="mb-1 text-[11px] text-fg-muted">Output</div>
+                      <pre className="whitespace-pre-wrap font-mono text-fg">
+                        {s.expected || "—"}
+                      </pre>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      </div>
+
+      <div className="min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-3">
+      {/* answers */}
+      <div className="grid gap-3 lg:grid-cols-3">
+        <AnswerCol
+          title="You solved"
+          accent
+          code={active.myCode}
+          empty="You haven't submitted this question."
+        />
+        <AnswerCol
+          title="Top solver"
+          header={
+            active.tops.length > 0 ? (
+              <div className="flex items-center gap-1">
+                {active.tops.map((t, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setTopRank(i)}
+                    aria-label={`Rank ${i + 1}: ${t.name}`}
+                    title={t.name}
+                    className={cn(
+                      "grid h-7 w-7 place-items-center rounded-full transition-colors",
+                      i === Math.min(topRank, active.tops.length - 1)
+                        ? "bg-accent-weak"
+                        : "opacity-55 hover:opacity-100",
+                    )}
+                  >
+                    <RankMedal rank={i + 1} className="h-5 w-auto" />
+                  </button>
+                ))}
+              </div>
+            ) : undefined
+          }
+          code={top?.code}
+          empty="No shared solutions yet."
+        />
+        <AnswerCol
+          title="Model solution"
+          solution={active.solution}
+          empty="A model solution is coming soon."
+        />
+      </div>
+      {top && (
+        <p className="mt-1.5 text-[11.5px] text-fg-muted">
+          Showing <span className="font-medium text-fg">{top.name}</span>&apos;s
+          solution (rank #{Math.min(topRank, active.tops.length - 1) + 1}).
+        </p>
+      )}
+      </div>
+    </>
   );
 }

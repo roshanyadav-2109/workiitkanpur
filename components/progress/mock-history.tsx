@@ -150,66 +150,63 @@ export function MockHistory({
         )}
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">
-        {/* left: list of sets OR the selected set's detailed analysis */}
-        <div>
-          {inDetail ? (
+      {inDetail ? (
+        // L-layout: stats + compare-controls/question fill the left beside the
+        // leaderboard; the answers span full width below it.
+        <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">
+          <div className="lg:col-start-1 lg:row-start-1">
             <SetDetail item={active!} />
-          ) : (
-            <div className="space-y-2.5">
-              {filtered.map((m) => (
-                <button
-                  key={m.setId}
-                  type="button"
-                  onClick={() => setSelectedId(m.setId)}
-                  className="flex w-full items-center gap-3 rounded-[8px] border-2 border-[#3d3d3d] bg-canvas px-4 py-3.5 text-left transition-colors hover:bg-surface"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate text-[14.5px] font-semibold">
-                      {m.title}
-                    </div>
-                    <div className="text-[12px] text-fg-muted">
-                      Appeared {timeAgo(m.submittedAt)} · {m.appeared} students
-                    </div>
-                  </div>
-                  <Badge label="Score" value={`${m.score}/${m.total}`} />
-                  <Badge label="Rank" value={`#${m.rank}`} />
-                  <Badge
-                    label="Percentile"
-                    value={`Top ${m.percentileTop}%`}
-                    accent
-                  />
-                  <IconChevron
-                    size={16}
-                    className="shrink-0 rotate-90 text-fg-muted"
-                  />
-                </button>
-              ))}
-              {filtered.length === 0 && (
-                <p className="rounded-[8px] border border-hairline bg-canvas px-4 py-6 text-center text-[14px] text-fg-muted">
-                  No mocks match this filter.
-                </p>
-              )}
-            </div>
-          )}
+          </div>
+          <aside className="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-[74px]">
+            {boardSet ? (
+              <LeaderboardBlock item={boardSet} />
+            ) : (
+              <div className="rounded-[10px] border border-hairline bg-canvas p-5 text-[13px] text-fg-muted">
+                No leaderboard to show yet.
+              </div>
+            )}
+          </aside>
+          {compare.length > 0 && <MockCompare items={compare} />}
         </div>
-
-        {/* right: fixed leaderboard block for the active/most-recent set */}
-        <aside className="lg:sticky lg:top-[74px]">
-          {boardSet ? (
-            <LeaderboardBlock item={boardSet} />
-          ) : (
-            <div className="rounded-[10px] border border-hairline bg-canvas p-5 text-[13px] text-fg-muted">
-              No leaderboard to show yet.
-            </div>
-          )}
-        </aside>
-      </div>
-
-      {/* full-width three-way solution comparison (detail view) */}
-      {inDetail && compare.length > 0 && (
-        <div className="mt-5 rounded-[10px] border border-hairline bg-canvas p-4 sm:p-5">
-          <MockCompare items={compare} />
+      ) : (
+        <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:items-start">
+          <div className="space-y-2.5">
+            {filtered.map((m) => (
+              <button
+                key={m.setId}
+                type="button"
+                onClick={() => setSelectedId(m.setId)}
+                className="flex w-full items-center gap-3 rounded-[8px] border-2 border-[#3d3d3d] bg-canvas px-4 py-3.5 text-left transition-colors hover:bg-surface"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-[14.5px] font-semibold">
+                    {m.title}
+                  </div>
+                  <div className="text-[12px] text-fg-muted">
+                    Appeared {timeAgo(m.submittedAt)} · {m.appeared} students
+                  </div>
+                </div>
+                <Badge label="Score" value={`${m.score}/${m.total}`} />
+                <Badge label="Rank" value={`#${m.rank}`} />
+                <Badge label="Percentile" value={`Top ${m.percentileTop}%`} accent />
+                <IconChevron size={16} className="shrink-0 rotate-90 text-fg-muted" />
+              </button>
+            ))}
+            {filtered.length === 0 && (
+              <p className="rounded-[8px] border border-hairline bg-canvas px-4 py-6 text-center text-[14px] text-fg-muted">
+                No mocks match this filter.
+              </p>
+            )}
+          </div>
+          <aside className="lg:sticky lg:top-[74px]">
+            {boardSet ? (
+              <LeaderboardBlock item={boardSet} />
+            ) : (
+              <div className="rounded-[10px] border border-hairline bg-canvas p-5 text-[13px] text-fg-muted">
+                No leaderboard to show yet.
+              </div>
+            )}
+          </aside>
         </div>
       )}
     </div>

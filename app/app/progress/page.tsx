@@ -10,7 +10,7 @@ import {
   getQuestionCount,
   getQuestionsByIds,
   getRecentActivity,
-  getTopSolutionMap,
+  getTopSolutionsMap,
   getUserAttempts,
   getUserSubmissions,
   type MockRow,
@@ -145,14 +145,13 @@ export default async function Dashboard({
   const compareIds = mySubmissions.map((s) => s.question_id);
   const [compareQ, topSolMap] = await Promise.all([
     getQuestionsByIds(compareIds),
-    getTopSolutionMap(compareIds),
+    getTopSolutionsMap(compareIds),
   ]);
   const qMetaById = new Map(compareQ.map((q) => [q.id, q]));
   const myCodeById = new Map(mySubmissions.map((s) => [s.question_id, s.code]));
   const compareItems: CompareItem[] = compareIds.flatMap((qid) => {
     const q = qMetaById.get(qid);
     if (!q) return [];
-    const top = topSolMap[qid];
     return [
       {
         questionId: qid,
@@ -160,9 +159,9 @@ export default async function Dashboard({
         section: q.section,
         week: q.week,
         body: q.body_md,
+        samples: q.samples,
         myCode: myCodeById.get(qid) ?? null,
-        topName: top?.name ?? null,
-        topCode: top?.code ?? null,
+        tops: topSolMap[qid] ?? [],
         solution: q.solution_md,
       },
     ];
