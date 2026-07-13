@@ -79,7 +79,7 @@ export default async function SubjectDetailPage({
       {/* Image banner carousel (DB-managed) — breaks out of the page container
           to ~95vw. Slides & their links live in the carousel_banners table. */}
       {banners.length > 0 && (
-        <div className="relative left-1/2 mb-8 w-[95vw] max-w-[1820px] -translate-x-1/2">
+        <div className="relative left-1/2 mb-8 hidden w-[95vw] max-w-[1820px] -translate-x-1/2 md:block">
           <BannerCarousel banners={banners} />
         </div>
       )}

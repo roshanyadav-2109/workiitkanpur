@@ -69,8 +69,8 @@ export default async function LeaderboardPage() {
 
       <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:py-8">
         <div className="grid gap-5 lg:grid-cols-[230px_1fr_310px]">
-          {/* LEFT — marketing poster carousel */}
-          <aside className="order-3 lg:order-1 lg:sticky lg:top-[74px] lg:self-start">
+          {/* LEFT — marketing poster carousel (hidden on mobile) */}
+          <aside className="order-3 hidden lg:order-1 lg:block lg:sticky lg:top-[74px] lg:self-start">
             <PosterCarousel />
           </aside>
 

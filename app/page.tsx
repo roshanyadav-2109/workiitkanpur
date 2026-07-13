@@ -124,8 +124,8 @@ export default async function LandingPage() {
             </div>
           </section>
 
-          {/* Feature carousel — near full width, ~5% total side margin */}
-          <section className="mx-auto w-[95%] max-w-[1820px] px-5 pb-12">
+          {/* Feature carousel — near full width; hidden on mobile */}
+          <section className="mx-auto hidden w-[95%] max-w-[1820px] px-5 pb-12 md:block">
             <HomeCarousel />
           </section>
 

@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { ExamRunner, type ExamQuestion } from "@/components/exam/exam-runner";
+import { ExamDeviceGuard } from "@/components/exam/device-guard";
 import { ExamResults } from "@/components/exam/exam-results";
 
 export const metadata: Metadata = { title: "Exam" };
@@ -76,11 +77,13 @@ export default async function ExamSessionPage({
       );
 
     return (
-      <ExamRunner
-        sessionId={sessionId}
-        remainingSeconds={remaining}
-        questions={questions}
-      />
+      <ExamDeviceGuard>
+        <ExamRunner
+          sessionId={sessionId}
+          remainingSeconds={remaining}
+          questions={questions}
+        />
+      </ExamDeviceGuard>
     );
   }
 

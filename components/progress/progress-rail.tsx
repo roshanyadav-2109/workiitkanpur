@@ -99,8 +99,8 @@ export function ProgressRail({
         </div>
       )}
 
-      {/* compact promo carousel — fills the remaining height */}
-      <div className="relative min-h-[188px] flex-1 overflow-hidden rounded-[10px]">
+      {/* compact promo carousel — fills the remaining height; hidden on mobile */}
+      <div className="relative hidden min-h-[188px] flex-1 overflow-hidden rounded-[10px] lg:block">
         <div
           className="flex h-full transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ transform: `translateX(-${i * 100}%)` }}

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getQuestionsForSubject, getSubjectBySlug } from "@/lib/queries";
 import { buildSetsForSubject } from "@/lib/test-series";
 import { TestRunner } from "@/components/test/test-runner";
+import { ExamDeviceGuard } from "@/components/exam/device-guard";
 
 export const metadata: Metadata = { title: "Test in progress" };
 
@@ -45,12 +46,14 @@ export default async function RunPage({
   }));
 
   return (
-    <TestRunner
-      slug={slug}
-      setName={set.name}
-      durationSeconds={set.durationSeconds}
-      sections={sections}
-      environment={environment}
-    />
+    <ExamDeviceGuard>
+      <TestRunner
+        slug={slug}
+        setName={set.name}
+        durationSeconds={set.durationSeconds}
+        sections={sections}
+        environment={environment}
+      />
+    </ExamDeviceGuard>
   );
 }
