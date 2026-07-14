@@ -5,7 +5,7 @@ import Link from "next/link";
 import { type QuestionStatus } from "@/components/ui/status";
 import { Input, Select } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
-import { IconSearch } from "@/components/icons";
+import { IconSearch, IconFilePdf } from "@/components/icons";
 import { formatClock, cn } from "@/lib/utils";
 import { DEGREE_BY_ID } from "@/lib/curriculum";
 import type { QuestionKind } from "@/lib/types";
@@ -252,12 +252,23 @@ export function QuestionTable({
                   </p>
                 </div>
 
-                <Link
-                  href={`/app/questions/${r.id}`}
-                  className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3.5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd] sm:px-5"
-                >
-                  {solved ? "Solve again" : "Attempt"}
-                </Link>
+                <div className="flex shrink-0 items-center gap-2">
+                  <a
+                    href={`/api/questions/${r.id}/pdf`}
+                    download
+                    title="Download question with solution (PDF)"
+                    aria-label={`Download "${r.title}" with solution as PDF`}
+                    className="grid h-9 w-9 place-items-center rounded-[3px] border border-hairline-strong text-fg-muted transition-colors hover:bg-surface hover:text-fg"
+                  >
+                    <IconFilePdf size={18} />
+                  </a>
+                  <Link
+                    href={`/app/questions/${r.id}`}
+                    className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3.5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd] sm:px-5"
+                  >
+                    {solved ? "Solve again" : "Attempt"}
+                  </Link>
+                </div>
               </div>
             );
           })}

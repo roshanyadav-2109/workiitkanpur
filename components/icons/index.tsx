@@ -14,6 +14,7 @@ import { BooksIcon as Books } from "@phosphor-icons/react/dist/ssr/Books";
 import { CaretDoubleRightIcon as CaretDoubleRight } from "@phosphor-icons/react/dist/ssr/CaretDoubleRight";
 import { CaretRightIcon as CaretRight } from "@phosphor-icons/react/dist/ssr/CaretRight";
 import { ChartLineUpIcon as ChartLineUp } from "@phosphor-icons/react/dist/ssr/ChartLineUp";
+import { FilePdfIcon as FilePdf } from "@phosphor-icons/react/dist/ssr/FilePdf";
 import { CheckCircleIcon as CheckCircle } from "@phosphor-icons/react/dist/ssr/CheckCircle";
 import { CircleIcon as Circle } from "@phosphor-icons/react/dist/ssr/Circle";
 import { CircleHalfIcon as CircleHalf } from "@phosphor-icons/react/dist/ssr/CircleHalf";
@@ -85,6 +86,7 @@ export function IconDashboard({ size = 18, ...props }: IconProps) {
     </svg>
   );
 }
+export const IconFilePdf = icon(FilePdf);
 export const IconResources = icon(PlayCircle);
 export const IconSubjects = icon(Books);
 export const IconProgress = icon(ChartLineUp);
