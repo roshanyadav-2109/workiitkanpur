@@ -18,6 +18,7 @@ import {
   IconChevronDouble,
   IconTimer,
   IconNote,
+  IconFilePdf,
   IconDashboard,
   IconProgress,
   IconSubjects,
@@ -478,6 +479,15 @@ export function QuestionIDE({
                 />
                 {formatClock(seconds)}
               </span>
+              <a
+                href={`/api/questions/${current.id}/pdf`}
+                download
+                aria-label="Download this question with solution as PDF"
+                title="Download question with solution (PDF)"
+                className="grid h-8 w-8 place-items-center rounded-md border border-hairline text-fg-muted transition-colors hover:bg-surface hover:text-fg"
+              >
+                <IconFilePdf size={16} />
+              </a>
               <button
                 onClick={() => setNotesOpen((v) => !v)}
                 aria-label="Notes"
