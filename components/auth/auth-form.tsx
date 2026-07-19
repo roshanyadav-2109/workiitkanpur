@@ -45,16 +45,11 @@ export function AuthForm({
   const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
   const showDemo = mode === "login" && !!demoEmail && !!demoPassword;
 
-  async function onGoogle() {
+  function onGoogle() {
     setError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
-      },
-    });
-    if (error) setError(error.message);
+    // The whole Google handshake runs on our own domain; Supabase only ever
+    // sees the resulting id_token, server side. Just hand off to our route.
+    window.location.href = `/auth/google/start?next=${encodeURIComponent(next)}`;
   }
 
   async function onDemo() {
