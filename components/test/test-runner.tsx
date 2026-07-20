@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import Link from "next/link";
 import { cn, formatClock } from "@/lib/utils";
+import { submitTestAttempt } from "@/lib/test-actions";
 import { Markdown } from "@/components/markdown";
 import { RuntimeArea } from "@/components/execution/runtime-area";
 import { TestCasesPanel } from "@/components/question/test-results";
@@ -41,12 +48,14 @@ const MIN_SUBMIT_SECONDS = 90 * 60; // 1 hr 30 min
 
 export function TestRunner({
   slug,
+  attemptId,
   setName,
   durationSeconds,
   sections,
   environment,
 }: {
   slug: string;
+  attemptId: string;
   setName: string;
   durationSeconds: number;
   sections: RunnerSection[];
@@ -67,6 +76,12 @@ export function TestRunner({
   const [elapsed, setElapsed] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  // Final submit is a round-trip: the server grades the paper and stores it.
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [result, setResult] = useState<{ score: number; total: number } | null>(
+    null,
+  );
   // Exam only: the paper opens on an instructions screen; the clock and the
   // tab-switch watch don't begin until the learner presses Start.
   const [started, setStarted] = useState(!isExam);
@@ -85,6 +100,77 @@ export function TestRunner({
   // Test mode counts a shared timer down (auto-submits at zero); after a first
   // submission the learner may flip to practice mode, where time counts up.
   const submittedRef = useRef(false);
+
+  // Everything the runner knows, kept in a ref so finalize() can read the
+  // latest values without being re-created (and re-arming the timer) on every
+  // keystroke.
+  const stateRef = useRef({
+    answers,
+    statusById,
+    summaryById,
+    tabSwitches,
+    remaining,
+    elapsed,
+  });
+  useEffect(() => {
+    stateRef.current = {
+      answers,
+      statusById,
+      summaryById,
+      tabSwitches,
+      remaining,
+      elapsed,
+    };
+  }, [answers, statusById, summaryById, tabSwitches, remaining, elapsed]);
+
+  /**
+   * End the set: grade and store it on the server, then show the result. Guarded
+   * so the timer hitting zero and a manual Final Submit can't both file it.
+   */
+  const finalizingRef = useRef(false);
+  const finalize = useCallback(async () => {
+    if (finalizingRef.current || submittedRef.current) return;
+    finalizingRef.current = true;
+    setSaveError(null);
+    setSaving(true);
+
+    const s = stateRef.current;
+    const payload = allQuestions.map((q) => ({
+      questionId: q.id,
+      answer: s.answers[q.id] ?? null,
+      // MCQs are graded server-side against the stored key; for coding and SQL
+      // the in-browser judge is the only place the tests actually ran.
+      isCorrect: q.kind === "mcq" ? null : (s.summaryById[q.id]?.solved ?? false),
+      status: s.statusById[q.id] ?? ("none" as const),
+      timeSpent: 0,
+    }));
+
+    const res = await submitTestAttempt({
+      attemptId,
+      answers: payload,
+      leaveCount: s.tabSwitches,
+      timeSeconds: isExam ? durationSeconds - s.remaining : s.elapsed,
+    });
+    setSaving(false);
+
+    if (!res.ok) {
+      // Keep the learner on the paper — their work is still in the editor and
+      // in localStorage, so they can retry rather than lose the attempt.
+      finalizingRef.current = false;
+      setSaveError(res.error);
+      return;
+    }
+
+    submittedRef.current = true;
+    setResult({ score: res.score, total: res.total });
+    setSubmitted(true);
+    setConfirming(false);
+    try {
+      localStorage.removeItem(examKey);
+    } catch {
+      /* ignore */
+    }
+  }, [allQuestions, attemptId, isExam, durationSeconds, examKey]);
   useEffect(() => {
     if (submitted || !started) return;
     const id = window.setInterval(() => {
@@ -102,15 +188,16 @@ export function TestRunner({
       setRemaining(rem);
       if (rem <= 0) {
         window.clearInterval(id);
-        submittedRef.current = true;
-        setSubmitted(true); // auto-submit the moment the set time ends
+        void finalize(); // auto-submit the moment the set time ends
       }
     }, 1000);
     return () => window.clearInterval(id);
-  }, [submitted, started, isExam, startedAt, durationSeconds]);
+  }, [submitted, started, isExam, startedAt, durationSeconds, finalize]);
 
   // Restore an in-progress exam after a refresh or navigating away and back:
   // the clock keeps ticking from the stored start time; switches/answers return.
+  // Submission is deliberately NOT restored from here — the server owns whether
+  // an attempt is closed, and this cache is cleared once it accepts the paper.
   useEffect(() => {
     if (!isExam) return;
     try {
@@ -122,12 +209,7 @@ export function TestRunner({
         answers?: Record<string, string>;
         statusById?: Record<string, QState>;
         submittedById?: Record<string, number>;
-        submitted?: boolean;
       };
-      if (s.submitted) {
-        submittedRef.current = true;
-        setSubmitted(true);
-      }
       if (typeof s.startedAt === "number") {
         setStartedAt(s.startedAt);
         setStarted(true);
@@ -160,7 +242,6 @@ export function TestRunner({
           answers,
           statusById,
           submittedById,
-          submitted,
         }),
       );
     } catch {
@@ -174,7 +255,6 @@ export function TestRunner({
     answers,
     statusById,
     submittedById,
-    submitted,
   ]);
 
   // Proctoring: while the exam is live, any time the learner leaves the exam —
@@ -298,8 +378,26 @@ export function TestRunner({
           </div>
           <h1 className="text-[19px] font-semibold">Set submitted</h1>
           <p className="mt-1 text-[13.5px] text-fg-muted">
-            {setName} · time used {formatClock(durationSeconds - remaining)}
+            {setName} · time used{" "}
+            {formatClock(isExam ? durationSeconds - remaining : elapsed)}
           </p>
+          {result && (
+            <div className="mt-5 rounded-[3px] border border-hairline bg-surface px-4 py-4">
+              <div className="text-[11px] font-medium uppercase tracking-[0.08em] text-fg-muted">
+                Your score
+              </div>
+              <div className="mt-1 text-[30px] font-semibold leading-none tracking-[-0.02em] text-fg">
+                {result.score}
+                <span className="text-[18px] text-fg-muted">
+                  {" "}
+                  / {result.total}
+                </span>
+              </div>
+              <p className="mt-2 text-[12.5px] text-fg-muted">
+                Saved to your mock history.
+              </p>
+            </div>
+          )}
           <div className="mt-5 grid grid-cols-3 gap-2 text-center">
             <Stat n={answeredCount} label="Submitted" tone="ok" />
             <Stat n={reviewCount} label="For review" tone="review" />
@@ -699,6 +797,11 @@ export function TestRunner({
               {allQuestions.length - answeredCount - reviewCount} not attempted.
               Your latest submission for each question is the final one.
             </p>
+            {saveError && (
+              <p className="mt-3 rounded-[3px] border border-err/40 bg-err-weak px-3 py-2 text-[12.5px] text-err">
+                Couldn&apos;t submit: {saveError}. Your work is safe — try again.
+              </p>
+            )}
             <div className="mt-4 flex justify-end gap-2">
               <button
                 onClick={() => setConfirming(false)}
@@ -707,13 +810,11 @@ export function TestRunner({
                 Keep working
               </button>
               <button
-                onClick={() => {
-                  submittedRef.current = true;
-                  setSubmitted(true);
-                }}
-                className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-4 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20"
+                onClick={() => void finalize()}
+                disabled={saving}
+                className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-4 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 disabled:opacity-60"
               >
-                Final submit
+                {saving ? "Submitting…" : "Final submit"}
               </button>
             </div>
           </div>

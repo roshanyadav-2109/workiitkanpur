@@ -94,32 +94,45 @@ Test cases are generated as inputs, then their **expected outputs are computed b
 executing each reference solution in Python** (`scripts/build-tests.mjs`) so the judge is
 correct. SQL questions are validated in PGlite (`scripts/build-dbms.mjs`) before seeding.
 
-## Timed mock exam (Phase 3)
+## Test Series (mock exams)
 
-`/app/exam` starts a session over a random subset of a subject's questions. The runner
-(`components/exam/exam-runner.tsx`) shows one countdown, hides solutions, and captures
-answers; the exam payload **never sends `mcq_answer` or `solution_md`**. On submit, MCQ is
-graded authoritatively on the server (`lib/exam-actions.ts`) and coding is graded by
-running its tests in the browser. Results show score, time used, and tab-switch count.
+Test Series is the mock-exam flow. A subject's sets are assembled from its questions at
+request time (`lib/test-series.ts`), and each set can be attempted in a **Learning**
+(untimed) or **Exam** (timed, proctored) environment.
+
+Opening a paper creates a `test_attempts` row (`lib/test-actions.ts`); the runner
+(`components/test/test-runner.tsx`) gates the exam behind an instructions screen, runs one
+countdown from an absolute start time, counts tab switches, and locks Final Submit until
+90 minutes have elapsed. Final Submit — and the timer reaching zero — grade the paper on
+the server: **MCQs are graded against the stored key**, coding and SQL are graded by
+running their tests in the browser, and the score, time used and tab-switch count are
+written to `test_attempts` / `test_answers`.
+
+Submitted exam attempts feed the `mock_leaderboard` view, which is what "My Mock history"
+on the progress dashboard reads. Past attempts are listed under the Test Series tab.
+
+> The older `/app/exam` "timed exam" flow was removed — Test Series replaces it.
 
 ## Key paths
 
 ```
-app/                     routes (landing, auth, /app/*, /app/exam/*, /style-guide)
+app/                     routes (landing, auth, /app/*, /app/test/*, /style-guide)
 components/icons/         bespoke SVG icon set
 components/ui/            design primitives (Button, Table, Stat, Timer, …)
 components/charts/        hand-rolled monochrome SVG charts
 components/execution/     Phase 2 runtimes (python, mcq, sql) + dispatch
 components/question/      workspace, controls, solution reveal
-components/exam/          Phase 3 exam runner + results
+components/exam/          exam device guard (shared by Test Series)
+components/test/          Test Series runner (instructions, timer, proctoring)
 lib/python-runner.ts     Pyodide Blob-worker hook (run + timeout)
 lib/grading.ts           output normalisation + judge
 lib/queries.ts           server-side data access
 lib/metrics.ts           progress aggregation (streaks, accuracy, trends)
 lib/actions.ts           server actions (record attempt, save note)
-lib/exam-actions.ts      startExam / submitExam server actions
+lib/test-actions.ts      startTestAttempt / submitTestAttempt (server grading)
+lib/test-series.ts       builds a subject's sets from its questions
 lib/supabase/            browser + server clients, session refresh
 proxy.ts                 auth session refresh + route gating (Next 16 proxy)
-supabase/migrations/     0001 schema+RLS, 0002 execution + exam tables
+supabase/migrations/     0001 schema+RLS, 0002 execution, 0011 test series
 scripts/                 run-sql, build-tests (Python judge), build-dbms (SQL)
 ```

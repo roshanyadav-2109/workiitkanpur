@@ -213,6 +213,37 @@ export async function getMockBoard(): Promise<MockRow[]> {
   return (data as MockRow[]) ?? [];
 }
 
+export interface TestAttemptRow {
+  id: string;
+  set_id: string;
+  set_name: string;
+  environment: "learning" | "exam";
+  status: string;
+  score: number | null;
+  total: number | null;
+  time_seconds: number | null;
+  leave_count: number;
+  started_at: string;
+  submitted_at: string | null;
+}
+
+/** A learner's own Test Series attempts for one subject, newest first. */
+export async function getTestAttempts(
+  userId: string,
+  slug: string,
+): Promise<TestAttemptRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("test_attempts")
+    .select(
+      "id, set_id, set_name, environment, status, score, total, time_seconds, leave_count, started_at, submitted_at",
+    )
+    .eq("user_id", userId)
+    .eq("subject_slug", slug)
+    .order("started_at", { ascending: false });
+  return (data as TestAttemptRow[]) ?? [];
+}
+
 export interface QuestionLeaderRow {
   question_id: string;
   user_id: string;

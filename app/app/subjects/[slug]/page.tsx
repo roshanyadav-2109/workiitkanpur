@@ -7,6 +7,8 @@ import {
   getSubjectBySlug,
   getTopicsForSubject,
   getUserAttempts,
+  getTestAttempts,
+  type TestAttemptRow,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
 import {
@@ -51,10 +53,15 @@ export default async function SubjectDetailPage({
   const user = await getCurrentUser();
   let status = new Map<string, QuestionStatus>();
   let best = new Map<string, number>();
+  let pastTests: TestAttemptRow[] = [];
   if (user) {
-    const attempts = await getUserAttempts(user.id);
+    const [attempts, tests] = await Promise.all([
+      getUserAttempts(user.id),
+      getTestAttempts(user.id, slug),
+    ]);
     status = statusByQuestion(attempts);
     best = bestTimeByQuestion(attempts);
+    pastTests = tests;
   }
 
   const rows: QuestionRow[] = questions.map((q) => ({
@@ -90,8 +97,9 @@ export default async function SubjectDetailPage({
       </header>
 
       <SubjectSections
-        examHref={user ? "/app/exam" : null}
-        testSeries={<TestSeriesList slug={slug} sets={testSets} />}
+        testSeries={
+          <TestSeriesList slug={slug} sets={testSets} past={pastTests} />
+        }
       >
         <QuestionTable
           rows={rows}

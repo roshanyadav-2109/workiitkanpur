@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface Section {
@@ -39,18 +38,16 @@ const SECTIONS: Section[] = [
 ];
 
 /** Section switcher for a subject.
- *  Desktop: a left section sidebar (plus a Timed-exam shortcut).
+ *  Desktop: a left section sidebar.
  *  Mobile: a horizontal, scrollable filter row of chips below the title.
  *  Content renders once either way — Practice renders `children`, Test Series
  *  renders `testSeries`; the rest are placeholders until their content ships. */
 export function SubjectSections({
   children,
   testSeries,
-  examHref,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
-  examHref?: string | null;
 }) {
   const [active, setActive] = useState("practice");
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
@@ -86,15 +83,6 @@ export function SubjectSections({
               </button>
             );
           })}
-          {examHref && (
-            <Link
-              href={examHref}
-              className="flex w-full items-center justify-between gap-2 border-t border-hairline px-4 py-3 text-left text-[14px] font-normal text-fg-muted transition-colors hover:text-fg"
-            >
-              <span>Timed exam</span>
-              <span aria-hidden>→</span>
-            </Link>
-          )}
         </nav>
       </aside>
 
@@ -131,11 +119,6 @@ export function SubjectSections({
               </button>
             );
           })}
-          {examHref && (
-            <Link href={examHref} className={cn(chip, "border-[#3d3d3d] text-fg")}>
-              Timed exam →
-            </Link>
-          )}
         </div>
 
         <section className="rounded-[3px] border border-hairline p-3 sm:p-4 lg:p-5">

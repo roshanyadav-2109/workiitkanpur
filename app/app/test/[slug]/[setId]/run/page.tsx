@@ -1,7 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { createClient } from "@/lib/supabase/server";
 import { getQuestionsForSubject, getSubjectBySlug } from "@/lib/queries";
 import { buildSetsForSubject } from "@/lib/test-series";
+import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
 import { ExamDeviceGuard } from "@/components/exam/device-guard";
 
@@ -20,9 +22,23 @@ export default async function RunPage({
   const subject = await getSubjectBySlug(slug);
   if (!subject || !subject.is_active) notFound();
 
+  // The paper is graded and stored server-side, so it needs a signed-in learner.
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user)
+    redirect(
+      `/login?next=${encodeURIComponent(`/app/test/${slug}/${setId}/run?env=${environment}`)}`,
+    );
+
   const questions = await getQuestionsForSubject(subject.id);
   const set = buildSetsForSubject(questions).find((s) => s.id === setId);
   if (!set || !set.available) notFound();
+
+  // Open (or resume) the attempt row this paper writes into.
+  const started = await startTestAttempt({ slug, setId, environment });
+  if ("error" in started) redirect(`/app/subjects/${slug}?error=test-start`);
 
   const byId = new Map(questions.map((q) => [q.id, q]));
   const sections = set.sections.map((s) => ({
@@ -49,6 +65,7 @@ export default async function RunPage({
     <ExamDeviceGuard>
       <TestRunner
         slug={slug}
+        attemptId={started.attemptId}
         setName={set.name}
         durationSeconds={set.durationSeconds}
         sections={sections}

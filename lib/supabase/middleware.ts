@@ -7,7 +7,8 @@ function requiresAuth(pathname: string): boolean {
     pathname === "/app" ||
     pathname.startsWith("/app/progress") ||
     pathname.startsWith("/app/settings") ||
-    pathname.startsWith("/app/exam")
+    // Test Series papers are graded and stored per learner.
+    pathname.startsWith("/app/test")
   );
 }
 

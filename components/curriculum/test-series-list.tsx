@@ -2,20 +2,24 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { formatClock } from "@/lib/utils";
 import { formatDurationMin, type TestSetMeta } from "@/lib/test-series";
+import type { TestAttemptRow } from "@/lib/queries";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 
 export function TestSeriesList({
   slug,
   sets,
+  past = [],
 }: {
   slug: string;
   sets: TestSetMeta[];
+  past?: TestAttemptRow[];
 }) {
   const router = useRouter();
   const gate = usePhoneGate();
   const live = sets.filter((s) => s.available);
+  const submittedPast = past.filter((a) => a.status === "submitted");
   const [picking, setPicking] = useState<TestSetMeta | null>(null);
 
   function enter(env: "learning" | "exam") {
@@ -69,6 +73,55 @@ export function TestSeriesList({
         <p className="text-[13px] text-fg-muted">
           No test sets are available for this subject yet.
         </p>
+      )}
+
+      {submittedPast.length > 0 && (
+        <section className="pt-4">
+          <h3 className="text-[13px] font-semibold uppercase tracking-[0.06em] text-fg-muted">
+            Your past attempts
+          </h3>
+          <div className="mt-3 overflow-hidden rounded-[3px] border border-hairline">
+            {submittedPast.map((a) => (
+              <div
+                key={a.id}
+                className="flex items-center justify-between gap-4 border-b border-hairline px-4 py-3 last:border-b-0"
+              >
+                <div className="min-w-0">
+                  <div className="truncate text-[14px] font-medium text-fg">
+                    {a.set_name}
+                  </div>
+                  <div className="mt-0.5 text-[12.5px] text-fg-muted">
+                    {a.environment === "exam" ? "Exam" : "Learning"} ·{" "}
+                    {a.submitted_at
+                      ? new Date(a.submitted_at).toLocaleDateString(undefined, {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })
+                      : "—"}
+                    {a.time_seconds != null && (
+                      <> · {formatClock(a.time_seconds)}</>
+                    )}
+                  </div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="text-[16px] font-semibold tracking-[-0.01em] text-fg">
+                    {a.score ?? 0}
+                    <span className="text-[13px] text-fg-muted">
+                      {" "}
+                      / {a.total ?? 0}
+                    </span>
+                  </div>
+                  {a.leave_count > 0 && (
+                    <div className="text-[11.5px] text-err">
+                      {a.leave_count} tab{a.leave_count === 1 ? "" : "s"} left
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       {picking && (
