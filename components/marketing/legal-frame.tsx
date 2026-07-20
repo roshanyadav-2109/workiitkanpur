@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import { TopNav } from "@/components/shell/top-nav";
+import { ProfileMenu } from "@/components/shell/profile-menu";
 
 export interface LegalSection {
   id: string;
@@ -23,24 +22,7 @@ export function LegalFrame({
 }) {
   return (
     <div className="flex min-h-dvh flex-col">
-      <TopNav
-        right={
-          <>
-            <Link
-              href="/login"
-              className={buttonVariants({ variant: "ghost", size: "sm" })}
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/signup"
-              className={buttonVariants({ variant: "primary", size: "sm" })}
-            >
-              Sign up
-            </Link>
-          </>
-        }
-      />
+      <TopNav right={<ProfileMenu />} />
 
       {/* header band */}
       <div className="border-b border-hairline">

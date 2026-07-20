@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay, IconCheck, IconClose } from "@/components/icons";
 import type { RuntimeProps } from "@/components/execution/types";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 
 interface Outcome {
   index: number;
@@ -38,6 +39,7 @@ export function PythonRuntime({
 }: RuntimeProps) {
   const storageKey = `oppe:code:${question.id}`;
   const runner = usePythonRunner();
+  const gate = usePhoneGate();
   const [code, setCode] = useState(initialAnswer ?? "");
   const [stdinInternal, setStdinInternal] = useState("");
   // When the host supplies its own custom-input UI, stdin is controlled.
@@ -236,7 +238,7 @@ export function PythonRuntime({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={onRun}
+                onClick={() => gate.requirePhone(onRun)}
                 disabled={running || testing}
                 title="Run your code against the custom input"
               >
@@ -246,7 +248,7 @@ export function PythonRuntime({
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => runGraded("run")}
+                onClick={() => gate.requirePhone(() => runGraded("run"))}
                 disabled={running || testing || visibleCount === 0}
                 title={`Runs the ${visibleCount} sample tests you can see.`}
               >
@@ -255,7 +257,7 @@ export function PythonRuntime({
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => runGraded("submit")}
+                onClick={() => gate.requirePhone(() => runGraded("submit"))}
                 disabled={running || testing}
                 title={`Runs all ${visibleCount + hiddenCount} tests (including hidden ones) and records your attempt.`}
               >
@@ -282,7 +284,7 @@ export function PythonRuntime({
         <Button
           variant="secondary"
           size="sm"
-          onClick={onRun}
+          onClick={() => gate.requirePhone(onRun)}
           disabled={running || testing}
         >
           <IconPlay size={15} />
@@ -292,7 +294,7 @@ export function PythonRuntime({
           <Button
             variant="primary"
             size="sm"
-            onClick={onRunTests}
+            onClick={() => gate.requirePhone(onRunTests)}
             disabled={running || testing}
           >
             {testing

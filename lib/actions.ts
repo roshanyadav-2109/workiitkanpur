@@ -128,3 +128,21 @@ export async function updateProfile(input: {
   revalidatePath("/app/settings");
   return { ok: true };
 }
+
+/** Save just the phone number (used by the verify-to-continue gate). */
+export async function savePhone(phone: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "Not signed in." };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ phone: phone.trim().slice(0, 20) || null })
+    .eq("id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/app/settings");
+  return { ok: true };
+}

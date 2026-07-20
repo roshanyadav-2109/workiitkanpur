@@ -9,6 +9,7 @@ import {
 } from "@/lib/queries";
 import { computeProgress } from "@/lib/metrics";
 import { TopNav } from "@/components/shell/top-nav";
+import { ProfileMenu } from "@/components/shell/profile-menu";
 import { PosterCarousel } from "@/components/marketing/poster-carousel";
 import { SkillBars } from "@/components/progress/skill-bars";
 import { RankMedal } from "@/components/progress/rank-medal";
@@ -39,33 +40,7 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <TopNav
-        right={
-          user ? (
-            <Link
-              href="/app/progress"
-              className={buttonVariants({ variant: "primary", size: "sm" })}
-            >
-              Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className={buttonVariants({ variant: "ghost", size: "sm" })}
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/signup"
-                className={buttonVariants({ variant: "primary", size: "sm" })}
-              >
-                Sign up
-              </Link>
-            </>
-          )
-        }
-      />
+      <TopNav right={<ProfileMenu />} />
 
       <main className="w-full flex-1 px-3 py-4 sm:px-6 sm:py-6 lg:py-8">
         <div className="grid gap-5 lg:grid-cols-[230px_1fr_310px]">

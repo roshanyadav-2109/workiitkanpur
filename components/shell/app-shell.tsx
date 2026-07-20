@@ -2,18 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { AccountMenu } from "@/components/shell/account-menu";
+import { ProfileMenu } from "@/components/shell/profile-menu";
 import { TopNav } from "@/components/shell/top-nav";
 
-export function AppShell({
-  email,
-  displayName,
-  children,
-}: {
-  email: string | null;
-  displayName: string | null;
-  children: React.ReactNode;
-}) {
+export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   // The question IDE / test runner fill the viewport with their own scrolling.
@@ -36,7 +28,7 @@ export function AppShell({
 
   return (
     <div className={cn("flex flex-col", ide ? "h-dvh" : "min-h-dvh")}>
-      <TopNav right={<AccountMenu email={email} displayName={displayName} />} />
+      <TopNav right={<ProfileMenu />} />
       <main className={mainClass}>{children}</main>
     </div>
   );

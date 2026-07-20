@@ -5,8 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 import { startExam } from "@/lib/exam-actions";
 import { PageHeader } from "@/components/shell/page-header";
 import { Card, CardHeader, CardTitle, CardBody } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/input";
+import { ExamStartButton } from "@/components/exam/exam-start-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatDurationHuman } from "@/lib/utils";
 
@@ -104,9 +104,7 @@ export default async function ExamStartPage() {
                   </div>
                 </div>
 
-                <Button type="submit" variant="primary" size="md">
-                  Start exam
-                </Button>
+                <ExamStartButton />
               </form>
             )}
           </CardBody>

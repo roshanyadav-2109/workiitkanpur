@@ -6,6 +6,7 @@ import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import type { RuntimeProps } from "@/components/execution/types";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 
 interface QueryResult {
   columns: string[];
@@ -27,6 +28,7 @@ export function SqlRuntime({
   onSqlOutcome,
   onCodeSubmit,
 }: RuntimeProps) {
+  const gate = usePhoneGate();
   const [query, setQuery] = useState(initialAnswer ?? "");
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<QueryResult | null>(null);
@@ -198,7 +200,7 @@ export function SqlRuntime({
     <Button
       variant="secondary"
       size="sm"
-      onClick={run}
+      onClick={() => gate.requirePhone(run)}
       disabled={running || !query.trim()}
     >
       <IconPlay size={15} />
@@ -209,7 +211,7 @@ export function SqlRuntime({
     <Button
       variant="primary"
       size="sm"
-      onClick={grade}
+      onClick={() => gate.requirePhone(grade)}
       disabled={running || !query.trim()}
     >
       {running ? "Checking…" : "Submit"}

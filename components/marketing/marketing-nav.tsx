@@ -25,7 +25,7 @@ const MENU: { title: string; items: { label: string; href: string }[] }[] = [
     ],
   },
   {
-    title: "Exam level",
+    title: "Degree level",
     items: [
       { label: "Foundation", href: "/app/subjects" },
       { label: "Diploma", href: "/app/subjects" },

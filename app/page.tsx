@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { buttonVariants } from "@/components/ui/button";
+import { ProfileMenu } from "@/components/shell/profile-menu";
 import { CoursePickerProvider } from "@/components/curriculum/course-picker-provider";
 import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks";
 import { HomeCarousel } from "@/components/home/home-carousel";
@@ -24,18 +23,10 @@ const BRANCHES: { degreeId: string | null; name: string; note: string }[] = [
 
 export default async function LandingPage() {
   const supabase = await createClient();
-  const [
-    {
-      data: { user },
-    },
-    { data: subjects },
-  ] = await Promise.all([
-    supabase.auth.getUser(),
-    supabase
-      .from("subjects")
-      .select("slug, name, short_code, is_active")
-      .order("sort_order"),
-  ]);
+  const { data: subjects } = await supabase
+    .from("subjects")
+    .select("slug, name, short_code, is_active")
+    .order("sort_order");
 
   const allSubjects: SubjectLite[] = (subjects ?? []).map((s) => ({
     slug: s.slug,
@@ -47,33 +38,7 @@ export default async function LandingPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <TopNav
-        right={
-          user ? (
-            <Link
-              href="/app/progress"
-              className={buttonVariants({ variant: "primary", size: "sm" })}
-            >
-              Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className={buttonVariants({ variant: "ghost", size: "sm" })}
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/signup"
-                className={buttonVariants({ variant: "primary", size: "sm" })}
-              >
-                Sign up
-              </Link>
-            </>
-          )
-        }
-      />
+      <TopNav right={<ProfileMenu />} />
 
       <CoursePickerProvider subjects={allSubjects}>
         <main className="flex-1">

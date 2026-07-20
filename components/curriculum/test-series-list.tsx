@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { formatDurationMin, type TestSetMeta } from "@/lib/test-series";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 
 export function TestSeriesList({
   slug,
@@ -13,6 +14,7 @@ export function TestSeriesList({
   sets: TestSetMeta[];
 }) {
   const router = useRouter();
+  const gate = usePhoneGate();
   const live = sets.filter((s) => s.available);
   const [picking, setPicking] = useState<TestSetMeta | null>(null);
 
@@ -36,7 +38,7 @@ export function TestSeriesList({
             </p>
           </div>
           <button
-            onClick={() => setPicking(s)}
+            onClick={() => gate.requirePhone(() => setPicking(s))}
             className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
           >
             Start test →

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/shell/app-shell";
+import { PhoneGateProvider } from "@/components/phone/phone-gate";
 
 export default async function AppLayout({
   children,
@@ -11,19 +12,19 @@ export default async function AppLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  let displayName: string | null = null;
+  let hasPhone = true; // don't gate signed-out visitors
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("display_name")
+      .select("phone")
       .eq("id", user.id)
       .maybeSingle();
-    displayName = profile?.display_name ?? null;
+    hasPhone = !!profile?.phone;
   }
 
   return (
-    <AppShell email={user?.email ?? null} displayName={displayName}>
-      {children}
-    </AppShell>
+    <PhoneGateProvider hasPhone={hasPhone}>
+      <AppShell>{children}</AppShell>
+    </PhoneGateProvider>
   );
 }
