@@ -29,6 +29,92 @@ export function usePhoneGate(): GateCtx {
   );
 }
 
+/** Bespoke artwork for the gate: a handset with the number still to be filled
+ *  in, and the verified badge waiting on its corner. Same visual language as
+ *  the dashboard empty states. */
+function PhoneArt() {
+  return (
+    <svg
+      viewBox="0 0 88 92"
+      className="mb-3 h-[72px] w-auto"
+      fill="none"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="pg-badge" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#8b7bf0" />
+          <stop offset="100%" stopColor="#5a48d6" />
+        </linearGradient>
+      </defs>
+
+      {/* handset — a touch heavier than the dashboard artwork, which is drawn
+          at nearly twice this size */}
+      <rect
+        x="14"
+        y="6"
+        width="46"
+        height="80"
+        rx="9"
+        fill="#ffffff"
+        stroke="#5a48d6"
+        strokeOpacity="0.32"
+        strokeWidth="1.5"
+      />
+
+      {/* earpiece */}
+      <line
+        x1="31"
+        y1="15"
+        x2="43"
+        y2="15"
+        stroke="#5a48d6"
+        strokeOpacity="0.32"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+
+      {/* the number, still to be filled in */}
+      {[34, 46, 58].map((y) => (
+        <line
+          key={y}
+          x1="24"
+          y1={y}
+          x2="48"
+          y2={y}
+          stroke="#5a48d6"
+          strokeOpacity="0.24"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray="3 5"
+        />
+      ))}
+
+      {/* home indicator */}
+      <line
+        x1="31"
+        y1="78"
+        x2="43"
+        y2="78"
+        stroke="#5a48d6"
+        strokeOpacity="0.26"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+
+      {/* verified badge, overlapping the corner — the ring keeps a clean gap */}
+      <circle cx="63" cy="67" r="15" fill="var(--color-canvas, #ffffff)" />
+      <circle cx="63" cy="67" r="11.5" fill="url(#pg-badge)" />
+      <path
+        d="M57.5 67.2 L61.4 71 L68.5 63.5"
+        stroke="#ffffff"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function PhoneGateProvider({
   hasPhone: initialHasPhone,
   children,
@@ -100,9 +186,7 @@ export function PhoneGateProvider({
             aria-labelledby="phone-gate-title"
             className="relative w-full max-w-[400px] rounded-[12px] border-2 border-[#3d3d3d] bg-canvas p-5 sm:p-6"
           >
-            <div className="mb-1 text-[34px] leading-none" aria-hidden>
-              📱
-            </div>
+            <PhoneArt />
             <h2
               id="phone-gate-title"
               className="text-[19px] font-semibold tracking-[-0.01em] text-fg"
