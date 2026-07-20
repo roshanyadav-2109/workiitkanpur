@@ -70,29 +70,36 @@ export interface Question {
   language: string | null;
 }
 
-export type ExamStatus = "in_progress" | "submitted" | "expired";
+export type TestAttemptStatus = "in_progress" | "submitted" | "expired";
 
-export interface ExamSession {
+/** One Test Series paper: created when it opens, closed when it's graded. */
+export interface TestAttempt {
   id: string;
   user_id: string;
   subject_id: string;
+  subject_slug: string;
+  set_id: string;
+  set_name: string;
+  environment: "learning" | "exam";
   question_ids: string[];
   duration_seconds: number;
-  status: ExamStatus;
+  status: TestAttemptStatus;
   score: number | null;
   total: number | null;
+  time_seconds: number | null;
   leave_count: number;
   started_at: string;
   submitted_at: string | null;
 }
 
-export interface ExamAnswer {
+export interface TestAnswer {
   id: string;
-  session_id: string;
+  attempt_id: string;
   user_id: string;
   question_id: string;
   answer: string | null;
   is_correct: boolean | null;
+  q_status: "none" | "answered" | "review";
   time_spent_seconds: number;
 }
 

@@ -8,8 +8,9 @@ topic, attempt them against a live timer, and watch their progress grow over tim
 **Phase 2**: in-browser code execution — Python (Pyodide) as a test-based judge,
 interactive MCQ, and SQL (PGlite / Postgres-in-WASM). Shell / Java / C are
 registered behind the same runtime interface as honest "not bundled" placeholders.
-**Phase 3**: timed mock-exam mode — one countdown, no solutions, graded at submit,
-with a proctoring tab-switch counter.
+**Phase 3**: Test Series — full-length mock sets with a Learning and an Exam
+environment: one countdown, locked solutions, a proctoring tab-switch counter,
+and server-side grading stored against the learner.
 
 ## Stack
 
@@ -122,8 +123,7 @@ components/ui/            design primitives (Button, Table, Stat, Timer, …)
 components/charts/        hand-rolled monochrome SVG charts
 components/execution/     Phase 2 runtimes (python, mcq, sql) + dispatch
 components/question/      workspace, controls, solution reveal
-components/exam/          exam device guard (shared by Test Series)
-components/test/          Test Series runner (instructions, timer, proctoring)
+components/test/          Test Series runner + laptop-only device guard
 lib/python-runner.ts     Pyodide Blob-worker hook (run + timeout)
 lib/grading.ts           output normalisation + judge
 lib/queries.ts           server-side data access

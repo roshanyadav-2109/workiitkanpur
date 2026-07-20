@@ -10,6 +10,12 @@
 -- ---------------------------------------------------------------------------
 -- Attempts
 -- ---------------------------------------------------------------------------
+-- Its own status type — the old exam_status enum belonged to the removed
+-- /app/exam flow and is dropped in 0012.
+do $$ begin
+  create type test_attempt_status as enum ('in_progress', 'submitted', 'expired');
+exception when duplicate_object then null; end $$;
+
 -- Sets are still derived from questions at request time (lib/test-series.ts),
 -- so set_id / set_name are denormalised text rather than a foreign key. The
 -- question_ids snapshot keeps an attempt gradable even if the set changes.
@@ -26,7 +32,7 @@ create table if not exists public.test_attempts (
                      check (environment in ('learning', 'exam')),
   question_ids     uuid[] not null default '{}',
   duration_seconds int not null,
-  status           exam_status not null default 'in_progress',
+  status           test_attempt_status not null default 'in_progress',
   score            int,
   total            int,
   -- Wall-clock seconds the learner actually used, for the ranking tie-break.

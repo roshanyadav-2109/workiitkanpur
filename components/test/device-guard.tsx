@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 /**
- * Gate that only lets the timed exam run on a laptop/desktop. Blocks small
+ * Gate that only lets a Test Series paper run on a laptop/desktop. Blocks small
  * screens and — even when a phone requests the "desktop site" (which fakes a
  * wide viewport) — touch-only devices with no fine pointer (mouse/trackpad).
  */
-export function ExamDeviceGuard({ children }: { children: React.ReactNode }) {
+export function TestDeviceGuard({ children }: { children: React.ReactNode }) {
   const [ok, setOk] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -41,8 +41,8 @@ export function ExamDeviceGuard({ children }: { children: React.ReactNode }) {
           Please join from a laptop
         </h1>
         <p className="mx-auto mt-2.5 max-w-[32ch] text-[14.5px] leading-relaxed text-fg-muted">
-          The timed exam needs a laptop or desktop with a keyboard and mouse.
-          Open this page on a computer to begin — phones and tablets aren&apos;t
+          A test needs a laptop or desktop with a keyboard and mouse. Open this
+          page on a computer to begin — phones and tablets aren&apos;t
           supported.
         </p>
       </div>

@@ -5,7 +5,7 @@ import { getQuestionsForSubject, getSubjectBySlug } from "@/lib/queries";
 import { buildSetsForSubject } from "@/lib/test-series";
 import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
-import { ExamDeviceGuard } from "@/components/exam/device-guard";
+import { TestDeviceGuard } from "@/components/test/device-guard";
 
 export const metadata: Metadata = { title: "Test in progress" };
 
@@ -62,7 +62,7 @@ export default async function RunPage({
   }));
 
   return (
-    <ExamDeviceGuard>
+    <TestDeviceGuard>
       <TestRunner
         slug={slug}
         attemptId={started.attemptId}
@@ -71,6 +71,6 @@ export default async function RunPage({
         sections={sections}
         environment={environment}
       />
-    </ExamDeviceGuard>
+    </TestDeviceGuard>
   );
 }

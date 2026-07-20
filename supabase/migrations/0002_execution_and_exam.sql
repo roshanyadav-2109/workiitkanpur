@@ -1,5 +1,10 @@
 -- 0002_execution_and_exam.sql
 -- Phase 2 (in-browser execution) + Phase 3 (timed mock exam). Idempotent.
+--
+-- HISTORICAL: the timed-exam half of this file (exam_status, exam_sessions,
+-- exam_answers) is dropped by 0012_drop_timed_exam.sql — Test Series replaced
+-- that feature. It is left here unedited as the record of what was applied; the
+-- execution columns above it are still live.
 
 -- ---------------------------------------------------------------------------
 -- Execution data on questions
