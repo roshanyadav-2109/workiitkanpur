@@ -10,6 +10,7 @@ import { computeProgress } from "@/lib/metrics";
 import { pluralize } from "@/lib/utils";
 import { ProfileForm } from "@/components/settings/profile-form";
 import { CountryFlag } from "@/components/settings/phone-input";
+import { IconDoorOpen } from "@/components/icons";
 import { parsePhone } from "@/lib/phone";
 
 export const metadata: Metadata = { title: "Settings" };
@@ -157,8 +158,12 @@ export default async function SettingsPage() {
           >
             <button
               type="submit"
-              className="text-[13.5px] font-medium text-fg-muted transition-colors hover:text-fg"
+              className="flex items-center gap-2 text-[13.5px] font-medium text-err"
             >
+              {/* icon stays black; only the label carries the red */}
+              <span className="text-fg">
+                <IconDoorOpen size={16} />
+              </span>
               Sign out
             </button>
           </form>

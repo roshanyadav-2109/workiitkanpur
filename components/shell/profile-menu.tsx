@@ -4,43 +4,12 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { buttonVariants } from "@/components/ui/button";
+import { IconDoorOpen } from "@/components/icons";
 
 interface Me {
   name: string;
   email: string;
   photo: string | null;
-}
-
-/** Open-door glyph for the sign-out row. */
-function IconDoorOpen({ size = 16 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-      className="shrink-0"
-    >
-      {/* frame */}
-      <path
-        d="M14.5 5.5H18a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1h-3.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* swung-open panel */}
-      <path
-        d="M13.4 3.2 5.8 5a1 1 0 0 0-.8 1v12a1 1 0 0 0 .8 1l7.6 1.8a1 1 0 0 0 1.2-1V4.2a1 1 0 0 0-1.2-1Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      {/* handle */}
-      <circle cx="11.4" cy="12" r="1" fill="currentColor" />
-    </svg>
-  );
 }
 
 function Avatar({ photo, name }: { photo: string | null; name: string }) {

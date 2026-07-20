@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProfileMenu } from "@/components/shell/profile-menu";
+import { SiteFooter } from "@/components/marketing/site-footer";
 import { CoursePickerProvider } from "@/components/curriculum/course-picker-provider";
 import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks";
 import { HomeCarousel } from "@/components/home/home-carousel";
@@ -101,15 +102,7 @@ export default async function LandingPage() {
         </main>
       </CoursePickerProvider>
 
-      <footer className="bg-accent text-white">
-        <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-4 px-3 py-3.5 text-[12px] sm:w-[85%] sm:px-8">
-          <span className="font-medium">IITM BS Community</span>
-          <span className="text-right font-medium">
-            Independent website by IITM BS Student Community — not affiliated with
-            IIT Madras
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { TopNav } from "@/components/shell/top-nav";
 import { ProfileMenu } from "@/components/shell/profile-menu";
+import { SiteFooter } from "@/components/marketing/site-footer";
 
 export interface LegalSection {
   id: string;
@@ -73,15 +74,7 @@ export function LegalFrame({
         </div>
       </main>
 
-      <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-3 py-6 text-[12px] sm:w-[92%] sm:px-0">
-          <span className="text-fg-muted">IITM BS Community</span>
-          <span className="rounded-full bg-accent px-3 py-1 font-medium text-white">
-            Independent website by IITM BS Student Community — not affiliated with
-            IIT Madras
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
