@@ -187,13 +187,18 @@ export default async function Dashboard({
             </h1>
 
             {myMocks.length === 0 ? (
-              <div className="rounded-[10px] border-2 border-[#3d3d3d] bg-canvas p-6 text-center lg:mt-6">
-                <p className="text-[14px] text-fg-muted">
-                  You haven&apos;t appeared in a timed mock yet.
+              <div className="rounded-[10px] border border-hairline bg-canvas px-5 py-10 text-center sm:py-12 lg:mt-6">
+                <EmptyMockArt />
+                <h2 className="mt-5 text-[18px] font-semibold tracking-[-0.01em] text-fg">
+                  No mocks attempted yet
+                </h2>
+                <p className="mx-auto mt-1.5 max-w-[46ch] text-[14px] leading-relaxed text-fg-muted">
+                  Sit a timed mock and you&apos;ll be able to compare papers
+                  section by section right here.
                 </p>
                 <Link
                   href="/app/subjects"
-                  className="mt-3 inline-flex text-[13px] font-medium text-accent hover:underline"
+                  className="mt-5 inline-flex h-10 items-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[14px] font-semibold text-white ring-1 ring-inset ring-white/20 transition-opacity hover:opacity-95"
                 >
                   Take a mock test →
                 </Link>
@@ -351,18 +356,171 @@ export default async function Dashboard({
   );
 }
 
+/** Bespoke artwork for the empty mock history: a blank answer sheet with the
+ *  exam clock still waiting to be started. */
+function EmptyMockArt() {
+  return (
+    <svg
+      viewBox="0 0 220 132"
+      className="mx-auto h-[112px] w-auto sm:h-[132px]"
+      fill="none"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="em-bg" x1="0" y1="0" x2="0.6" y2="1">
+          <stop offset="0%" stopColor="#efecfd" />
+          <stop offset="100%" stopColor="#f7f6fe" />
+        </linearGradient>
+        <linearGradient id="em-clock" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#8b7bf0" />
+          <stop offset="100%" stopColor="#5a48d6" />
+        </linearGradient>
+      </defs>
+
+      {/* backdrop panel */}
+      <rect x="0" y="0" width="220" height="132" rx="12" fill="url(#em-bg)" />
+
+      {/* answer sheet */}
+      <rect
+        x="52"
+        y="20"
+        width="98"
+        height="94"
+        rx="8"
+        fill="#ffffff"
+        stroke="#5a48d6"
+        strokeOpacity="0.18"
+      />
+
+      {/* question rows — an empty bubble and a dashed line each */}
+      {[38, 58, 78, 98].map((y) => (
+        <g key={y}>
+          <circle
+            cx="68"
+            cy={y}
+            r="5"
+            fill="#5a48d6"
+            fillOpacity="0.05"
+            stroke="#5a48d6"
+            strokeOpacity="0.25"
+          />
+          <line
+            x1="80"
+            y1={y}
+            x2="136"
+            y2={y}
+            stroke="#5a48d6"
+            strokeOpacity="0.16"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="3 5"
+          />
+        </g>
+      ))}
+
+      {/* clock, overlapping the sheet's corner */}
+      <circle cx="150" cy="42" r="21" fill="#f7f6fe" />
+      <circle cx="150" cy="42" r="16" fill="url(#em-clock)" />
+      <path
+        d="M150 33 V42 H157"
+        stroke="#ffffff"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Bespoke artwork for the empty dashboard: a miniature of the dashboard the
+ *  student is about to fill in — ghosted bars behind one real, violet bar. */
+function EmptyProgressArt() {
+  return (
+    <svg
+      viewBox="0 0 220 132"
+      className="mx-auto h-[112px] w-auto sm:h-[132px]"
+      fill="none"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="ep-bar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#8b7bf0" />
+          <stop offset="100%" stopColor="#5a48d6" />
+        </linearGradient>
+        <linearGradient id="ep-bg" x1="0" y1="0" x2="0.6" y2="1">
+          <stop offset="0%" stopColor="#efecfd" />
+          <stop offset="100%" stopColor="#f7f6fe" />
+        </linearGradient>
+      </defs>
+
+      {/* backdrop panel */}
+      <rect x="0" y="0" width="220" height="132" rx="12" fill="url(#ep-bg)" />
+
+      {/* gridlines */}
+      {[34, 58, 82, 106].map((y) => (
+        <line
+          key={y}
+          x1="26"
+          y1={y}
+          x2="194"
+          y2={y}
+          stroke="#5a48d6"
+          strokeOpacity="0.1"
+        />
+      ))}
+
+      {/* placeholder bars — dashed outlines waiting to be filled */}
+      {[
+        { x: 66, h: 40 },
+        { x: 102, h: 62 },
+        { x: 138, h: 30 },
+        { x: 174, h: 52 },
+      ].map((b) => (
+        <rect
+          key={b.x}
+          x={b.x}
+          y={106 - b.h}
+          width="20"
+          height={b.h}
+          rx="4"
+          fill="#5a48d6"
+          fillOpacity="0.05"
+          stroke="#5a48d6"
+          strokeOpacity="0.22"
+          strokeDasharray="3 3"
+        />
+      ))}
+
+      {/* the first real bar */}
+      <rect x="30" y="70" width="20" height="36" rx="4" fill="url(#ep-bar)" />
+
+      {/* baseline */}
+      <line x1="26" y1="106" x2="194" y2="106" stroke="#5a48d6" strokeOpacity="0.3" />
+
+      {/* upward spark above the filled bar */}
+      <path
+        d="M34 58 L46 46"
+        stroke="#5a48d6"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M40 46 H46 V52"
+        stroke="#5a48d6"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /** Shown on the dashboard until the student has their first attempt. */
 function EmptyProgress() {
   return (
-    <div className="rounded-[10px] border border-hairline bg-canvas px-5 py-12 text-center lg:mt-5">
-      <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent-weak text-accent">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <rect x="4" y="13" width="4" height="7" rx="1.2" fill="currentColor" />
-          <rect x="10" y="9" width="4" height="11" rx="1.2" fill="currentColor" />
-          <rect x="16" y="4.5" width="4" height="15.5" rx="1.2" fill="currentColor" />
-        </svg>
-      </span>
-      <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em] text-fg">
+    <div className="rounded-[10px] border border-hairline bg-canvas px-5 py-10 text-center sm:py-12 lg:mt-5">
+      <EmptyProgressArt />
+      <h2 className="mt-5 text-[18px] font-semibold tracking-[-0.01em] text-fg">
         Nothing to track yet
       </h2>
       <p className="mx-auto mt-1.5 max-w-[46ch] text-[14px] leading-relaxed text-fg-muted">
