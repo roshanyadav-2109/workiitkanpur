@@ -116,9 +116,11 @@ function PhoneArt() {
 }
 
 export function PhoneGateProvider({
+  signedIn,
   hasPhone: initialHasPhone,
   children,
 }: {
+  signedIn: boolean;
   hasPhone: boolean;
   children: ReactNode;
 }) {
@@ -131,6 +133,12 @@ export function PhoneGateProvider({
   const pending = useRef<(() => void) | null>(null);
 
   function requirePhone(onOk: () => void) {
+    // No account yet — the number lives on the profile, so sign in first.
+    if (!signedIn) {
+      const here = window.location.pathname + window.location.search;
+      window.location.href = `/login?next=${encodeURIComponent(here)}`;
+      return;
+    }
     if (hasPhone) {
       onOk();
       return;
@@ -194,8 +202,8 @@ export function PhoneGateProvider({
               Verify your phone number
             </h2>
             <p className="mt-1.5 text-[14px] leading-relaxed text-fg-muted">
-              Add your phone number once to continue. We use it to confirm it&apos;s
-              really you before you practise.
+              A phone number is required before you practise. Add it once — we
+              use it to confirm it&apos;s really you.
             </p>
 
             <div className="mt-4">
@@ -219,7 +227,7 @@ export function PhoneGateProvider({
                 onClick={dismiss}
                 className="h-11 rounded-[8px] px-4 text-[14px] font-medium text-fg-muted hover:text-fg"
               >
-                Not now
+                Cancel
               </button>
               <button
                 type="button"

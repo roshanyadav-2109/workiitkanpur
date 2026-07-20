@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import type { AttemptStatus } from "@/lib/types";
 
 export type ActionResult =
@@ -22,6 +23,8 @@ export async function recordAttempt(input: {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "You need to sign in to save progress." };
+  if (!(await hasPhoneOnFile(supabase, user.id)))
+    return { ok: false, error: PHONE_REQUIRED };
 
   const { error } = await supabase.from("attempts").insert({
     user_id: user.id,
@@ -64,6 +67,8 @@ export async function saveSubmission(input: {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "You need to sign in to save your code." };
+  if (!(await hasPhoneOnFile(supabase, user.id)))
+    return { ok: false, error: PHONE_REQUIRED };
   if (!input.code.trim()) return { ok: true };
 
   const { error } = await supabase.from("submissions").upsert(

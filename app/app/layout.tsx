@@ -12,7 +12,9 @@ export default async function AppLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  let hasPhone = true; // don't gate signed-out visitors
+  // Browsing stays open, but practising needs a number on file — signed-out
+  // visitors are sent to sign in first rather than waved through.
+  let hasPhone = false;
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
@@ -23,7 +25,7 @@ export default async function AppLayout({
   }
 
   return (
-    <PhoneGateProvider hasPhone={hasPhone}>
+    <PhoneGateProvider signedIn={!!user} hasPhone={hasPhone}>
       <AppShell>{children}</AppShell>
     </PhoneGateProvider>
   );

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import { getQuestionsForSubject, getSubjectBySlug } from "@/lib/queries";
 import { buildSetsForSubject } from "@/lib/test-series";
 
@@ -28,6 +29,8 @@ export async function startTestAttempt(input: {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { error: "Not signed in." };
+  if (!(await hasPhoneOnFile(supabase, user.id)))
+    return { error: PHONE_REQUIRED };
 
   const subject = await getSubjectBySlug(input.slug);
   if (!subject) return { error: "Subject not found." };
@@ -95,6 +98,8 @@ export async function submitTestAttempt(input: {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in." };
+  if (!(await hasPhoneOnFile(supabase, user.id)))
+    return { ok: false, error: PHONE_REQUIRED };
 
   const { data: attempt } = await supabase
     .from("test_attempts")
