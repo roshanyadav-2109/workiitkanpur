@@ -212,6 +212,12 @@ export default async function Dashboard({
               My progress
             </h1>
 
+            {/* A brand-new student has nothing to chart yet — point them at
+                practice instead of showing a wall of dashes and empty graphs. */}
+            {attempts.length === 0 ? (
+              <EmptyProgress />
+            ) : (
+              <>
             {/* headline stats — 2×2 on mobile, single row on desktop */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:mt-5 lg:grid-cols-4">
               <StatBox label="Global rank" value={rank ? `#${rank}` : "—"} hint={`of ${totalRanked}`} />
@@ -337,9 +343,39 @@ export default async function Dashboard({
                 </Card>
               )}
             </div>
+              </>
+            )}
         </>
       }
     />
+  );
+}
+
+/** Shown on the dashboard until the student has their first attempt. */
+function EmptyProgress() {
+  return (
+    <div className="rounded-[10px] border border-hairline bg-canvas px-5 py-12 text-center lg:mt-5">
+      <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent-weak text-accent">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <rect x="4" y="13" width="4" height="7" rx="1.2" fill="currentColor" />
+          <rect x="10" y="9" width="4" height="11" rx="1.2" fill="currentColor" />
+          <rect x="16" y="4.5" width="4" height="15.5" rx="1.2" fill="currentColor" />
+        </svg>
+      </span>
+      <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em] text-fg">
+        Nothing to track yet
+      </h2>
+      <p className="mx-auto mt-1.5 max-w-[46ch] text-[14px] leading-relaxed text-fg-muted">
+        Solve your first question and your rank, accuracy, streak and weak
+        points will show up here.
+      </p>
+      <Link
+        href="/app/subjects"
+        className="mt-5 inline-flex h-10 items-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[14px] font-semibold text-white ring-1 ring-inset ring-white/20 transition-opacity hover:opacity-95"
+      >
+        Start practising →
+      </Link>
+    </div>
   );
 }
 
