@@ -178,7 +178,10 @@ export function ProfileMenu() {
                   role="menuitem"
                   className="flex h-10 w-full items-center gap-2.5 rounded-[7px] px-2.5 text-left text-[14px] font-normal text-err hover:bg-err-weak"
                 >
-                  <IconDoorOpen size={16} />
+                  {/* icon stays black; only the label carries the red */}
+                  <span className="text-fg">
+                    <IconDoorOpen size={16} />
+                  </span>
                   Sign out
                 </button>
               </form>
