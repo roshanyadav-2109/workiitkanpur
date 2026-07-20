@@ -367,18 +367,11 @@ function EmptyMockArt() {
       aria-hidden
     >
       <defs>
-        <linearGradient id="em-bg" x1="0" y1="0" x2="0.6" y2="1">
-          <stop offset="0%" stopColor="#efecfd" />
-          <stop offset="100%" stopColor="#f7f6fe" />
-        </linearGradient>
         <linearGradient id="em-clock" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#8b7bf0" />
           <stop offset="100%" stopColor="#5a48d6" />
         </linearGradient>
       </defs>
-
-      {/* backdrop panel */}
-      <rect x="0" y="0" width="220" height="132" rx="12" fill="url(#em-bg)" />
 
       {/* answer sheet */}
       <rect
@@ -418,8 +411,8 @@ function EmptyMockArt() {
         </g>
       ))}
 
-      {/* clock, overlapping the sheet's corner */}
-      <circle cx="150" cy="42" r="21" fill="#f7f6fe" />
+      {/* clock, overlapping the sheet's corner — the ring keeps a clean gap */}
+      <circle cx="150" cy="42" r="21" fill="var(--color-canvas, #ffffff)" />
       <circle cx="150" cy="42" r="16" fill="url(#em-clock)" />
       <path
         d="M150 33 V42 H157"
@@ -447,14 +440,7 @@ function EmptyProgressArt() {
           <stop offset="0%" stopColor="#8b7bf0" />
           <stop offset="100%" stopColor="#5a48d6" />
         </linearGradient>
-        <linearGradient id="ep-bg" x1="0" y1="0" x2="0.6" y2="1">
-          <stop offset="0%" stopColor="#efecfd" />
-          <stop offset="100%" stopColor="#f7f6fe" />
-        </linearGradient>
       </defs>
-
-      {/* backdrop panel */}
-      <rect x="0" y="0" width="220" height="132" rx="12" fill="url(#ep-bg)" />
 
       {/* gridlines */}
       {[34, 58, 82, 106].map((y) => (
