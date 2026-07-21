@@ -1,0 +1,3465 @@
+[
+ {
+  "source": "PPA W1-1",
+  "week": 1,
+  "topic": "I/O Based Problem Solving",
+  "title": "First Five Positive Integers",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "",
+    "expected": "1\n2\n3\n4\n5",
+    "hidden": false
+   }
+  ],
+  "body_md": "Print the first 5 positive integers in ascending order, with one number in each line.\n\n**Input**\n\nThis program takes no input.\n\n**Output**\n\nFive lines. Line 1 has `1`, line 2 has `2`, and so on up to `5`.\n\n**Example**\n\n```\n1\n2\n3\n4\n5\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n\n```\n\nOutput\n\n```\n1\n2\n3\n4\n5\n```",
+  "solution_md": "## Reference solution\n\n```python\nprint(1)\nprint(2)\nprint(3)\nprint(4)\nprint(5)\n```",
+  "harness": null,
+  "starter_code": "# This program reads no input. Just print the required output.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-1"
+  ]
+ },
+ {
+  "source": "PPA W1-2",
+  "week": 1,
+  "topic": "I/O Based Problem Solving",
+  "title": "Triangle Of Stars",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "",
+    "expected": "*\n**\n***\n****\n*****",
+    "hidden": false
+   }
+  ],
+  "body_md": "Print the following pattern.\n\n```\n*\n**\n***\n****\n*****\n```\n\nThere are no spaces between consecutive stars, and no spaces at the end of a line.\n\n**Input**\n\nThis program takes no input.\n\n**Output**\n\nFive lines. Line `i` holds `i` stars, for `i` from 1 to 5.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n\n```\n\nOutput\n\n```\n*\n**\n***\n****\n*****\n```",
+  "solution_md": "## Reference solution\n\n```python\nprint('*')\nprint('**')\nprint('***')\nprint('****')\nprint('*****')\n```",
+  "harness": null,
+  "starter_code": "# This program reads no input. Just print the required output.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-2"
+  ]
+ },
+ {
+  "source": "PPA W1-3",
+  "week": 1,
+  "topic": "Data Types & Basics",
+  "title": "Square Of A Number",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "25",
+    "hidden": false
+   },
+   {
+    "stdin": "0",
+    "expected": "0",
+    "hidden": false
+   },
+   {
+    "stdin": "-3",
+    "expected": "9",
+    "hidden": true
+   },
+   {
+    "stdin": "12",
+    "expected": "144",
+    "hidden": true
+   },
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept an integer as input and print its square as output.\n\n**Input**\n\nA single line containing an integer.\n\n**Output**\n\nA single line: the square of the input.\n\n**Example**\n\nInput:\n\n```\n5\n```\n\nOutput:\n\n```\n25\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n25\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = int(input())\nprint(x ** 2)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-3"
+  ]
+ },
+ {
+  "source": "PPA W1-4",
+  "week": 1,
+  "topic": "Data Types & Basics",
+  "title": "Sum Of Two Integers",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3\n4",
+    "expected": "7",
+    "hidden": false
+   },
+   {
+    "stdin": "0\n0",
+    "expected": "0",
+    "hidden": false
+   },
+   {
+    "stdin": "-5\n5",
+    "expected": "0",
+    "hidden": true
+   },
+   {
+    "stdin": "100\n250",
+    "expected": "350",
+    "hidden": true
+   },
+   {
+    "stdin": "-7\n-8",
+    "expected": "-15",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept two integers as input and print their sum as output.\n\n**Input**\n\nTwo lines, each containing one integer.\n\n**Output**\n\nA single line: the sum of the two integers.\n\n**Example**\n\nInput:\n\n```\n3\n4\n```\n\nOutput:\n\n```\n7\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n4\n```\n\nOutput\n\n```\n7\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = int(input())\ny = int(input())\nprint(x + y)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-4"
+  ]
+ },
+ {
+  "source": "PPA W1-5",
+  "week": 1,
+  "topic": "Data Types & Basics",
+  "title": "Join Two Words",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "one\ntwo",
+    "expected": "one two",
+    "hidden": false
+   },
+   {
+    "stdin": "hello\nworld",
+    "expected": "hello world",
+    "hidden": false
+   },
+   {
+    "stdin": "a\nb",
+    "expected": "a b",
+    "hidden": true
+   },
+   {
+    "stdin": "good\nmorning",
+    "expected": "good morning",
+    "hidden": true
+   },
+   {
+    "stdin": "python\nrocks",
+    "expected": "python rocks",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept two words as input and print the two words after adding a space between them.\n\n**Input**\n\nTwo lines, each containing one word.\n\n**Output**\n\nA single line holding the two words separated by exactly one space.\n\n**Example**\n\nInput:\n\n```\none\ntwo\n```\n\nOutput:\n\n```\none two\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\none\ntwo\n```\n\nOutput\n\n```\none two\n```",
+  "solution_md": "## Reference solution\n\n```python\nfirst = input()\nsecond = input()\nprint(first, second)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-5"
+  ]
+ },
+ {
+  "source": "PPA W1-6",
+  "week": 1,
+  "topic": "Data Types & Basics",
+  "title": "State Code From Registration Number",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "TN-10-AB-2010",
+    "expected": "TN",
+    "hidden": false
+   },
+   {
+    "stdin": "HR-15-XZ-1999",
+    "expected": "HR",
+    "hidden": false
+   },
+   {
+    "stdin": "KA-05-MJ-2023",
+    "expected": "KA",
+    "hidden": true
+   },
+   {
+    "stdin": "DL-01-CA-1998",
+    "expected": "DL",
+    "hidden": true
+   },
+   {
+    "stdin": "MH-12-AB-0001",
+    "expected": "MH",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept the registration number of a vehicle as input and print its state-code as output.\n\nSample registration numbers:\n\n- `TN-10-AB-2010`\n- `HR-15-XZ-1999`\n\nEvery registration number follows this same template, so the state-code is always\nthe first two characters.\n\n**Input**\n\nA single line containing the registration number.\n\n**Output**\n\nA single line: the two letter state-code.\n\n**Example**\n\nInput:\n\n```\nTN-10-AB-2010\n```\n\nOutput:\n\n```\nTN\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\nTN-10-AB-2010\n```\n\nOutput\n\n```\nTN\n```",
+  "solution_md": "## Reference solution\n\n```python\nregno = input()\ncode = regno[:2]\nprint(code)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-6"
+  ]
+ },
+ {
+  "source": "PPA W1-7",
+  "week": 1,
+  "topic": "Data Types & Basics",
+  "title": "Sum Of Digits",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "12345",
+    "expected": "15",
+    "hidden": false
+   },
+   {
+    "stdin": "10000",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "99999",
+    "expected": "45",
+    "hidden": true
+   },
+   {
+    "stdin": "50005",
+    "expected": "10",
+    "hidden": true
+   },
+   {
+    "stdin": "10001",
+    "expected": "2",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a five digit number as input and print the sum of its digits as output.\n\n**Input**\n\nA single line containing a number with exactly five digits.\n\n**Output**\n\nA single line: the sum of the five digits.\n\n**Example**\n\nInput:\n\n```\n12345\n```\n\nOutput:\n\n```\n15\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n12345\n```\n\nOutput\n\n```\n15\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = input()\nprint(int(x[0]) + int(x[1]) + int(x[2]) + int(x[3]) + int(x[4]))\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-1",
+   "python",
+   "ppa-w1-7"
+  ]
+ },
+ {
+  "source": "PPA W2-1",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Positive Or Negative",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "positive",
+    "hidden": false
+   },
+   {
+    "stdin": "-5",
+    "expected": "negative",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "positive",
+    "hidden": true
+   },
+   {
+    "stdin": "-1",
+    "expected": "negative",
+    "hidden": true
+   },
+   {
+    "stdin": "100",
+    "expected": "positive",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept an integer as input. Print `positive` if it is greater than zero and\n`negative` if it is less than zero. You can assume that the input will be\nnon-zero.\n\n**Input**\n\nA single line containing a non-zero integer.\n\n**Output**\n\nA single line: either `positive` or `negative`.\n\n**Example**\n\nInput:\n\n```\n5\n```\n\nOutput:\n\n```\npositive\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\npositive\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = int(input())\nif x > 0:\n    print('positive')\nelse:\n    print('negative')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-1"
+  ]
+ },
+ {
+  "source": "PPA W2-2",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Piecewise Function",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "7.0",
+    "hidden": false
+   },
+   {
+    "stdin": "10",
+    "expected": "102.0",
+    "hidden": false
+   },
+   {
+    "stdin": "-3.5",
+    "expected": "0.0",
+    "hidden": true
+   },
+   {
+    "stdin": "0",
+    "expected": "0.0",
+    "hidden": true
+   },
+   {
+    "stdin": "9.5",
+    "expected": "11.5",
+    "hidden": true
+   }
+  ],
+  "body_md": "Consider the piece-wise function given below.\n\n```\nf(x) = x + 2       if 0 < x < 10\nf(x) = x ** 2 + 2  if 10 <= x\nf(x) = 0           otherwise\n```\n\nAccept the value of `x` as input and print the value of `f(x)` as output.\n\nNote that both the input and the output are real numbers, and your code should\nreflect this: `x` and `f(x)` should both be float values. In particular, the\nthird case must print `0.0` and not `0`.\n\n**Input**\n\nA single line containing a real number.\n\n**Output**\n\nA single line: the value of `f(x)` as a float.\n\n**Example**\n\nInput:\n\n```\n5\n```\n\nOutput:\n\n```\n7.0\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n7.0\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = float(input())\nif 0 < x < 10:\n    print(x + 2)\nelif 10 <= x:\n    print(x ** 2 + 2)\nelse:\n    print(0.0)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-2"
+  ]
+ },
+ {
+  "source": "PPA W2-3",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Time Of Day",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "0",
+    "expected": "NIGHT",
+    "hidden": false
+   },
+   {
+    "stdin": "9",
+    "expected": "MORNING",
+    "hidden": false
+   },
+   {
+    "stdin": "13",
+    "expected": "AFTERNOON",
+    "hidden": true
+   },
+   {
+    "stdin": "23",
+    "expected": "EVENING",
+    "hidden": true
+   },
+   {
+    "stdin": "24",
+    "expected": "INVALID",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept an integer `T` as input and print the time of the day. Use the following\ntable for reference.\n\n| Input | Output |\n| --- | --- |\n| `T < 0` | `INVALID` |\n| `0 <= T <= 5` | `NIGHT` |\n| `6 <= T <= 11` | `MORNING` |\n| `12 <= T <= 17` | `AFTERNOON` |\n| `18 <= T <= 23` | `EVENING` |\n| `T >= 24` | `INVALID` |\n\n**Input**\n\nA single line containing an integer.\n\n**Output**\n\nA single line, one of: `NIGHT`, `MORNING`, `AFTERNOON`, `EVENING`, `INVALID`.\n\n**Example**\n\nInput:\n\n```\n13\n```\n\nOutput:\n\n```\nAFTERNOON\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n0\n```\n\nOutput\n\n```\nNIGHT\n```",
+  "solution_md": "## Reference solution\n\n```python\nt = int(input())\nif 0 <= t <= 5:\n    print('NIGHT')\nelif 6 <= t <= 11:\n    print('MORNING')\nelif 12 <= t <= 17:\n    print('AFTERNOON')\nelif 18 <= t <= 23:\n    print('EVENING')\nelse:\n    print('INVALID')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-3"
+  ]
+ },
+ {
+  "source": "PPA W2-4",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Region Of A Point",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3\n4",
+    "expected": "first",
+    "hidden": false
+   },
+   {
+    "stdin": "-3\n4",
+    "expected": "second",
+    "hidden": false
+   },
+   {
+    "stdin": "-3\n-4",
+    "expected": "third",
+    "hidden": true
+   },
+   {
+    "stdin": "5\n0",
+    "expected": "x-axis",
+    "hidden": true
+   },
+   {
+    "stdin": "0\n0",
+    "expected": "origin",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a point in 2D space as input and find the region in space that this point\nbelongs to. A point could belong to one of the four quadrants, or it could lie on\none of the two axes, or it could be the origin.\n\n**Input**\n\nTwo lines. The first line is the x-coordinate of the point, the second line is\nits y-coordinate. Both are real numbers.\n\n**Output**\n\nA single line, one of: `first`, `second`, `third`, `fourth`, `x-axis`, `y-axis`,\n`origin`. Any other output will not be accepted. All outputs are in lower case.\n\n**Example**\n\nInput:\n\n```\n3\n4\n```\n\nOutput:\n\n```\nfirst\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n4\n```\n\nOutput\n\n```\nfirst\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = float(input())\ny = float(input())\n\nif x > 0 and y > 0:\n    print('first')\nelif x < 0 and y > 0:\n    print('second')\nelif x < 0 and y < 0:\n    print('third')\nelif x > 0 and y < 0:\n    print('fourth')\nelif y == 0 and x != 0:\n    print('x-axis')\nelif x == 0 and y != 0:\n    print('y-axis')\nelse:\n    print('origin')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-4"
+  ]
+ },
+ {
+  "source": "PPA W2-5",
+  "week": 2,
+  "topic": "I/O Based Problem Solving",
+  "title": "Equation Of A Line",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1\n1\n3\n5\n4",
+    "expected": "7.0\nPositive Slope",
+    "hidden": false
+   },
+   {
+    "stdin": "2\n1\n2\n5\n3",
+    "expected": "Vertical Line",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n4\n6\n4\n3",
+    "expected": "4.0\nHorizontal Line",
+    "hidden": true
+   },
+   {
+    "stdin": "0\n5\n5\n0\n2",
+    "expected": "3.0\nNegative Slope",
+    "hidden": true
+   },
+   {
+    "stdin": "-2\n-3\n4\n9\n1",
+    "expected": "3.0\nPositive Slope",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a program that realizes the equation of the line through two points\n(x1, y1) and (x2, y2) in 2D space:\n\n```\n(x - x1) / (x2 - x1) = (y - y1) / (y2 - y1)\n```\n\nGiven a third x-coordinate x3, determine the corresponding y3 on that line.\n\n**Input**\n\nFive lines, holding x1, y1, x2, y2 and x3 in that order. All inputs are to be\nprocessed as real numbers.\n\n**Output**\n\nIf the line is vertical, print a single line: `Vertical Line`.\n\nOtherwise print two lines. The first line is the value of y3. The second line\ndescribes the slope: `Positive Slope`, `Negative Slope` or `Horizontal Line`.\n\n**Example**\n\nInput:\n\n```\n1\n1\n3\n5\n4\n```\n\nOutput:\n\n```\n7.0\nPositive Slope\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1\n1\n3\n5\n4\n```\n\nOutput\n\n```\n7.0\nPositive Slope\n```",
+  "solution_md": "## Reference solution\n\n```python\nx1, y1 = float(input()), float(input())\nx2, y2 = float(input()), float(input())\nx3 = float(input())\n\nif x1 != x2:\n    m = (y2 - y1) / (x2 - x1)\n    y3 = y1 + m * (x3 - x1)\n    print(y3)\n    if m == 0:\n        print('Horizontal Line')\n    elif m > 0:\n        print('Positive Slope')\n    else:\n        print('Negative Slope')\nelse:\n    print('Vertical Line')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-5"
+  ]
+ },
+ {
+  "source": "PPA W2-6",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Middle Three Characters",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "abcde",
+    "expected": "bcd",
+    "hidden": false
+   },
+   {
+    "stdin": "abcd",
+    "expected": "bcd",
+    "hidden": false
+   },
+   {
+    "stdin": "abc.",
+    "expected": "abc",
+    "hidden": true
+   },
+   {
+    "stdin": "hello.",
+    "expected": "ell",
+    "hidden": true
+   },
+   {
+    "stdin": "programming",
+    "expected": "ram",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a string as input. If the input string is of odd length, then continue\nwith it. If the input string is of even length, make it odd in length as follows:\n\n- if the last character is a period (`.`), then remove it\n- if the last character is not a period, then add a period (`.`) to the end of\n  the string\n\nCall this string of odd length `word`. Select the substring made up of three\nconsecutive characters of `word` such that there are an equal number of\ncharacters to its left and to its right. Print this substring as output.\n\nYou can assume that all input strings will be in lower case and will have a\nlength of at least four.\n\n**Input**\n\nA single line containing the string.\n\n**Output**\n\nA single line: the three character substring at the centre.\n\n**Example**\n\nInput:\n\n```\nabcde\n```\n\nOutput:\n\n```\nbcd\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\nabcde\n```\n\nOutput\n\n```\nbcd\n```",
+  "solution_md": "## Reference solution\n\n```python\nword = input()\nif len(word) % 2 == 0:\n    if word[-1] == '.':\n        word = word[:-1]\n    else:\n        word = word + '.'\nmid = len(word) // 2\nout = word[mid - 1:mid + 2]\nprint(out)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-6"
+  ]
+ },
+ {
+  "source": "PPA W2-7",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Magical Sequence Of Words",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "a\nab\nabc\nabcd\nabcde",
+    "expected": "magical",
+    "hidden": false
+   },
+   {
+    "stdin": "a\nab\nxyz\nabcd\nabcde",
+    "expected": "non-magical",
+    "hidden": false
+   },
+   {
+    "stdin": "in\nsin\nsing\nsingi\nsinging",
+    "expected": "magical",
+    "hidden": true
+   },
+   {
+    "stdin": "ab\nab\nab\nab\nab",
+    "expected": "magical",
+    "hidden": true
+   },
+   {
+    "stdin": "abc\nab\nabcd\nabcde\nabcdef",
+    "expected": "non-magical",
+    "hidden": true
+   }
+  ],
+  "body_md": "A sequence of five words is called magical if the i-th word is a substring of the\n(i + 1)-th word for every i in the range 1 <= i < 5.\n\nNote that str_1 is a substring of str_2 if and only if str_1 is present as a\nsequence of consecutive characters in str_2.\n\n**Input**\n\nFive lines, one word on each line.\n\n**Output**\n\nA single line: `magical` if the sequence is magical, `non-magical` otherwise.\n\n**Example**\n\nInput:\n\n```\na\nab\nabc\nabcd\nabcde\n```\n\nOutput:\n\n```\nmagical\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\na\nab\nabc\nabcd\nabcde\n```\n\nOutput\n\n```\nmagical\n```",
+  "solution_md": "## Reference solution\n\n```python\nword_1 = input()\nword_2 = input()\nword_3 = input()\nword_4 = input()\nword_5 = input()\n\nif ((word_1 in word_2) and\n        (word_2 in word_3) and\n        (word_3 in word_4) and\n        (word_4 in word_5)):\n    print('magical')\nelse:\n    print('non-magical')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-7"
+  ]
+ },
+ {
+  "source": "PPA W2-8",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Bishop's Move",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "C4\nF7",
+    "expected": "YES",
+    "hidden": false
+   },
+   {
+    "stdin": "C4\nC5",
+    "expected": "NO",
+    "hidden": false
+   },
+   {
+    "stdin": "A1\nH8",
+    "expected": "YES",
+    "hidden": true
+   },
+   {
+    "stdin": "E2\nB5",
+    "expected": "YES",
+    "hidden": true
+   },
+   {
+    "stdin": "A1\nB3",
+    "expected": "NO",
+    "hidden": true
+   }
+  ],
+  "body_md": "A bishop on a chess-board can only move along diagonals.\n\nEach position on the board is given by two symbols: a capital letter for the\ncolumn, from `A` to `H`, and a digit for the row, from `1` to `8`. For example,\n`C4` is the position in column C, row 4.\n\nAccept two positions as input, `start` and `end`. Print `YES` if a bishop at\n`start` can move to `end` in exactly one move, and `NO` otherwise.\n\n**Input**\n\nTwo lines: the starting position and the ending position.\n\n**Output**\n\nA single line: `YES` or `NO`.\n\n**Example**\n\nInput:\n\n```\nC4\nF7\n```\n\nOutput:\n\n```\nYES\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\nC4\nF7\n```\n\nOutput\n\n```\nYES\n```",
+  "solution_md": "## Reference solution\n\n```python\nstart = input()\nend = input()\n\ncols = 'ABCDEFGH'\nrows = '12345678'\n\nstart_col, start_row = start[0], start[1]\nend_col, end_row = end[0], end[1]\n\ncol_diff = cols.index(start_col) - cols.index(end_col)\nrow_diff = rows.index(start_row) - rows.index(end_row)\n\nif abs(col_diff) == abs(row_diff):\n    print('YES')\nelse:\n    print('NO')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-8"
+  ]
+ },
+ {
+  "source": "PPA W2-9",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Fair Division Of Coins",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "10\n2\n3\n5",
+    "expected": "FAIR",
+    "hidden": false
+   },
+   {
+    "stdin": "10\n1\n2\n3",
+    "expected": "UNFAIR",
+    "hidden": false
+   },
+   {
+    "stdin": "10\n0\n4\n6",
+    "expected": "UNFAIR",
+    "hidden": true
+   },
+   {
+    "stdin": "9\n3\n3\n3",
+    "expected": "UNFAIR",
+    "hidden": true
+   },
+   {
+    "stdin": "6\n1\n2\n3",
+    "expected": "FAIR",
+    "hidden": true
+   }
+  ],
+  "body_md": "You have n gold coins with you. You wish to divide them among three of your\nfriends under the following conditions:\n\n- all three of them should get a non-zero share\n- no two of them should get the same number of coins\n- you should not have any coins left with you at the end of the sharing process\n\n**Input**\n\nFour lines. The first line is the number of coins you have. The next three lines\nare the shares given to your three friends. All inputs are non-negative integers.\n\n**Output**\n\nA single line: `FAIR` if the division satisfies all three conditions, `UNFAIR`\notherwise.\n\n**Example**\n\nInput:\n\n```\n10\n2\n3\n5\n```\n\nOutput:\n\n```\nFAIR\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n10\n2\n3\n5\n```\n\nOutput\n\n```\nFAIR\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\na = int(input())\nb = int(input())\nc = int(input())\n\nflag = True\nif (a == 0) or (b == 0) or (c == 0):\n    flag = False\nif (a == b) or (b == c) or (c == a):\n    flag = False\nif a + b + c - n != 0:\n    flag = False\n\nif flag:\n    print('FAIR')\nelse:\n    print('UNFAIR')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-9"
+  ]
+ },
+ {
+  "source": "PPA W2-10",
+  "week": 2,
+  "topic": "Data Types & Basics",
+  "title": "Floor And Ceiling",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "easy",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3.3",
+    "expected": "3\n4",
+    "hidden": false
+   },
+   {
+    "stdin": "-3.3",
+    "expected": "-4\n-3",
+    "hidden": false
+   },
+   {
+    "stdin": "5",
+    "expected": "5\n5",
+    "hidden": true
+   },
+   {
+    "stdin": "0",
+    "expected": "0\n0",
+    "hidden": true
+   },
+   {
+    "stdin": "-7.5",
+    "expected": "-8\n-7",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a real number x as input. Print the greatest integer less than or equal to\nx on the first line, followed by the smallest integer greater than or equal to x\non the second line. These are the floor and the ceiling of x.\n\n**Input**\n\nA single line containing a real number.\n\n**Output**\n\nTwo lines. The first line is the floor of x, the second line is its ceiling.\n\n**Example**\n\nInput:\n\n```\n3.3\n```\n\nOutput:\n\n```\n3\n4\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3.3\n```\n\nOutput\n\n```\n3\n4\n```",
+  "solution_md": "## Reference solution\n\n```python\nx = float(input())\n\nif x == int(x):\n    floor = ceil = int(x)\nelif x > 0:\n    floor = int(x)\n    ceil = floor + 1\nelse:\n    ceil = int(x)\n    floor = ceil - 1\n\nprint(floor)\nprint(ceil)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-2",
+   "python",
+   "ppa-w2-10"
+  ]
+ },
+ {
+  "source": "PPA W3-1",
+  "week": 3,
+  "topic": "I/O Based Problem Solving",
+  "title": "Print The First N Positive Integers",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "1\n2\n3\n4\n5",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "3",
+    "expected": "1\n2\n3",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+    "hidden": true
+   },
+   {
+    "stdin": "2",
+    "expected": "1\n2",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and print the first `n` positive integers,\none number on each line.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\n`n` lines: the integers `1`, `2`, ..., `n`, one on each line.\n\nFor example, if the input is `5`, the output is:\n\n```\n1\n2\n3\n4\n5\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n1\n2\n3\n4\n5\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor x in range(1, n + 1):\n    print(x)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-1"
+  ]
+ },
+ {
+  "source": "PPA W3-2",
+  "week": 3,
+  "topic": "Data Types & Basics",
+  "title": "Factors Of A Number",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "12",
+    "expected": "1\n2\n3\n4\n6\n12",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "7",
+    "expected": "1\n7",
+    "hidden": true
+   },
+   {
+    "stdin": "36",
+    "expected": "1\n2\n3\n4\n6\n9\n12\n18\n36",
+    "hidden": true
+   },
+   {
+    "stdin": "100",
+    "expected": "1\n2\n4\n5\n10\n20\n25\n50\n100",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and print all the factors of `n`, one number\non each line. A factor of `n` is a positive integer that divides `n` leaving no\nremainder. Print the factors in increasing order.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\nEvery factor of `n`, one on each line, in increasing order.\n\nFor example, if the input is `12`, the output is:\n\n```\n1\n2\n3\n4\n6\n12\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n12\n```\n\nOutput\n\n```\n1\n2\n3\n4\n6\n12\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor f in range(1, n + 1):\n    if n % f == 0:\n        print(f)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-2"
+  ]
+ },
+ {
+  "source": "PPA W3-3",
+  "week": 3,
+  "topic": "Data Processing",
+  "title": "Sum Of Common Multiples In A Range",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3\n5",
+    "expected": "100500",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n1",
+    "expected": "1501500",
+    "hidden": false
+   },
+   {
+    "stdin": "500\n250",
+    "expected": "4500",
+    "hidden": true
+   },
+   {
+    "stdin": "999\n1000",
+    "expected": "0",
+    "hidden": true
+   },
+   {
+    "stdin": "7\n11",
+    "expected": "19019",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept two positive integers `a` and `b` as input. Print the sum of all integers in\nthe range `[1000, 2000]`, endpoints inclusive, that are divisible by both `a` and\n`b`. If you find no number satisfying this condition in the given range, then print\n`0`.\n\n**Input**\n\nTwo lines: the integer `a` on the first line and the integer `b` on the second line.\n\n**Output**\n\nA single integer: the sum described above, or `0` if no number in the range is\ndivisible by both.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n5\n```\n\nOutput\n\n```\n100500\n```",
+  "solution_md": "## Reference solution\n\n```python\na = int(input())\nb = int(input())\n\ntotal = 0\nfor f in range(1000, 2001):\n    if (f % a == 0) and (f % b == 0):\n        total += f\n\nprint(total)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-3"
+  ]
+ },
+ {
+  "source": "PPA W3-4",
+  "week": 3,
+  "topic": "Data Types & Basics",
+  "title": "Prime Or Not Prime",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "2",
+    "expected": "PRIME",
+    "hidden": false
+   },
+   {
+    "stdin": "7",
+    "expected": "PRIME",
+    "hidden": false
+   },
+   {
+    "stdin": "9",
+    "expected": "NOTPRIME",
+    "hidden": true
+   },
+   {
+    "stdin": "97",
+    "expected": "PRIME",
+    "hidden": true
+   },
+   {
+    "stdin": "100",
+    "expected": "NOTPRIME",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input, where `n > 1`. Print `PRIME` if `n` is a\nprime number and `NOTPRIME` otherwise. A prime number is a positive integer greater\nthan 1 whose only factors are 1 and itself.\n\n**Input**\n\nA single line containing the integer `n`, with `n > 1`.\n\n**Output**\n\nThe word `PRIME` if `n` is prime, otherwise the word `NOTPRIME`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\n```\n\nOutput\n\n```\nPRIME\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\n# optimistic start\nis_prime = True\n\nfor f in range(2, n):\n    if n % f == 0:\n        is_prime = False\n        break\n\nif is_prime:\n    print('PRIME')\nelse:\n    print('NOTPRIME')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-4"
+  ]
+ },
+ {
+  "source": "PPA W3-5",
+  "week": 3,
+  "topic": "I/O Based Problem Solving",
+  "title": "Maximum In A Sequence",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5\n3\n9\n1\n0",
+    "expected": "9",
+    "hidden": false
+   },
+   {
+    "stdin": "7\n0",
+    "expected": "7",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n2\n3\n4\n5\n0",
+    "expected": "5",
+    "hidden": true
+   },
+   {
+    "stdin": "10\n10\n2\n0",
+    "expected": "10",
+    "hidden": true
+   },
+   {
+    "stdin": "100\n50\n99\n0",
+    "expected": "100",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of positive integers as input and print the maximum number in the\nsequence.\n\n**Input**\n\nThe input will have `n + 1` lines, where `n` denotes the number of terms in the\nsequence. The i-th line of the input contains the i-th term of the sequence. The\nlast line of the input will always be the number `0`, which marks the end of the\ninput and is not a part of the sequence. Every sequence has at least one term.\n\n**Output**\n\nA single integer: the largest term in the sequence.\n\nFor example, for the input lines `5`, `3`, `9`, `1`, `0` the output is `9`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n3\n9\n1\n0\n```\n\nOutput\n\n```\n9\n```",
+  "solution_md": "## Reference solution\n\n```python\nt = int(input())\nmax_t = t\nwhile t != 0:\n    if t > max_t:\n        max_t = t\n    t = int(input())\nprint(max_t)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-5"
+  ]
+ },
+ {
+  "source": "PPA W3-6",
+  "week": 3,
+  "topic": "I/O Based Problem Solving",
+  "title": "Shortest Word In A Sequence",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "apple\nbanana\nkiwi\nabcdefghijklmnopqrstuvwxyz",
+    "expected": "kiwi",
+    "hidden": false
+   },
+   {
+    "stdin": "hello\nabcdefghijklmnopqrstuvwxyz",
+    "expected": "hello",
+    "hidden": false
+   },
+   {
+    "stdin": "cat\ndog\nbat\nabcdefghijklmnopqrstuvwxyz",
+    "expected": "cat",
+    "hidden": true
+   },
+   {
+    "stdin": "elephant\nox\ntiger\nabcdefghijklmnopqrstuvwxyz",
+    "expected": "ox",
+    "hidden": true
+   },
+   {
+    "stdin": "a\nbb\nccc\nabcdefghijklmnopqrstuvwxyz",
+    "expected": "a",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of words as input and print the shortest word in the sequence.\n\n**Input**\n\nThe input will have `n + 1` lines, where `n` denotes the number of words in the\nsequence. The i-th line of the input contains the i-th word. The last line of the\ninput will always be the string `abcdefghijklmnopqrstuvwxyz`; it marks the end of\nthe input and is not a part of the sequence. Every sequence has at least one word.\n\n**Output**\n\nA single word: the shortest word in the sequence. If several words share the\nminimum length, print the first such word.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\napple\nbanana\nkiwi\nabcdefghijklmnopqrstuvwxyz\n```\n\nOutput\n\n```\nkiwi\n```",
+  "solution_md": "## Reference solution\n\n```python\nword = input()\nmin_len = len(word)\nmin_word = word\n\nend_string = 'abcdefghijklmnopqrstuvwxyz'\nwhile word != end_string:\n    if len(word) < min_len:\n        min_len = len(word)\n        min_word = word\n    word = input()\nprint(min_word)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-6"
+  ]
+ },
+ {
+  "source": "PPA W3-7",
+  "week": 3,
+  "topic": "Data Types & Basics",
+  "title": "Sum Of Digits",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "12345",
+    "expected": "15",
+    "hidden": false
+   },
+   {
+    "stdin": "7",
+    "expected": "7",
+    "hidden": false
+   },
+   {
+    "stdin": "1000",
+    "expected": "1",
+    "hidden": true
+   },
+   {
+    "stdin": "999999",
+    "expected": "54",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "1",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer as input and print the sum of the digits in the number.\n\n**Input**\n\nA single line containing a positive integer.\n\n**Output**\n\nA single integer: the sum of the digits of the number.\n\nFor example, if the input is `12345`, the output is `15`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n12345\n```\n\nOutput\n\n```\n15\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\ntotal = 0\nwhile n > 0:\n    total = total + (n % 10)\n    n = n // 10\nprint(total)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-7"
+  ]
+ },
+ {
+  "source": "PPA W3-8",
+  "week": 3,
+  "topic": "I/O Based Problem Solving",
+  "title": "First N Integers On One Line",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "1,2,3,4,5",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "2",
+    "expected": "1,2",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "1,2,3,4,5,6,7,8,9,10",
+    "hidden": true
+   },
+   {
+    "stdin": "3",
+    "expected": "1,2,3",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and print the first `n` positive integers on\na single line, separated by a comma. There should be no comma after the last\nnumber and no spaces anywhere in the output.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\nOne line: the integers `1` to `n` separated by commas.\n\nFor example, if the input is `5`, the output is:\n\n```\n1,2,3,4,5\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n1,2,3,4,5\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\n\nfor x in range(1, n):\n    print(x, end = ',')\nprint(n)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-8"
+  ]
+ },
+ {
+  "source": "PPA W3-9",
+  "week": 3,
+  "topic": "I/O Based Problem Solving",
+  "title": "Triangle Of Zeros",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "0\n00\n000\n0000\n00000",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "0",
+    "hidden": false
+   },
+   {
+    "stdin": "3",
+    "expected": "0\n00\n000",
+    "hidden": true
+   },
+   {
+    "stdin": "2",
+    "expected": "0\n00",
+    "hidden": true
+   },
+   {
+    "stdin": "7",
+    "expected": "0\n00\n000\n0000\n00000\n000000\n0000000",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and print a triangle of zeros spanning `n`\nlines. The i-th line should have exactly `i` zeros. There should not be any spaces\nbetween consecutive zeros, and no space at the end of a line.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\n`n` lines forming the triangle.\n\nFor example, if the input is `5`, the output is:\n\n```\n0\n00\n000\n0000\n00000\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n0\n00\n000\n0000\n00000\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor i in range(1, n + 1):\n    print('0' * i)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-9"
+  ]
+ },
+ {
+  "source": "PPA W3-10",
+  "week": 3,
+  "topic": "Data Processing",
+  "title": "Sum Of Primes Up To N",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "10",
+    "expected": "17",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "0",
+    "hidden": false
+   },
+   {
+    "stdin": "2",
+    "expected": "2",
+    "hidden": true
+   },
+   {
+    "stdin": "100",
+    "expected": "1060",
+    "hidden": true
+   },
+   {
+    "stdin": "3",
+    "expected": "5",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and print the sum of all prime numbers in the\nrange `[1, n]`, endpoints inclusive. If there are no prime numbers in the given\nrange, then print `0`.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\nA single integer: the sum of every prime number that is less than or equal to `n`,\nor `0` if there is none.\n\nFor example, if the input is `10`, the primes are 2, 3, 5 and 7, so the output is\n`17`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n10\n```\n\nOutput\n\n```\n17\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\ntotal = 0\n\nfor x in range(2, n + 1):\n    is_prime = True\n    for f in range(2, x):\n        if (x % f == 0):\n            is_prime = False\n            break\n    if is_prime:\n        total = total + x\n\nprint(total)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-10"
+  ]
+ },
+ {
+  "source": "PPA W3-11",
+  "week": 3,
+  "topic": "I/O Based Problem Solving",
+  "title": "Pythagorean Triplets",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "13",
+    "expected": "3,4,5\n6,8,10",
+    "hidden": false
+   },
+   {
+    "stdin": "5",
+    "expected": "NO SOLUTION",
+    "hidden": false
+   },
+   {
+    "stdin": "20",
+    "expected": "3,4,5\n5,12,13\n6,8,10\n8,15,17\n9,12,15",
+    "hidden": true
+   },
+   {
+    "stdin": "26",
+    "expected": "3,4,5\n5,12,13\n6,8,10\n7,24,25\n8,15,17\n9,12,15\n12,16,20\n15,20,25",
+    "hidden": true
+   },
+   {
+    "stdin": "30",
+    "expected": "3,4,5\n5,12,13\n6,8,10\n7,24,25\n8,15,17\n9,12,15\n10,24,26\n12,16,20\n15,20,25\n20,21,29",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and find all the solutions to the equation\n`x**2 + y**2 == z**2` subject to the following constraints:\n\n- `x`, `y` and `z` are positive integers\n- `x < y < z < n`\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\nPrint each solution triplet on one line as `x,y,z`, with a comma between\nconsecutive integers and no spaces. The triplets must be printed in ascending\norder: compare two triplets by `x` first, then by `y`, then by `z`. If there is no\nsolution satisfying the given constraints, print the string `NO SOLUTION`.\n\nFor example, if the input is `13`, the output is:\n\n```\n3,4,5\n6,8,10\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n13\n```\n\nOutput\n\n```\n3,4,5\n6,8,10\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\n\nnum = 0\nfor x in range(1, n):\n    for y in range(x + 1, n):\n        for z in range(y + 1, n):\n            if x ** 2 + y ** 2 == z ** 2:\n                print(f'{x},{y},{z}')\n                num += 1\nif num == 0:\n    print('NO SOLUTION')\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-11"
+  ]
+ },
+ {
+  "source": "PPA W3-12",
+  "week": 3,
+  "topic": "Data Types & Basics",
+  "title": "Remove Characters From A String",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "abc\nabcdef",
+    "expected": "def",
+    "hidden": false
+   },
+   {
+    "stdin": "aeiou\nprogramming is fun",
+    "expected": "prgrmmng s fn",
+    "hidden": false
+   },
+   {
+    "stdin": "xyz\nhello world",
+    "expected": "hello world",
+    "hidden": true
+   },
+   {
+    "stdin": "\npython",
+    "expected": "python",
+    "hidden": true
+   },
+   {
+    "stdin": "l\nhello",
+    "expected": "heo",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept two strings as input and form a new string by removing from the second\nstring every character that is present in the first string. Print this new string\nas output. You can assume that all input strings will be in lower case.\n\n**Input**\n\nTwo lines: the first string on the first line, the second string on the second\nline.\n\n**Output**\n\nOne line: the second string with all the characters that appear in the first string\nremoved. The remaining characters keep their original order.\n\nFor example, if the first string is `abc` and the second string is `abcdef`, the\noutput is `def`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\nabc\nabcdef\n```\n\nOutput\n\n```\ndef\n```",
+  "solution_md": "## Reference solution\n\n```python\nstring_1 = input()\nstring_2 = input()\n\nout = '' # empty string\nfor char in string_2:\n    if char not in string_1:\n        out = out + char\n\nprint(out)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-3",
+   "python",
+   "ppa-w3-12"
+  ]
+ },
+ {
+  "source": "PPA W4-1",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "First n Positive Integers",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "[1, 2, 3, 4, 5]",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "[1]",
+    "hidden": false
+   },
+   {
+    "stdin": "2",
+    "expected": "[1, 2]",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+    "hidden": true
+   },
+   {
+    "stdin": "20",
+    "expected": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer `n` as input and print the list of the first `n` positive integers as output.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\nA single line: the list `[1, 2, ..., n]`, printed exactly as Python prints a list.\n\n**Example**\n\n```\nInput\n5\n\nOutput\n[1, 2, 3, 4, 5]\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n[1, 2, 3, 4, 5]\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nL = []\nfor x in range(1, n + 1):\n    L.append(x)\nprint(L)\n```",
+  "harness": null,
+  "starter_code": "n = int(input())\n\n# Build the list here, then print it.\nL = []\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-1"
+  ]
+ },
+ {
+  "source": "PPA W4-2",
+  "week": 4,
+  "topic": "I/O Based Problem Solving",
+  "title": "Words Into a List",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3\napple\nball\ncat",
+    "expected": "['apple', 'ball', 'cat']",
+    "hidden": false
+   },
+   {
+    "stdin": "1\nsolo",
+    "expected": "['solo']",
+    "hidden": false
+   },
+   {
+    "stdin": "4\nred\nred\nblue\nred",
+    "expected": "['red', 'red', 'blue', 'red']",
+    "hidden": true
+   },
+   {
+    "stdin": "2\nPython\npython",
+    "expected": "['Python', 'python']",
+    "hidden": true
+   },
+   {
+    "stdin": "5\na\nbb\nccc\ndddd\neeeee",
+    "expected": "['a', 'bb', 'ccc', 'dddd', 'eeeee']",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of words as input, append all these words to a list in the order in which they are entered, and print this list as output.\n\n**Input**\n\nThe first line is a positive integer `n`, the number of words in the sequence. Each of the next `n` lines has one word on it.\n\n**Output**\n\nA single line: the list of the `n` words, in the order they were entered, printed exactly as Python prints a list.\n\n**Example**\n\n```\nInput\n3\napple\nball\ncat\n\nOutput\n['apple', 'ball', 'cat']\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\napple\nball\ncat\n```\n\nOutput\n\n```\n['apple', 'ball', 'cat']\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nL = []\nfor _ in range(n):\n    word = input()\n    L.append(word)\nprint(L)\n```",
+  "harness": null,
+  "starter_code": "n = int(input())\nL = []\n\n# Read the n words one by one and append each to L, then print L.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-2"
+  ]
+ },
+ {
+  "source": "PPA W4-3",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "Maximum of a Comma-Separated Sequence",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1,2,3,4,5",
+    "expected": "5",
+    "hidden": false
+   },
+   {
+    "stdin": "42",
+    "expected": "42",
+    "hidden": false
+   },
+   {
+    "stdin": "-7,-3,-99",
+    "expected": "-3",
+    "hidden": true
+   },
+   {
+    "stdin": "5,5,5,5",
+    "expected": "5",
+    "hidden": true
+   },
+   {
+    "stdin": "10,200,30,4000,50",
+    "expected": "4000",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of comma-separated integers as input and print the maximum value in the sequence as output.\n\n**Input**\n\nA single line holding one or more integers separated by commas, with no spaces around the commas.\n\n**Output**\n\nA single line: the largest integer in the sequence.\n\n**Example**\n\n```\nInput\n1,2,3,4,5\n\nOutput\n5\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1,2,3,4,5\n```\n\nOutput\n\n```\n5\n```",
+  "solution_md": "## Reference solution\n\n```python\nnums = input().split(',')\n\nmax_num = int(nums[0])\nfor num in nums:\n    num = int(num)\n    if num > max_num:\n        max_num = num\n\nprint(max_num)\n```",
+  "harness": null,
+  "starter_code": "nums = input().split(',')\n\n# Find the largest value and print it.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-3"
+  ]
+ },
+ {
+  "source": "PPA W4-4",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "Longest Word in a List",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "cat dog pig",
+    "expected": "pig",
+    "hidden": false
+   },
+   {
+    "stdin": "the quick brown fox jumps",
+    "expected": "jumps",
+    "hidden": false
+   },
+   {
+    "stdin": "hello",
+    "expected": "hello",
+    "hidden": true
+   },
+   {
+    "stdin": "one three seven three",
+    "expected": "three",
+    "hidden": true
+   },
+   {
+    "stdin": "abc de fghij klmno",
+    "expected": "klmno",
+    "hidden": true
+   }
+  ],
+  "body_md": "A list `L` of words is given to you as a single line of space-separated words. Print the longest word in the list. If there are several words with the same maximum length, print the one which appears at the rightmost end of the list.\n\n**Input**\n\nA single line holding one or more words separated by single spaces.\n\n**Output**\n\nA single line: the longest word, with the rightmost one winning any tie.\n\n**Example**\n\n```\nInput\ncat dog pig\n\nOutput\npig\n```\n\nAll three words have the same length, so the rightmost one is printed.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\ncat dog pig\n```\n\nOutput\n\n```\npig\n```",
+  "solution_md": "## Reference solution\n\n```python\nL = input().split(' ')\n\nmax_word, max_len = '', 0\nfor word in L:\n    if len(word) >= max_len:\n        max_len = len(word)\n        max_word = word\nprint(max_word)\n```",
+  "harness": null,
+  "starter_code": "L = input().split(' ')\n\n# Find the longest word and print it.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-4"
+  ]
+ },
+ {
+  "source": "PPA W4-5",
+  "week": 4,
+  "topic": "I/O Based Problem Solving",
+  "title": "Floor of Each Number",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1.5 2.7 3.9",
+    "expected": "1,2,3",
+    "hidden": false
+   },
+   {
+    "stdin": "4.0",
+    "expected": "4",
+    "hidden": false
+   },
+   {
+    "stdin": "0.1 0.9 1.0 99.99",
+    "expected": "0,0,1,99",
+    "hidden": true
+   },
+   {
+    "stdin": "10.5 20.25 30.75 40.125 50.5",
+    "expected": "10,20,30,40,50",
+    "hidden": true
+   },
+   {
+    "stdin": "7.999 8.001",
+    "expected": "7,8",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a space-separated sequence of positive real numbers as input. Convert each element of the sequence into the greatest integer less than or equal to it. Print this sequence of integers as output, with a comma between consecutive integers.\n\n**Input**\n\nA single line holding one or more positive real numbers separated by single spaces.\n\n**Output**\n\nA single line: the converted integers, separated by commas. There must be no comma after the last integer.\n\n**Example**\n\n```\nInput\n1.5 2.7 3.9\n\nOutput\n1,2,3\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1.5 2.7 3.9\n```\n\nOutput\n\n```\n1,2,3\n```",
+  "solution_md": "## Reference solution\n\n```python\nL = input().split(' ')\n\nfor i in range(len(L)):\n    L[i] = float(L[i])\n    L[i] = int(L[i])\n\nfor i in range(len(L)):\n    if i != len(L) - 1:\n        print(L[i], end=',')\n    else:\n        print(L[i])\n```",
+  "harness": null,
+  "starter_code": "L = input().split(' ')\n\n# Convert every element, then print them separated by commas\n# with no comma at the end.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-5"
+  ]
+ },
+ {
+  "source": "PPA W4-6",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "Reverse a Sequence",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1,2,3,4,5",
+    "expected": "5,4,3,2,1",
+    "hidden": false
+   },
+   {
+    "stdin": "a",
+    "expected": "a",
+    "hidden": false
+   },
+   {
+    "stdin": "red,green,blue",
+    "expected": "blue,green,red",
+    "hidden": true
+   },
+   {
+    "stdin": "x,y",
+    "expected": "y,x",
+    "hidden": true
+   },
+   {
+    "stdin": "one,two,three,four,five,six",
+    "expected": "six,five,four,three,two,one",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of comma-separated words as input. Reverse the sequence and print it as output.\n\n**Input**\n\nA single line holding one or more words separated by commas, with no spaces around the commas.\n\n**Output**\n\nA single line: the same words in reverse order, separated by commas. There must be no comma after the last word.\n\n**Example**\n\n```\nInput\n1,2,3,4,5\n\nOutput\n5,4,3,2,1\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1,2,3,4,5\n```\n\nOutput\n\n```\n5,4,3,2,1\n```",
+  "solution_md": "## Reference solution\n\n```python\nL = input().split(',')\nout = L[::-1]\n\nn = len(out)\nfor i in range(n - 1):\n    print(out[i], end=',')\nprint(out[-1])\n```",
+  "harness": null,
+  "starter_code": "L = input().split(',')\n\n# Reverse the sequence, then print it separated by commas\n# with no comma at the end.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-6"
+  ]
+ },
+ {
+  "source": "PPA W4-7",
+  "week": 4,
+  "topic": "I/O Based Problem Solving",
+  "title": "Read a Square Matrix",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "2\n1 2\n3 4",
+    "expected": "[[1, 2], [3, 4]]",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n7",
+    "expected": "[[7]]",
+    "hidden": false
+   },
+   {
+    "stdin": "3\n1 2 3\n4 5 6\n7 8 9",
+    "expected": "[[1, 2, 3], [4, 5, 6], [7, 8, 9]]",
+    "hidden": true
+   },
+   {
+    "stdin": "3\n0 0 0\n0 0 0\n0 0 0",
+    "expected": "[[0, 0, 0], [0, 0, 0], [0, 0, 0]]",
+    "hidden": true
+   },
+   {
+    "stdin": "2\n-1 -2\n-3 -4",
+    "expected": "[[-1, -2], [-3, -4]]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a square matrix as input and store it in a variable named `matrix`.\n\n**Input**\n\nThe first line of input is `n`, the number of rows in the matrix. Each of the next `n` lines has a sequence of `n` space-separated integers, one row of the matrix per line.\n\n**Output**\n\nNothing has to be printed. Store the matrix as a list of `n` rows, where each row is a list of `n` integers, in a variable named `matrix`. That variable is what gets graded.\n\n**Example**\n\nFor the input\n\n```\n2\n1 2\n3 4\n```\n\n`matrix` must be `[[1, 2], [3, 4]]`.\n\n## Your task\n\nThe input is read for you. Assign the answers to `matrix`.\n\nYou do not need to print anything — the values you assign to those names are what gets checked, in that order.\n\n## Example\n\nInput\n\n```\n2\n1 2\n3 4\n```\n\nOutput\n\n```\n[[1, 2], [3, 4]]\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\n\nmatrix = []\nfor _ in range(n):\n    row = []\n    for num in input().split(' '):\n        row.append(int(num))\n    matrix.append(row)\n```",
+  "harness": "# --- checker (hidden): prints the values you assigned ---\nfor _oppe_name in ['matrix']:\n    print(repr(globals().get(_oppe_name)))\n",
+  "starter_code": "n = int(input())\n\nmatrix = []\n# Read the n rows and append each one to matrix.\n",
+  "input_labels": [
+   "matrix"
+  ],
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-7"
+  ]
+ },
+ {
+  "source": "PPA W4-8",
+  "week": 4,
+  "topic": "I/O Based Problem Solving",
+  "title": "Identity Matrix",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3",
+    "expected": "1,0,0\n0,1,0\n0,0,1",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "2",
+    "expected": "1,0\n0,1",
+    "hidden": true
+   },
+   {
+    "stdin": "4",
+    "expected": "1,0,0,0\n0,1,0,0\n0,0,1,0\n0,0,0,1",
+    "hidden": true
+   },
+   {
+    "stdin": "5",
+    "expected": "1,0,0,0,0\n0,1,0,0,0\n0,0,1,0,0\n0,0,0,1,0\n0,0,0,0,1",
+    "hidden": true
+   }
+  ],
+  "body_md": "An identity matrix is a square matrix which has ones on the main diagonal and zeros everywhere else. For example, the identity matrix of size 3 x 3 is:\n\n```\n1 0 0\n0 1 0\n0 0 1\n```\n\nAccept a positive integer `n` as input and print the identity matrix of size `n` x `n`.\n\n**Input**\n\nA single line containing the positive integer `n`.\n\n**Output**\n\n`n` lines, where each line is a sequence of `n` comma-separated integers that corresponds to one row of the matrix. There must be no comma at the end of a line.\n\n**Example**\n\n```\nInput\n3\n\nOutput\n1,0,0\n0,1,0\n0,0,1\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n```\n\nOutput\n\n```\n1,0,0\n0,1,0\n0,0,1\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nI = []\nfor i in range(n):\n    row = []\n    for j in range(n):\n        if i == j:\n            row.append(1)\n        else:\n            row.append(0)\n    I.append(row)\n\nfor i in range(n):\n    for j in range(n):\n        if j != n - 1:\n            print(I[i][j], end=',')\n        else:\n            print(I[i][j])\n```",
+  "harness": null,
+  "starter_code": "n = int(input())\n\n# Print n lines, each holding n comma-separated integers.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-8"
+  ]
+ },
+ {
+  "source": "PPA W4-9",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "Scalar Multiple of a Matrix",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "2\n1 2\n3 4\n2",
+    "expected": "2 4\n6 8",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n5\n3",
+    "expected": "15",
+    "hidden": false
+   },
+   {
+    "stdin": "3\n1 0 -1\n2 -2 0\n0 3 4\n-1",
+    "expected": "-1 0 1\n-2 2 0\n0 -3 -4",
+    "hidden": true
+   },
+   {
+    "stdin": "2\n7 8\n9 10\n0",
+    "expected": "0 0\n0 0",
+    "hidden": true
+   },
+   {
+    "stdin": "3\n1 1 1\n2 2 2\n3 3 3\n10",
+    "expected": "10 10 10\n20 20 20\n30 30 30",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a square matrix `A` and an integer `s` as input and print the matrix `s * A` as output. Multiplying a matrix by an integer `s` is equivalent to multiplying each element of the matrix by `s`. For example:\n\n```\n        | 1  2 |     | 2  4 |\n    2 * |      |  =  |      |\n        | 3  4 |     | 6  8 |\n```\n\n**Input**\n\nThe first line of input is a positive integer `n`, the dimension of the matrix `A`. Each of the next `n` lines contains a sequence of `n` space-separated integers, one row of `A` per line. The last line of the input contains the integer `s`.\n\n**Output**\n\nThe matrix `s * A`. Each row must be printed as a sequence of space-separated integers, one row on each line. There must not be any space after the last number on a line.\n\n**Example**\n\n```\nInput\n2\n1 2\n3 4\n2\n\nOutput\n2 4\n6 8\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\n1 2\n3 4\n2\n```\n\nOutput\n\n```\n2 4\n6 8\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nmatrix = []\nfor i in range(n):\n    row = []\n    for x in input().split(' '):\n        row.append(int(x))\n    matrix.append(row)\ns = int(input())\n\nfor i in range(n):\n    for j in range(n):\n        matrix[i][j] *= s\n\nfor i in range(n):\n    for j in range(n):\n        if j != n - 1:\n            print(matrix[i][j], end=' ')\n        else:\n            print(matrix[i][j])\n```",
+  "harness": null,
+  "starter_code": "n = int(input())\n\n# Read the matrix, then read s, then print s * A.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-9"
+  ]
+ },
+ {
+  "source": "PPA W4-10",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "Matrix Addition",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "2\n1,2\n3,4\n5,6\n7,8",
+    "expected": "6,8\n10,12",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n5\n7",
+    "expected": "12",
+    "hidden": false
+   },
+   {
+    "stdin": "3\n1,0,0\n0,1,0\n0,0,1\n1,2,3\n4,5,6\n7,8,9",
+    "expected": "2,2,3\n4,6,6\n7,8,10",
+    "hidden": true
+   },
+   {
+    "stdin": "2\n-1,-2\n-3,-4\n1,2\n3,4",
+    "expected": "0,0\n0,0",
+    "hidden": true
+   },
+   {
+    "stdin": "3\n1,1,1\n1,1,1\n1,1,1\n2,2,2\n2,2,2\n2,2,2",
+    "expected": "3,3,3\n3,3,3\n3,3,3",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept two square matrices `A` and `B` of dimensions `n` x `n` as input and compute their sum `A + B`.\n\n**Input**\n\nThe first line contains the integer `n`. This is followed by `2n` lines. Each of the first `n` lines is a sequence of comma-separated integers that denotes one row of the matrix `A`. Each of the last `n` lines is a sequence of comma-separated integers that denotes one row of the matrix `B`.\n\n**Output**\n\n`n` lines, where each line is a sequence of comma-separated integers that denotes one row of the matrix `A + B`. There must be no comma at the end of a line.\n\n**Example**\n\n```\nInput\n2\n1,2\n3,4\n5,6\n7,8\n\nOutput\n6,8\n10,12\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\n1,2\n3,4\n5,6\n7,8\n```\n\nOutput\n\n```\n6,8\n10,12\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\n\nA = []\nfor i in range(n):\n    row = []\n    for x in input().split(','):\n        row.append(int(x))\n    A.append(row)\n\nB = []\nfor i in range(n):\n    row = []\n    for x in input().split(','):\n        row.append(int(x))\n    B.append(row)\n\nfor i in range(n):\n    for j in range(n):\n        total = A[i][j] + B[i][j]\n        if j != n - 1:\n            print(total, end=',')\n        else:\n            print(total)\n```",
+  "harness": null,
+  "starter_code": "n = int(input())\n\n# Read matrix A, then matrix B, then print A + B.\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-10"
+  ]
+ },
+ {
+  "source": "PPA W4-11",
+  "week": 4,
+  "topic": "Data Processing",
+  "title": "Sort a List in Descending Order",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1 4 3 2 5",
+    "expected": "[5.0, 4.0, 3.0, 2.0, 1.0]",
+    "hidden": false
+   },
+   {
+    "stdin": "3.5",
+    "expected": "[3.5]",
+    "hidden": false
+   },
+   {
+    "stdin": "2 2 2",
+    "expected": "[2.0, 2.0, 2.0]",
+    "hidden": true
+   },
+   {
+    "stdin": "-1.5 0 2.25 -3",
+    "expected": "[2.25, 0.0, -1.5, -3.0]",
+    "hidden": true
+   },
+   {
+    "stdin": "10 9.5 9.5 8 100",
+    "expected": "[100.0, 10.0, 9.5, 9.5, 8.0]",
+    "hidden": true
+   }
+  ],
+  "body_md": "`L` is a list of real numbers that is given to you: the starter code reads it from a single line of space-separated numbers. You have to sort this list in descending order and store the sorted list in a variable called `sorted_L`.\n\n**Input**\n\nA single line holding one or more real numbers separated by single spaces. The starter code turns them into the list `L` of floats for you.\n\n**Output**\n\nNothing has to be printed. Store the descending-order list in `sorted_L`; that variable is what gets graded.\n\n**Example**\n\nFor the input\n\n```\n1 4 3 2 5\n```\n\n`L` is `[1.0, 4.0, 3.0, 2.0, 5.0]` and `sorted_L` must be `[5.0, 4.0, 3.0, 2.0, 1.0]`.\n\n## Your task\n\nThe input is read for you. Assign the answers to `sorted_L`.\n\nYou do not need to print anything — the values you assign to those names are what gets checked, in that order.\n\n## Example\n\nInput\n\n```\n1 4 3 2 5\n```\n\nOutput\n\n```\n[5.0, 4.0, 3.0, 2.0, 1.0]\n```",
+  "solution_md": "## Reference solution\n\n```python\nL = []\nfor x in input().split(' '):\n    L.append(float(x))\n\nsorted_L = []\nwhile L != []:\n    max_elem = max(L)\n    L.remove(max_elem)\n    sorted_L.append(max_elem)\n```",
+  "harness": "# --- checker (hidden): prints the values you assigned ---\nfor _oppe_name in ['sorted_L']:\n    print(repr(globals().get(_oppe_name)))\n",
+  "starter_code": "L = []\nfor x in input().split(' '):\n    L.append(float(x))\n\n# Sort L in descending order and store the result in sorted_L.\nsorted_L = []\n",
+  "input_labels": [
+   "sorted_L"
+  ],
+  "tags": [
+   "ppa",
+   "week-4",
+   "python",
+   "ppa-w4-11"
+  ]
+ },
+ {
+  "source": "PPA W5-1",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "Factorial",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "5",
+    "expected": "120",
+    "hidden": false
+   },
+   {
+    "stdin": "0",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "-3",
+    "expected": "-1",
+    "hidden": true
+   },
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "3628800",
+    "hidden": true
+   }
+  ],
+  "body_md": "The factorial of a positive integer `n` is the product of the first `n` positive\nintegers.\n\nWrite a function named `factorial` that accepts an integer `n` as argument.\n\n- It should return the factorial of `n` if `n` is a positive integer.\n- It should return `-1` if `n` is a negative integer.\n- It should return `1` if `n` is zero.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nfactorial(5)   ->  120\nfactorial(0)   ->  1\nfactorial(-3)  ->  -1\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef factorial(n):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n120\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef factorial(n):\n    if n < 0:\n        return -1\n    if n == 0:\n        return 1\n    fact = 1\n    for x in range(1, n + 1):\n        fact = fact * x\n    return fact\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = factorial(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def factorial(n):\n    ...\n",
+  "input_labels": [
+   "n"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-1"
+  ]
+ },
+ {
+  "source": "PPA W5-2",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "Leap Year",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1900",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "2024",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "2000",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "1600",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "9999",
+    "expected": "False",
+    "hidden": true
+   }
+  ],
+  "body_md": "In the Gregorian calendar, a leap year has a total of 366 days instead of the\nusual 365, as a result of adding an extra day (February 29) to the year. The\ncriteria given below are used to decide whether a year is a leap year:\n\n- If a year is divisible by 100, then it is a leap year only if it is also\n  divisible by 400.\n- If a year is not divisible by 100, then it is a leap year if it is divisible\n  by 4.\n\nWrite a function named `check_leap_year` that accepts a year between 1600 and\n9999 as argument. It should return `True` if the year is a leap year and `False`\notherwise.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\ncheck_leap_year(1900)  ->  False\ncheck_leap_year(2000)  ->  True\ncheck_leap_year(2024)  ->  True\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef check_leap_year(year):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `year`.\n\n## Example\n\nInput\n\n```\n1900\n```\n\nOutput\n\n```\nFalse\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef check_leap_year(year):\n    if year % 100 == 0:\n        return year % 400 == 0\n    else:\n        return year % 4 == 0\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = check_leap_year(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def check_leap_year(year):\n    ...\n",
+  "input_labels": [
+   "year"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-2"
+  ]
+ },
+ {
+  "source": "PPA W5-3",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "Maximum of Three",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "3\n7\n5",
+    "expected": "7",
+    "hidden": false
+   },
+   {
+    "stdin": "10\n2\n4",
+    "expected": "10",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n2\n9",
+    "expected": "9",
+    "hidden": true
+   },
+   {
+    "stdin": "5\n5\n5",
+    "expected": "5",
+    "hidden": true
+   },
+   {
+    "stdin": "-3\n-7\n-3",
+    "expected": "-3",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `maxval` that accepts three integers `a`, `b` and `c` as\narguments. It should return the maximum among the three numbers.\n\nTwo or three of the arguments may be equal to each other, so remember to check\nfor equality and not just for strict inequality.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nmaxval(3, 7, 5)     ->  7\nmaxval(5, 5, 5)     ->  5\nmaxval(-3, -7, -3)  ->  -3\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef maxval(a, b, c):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `a`, `b`, `c`.\n\n## Example\n\nInput\n\n```\n3\n7\n5\n```\n\nOutput\n\n```\n7\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef maxval(a, b, c):\n    if (a >= b) and (a >= c):\n        return a\n    elif (b >= a) and (b >= c):\n        return b\n    return c\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:3]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = maxval(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def maxval(a, b, c):\n    ...\n",
+  "input_labels": [
+   "a",
+   "b",
+   "c"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-3"
+  ]
+ },
+ {
+  "source": "PPA W5-4",
+  "week": 5,
+  "topic": "Data Processing",
+  "title": "Equal Matrix Dimensions",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[[1, 2], [3, 4]]\n[[5, 6], [7, 8]]",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "[[1, 2, 3]]\n[[1, 2]]",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "[[1], [2], [3]]\n[[4], [5]]",
+    "expected": "False",
+    "hidden": true
+   },
+   {
+    "stdin": "[[1]]\n[[9]]",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "[[1, 2], [3, 4], [5, 6]]\n[[0, 0], [0, 0], [0, 0]]",
+    "expected": "True",
+    "hidden": true
+   }
+  ],
+  "body_md": "A matrix is represented as a list of lists, where each inner list is one row of\nthe matrix. All the rows of a matrix have the same length.\n\nWrite a function named `dim_equal` that accepts two matrices `A` and `B` as\narguments. It should return `True` if the dimensions of both matrices are the\nsame and `False` otherwise. Two matrices have the same dimensions when they have\nthe same number of rows *and* the same number of columns.\n\nYou may assume that both matrices have at least one row.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\ndim_equal([[1, 2], [3, 4]], [[5, 6], [7, 8]])  ->  True\ndim_equal([[1, 2, 3]], [[1, 2]])               ->  False\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef dim_equal(A, B):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `A`, `B`.\n\n## Example\n\nInput\n\n```\n[[1, 2], [3, 4]]\n[[5, 6], [7, 8]]\n```\n\nOutput\n\n```\nTrue\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef dim_equal(A, B):\n    return (len(A) == len(B)) and (len(A[0]) == len(B[0]))\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = dim_equal(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def dim_equal(A, B):\n    ...\n",
+  "input_labels": [
+   "A",
+   "B"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-4"
+  ]
+ },
+ {
+  "source": "PPA W5-5",
+  "week": 5,
+  "topic": "Data Processing",
+  "title": "Top Three Maximums",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[6, 7, 1, 5, 4, 3, 2]",
+    "expected": "(7, 6, 5)",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 2, 3]",
+    "expected": "(3, 2, 1)",
+    "hidden": false
+   },
+   {
+    "stdin": "[-5, -1, -10, -3]",
+    "expected": "(-1, -3, -5)",
+    "hidden": true
+   },
+   {
+    "stdin": "[100, 50, 75]",
+    "expected": "(100, 75, 50)",
+    "hidden": true
+   },
+   {
+    "stdin": "[10, 9, 8, 7, 6, 5]",
+    "expected": "(10, 9, 8)",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `first_three` that accepts a list `L` of distinct\nintegers as argument. It should return the first maximum, second maximum and\nthird maximum in the list, in this order. You can assume that the input list\nwill have a size of at least three.\n\nReturning three values from a single `return` statement gives back a tuple, so\n`first_three` returns a tuple of three integers.\n\nThe list passed to the function must not be disturbed: after the call, `L` should\nstill hold exactly the elements it held before the call. Work on a copy if you\nneed to remove elements.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nfirst_three([6, 7, 1, 5, 4, 3, 2])  ->  (7, 6, 5)\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef first_three(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[6, 7, 1, 5, 4, 3, 2]\n```\n\nOutput\n\n```\n(7, 6, 5)\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef first_three(L):\n    L_local = L.copy()\n    fmax = max(L_local)\n    L_local.remove(fmax)\n    smax = max(L_local)\n    L_local.remove(smax)\n    tmax = max(L_local)\n    return fmax, smax, tmax\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = first_three(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def first_three(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-5"
+  ]
+ },
+ {
+  "source": "PPA W5-6",
+  "week": 5,
+  "topic": "Data Processing",
+  "title": "Mysterious Sequences",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "['cat', 'bird', 'ox']",
+    "expected": "'mildly mysterious'",
+    "hidden": false
+   },
+   {
+    "stdin": "[]",
+    "expected": "'mildly mysterious'",
+    "hidden": false
+   },
+   {
+    "stdin": "['cat', 'dog', 'bird']",
+    "expected": "'moderately mysterious'",
+    "hidden": true
+   },
+   {
+    "stdin": "['a', 'abc', 'abcde', 'ab', 'abcd']",
+    "expected": "'moderately mysterious'",
+    "hidden": true
+   },
+   {
+    "stdin": "['a', 'b', 'c', 'd', 'e', 'ff']",
+    "expected": "'most mysterious'",
+    "hidden": true
+   }
+  ],
+  "body_md": "A class of English words is called *mysterious* if it satisfies certain\nconditions. Those conditions are hidden from you. Instead, a function named\n`mysterious` is already defined for you in the starter code: it accepts a word as\nargument and returns `True` if the word is mysterious and `False` otherwise. Call\nit, but do not depend on how it decides.\n\nWrite a function named `type_of_sequence` that accepts a list of words as\nargument. Its return value is a string that depends on the number of mysterious\nwords in the sequence. If `k` denotes the number of mysterious words in the\nsequence, then:\n\n| `k` | Return value |\n| --- | --- |\n| less than 2 | `'mildly mysterious'` |\n| at least 2 but less than 5 | `'moderately mysterious'` |\n| 5 or more | `'most mysterious'` |\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the definition of `type_of_sequence`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef mysterious(word):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `words`.\n\n## Example\n\nInput\n\n```\n['cat', 'bird', 'ox']\n```\n\nOutput\n\n```\n'mildly mysterious'\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef mysterious(word):\n    \"\"\"Given to you. Treat it as a black box: do not change it, do not\n    re-implement it, just call it.\"\"\"\n    return len(word) % 2 == 1\n\n\ndef type_of_sequence(words):\n    count = 0\n    for word in words:\n        if mysterious(word):\n            count += 1\n\n    if count < 2:\n        return 'mildly mysterious'\n    elif count < 5:\n        return 'moderately mysterious'\n    else:\n        return 'most mysterious'\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = type_of_sequence(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def mysterious(word):\n    \"\"\"Given to you. Treat it as a black box: do not change it, do not\n    re-implement it, just call it.\"\"\"\n    return len(word) % 2 == 1\n\n\ndef type_of_sequence(words):\n    ...\n",
+  "input_labels": [
+   "words"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-6"
+  ]
+ },
+ {
+  "source": "PPA W5-7a",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "Is Empty",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[]",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "[1]",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 2, 3]",
+    "expected": "False",
+    "hidden": true
+   },
+   {
+    "stdin": "['a']",
+    "expected": "False",
+    "hidden": true
+   },
+   {
+    "stdin": "[[]]",
+    "expected": "False",
+    "hidden": true
+   }
+  ],
+  "body_md": "In a throwback to CT days, you have to write one of the basic list functions.\n\nWrite a function named `is_empty` that accepts a list `L` as argument. It should\nreturn `True` if the list is empty, and `False` otherwise.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nis_empty([])         ->  True\nis_empty([1, 2, 3])  ->  False\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_empty(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[]\n```\n\nOutput\n\n```\nTrue\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef is_empty(L):\n    return L == []\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = is_empty(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def is_empty(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-7a"
+  ]
+ },
+ {
+  "source": "PPA W5-7b",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "First Element",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[]",
+    "expected": "None",
+    "hidden": false
+   },
+   {
+    "stdin": "[1]",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "[10, 20, 30]",
+    "expected": "10",
+    "hidden": true
+   },
+   {
+    "stdin": "['a', 'b']",
+    "expected": "'a'",
+    "hidden": true
+   },
+   {
+    "stdin": "[-4, 0, 4]",
+    "expected": "-4",
+    "hidden": true
+   }
+  ],
+  "body_md": "In a throwback to CT days, you have to write one of the basic list functions.\n\nWrite a function named `first` that accepts a list `L` as argument. It should\nreturn the first element if the list is non-empty, and return `None` otherwise.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nfirst([10, 20, 30])  ->  10\nfirst([])            ->  None\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef first(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[]\n```\n\nOutput\n\n```\nNone\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef first(L):\n    if L == []:\n        return None\n    return L[0]\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = first(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def first(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-7b"
+  ]
+ },
+ {
+  "source": "PPA W5-7c",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "Last Element",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[]",
+    "expected": "None",
+    "hidden": false
+   },
+   {
+    "stdin": "[1]",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "[10, 20, 30]",
+    "expected": "30",
+    "hidden": true
+   },
+   {
+    "stdin": "['x', 'y', 'z']",
+    "expected": "'z'",
+    "hidden": true
+   },
+   {
+    "stdin": "[5, 5]",
+    "expected": "5",
+    "hidden": true
+   }
+  ],
+  "body_md": "In a throwback to CT days, you have to write one of the basic list functions.\n\nWrite a function named `last` that accepts a list `L` as argument. It should\nreturn the last element if the list is non-empty, and return `None` otherwise.\n\nNote that `L[-1]` on its own is not enough: an empty list has no last element,\nso that case has to be handled separately.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nlast([10, 20, 30])  ->  30\nlast([])            ->  None\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef last(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[]\n```\n\nOutput\n\n```\nNone\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef last(L):\n    if L == []:\n        return None\n    return L[-1]\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = last(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def last(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-7c"
+  ]
+ },
+ {
+  "source": "PPA W5-7d",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "All But the Last",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[]",
+    "expected": "None",
+    "hidden": false
+   },
+   {
+    "stdin": "[1]",
+    "expected": "[]",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 2, 3]",
+    "expected": "[1, 2]",
+    "hidden": true
+   },
+   {
+    "stdin": "['a', 'b']",
+    "expected": "['a']",
+    "hidden": true
+   },
+   {
+    "stdin": "[7, 7, 7, 7]",
+    "expected": "[7, 7, 7]",
+    "hidden": true
+   }
+  ],
+  "body_md": "In a throwback to CT days, you have to write one of the basic list functions.\n\nWrite a function named `init` that accepts a list `L` as argument. If the list is\nnon-empty and has size `n`, it should return the first `n - 1` elements as a\nlist. If the list is empty, it should return `None`.\n\nNote that if `L` has just one element, `init(L)` should return the empty list.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\ninit([1, 2, 3])  ->  [1, 2]\ninit([7])        ->  []\ninit([])         ->  None\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef init(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[]\n```\n\nOutput\n\n```\nNone\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef init(L):\n    if L == []:\n        return None\n    return L[:-1]\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = init(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def init(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-7d"
+  ]
+ },
+ {
+  "source": "PPA W5-7e",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "All But the First",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[]",
+    "expected": "None",
+    "hidden": false
+   },
+   {
+    "stdin": "[1]",
+    "expected": "[]",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 2, 3]",
+    "expected": "[2, 3]",
+    "hidden": true
+   },
+   {
+    "stdin": "['a', 'b']",
+    "expected": "['b']",
+    "hidden": true
+   },
+   {
+    "stdin": "[0, 0, 0]",
+    "expected": "[0, 0]",
+    "hidden": true
+   }
+  ],
+  "body_md": "In a throwback to CT days, you have to write one of the basic list functions.\n\nWrite a function named `rest` that accepts a list `L` as argument. If the list is\nnon-empty and has size `n`, it should return the last `n - 1` elements as a list.\nIf the list is empty, it should return `None`.\n\nNote that if `L` has just one element, `rest(L)` should return the empty list.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nrest([1, 2, 3])  ->  [2, 3]\nrest([7])        ->  []\nrest([])         ->  None\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef rest(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[]\n```\n\nOutput\n\n```\nNone\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef rest(L):\n    if L == []:\n        return None\n    return L[1:]\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = rest(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def rest(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-7e"
+  ]
+ },
+ {
+  "source": "PPA W5-8",
+  "week": 5,
+  "topic": "Data Types & Basics",
+  "title": "Recursive Fibonacci",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "2",
+    "expected": "1",
+    "hidden": false
+   },
+   {
+    "stdin": "3",
+    "expected": "2",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "55",
+    "hidden": true
+   },
+   {
+    "stdin": "20",
+    "expected": "6765",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a **recursive** function named `fibo` that accepts a positive integer `n`\nas argument and returns the nth Fibonacci number. For this problem, F1 = 1 and\nF2 = 1 are the first two Fibonacci numbers, and every later term is the sum of\nthe two terms before it.\n\nEvery recursive function has two parts: the recursive call and the base case.\nHere the recursive call comes from Fn = F(n-1) + F(n-2), and the base case comes\nfrom F1 = F2 = 1.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nfibo(1)   ->  1\nfibo(3)   ->  2\nfibo(10)  ->  55\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef fibo(n):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n1\n```\n\nOutput\n\n```\n1\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef fibo(n):\n    if n <= 2:\n        return 1\n    return fibo(n - 1) + fibo(n - 2)\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = fibo(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def fibo(n):\n    ...\n",
+  "input_labels": [
+   "n"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-8"
+  ]
+ },
+ {
+  "source": "PPA W5-9a",
+  "week": 5,
+  "topic": "Data Processing",
+  "title": "Get a Row",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[[1, 2, 3], [4, 5, 6]]\n0",
+    "expected": "[1, 2, 3]",
+    "hidden": false
+   },
+   {
+    "stdin": "[[1, 2, 3], [4, 5, 6]]\n1",
+    "expected": "[4, 5, 6]",
+    "hidden": false
+   },
+   {
+    "stdin": "[[9]]\n0",
+    "expected": "[9]",
+    "hidden": true
+   },
+   {
+    "stdin": "[[1, 2], [3, 4], [5, 6]]\n2",
+    "expected": "[5, 6]",
+    "hidden": true
+   },
+   {
+    "stdin": "[[0, 0, 0], [1, 1, 1]]\n1",
+    "expected": "[1, 1, 1]",
+    "hidden": true
+   }
+  ],
+  "body_md": "A matrix is represented as a list of lists, where each inner list is one row of\nthe matrix. All the rows have the same length. Zero-based indexing is used\nthroughout, so the first row is at index 0.\n\nWrite a function named `get_row` that accepts a matrix named `mat` and a\nnon-negative integer named `row` as arguments. It should return the row that is\nat index `row` in the matrix `mat`, as a list.\n\nYou may assume that `row` is a valid row index for `mat`.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nget_row([[1, 2, 3], [4, 5, 6]], 1)  ->  [4, 5, 6]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef get_row(mat, row):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `mat`, `row`.\n\n## Example\n\nInput\n\n```\n[[1, 2, 3], [4, 5, 6]]\n0\n```\n\nOutput\n\n```\n[1, 2, 3]\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef get_row(mat, row):\n    row_list = []\n    n = len(mat[0])\n    for col in range(n):\n        row_list.append(mat[row][col])\n    return row_list\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = get_row(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def get_row(mat, row):\n    ...\n",
+  "input_labels": [
+   "mat",
+   "row"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-9a"
+  ]
+ },
+ {
+  "source": "PPA W5-9b",
+  "week": 5,
+  "topic": "Data Processing",
+  "title": "Get a Column",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[[1, 2, 3], [4, 5, 6]]\n0",
+    "expected": "[1, 4]",
+    "hidden": false
+   },
+   {
+    "stdin": "[[1, 2, 3], [4, 5, 6]]\n2",
+    "expected": "[3, 6]",
+    "hidden": false
+   },
+   {
+    "stdin": "[[9]]\n0",
+    "expected": "[9]",
+    "hidden": true
+   },
+   {
+    "stdin": "[[1, 2], [3, 4], [5, 6]]\n1",
+    "expected": "[2, 4, 6]",
+    "hidden": true
+   },
+   {
+    "stdin": "[[7, 8], [9, 10]]\n0",
+    "expected": "[7, 9]",
+    "hidden": true
+   }
+  ],
+  "body_md": "A matrix is represented as a list of lists, where each inner list is one row of\nthe matrix. All the rows have the same length. Zero-based indexing is used\nthroughout, so the first row is at index 0.\n\nWrite a function named `get_column` that accepts a matrix named `mat` and a\nnon-negative integer named `col` as arguments. It should return the column that\nis at index `col` in the matrix `mat`, as a list. The elements of the returned\nlist must appear in row order: the element from row 0 first, then row 1, and so\non.\n\nYou may assume that `col` is a valid column index for `mat`.\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\nget_column([[1, 2, 3], [4, 5, 6]], 0)  ->  [1, 4]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef get_column(mat, col):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `mat`, `col`.\n\n## Example\n\nInput\n\n```\n[[1, 2, 3], [4, 5, 6]]\n0\n```\n\nOutput\n\n```\n[1, 4]\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef get_column(mat, col):\n    col_list = []\n    m = len(mat)\n    for row in range(m):\n        col_list.append(mat[row][col])\n    return col_list\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = get_column(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def get_column(mat, col):\n    ...\n",
+  "input_labels": [
+   "mat",
+   "col"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-9b"
+  ]
+ },
+ {
+  "source": "PPA W5-10",
+  "week": 5,
+  "topic": "Data Processing",
+  "title": "Insert into a Sorted List",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[1, 3, 7, 10, 20]\n8",
+    "expected": "[1, 3, 7, 8, 10, 20]",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 3, 7, 10, 20]\n22",
+    "expected": "[1, 3, 7, 10, 20, 22]",
+    "hidden": false
+   },
+   {
+    "stdin": "[]\n5",
+    "expected": "[5]",
+    "hidden": true
+   },
+   {
+    "stdin": "[2, 4, 6]\n1",
+    "expected": "[1, 2, 4, 6]",
+    "hidden": true
+   },
+   {
+    "stdin": "[5, 5, 5]\n5",
+    "expected": "[5, 5, 5, 5]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `insert` that accepts a sorted list `L` of integers and an\ninteger `x` as arguments. The function should return a sorted list with the\nelement `x` inserted at the right place in the input list. The original list\nshould not be disturbed in the process, so build and return a new list.\n\n- The only built-in list methods you are allowed to use are `append` and\n  `remove`. You should not use any other method provided for lists.\n- Watch out for the two easy mistakes here: inserting `x` more than once, and not\n  inserting `x` at all when it is larger than every element of `L` (or when `L`\n  is empty).\n\nYou do not have to accept input from the user or print anything to the console.\nYou just have to write the function definition.\n\n**Example**\n\n```\ninsert([1, 3, 7, 10, 20], 8)   ->  [1, 3, 7, 8, 10, 20]\ninsert([1, 3, 7, 10, 20], 22)  ->  [1, 3, 7, 10, 20, 22]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef insert(L, x):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`, `x`.\n\n## Example\n\nInput\n\n```\n[1, 3, 7, 10, 20]\n8\n```\n\nOutput\n\n```\n[1, 3, 7, 8, 10, 20]\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef insert(L, x):\n    out = []\n    inserted = False\n    for elem in L:\n        if (not inserted) and (x < elem):\n            inserted = True\n            out.append(x)\n        out.append(elem)\n    if not inserted:\n        out.append(x)\n    return out\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = insert(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def insert(L, x):\n    ...\n",
+  "input_labels": [
+   "L",
+   "x"
+  ],
+  "tags": [
+   "ppa",
+   "week-5",
+   "python",
+   "ppa-w5-10"
+  ]
+ },
+ {
+  "source": "PPA W6-1",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Word Frequency",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "the,quick,brown,fox,jumps,over,the,lazy,dog,the",
+    "expected": "{'the': 3, 'quick': 1, 'brown': 1, 'fox': 1, 'jumps': 1, 'over': 1, 'lazy': 1, 'dog': 1}",
+    "hidden": false
+   },
+   {
+    "stdin": "apple",
+    "expected": "{'apple': 1}",
+    "hidden": false
+   },
+   {
+    "stdin": "a,a,a,a,a",
+    "expected": "{'a': 5}",
+    "hidden": true
+   },
+   {
+    "stdin": "one,two,three,four",
+    "expected": "{'one': 1, 'two': 1, 'three': 1, 'four': 1}",
+    "hidden": true
+   },
+   {
+    "stdin": "red,blue,red,green,blue,red",
+    "expected": "{'red': 3, 'blue': 2, 'green': 1}",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of words as input. The words come on a single line, separated by commas.\n\nCreate a dictionary named `freq` whose keys are the distinct words in the sequence. The value corresponding to a key (word) should be the frequency of occurrence of that word in the sequence.\n\n- You can assume that all words will be in lower case.\n- You do not have to print anything. The dictionary `freq` is checked for you.\n\n**Example**\n\n```\nInput:  the,quick,brown,fox,the\nfreq:   {'the': 2, 'quick': 1, 'brown': 1, 'fox': 1}\n```\n\n## Your task\n\nThe input is read for you. Assign the answers to `freq`.\n\nYou do not need to print anything — the values you assign to those names are what gets checked, in that order.\n\n## Example\n\nInput\n\n```\nthe,quick,brown,fox,jumps,over,the,lazy,dog,the\n```\n\nOutput\n\n```\n{'the': 3, 'quick': 1, 'brown': 1, 'fox': 1, 'jumps': 1, 'over': 1, 'lazy': 1, 'dog': 1}\n```",
+  "solution_md": "## Reference solution\n\n```python\nL = input().split(',')\n\nfreq = dict()\n\nfor word in L:\n    freq[word] = freq.get(word, 0) + 1\n```",
+  "harness": "# --- checker (hidden): prints the values you assigned ---\nfor _oppe_name in ['freq']:\n    print(repr(globals().get(_oppe_name)))\n",
+  "starter_code": "L = input().split(',')\n\n# assign your answer below\nfreq = ...\n",
+  "input_labels": [
+   "freq"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-1"
+  ]
+ },
+ {
+  "source": "PPA W6-2",
+  "week": 6,
+  "topic": "I/O Based Problem Solving",
+  "title": "Digits In Words",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "2024",
+    "expected": "two\nzero\ntwo\nfour",
+    "hidden": false
+   },
+   {
+    "stdin": "7",
+    "expected": "seven",
+    "hidden": false
+   },
+   {
+    "stdin": "1000000",
+    "expected": "one\nzero\nzero\nzero\nzero\nzero\nzero",
+    "hidden": true
+   },
+   {
+    "stdin": "9081726354",
+    "expected": "nine\nzero\neight\none\nseven\ntwo\nsix\nthree\nfive\nfour",
+    "hidden": true
+   },
+   {
+    "stdin": "505",
+    "expected": "five\nzero\nfive",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a positive integer as input and print the digits present in it from left to right. Each digit should be printed as a lower case word on a separate line.\n\nUse a dictionary that maps each digit to its word: `'0'` to `zero`, `'1'` to `one`, `'2'` to `two`, and so on.\n\n**Example**\n\n```\nInput:\n2024\n\nOutput:\ntwo\nzero\ntwo\nfour\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2024\n```\n\nOutput\n\n```\ntwo\nzero\ntwo\nfour\n```",
+  "solution_md": "## Reference solution\n\n```python\nmapper = {\n    '0': 'zero',\n    '1': 'one',\n    '2': 'two',\n    '3': 'three',\n    '4': 'four',\n    '5': 'five',\n    '6': 'six',\n    '7': 'seven',\n    '8': 'eight',\n    '9': 'nine'\n}\n\nnum = input()\n\nfor digit in num:\n    print(mapper[digit])\n```",
+  "harness": null,
+  "starter_code": "mapper = {\n    '0': 'zero',\n    '1': 'one',\n    # complete the dictionary\n}\n\nnum = input()\n",
+  "input_labels": null,
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-2"
+  ]
+ },
+ {
+  "source": "PPA W6-3a",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Is It A Key",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "{'a': 1, 'b': 2, 'c': 3}\n'b'",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "{'a': 1, 'b': 2, 'c': 3}\n'z'",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "{}\n'a'",
+    "expected": "False",
+    "hidden": true
+   },
+   {
+    "stdin": "{1: 'one', 2: 'two'}\n2",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "{'x': None}\n'x'",
+    "expected": "True",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `is_key` that accepts a dictionary `D` and a variable `key` as arguments. It should return `True` if `key` is a key of the dictionary `D`, and `False` otherwise.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\nis_key({'a': 1, 'b': 2, 'c': 3}, 'b')  ->  True\nis_key({'a': 1, 'b': 2, 'c': 3}, 'z')  ->  False\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_key(D, key):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `D`, `key`.\n\n## Example\n\nInput\n\n```\n{'a': 1, 'b': 2, 'c': 3}\n'b'\n```\n\nOutput\n\n```\nTrue\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef is_key(D, key):\n    return key in D\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = is_key(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def is_key(D, key):\n    ...\n",
+  "input_labels": [
+   "D",
+   "key"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-3a"
+  ]
+ },
+ {
+  "source": "PPA W6-3b",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Value Of A Key",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "{'a': 1, 'b': 2, 'c': 3}\n'b'",
+    "expected": "2",
+    "hidden": false
+   },
+   {
+    "stdin": "{'a': 1, 'b': 2, 'c': 3}\n'z'",
+    "expected": "None",
+    "hidden": false
+   },
+   {
+    "stdin": "{}\n'a'",
+    "expected": "None",
+    "hidden": true
+   },
+   {
+    "stdin": "{1: 'one', 2: 'two'}\n2",
+    "expected": "'two'",
+    "hidden": true
+   },
+   {
+    "stdin": "{'nested': [1, 2, 3]}\n'nested'",
+    "expected": "[1, 2, 3]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `value` that accepts a dictionary `D` and a variable `key` as arguments. If `key` is not a key of the dictionary `D`, return `None`. Otherwise, return the value corresponding to this key.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\nvalue({'a': 1, 'b': 2, 'c': 3}, 'b')  ->  2\nvalue({'a': 1, 'b': 2, 'c': 3}, 'z')  ->  None\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef value(D, key):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `D`, `key`.\n\n## Example\n\nInput\n\n```\n{'a': 1, 'b': 2, 'c': 3}\n'b'\n```\n\nOutput\n\n```\n2\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef value(D, key):\n    if key not in D:\n        return None\n    return D[key]\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = value(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def value(D, key):\n    ...\n",
+  "input_labels": [
+   "D",
+   "key"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-3b"
+  ]
+ },
+ {
+  "source": "PPA W6-4",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Keys For A Value",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "{'a': 1, 'b': 2, 'c': 1}\n1",
+    "expected": "['a', 'c']",
+    "hidden": false
+   },
+   {
+    "stdin": "{'a': 1, 'b': 2}\n5",
+    "expected": "[]",
+    "hidden": false
+   },
+   {
+    "stdin": "{}\n0",
+    "expected": "[]",
+    "hidden": true
+   },
+   {
+    "stdin": "{'x': 'p', 'y': 'q', 'z': 'p'}\n'p'",
+    "expected": "['x', 'z']",
+    "hidden": true
+   },
+   {
+    "stdin": "{'a': 0, 'b': 0, 'c': 0}\n0",
+    "expected": "['a', 'b', 'c']",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `value_to_keys` that accepts a dictionary `D` and a variable named `value` as arguments. It should return the list of all keys in the dictionary whose value is equal to `value`. If the value is not present in the dictionary, the function should return the empty list.\n\nReturn the keys in the order in which they appear in `D`.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\nvalue_to_keys({'a': 1, 'b': 2, 'c': 1}, 1)  ->  ['a', 'c']\nvalue_to_keys({'a': 1, 'b': 2}, 5)          ->  []\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef value_to_keys(D, value):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `D`, `value`.\n\n## Example\n\nInput\n\n```\n{'a': 1, 'b': 2, 'c': 1}\n1\n```\n\nOutput\n\n```\n['a', 'c']\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef value_to_keys(D, value):\n    keys = []\n    for key, val in D.items():\n        if val == value:\n            keys.append(key)\n    return keys\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = value_to_keys(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def value_to_keys(D, value):\n    ...\n",
+  "input_labels": [
+   "D",
+   "value"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-4"
+  ]
+ },
+ {
+  "source": "PPA W6-5a",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Dictionary To List",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "{'a': 1, 'b': 2}",
+    "expected": "[('a', 1), ('b', 2)]",
+    "hidden": false
+   },
+   {
+    "stdin": "{}",
+    "expected": "[]",
+    "hidden": false
+   },
+   {
+    "stdin": "{1: 'one'}",
+    "expected": "[(1, 'one')]",
+    "hidden": true
+   },
+   {
+    "stdin": "{'x': [1, 2], 'y': (3, 4)}",
+    "expected": "[('x', [1, 2]), ('y', (3, 4))]",
+    "hidden": true
+   },
+   {
+    "stdin": "{'p': 0, 'q': 0, 'r': 0}",
+    "expected": "[('p', 0), ('q', 0), ('r', 0)]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `dict_to_list` that accepts a dictionary `D` as argument. It should return the key-value pairs in `D` as a list `L` of tuples. That is, every element of `L` should be of the form `(key, value)` such that `D[key] == value`, and every key-value pair in the dictionary should be present as a tuple in `L`.\n\nAppend the pairs in the order in which they appear in `D`.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\ndict_to_list({'a': 1, 'b': 2})  ->  [('a', 1), ('b', 2)]\ndict_to_list({})                ->  []\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef dict_to_list(D):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `D`.\n\n## Example\n\nInput\n\n```\n{'a': 1, 'b': 2}\n```\n\nOutput\n\n```\n[('a', 1), ('b', 2)]\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef dict_to_list(D):\n    L = []\n    for key, value in D.items():\n        L.append((key, value))\n    return L\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = dict_to_list(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def dict_to_list(D):\n    ...\n",
+  "input_labels": [
+   "D"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-5a"
+  ]
+ },
+ {
+  "source": "PPA W6-5b",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "List To Dictionary",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[('a', 1), ('b', 2)]",
+    "expected": "{'a': 1, 'b': 2}",
+    "hidden": false
+   },
+   {
+    "stdin": "[]",
+    "expected": "{}",
+    "hidden": false
+   },
+   {
+    "stdin": "[(1, 'one'), (2, 'two'), (3, 'three')]",
+    "expected": "{1: 'one', 2: 'two', 3: 'three'}",
+    "hidden": true
+   },
+   {
+    "stdin": "[('x', [1, 2])]",
+    "expected": "{'x': [1, 2]}",
+    "hidden": true
+   },
+   {
+    "stdin": "[('k', None), ('m', 0)]",
+    "expected": "{'k': None, 'm': 0}",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `list_to_dict` that accepts a list of tuples `L` as argument. Each element of `L` is of the form `(x, y)`. It should return a dictionary `D` such that each tuple `(x, y)` corresponds to a key-value pair in `D`, that is, `D[x] == y`.\n\nYou can assume that if `(x1, y1)` and `(x2, y2)` are two different elements of `L`, then `x1 != x2`. Why is this assumption important?\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\nlist_to_dict([('a', 1), ('b', 2)])  ->  {'a': 1, 'b': 2}\nlist_to_dict([])                    ->  {}\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef list_to_dict(L):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[('a', 1), ('b', 2)]\n```\n\nOutput\n\n```\n{'a': 1, 'b': 2}\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef list_to_dict(L):\n    D = dict()\n    for key, value in L:\n        D[key] = value\n    return D\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = list_to_dict(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def list_to_dict(L):\n    ...\n",
+  "input_labels": [
+   "L"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-5b"
+  ]
+ },
+ {
+  "source": "PPA W6-6",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Marks In A Subject",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}]\n'Physics'",
+    "expected": "[('Devika', 100), ('Karthik', 72), ('Lalit', 58)]",
+    "hidden": false
+   },
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}]\n'Mathematics'",
+    "expected": "[('Devika', 85), ('Karthik', 60), ('Lalit', 45)]",
+    "hidden": false
+   },
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}]\n'Chemistry'",
+    "expected": "[('Devika', 79)]",
+    "hidden": true
+   },
+   {
+    "stdin": "[]\n'Physics'",
+    "expected": "[]",
+    "hidden": true
+   },
+   {
+    "stdin": "[{'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}, {'SeqNo': 4, 'Name': 'George', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 71, 'Physics': 65, 'Chemistry': 80}]\n'Chemistry'",
+    "expected": "[('Sapana', 74), ('George', 80)]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Recall the Scores dataset. Each student-entry in it is represented as a dictionary, for example:\n\n```python\n{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru',\n 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}\n```\n\nAll keys of the dictionary are strings. For `SeqNo` and the subjects, the corresponding values are integers. The values corresponding to `Name`, `Gender` and `City` are strings. The entire dataset is a list of such dictionaries named `scores_dataset`.\n\nWrite a function named `get_marks` that accepts `scores_dataset` and a variable named `subject` as arguments. It should return the marks scored by all students in `subject` as a list of tuples. Each element of this list is of the form `(Name, Marks)`. Append the tuples in the order in which the students appear in the dataset.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\nget_marks([{'Name': 'Devika', 'Physics': 100}, {'Name': 'Karthik', 'Physics': 72}], 'Physics')\n->  [('Devika', 100), ('Karthik', 72)]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef get_marks(scores_dataset, subject):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `scores_dataset`, `subject`.\n\n## Example\n\nInput\n\n```\n[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}]\n'Physics'\n```\n\nOutput\n\n```\n[('Devika', 100), ('Karthik', 72), ('Lalit', 58)]\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef get_marks(scores_dataset, subject):\n    marks = []\n    for student in scores_dataset:\n        marks.append((student['Name'], student[subject]))\n    return marks\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = get_marks(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def get_marks(scores_dataset, subject):\n    ...\n",
+  "input_labels": [
+   "scores_dataset",
+   "subject"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-6"
+  ]
+ },
+ {
+  "source": "PPA W6-7",
+  "week": 6,
+  "topic": "I/O Based Problem Solving",
+  "title": "Build The Scores Dataset",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "1\nDevika\nBengaluru\n0\n85\n100\n79",
+    "expected": "[{'Name': 'Devika', 'City': 'Bengaluru', 'SeqNo': 0, 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}]",
+    "hidden": false
+   },
+   {
+    "stdin": "2\nDevika\nBengaluru\n0\n85\n100\n79\nKarthik\nChennai\n1\n60\n72\n91",
+    "expected": "[{'Name': 'Devika', 'City': 'Bengaluru', 'SeqNo': 0, 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'Name': 'Karthik', 'City': 'Chennai', 'SeqNo': 1, 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}]",
+    "hidden": false
+   },
+   {
+    "stdin": "0",
+    "expected": "[]",
+    "hidden": true
+   },
+   {
+    "stdin": "3\nLalit\nKanpur\n0\n45\n58\n66\nSapana\nKanpur\n1\n92\n88\n74\nGeorge\nChennai\n2\n71\n65\n80",
+    "expected": "[{'Name': 'Lalit', 'City': 'Kanpur', 'SeqNo': 0, 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'Name': 'Sapana', 'City': 'Kanpur', 'SeqNo': 1, 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}, {'Name': 'George', 'City': 'Chennai', 'SeqNo': 2, 'Mathematics': 71, 'Physics': 65, 'Chemistry': 80}]",
+    "hidden": true
+   },
+   {
+    "stdin": "1\nAnita Rao\nNew Delhi\n7\n0\n100\n50",
+    "expected": "[{'Name': 'Anita Rao', 'City': 'New Delhi', 'SeqNo': 7, 'Mathematics': 0, 'Physics': 100, 'Chemistry': 50}]",
+    "hidden": true
+   }
+  ],
+  "body_md": "In this problem we build the list of dictionaries that was given to us in the previous problem.\n\nAccept a positive integer `n` that represents the number of students in the class. `n` blocks of input follow. Each block is made up of six lines and contains the details of one student. Create a dictionary corresponding to each student. All keys should be strings, and the value types and the order of the inputs are:\n\n| Line number | Key | Type of value |\n| --- | --- | --- |\n| 1 | Name | String |\n| 2 | City | String |\n| 3 | SeqNo | Integer |\n| 4 | Mathematics | Integer |\n| 5 | Physics | Integer |\n| 6 | Chemistry | Integer |\n\nAppend each dictionary to a list named `scores_dataset`, in the order in which the students appear in the input. Be careful about the types: if a value is specified as an integer, convert it.\n\nYou do not have to print anything. The list `scores_dataset` is checked for you.\n\n**Example**\n\n```\nInput:\n1\nDevika\nBengaluru\n0\n85\n100\n79\n\nscores_dataset:\n[{'Name': 'Devika', 'City': 'Bengaluru', 'SeqNo': 0,\n  'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}]\n```\n\n## Your task\n\nThe input is read for you. Assign the answers to `scores_dataset`.\n\nYou do not need to print anything — the values you assign to those names are what gets checked, in that order.\n\n## Example\n\nInput\n\n```\n1\nDevika\nBengaluru\n0\n85\n100\n79\n```\n\nOutput\n\n```\n[{'Name': 'Devika', 'City': 'Bengaluru', 'SeqNo': 0, 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}]\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\n\nscores_dataset = []\n\nfor _ in range(n):\n    name = input()\n    city = input()\n    seqno = int(input())\n    math = int(input())\n    phy = int(input())\n    chem = int(input())\n    student = {\n        'Name': name, 'City': city,\n        'SeqNo': seqno, 'Mathematics': math,\n        'Physics': phy, 'Chemistry': chem\n    }\n    scores_dataset.append(student)\n```",
+  "harness": "# --- checker (hidden): prints the values you assigned ---\nfor _oppe_name in ['scores_dataset']:\n    print(repr(globals().get(_oppe_name)))\n",
+  "starter_code": "n = int(input())\n\nscores_dataset = []\n\nfor _ in range(n):\n    ...\n",
+  "input_labels": [
+   "scores_dataset"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-7"
+  ]
+ },
+ {
+  "source": "PPA W6-8a",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Factors Of A Number",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "12",
+    "expected": "{1, 2, 3, 4, 6, 12}",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "{1}",
+    "hidden": false
+   },
+   {
+    "stdin": "7",
+    "expected": "{1, 7}",
+    "hidden": true
+   },
+   {
+    "stdin": "36",
+    "expected": "{1, 2, 3, 4, 6, 9, 12, 18, 36}",
+    "hidden": true
+   },
+   {
+    "stdin": "100",
+    "expected": "{1, 2, 4, 5, 10, 20, 25, 50, 100}",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function named `factors` that accepts a positive integer `n` as argument. It should return the set of all factors of `n`.\n\nNote that the method to add an element to a set is `add` and not `append`.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\nfactors(12)  ->  {1, 2, 3, 4, 6, 12}\nfactors(7)   ->  {1, 7}\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef factors(n):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n12\n```\n\nOutput\n\n```\n{1, 2, 3, 4, 6, 12}\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = factors(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def factors(n):\n    ...\n",
+  "input_labels": [
+   "n"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-8a"
+  ]
+ },
+ {
+  "source": "PPA W6-8b",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Common Factors",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "12\n18",
+    "expected": "{1, 2, 3, 6}",
+    "hidden": false
+   },
+   {
+    "stdin": "7\n13",
+    "expected": "{1}",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n1",
+    "expected": "{1}",
+    "hidden": true
+   },
+   {
+    "stdin": "24\n36",
+    "expected": "{1, 2, 3, 4, 6, 12}",
+    "hidden": true
+   },
+   {
+    "stdin": "100\n75",
+    "expected": "{1, 5, 25}",
+    "hidden": true
+   }
+  ],
+  "body_md": "You are given the following function, which returns the set of all factors of a positive integer `n`:\n\n```python\ndef factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n```\n\nWrite a function named `common_factors` that accepts two positive integers `a` and `b` as arguments and returns the set of common factors of the two numbers. This function must make use of `factors`.\n\nThe idea we are trying to bring out here is to make use of pre-defined functions whenever needed. Include the definition of `factors` in your answer as well, so that your code runs on its own.\n\nYou do not have to accept input from the user or print anything.\n\n**Example**\n\n```\ncommon_factors(12, 18)  ->  {1, 2, 3, 6}\ncommon_factors(7, 13)   ->  {1}\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef factors(n):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `a`, `b`.\n\n## Example\n\nInput\n\n```\n12\n18\n```\n\nOutput\n\n```\n{1, 2, 3, 6}\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n\n\ndef common_factors(a, b):\n    return factors(a).intersection(factors(b))\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = common_factors(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n\n\ndef common_factors(a, b):\n    ...\n",
+  "input_labels": [
+   "a",
+   "b"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-8b"
+  ]
+ },
+ {
+  "source": "PPA W6-8c",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Factors Up To N",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "4",
+    "expected": "{1: {1}, 2: {1, 2}, 3: {1, 3}, 4: {1, 2, 4}}",
+    "hidden": false
+   },
+   {
+    "stdin": "1",
+    "expected": "{1: {1}}",
+    "hidden": false
+   },
+   {
+    "stdin": "2",
+    "expected": "{1: {1}, 2: {1, 2}}",
+    "hidden": true
+   },
+   {
+    "stdin": "10",
+    "expected": "{1: {1}, 2: {1, 2}, 3: {1, 3}, 4: {1, 2, 4}, 5: {1, 5}, 6: {1, 2, 3, 6}, 7: {1, 7}, 8: {8, 1, 2, 4}, 9: {1, 3, 9}, 10: {1, 2, 10, 5}}",
+    "hidden": true
+   },
+   {
+    "stdin": "12",
+    "expected": "{1: {1}, 2: {1, 2}, 3: {1, 3}, 4: {1, 2, 4}, 5: {1, 5}, 6: {1, 2, 3, 6}, 7: {1, 7}, 8: {8, 1, 2, 4}, 9: {1, 3, 9}, 10: {1, 2, 10, 5}, 11: {1, 11}, 12: {1, 2, 3, 4, 6, 12}}",
+    "hidden": true
+   }
+  ],
+  "body_md": "You are given the following function, which returns the set of all factors of a positive integer `n`:\n\n```python\ndef factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n```\n\nWrite a function named `factors_upto` that accepts a positive integer `n` as argument. It should return a dictionary `D` whose keys are integers and whose values are sets. Each integer in the range from 1 to `n`, both endpoints included, is a key of `D`. The value corresponding to a key is the set of all factors of that key. This function must make use of `factors`.\n\nInclude the definition of `factors` in your answer as well, so that your code runs on its own.\n\nYou do not have to accept input from the user or print anything.\n\n**Example**\n\n```\nfactors_upto(4)  ->  {1: {1}, 2: {1, 2}, 3: {1, 3}, 4: {1, 2, 4}}\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef factors(n):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n4\n```\n\nOutput\n\n```\n{1: {1}, 2: {1, 2}, 3: {1, 3}, 4: {1, 2, 4}}\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n\n\ndef factors_upto(n):\n    D = dict()\n    for x in range(1, n + 1):\n        D[x] = factors(x)\n    return D\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = factors_upto(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def factors(n):\n    fact = set()\n    for f in range(1, n + 1):\n        if n % f == 0:\n            fact.add(f)\n    return fact\n\n\ndef factors_upto(n):\n    ...\n",
+  "input_labels": [
+   "n"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-8c"
+  ]
+ },
+ {
+  "source": "PPA W6-9",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Words By First Letter",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "medium",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "apple,banana,avocado,cherry,blueberry,apricot",
+    "expected": "{'a': ['apple', 'avocado', 'apricot'], 'b': ['banana', 'blueberry'], 'c': ['cherry']}",
+    "hidden": false
+   },
+   {
+    "stdin": "zebra",
+    "expected": "{'z': ['zebra']}",
+    "hidden": false
+   },
+   {
+    "stdin": "cat,cow,camel,crow",
+    "expected": "{'c': ['cat', 'cow', 'camel', 'crow']}",
+    "hidden": true
+   },
+   {
+    "stdin": "one,two,three,four,five,six,seven,eight,nine,ten",
+    "expected": "{'o': ['one'], 't': ['two', 'three', 'ten'], 'f': ['four', 'five'], 's': ['six', 'seven'], 'e': ['eight'], 'n': ['nine']}",
+    "hidden": true
+   },
+   {
+    "stdin": "dog,deer,ant,bee,bat,ant",
+    "expected": "{'d': ['dog', 'deer'], 'a': ['ant', 'ant'], 'b': ['bee', 'bat']}",
+    "hidden": true
+   }
+  ],
+  "body_md": "Accept a sequence of words as input. The words come on a single line, separated by commas.\n\nCreate a dictionary named `real_dict` whose keys are the first letters of the words in the sequence. For each key (letter), the corresponding value should be the list of words that begin with that letter. For any given key, the words should be appended to the list in the order in which they appear in the sequence. A letter that does not begin any word in the sequence should not be a key of `real_dict`.\n\nYou can assume that all words of the sequence will be in lower case.\n\nYou do not have to print anything. The dictionary `real_dict` is checked for you.\n\n**Example**\n\n```\nInput:      apple,banana,avocado,cherry\nreal_dict:  {'a': ['apple', 'avocado'], 'b': ['banana'], 'c': ['cherry']}\n```\n\n## Your task\n\nThe input is read for you. Assign the answers to `real_dict`.\n\nYou do not need to print anything — the values you assign to those names are what gets checked, in that order.\n\n## Example\n\nInput\n\n```\napple,banana,avocado,cherry,blueberry,apricot\n```\n\nOutput\n\n```\n{'a': ['apple', 'avocado', 'apricot'], 'b': ['banana', 'blueberry'], 'c': ['cherry']}\n```",
+  "solution_md": "## Reference solution\n\n```python\nL = input().split(',')\n\nreal_dict = dict()\n\nfor word in L:\n    first = word[0]\n    if first not in real_dict:\n        real_dict[first] = []\n    real_dict[first].append(word)\n```",
+  "harness": "# --- checker (hidden): prints the values you assigned ---\nfor _oppe_name in ['real_dict']:\n    print(repr(globals().get(_oppe_name)))\n",
+  "starter_code": "L = input().split(',')\n\n# assign your answer below\nreal_dict = ...\n",
+  "input_labels": [
+   "real_dict"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-9"
+  ]
+ },
+ {
+  "source": "PPA W6-10a",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Group Students By City",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}]",
+    "expected": "{'Bengaluru': ['Devika'], 'Chennai': ['Karthik'], 'Kanpur': ['Lalit', 'Sapana']}",
+    "hidden": false
+   },
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}]",
+    "expected": "{'Bengaluru': ['Devika']}",
+    "hidden": false
+   },
+   {
+    "stdin": "[]",
+    "expected": "{}",
+    "hidden": true
+   },
+   {
+    "stdin": "[{'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}, {'SeqNo': 4, 'Name': 'George', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 71, 'Physics': 65, 'Chemistry': 80}, {'SeqNo': 5, 'Name': 'Anita', 'Gender': 'F', 'City': 'Delhi', 'Mathematics': 55, 'Physics': 90, 'Chemistry': 61}]",
+    "expected": "{'Kanpur': ['Lalit', 'Sapana'], 'Chennai': ['George'], 'Delhi': ['Anita']}",
+    "hidden": true
+   },
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}, {'SeqNo': 4, 'Name': 'George', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 71, 'Physics': 65, 'Chemistry': 80}, {'SeqNo': 5, 'Name': 'Anita', 'Gender': 'F', 'City': 'Delhi', 'Mathematics': 55, 'Physics': 90, 'Chemistry': 61}]",
+    "expected": "{'Bengaluru': ['Devika'], 'Chennai': ['Karthik', 'George'], 'Kanpur': ['Lalit', 'Sapana'], 'Delhi': ['Anita']}",
+    "hidden": true
+   }
+  ],
+  "body_md": "The scores dataset is a list of dictionaries, one of whose entries is given below for your reference:\n\n```python\n{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru',\n 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}\n```\n\nWrite a function named `group_by_city` that accepts `scores_dataset` as argument. It should return a dictionary named `cities` whose keys are the names of the cities that the students are from. The value corresponding to a key (city) is the list of names of all students who hail from this city. Append the names in the order in which the students appear in the dataset.\n\nYou do not have to accept input from the user or print anything. You just have to write the definition of the function.\n\n**Example**\n\n```\ngroup_by_city([{'Name': 'Lalit', 'City': 'Kanpur'},\n               {'Name': 'Karthik', 'City': 'Chennai'},\n               {'Name': 'Sapana', 'City': 'Kanpur'}])\n->  {'Kanpur': ['Lalit', 'Sapana'], 'Chennai': ['Karthik']}\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef group_by_city(scores_dataset):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `scores_dataset`.\n\n## Example\n\nInput\n\n```\n[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}]\n```\n\nOutput\n\n```\n{'Bengaluru': ['Devika'], 'Chennai': ['Karthik'], 'Kanpur': ['Lalit', 'Sapana']}\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef group_by_city(scores_dataset):\n    cities = dict()\n    for student in scores_dataset:\n        name, city = student['Name'], student['City']\n        if city not in cities:\n            cities[city] = []\n        cities[city].append(name)\n    return cities\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = group_by_city(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def group_by_city(scores_dataset):\n    ...\n",
+  "input_labels": [
+   "scores_dataset"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-10a"
+  ]
+ },
+ {
+  "source": "PPA W6-10b",
+  "week": 6,
+  "topic": "Data Processing",
+  "title": "Busiest Cities",
+  "kind": "coding",
+  "language": "python",
+  "exam": "PPA",
+  "difficulty": "hard",
+  "practice_only": true,
+  "tests": [
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}]",
+    "expected": "['Kanpur']",
+    "hidden": false
+   },
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}]",
+    "expected": "['Bengaluru']",
+    "hidden": false
+   },
+   {
+    "stdin": "[]",
+    "expected": "[]",
+    "hidden": true
+   },
+   {
+    "stdin": "[{'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}, {'SeqNo': 4, 'Name': 'George', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 71, 'Physics': 65, 'Chemistry': 80}, {'SeqNo': 5, 'Name': 'Anita', 'Gender': 'F', 'City': 'Delhi', 'Mathematics': 55, 'Physics': 90, 'Chemistry': 61}]",
+    "expected": "['Kanpur']",
+    "hidden": true
+   },
+   {
+    "stdin": "[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}, {'SeqNo': 4, 'Name': 'George', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 71, 'Physics': 65, 'Chemistry': 80}, {'SeqNo': 5, 'Name': 'Anita', 'Gender': 'F', 'City': 'Delhi', 'Mathematics': 55, 'Physics': 90, 'Chemistry': 61}]",
+    "expected": "['Chennai', 'Kanpur']",
+    "hidden": true
+   }
+  ],
+  "body_md": "The scores dataset is a list of dictionaries, one of whose entries is given below for your reference:\n\n```python\n{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru',\n 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}\n```\n\nYou are given the following function, which groups the students by the city they hail from:\n\n```python\ndef group_by_city(scores_dataset):\n    cities = dict()\n    for student in scores_dataset:\n        name, city = student['Name'], student['City']\n        if city not in cities:\n            cities[city] = []\n        cities[city].append(name)\n    return cities\n```\n\nWrite a function named `busy_cities` that accepts `scores_dataset` as argument. It should return a list of cities. Each city in this list has the property that the number of students from this city is greater than or equal to the number of students from every other city in the dataset. Note that several cities can be tied for the maximum. Your function must make use of `group_by_city`.\n\nReturn the cities in the order in which they first appear in the dataset. Include the definition of `group_by_city` in your answer as well, so that your code runs on its own.\n\nYou do not have to accept input from the user or print anything.\n\n**Example**\n\n```\nbusy_cities([{'Name': 'Lalit', 'City': 'Kanpur'},\n             {'Name': 'Karthik', 'City': 'Chennai'},\n             {'Name': 'Sapana', 'City': 'Kanpur'}])\n->  ['Kanpur']\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef group_by_city(scores_dataset):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `scores_dataset`.\n\n## Example\n\nInput\n\n```\n[{'SeqNo': 0, 'Name': 'Devika', 'Gender': 'F', 'City': 'Bengaluru', 'Mathematics': 85, 'Physics': 100, 'Chemistry': 79}, {'SeqNo': 1, 'Name': 'Karthik', 'Gender': 'M', 'City': 'Chennai', 'Mathematics': 60, 'Physics': 72, 'Chemistry': 91}, {'SeqNo': 2, 'Name': 'Lalit', 'Gender': 'M', 'City': 'Kanpur', 'Mathematics': 45, 'Physics': 58, 'Chemistry': 66}, {'SeqNo': 3, 'Name': 'Sapana', 'Gender': 'F', 'City': 'Kanpur', 'Mathematics': 92, 'Physics': 88, 'Chemistry': 74}]\n```\n\nOutput\n\n```\n['Kanpur']\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef group_by_city(scores_dataset):\n    cities = dict()\n    for student in scores_dataset:\n        name, city = student['Name'], student['City']\n        if city not in cities:\n            cities[city] = []\n        cities[city].append(name)\n    return cities\n\n\ndef busy_cities(scores_dataset):\n    cities = group_by_city(scores_dataset)\n    busy, busy_count = [], 0\n    for city, from_city in cities.items():\n        if len(from_city) > busy_count:\n            busy, busy_count = [city], len(from_city)\n        elif len(from_city) == busy_count:\n            busy.append(city)\n    return busy\n```",
+  "harness": "# --- checker (hidden): runs your function and prints what it returns ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = busy_cities(*_args)\n_shown = _out\nprint(_oppe_fmt(_shown))\n",
+  "starter_code": "def group_by_city(scores_dataset):\n    cities = dict()\n    for student in scores_dataset:\n        name, city = student['Name'], student['City']\n        if city not in cities:\n            cities[city] = []\n        cities[city].append(name)\n    return cities\n\n\ndef busy_cities(scores_dataset):\n    ...\n",
+  "input_labels": [
+   "scores_dataset"
+  ],
+  "tags": [
+   "ppa",
+   "week-6",
+   "python",
+   "ppa-w6-10b"
+  ]
+ }
+]
