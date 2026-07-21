@@ -1,4 +1,4 @@
-// Add the Week 7 OPPE mock as a seventh Test Series paper.
+// Add the OPPE mock (GrPA repo week 7) as a seventh Test Series paper.
 //
 //   SUPABASE_ACCESS_TOKEN=... node scripts/import-week7-mock.mjs           # dry run
 //   SUPABASE_ACCESS_TOKEN=... node scripts/import-week7-mock.mjs --commit  # apply
@@ -14,7 +14,7 @@ const SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const COMMIT = process.argv.includes("--commit");
 
 const SLUG = "week-7-oppe-mock";
-const TITLE = "Week 7 — OPPE Mock";
+const TITLE = "OPPE Mock 1";
 const questions = JSON.parse(readFileSync(new URL("./week7-oppe-mock.json", import.meta.url), "utf8"));
 
 async function sql(query) {
