@@ -191,7 +191,9 @@ export function QuestionIDE({
   initialBestSeconds: number | null;
 }) {
   const router = useRouter();
-  const { seconds, running } = useStopwatch(0, true);
+  // Keyed by question so the clock survives a reload and each question keeps
+  // its own elapsed time.
+  const { seconds, running } = useStopwatch(0, true, `oppe:time:${current.id}`);
   const [tab, setTab] = useState<Tab>("question");
   const [navCollapsed, setNavCollapsed] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -484,7 +486,7 @@ export function QuestionIDE({
                 download
                 aria-label="Download this question with solution as PDF"
                 title="Download question with solution (PDF)"
-                className="grid h-8 w-8 place-items-center rounded-md border border-hairline text-err transition-colors hover:border-err/50 hover:bg-surface"
+                className="grid h-8 w-8 place-items-center rounded-md bg-err text-white transition-colors hover:bg-[#b91c1c]"
               >
                 <IconFilePdf size={16} />
               </a>
