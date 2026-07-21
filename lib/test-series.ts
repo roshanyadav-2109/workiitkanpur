@@ -6,9 +6,13 @@ export interface TestSection {
   questionIds: string[];
 }
 
+export type TestSetCategory = "pyq" | "mock";
+
 export interface TestSet {
   id: string;
   name: string;
+  /** Previous-year paper, or a mock — they live under different sections. */
+  category: TestSetCategory;
   durationSeconds: number;
   available: boolean;
   sections: TestSection[];

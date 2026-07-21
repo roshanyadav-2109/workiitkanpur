@@ -84,7 +84,11 @@ export default async function SubjectDetailPage({
     bestTimeSeconds: best.get(q.id) ?? null,
   }));
 
-  const testSets = (await getTestSets(subject.id)).map(setMeta);
+  // Previous-year papers and mocks are sat identically but answer different
+  // questions for a learner, so each gets its own section.
+  const allSets = await getTestSets(subject.id);
+  const mockSets = allSets.filter((s) => s.category === "mock").map(setMeta);
+  const pyqSets = allSets.filter((s) => s.category === "pyq").map(setMeta);
 
   return (
     <>
@@ -105,8 +109,9 @@ export default async function SubjectDetailPage({
 
       <SubjectSections
         testSeries={
-          <TestSeriesList slug={slug} sets={testSets} past={pastTests} />
+          <TestSeriesList slug={slug} sets={mockSets} past={pastTests} />
         }
+        pyqs={<TestSeriesList slug={slug} sets={pyqSets} past={pastTests} />}
       >
         <QuestionTable
           curriculum={curriculum}

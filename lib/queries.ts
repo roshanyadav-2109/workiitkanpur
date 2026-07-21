@@ -87,7 +87,7 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
   const { data: sets } = await supabase
     .from("test_sets")
     .select(
-      "slug, title, duration_seconds, is_available, sort_order, " +
+      "slug, title, category, duration_seconds, is_available, sort_order, " +
         "questions:test_set_questions(question_id, section, marks, sort_order)",
     )
     .eq("subject_id", subjectId)
@@ -96,6 +96,7 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
   type Row = {
     slug: string;
     title: string;
+    category: "pyq" | "mock";
     duration_seconds: number;
     is_available: boolean;
     questions: {
@@ -123,6 +124,7 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
     return {
       id: s.slug,
       name: s.title,
+      category: s.category ?? "mock",
       durationSeconds: s.duration_seconds,
       available: s.is_available && items.length > 0,
       sections,

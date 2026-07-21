@@ -26,8 +26,8 @@ const SECTIONS: Section[] = [
   {
     id: "pyqs",
     label: "PYQs",
-    note: "Previous years' OPPE questions, organised by term.",
-    available: false,
+    note: "Previous years' OPPE papers, sat exactly as they were set.",
+    available: true,
   },
   {
     id: "resources",
@@ -45,9 +45,11 @@ const SECTIONS: Section[] = [
 export function SubjectSections({
   children,
   testSeries,
+  pyqs,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
+  pyqs?: React.ReactNode;
 }) {
   const [active, setActive] = useState("practice");
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
@@ -135,6 +137,8 @@ export function SubjectSections({
             children
           ) : active === "test-series" ? (
             testSeries
+          ) : active === "pyqs" ? (
+            pyqs
           ) : (
             <div className="py-12 text-center">
               <p className="text-[15px] font-medium">
