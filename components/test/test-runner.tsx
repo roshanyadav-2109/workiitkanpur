@@ -291,12 +291,6 @@ export function TestRunner({
     setStartedAt(Date.now());
     setRemaining(durationSeconds);
     setStarted(true);
-    // Best-effort fullscreen so the exam owns the screen (needs the click).
-    try {
-      void document.documentElement.requestFullscreen?.();
-    } catch {
-      /* ignore — fullscreen is a nice-to-have, not required */
-    }
   }
 
   function setStatus(qid: string, s: QState) {

@@ -62,7 +62,7 @@ export default async function RunPage({
   }));
 
   return (
-    <TestDeviceGuard>
+    <TestDeviceGuard enforce={environment === "exam"}>
       <TestRunner
         slug={slug}
         attemptId={started.attemptId}

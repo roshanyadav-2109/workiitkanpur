@@ -3,14 +3,29 @@
 import { useEffect, useState } from "react";
 
 /**
- * Gate that only lets a Test Series paper run on a laptop/desktop. Blocks small
- * screens and — even when a phone requests the "desktop site" (which fakes a
- * wide viewport) — touch-only devices with no fine pointer (mouse/trackpad).
+ * The exam environment can only run on a laptop/desktop: it is the real,
+ * timed, tab-watched paper, so it needs a keyboard and mouse and a proper
+ * screen. Learning mode is untimed self-paced practice and is allowed on any
+ * device, so the guard only blocks when `enforce` is set.
+ *
+ * The check blocks small screens and — even when a phone requests the "desktop
+ * site" (which fakes a wide viewport) — touch-only devices with no fine pointer
+ * (mouse/trackpad).
  */
-export function TestDeviceGuard({ children }: { children: React.ReactNode }) {
+export function TestDeviceGuard({
+  enforce,
+  children,
+}: {
+  enforce: boolean;
+  children: React.ReactNode;
+}) {
   const [ok, setOk] = useState<boolean | null>(null);
 
   useEffect(() => {
+    if (!enforce) {
+      setOk(true);
+      return;
+    }
     function check() {
       const wideEnough = window.innerWidth >= 1024;
       const finePointer = window.matchMedia("(pointer: fine)").matches;
@@ -23,7 +38,7 @@ export function TestDeviceGuard({ children }: { children: React.ReactNode }) {
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
-  }, []);
+  }, [enforce]);
 
   if (ok === null) return null; // avoid a flash before the check runs
   if (ok) return <>{children}</>;
@@ -38,12 +53,12 @@ export function TestDeviceGuard({ children }: { children: React.ReactNode }) {
           </svg>
         </div>
         <h1 className="text-[22px] font-semibold tracking-[-0.01em]">
-          Please join from a laptop
+          Open the exam on a laptop
         </h1>
-        <p className="mx-auto mt-2.5 max-w-[32ch] text-[14.5px] leading-relaxed text-fg-muted">
-          A test needs a laptop or desktop with a keyboard and mouse. Open this
-          page on a computer to begin — phones and tablets aren&apos;t
-          supported.
+        <p className="mx-auto mt-2.5 max-w-[34ch] text-[14.5px] leading-relaxed text-fg-muted">
+          The exam environment needs a laptop or desktop with a keyboard and
+          mouse. Open it on a computer to begin — or attempt this paper in
+          Learning mode, which works on any device.
         </p>
       </div>
     </div>
