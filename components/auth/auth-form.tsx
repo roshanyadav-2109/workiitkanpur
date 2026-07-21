@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { lastRoute } from "@/lib/last-route";
 import { Button } from "@/components/ui/button";
 
 /** Multi-colour Google "G". */
@@ -30,6 +31,9 @@ function GoogleG() {
   );
 }
 
+/** Matches the default the login page applies when no `next` is given. */
+const DEFAULT_NEXT = "/app/subjects";
+
 export function AuthForm({
   mode,
   next,
@@ -41,6 +45,16 @@ export function AuthForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Where to land after signing in. An explicit `next` (the gate sent them
+   * here from somewhere specific) always wins; otherwise resume wherever they
+   * were last, and only fall back to the subject list on a first visit.
+   */
+  function destination(): string {
+    if (next && next !== DEFAULT_NEXT) return next;
+    return lastRoute() ?? next ?? DEFAULT_NEXT;
+  }
+
   const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
   const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
   const showDemo = mode === "login" && !!demoEmail && !!demoPassword;
@@ -49,7 +63,7 @@ export function AuthForm({
     setError(null);
     // The whole Google handshake runs on our own domain; Supabase only ever
     // sees the resulting id_token, server side. Just hand off to our route.
-    window.location.href = `/auth/google/start?next=${encodeURIComponent(next)}`;
+    window.location.href = `/auth/google/start?next=${encodeURIComponent(destination())}`;
   }
 
   async function onDemo() {
@@ -62,7 +76,7 @@ export function AuthForm({
         password: demoPassword!,
       });
       if (error) throw error;
-      router.replace(next);
+      router.replace(destination());
       router.refresh();
     } catch (err) {
       setError(
