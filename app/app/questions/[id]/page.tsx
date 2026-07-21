@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import {
   getCurrentUser,
@@ -8,6 +8,8 @@ import {
   getUserAttempts,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
+import { createClient } from "@/lib/supabase/server";
+import { hasPhoneOnFile } from "@/lib/require-phone";
 import {
   QuestionIDE,
   type IDETopicGroup,
@@ -38,6 +40,16 @@ export default async function QuestionPage({
     getQuestionsForSubject(subject.id),
     getCurrentUser(),
   ]);
+
+  // Middleware already required a session here; a phone number is the other
+  // half of the gate, and this is where it is enforced rather than trusted from
+  // the button that linked in. Back to the subject with the picker asking for
+  // it, which is where the learner can actually supply one.
+  if (!user) redirect(`/login?next=/app/questions/${id}`);
+  const supabase = await createClient();
+  if (!(await hasPhoneOnFile(supabase, user.id))) {
+    redirect(`/app/subjects/${subject.slug}?needphone=1`);
+  }
 
   let status = new Map<string, QuestionStatus>();
   let bestSeconds: number | null = null;

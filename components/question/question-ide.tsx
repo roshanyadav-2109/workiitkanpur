@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn, formatClock } from "@/lib/utils";
 import { useStopwatch } from "@/lib/use-stopwatch";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 import { saveNote, saveSubmission } from "@/lib/actions";
 import { Markdown } from "@/components/markdown";
 import { RuntimeArea } from "@/components/execution/runtime-area";
@@ -191,6 +192,7 @@ export function QuestionIDE({
   initialBestSeconds: number | null;
 }) {
   const router = useRouter();
+  const gate = usePhoneGate();
   // Keyed by question so the clock survives a reload and each question keeps
   // its own elapsed time.
   const { seconds, running } = useStopwatch(0, true, `oppe:time:${current.id}`);
@@ -481,15 +483,19 @@ export function QuestionIDE({
                 />
                 {formatClock(seconds)}
               </span>
-              <a
-                href={`/api/questions/${current.id}/pdf`}
-                download
-                aria-label="Download this question with solution as PDF"
+              <button
+                type="button"
+                onClick={() =>
+                  gate.requirePhone(() => {
+                    window.location.href = `/api/questions/${current.id}/pdf`;
+                  })
+                }
+                                                aria-label="Download this question with solution as PDF"
                 title="Download question with solution (PDF)"
                 className="grid h-8 w-8 place-items-center rounded-md bg-err text-white transition-colors hover:bg-[#b91c1c]"
               >
                 <IconFilePdf size={16} />
-              </a>
+              </button>
               <button
                 onClick={() => setNotesOpen((v) => !v)}
                 aria-label="Notes"

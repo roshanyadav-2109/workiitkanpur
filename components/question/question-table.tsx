@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { type QuestionStatus } from "@/components/ui/status";
 import { Input, Select } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { IconSearch, IconFilePdf } from "@/components/icons";
 import { formatClock, cn } from "@/lib/utils";
 import { degreeLabel, type Curriculum } from "@/lib/curriculum";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 import type { QuestionKind } from "@/lib/types";
 
 export interface QuestionRow {
@@ -52,6 +54,8 @@ export function QuestionTable({
   initialExam?: string;
   curriculum: Curriculum;
 }) {
+  const router = useRouter();
+  const gate = usePhoneGate();
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [topic, setTopic] = useState<string>("all");
@@ -254,23 +258,34 @@ export function QuestionTable({
                   </p>
                 </div>
 
+                {/* Both actions go through the gate first: the handout carries
+                    the solution, and opening a question is the start of solving
+                    it. The server enforces this too -- these just make the ask
+                    happen here instead of after a bounce. */}
                 <div className="flex shrink-0 items-center gap-2">
-                  <a
-                    href={`/api/questions/${r.id}/pdf`}
-                    download
+                  <button
+                    type="button"
+                    onClick={() =>
+                      gate.requirePhone(() => {
+                        window.location.href = `/api/questions/${r.id}/pdf`;
+                      })
+                    }
                     title="Download question with solution (PDF)"
                     aria-label={`Download "${r.title}" with solution as PDF`}
                     // solid red tile, white glyph -- reads as "PDF" instantly
                     className="grid h-9 w-9 place-items-center rounded-[3px] bg-err text-white transition-colors hover:bg-[#b91c1c]"
                   >
                     <IconFilePdf size={18} />
-                  </a>
-                  <Link
-                    href={`/app/questions/${r.id}`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      gate.requirePhone(() => router.push(`/app/questions/${r.id}`))
+                    }
                     className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3.5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd] sm:px-5"
                   >
                     {solved ? "Solve again" : "Attempt"}
-                  </Link>
+                  </button>
                 </div>
               </div>
             );

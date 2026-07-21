@@ -1,12 +1,18 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-/** Routes that require a signed-in user. Browsing subjects/questions stays public. */
+/**
+ * Routes that require a signed-in user. The subject lists stay public so the
+ * catalogue can be browsed, but opening a question is the start of solving it,
+ * so that needs an account (and, checked on the page itself, a phone number).
+ */
 function requiresAuth(pathname: string): boolean {
   return (
     pathname === "/app" ||
     pathname.startsWith("/app/progress") ||
     pathname.startsWith("/app/settings") ||
+    // Solving a question, and the PDF of it, are gated.
+    pathname.startsWith("/app/questions") ||
     // Test Series papers are graded and stored per learner.
     pathname.startsWith("/app/test")
   );
