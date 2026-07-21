@@ -10,6 +10,7 @@ import { IconSearch, IconFilePdf } from "@/components/icons";
 import { formatClock, cn } from "@/lib/utils";
 import { degreeLabel, type Curriculum } from "@/lib/curriculum";
 import { usePhoneGate } from "@/components/phone/phone-gate";
+import { logEvent } from "@/lib/activity";
 import type { QuestionKind } from "@/lib/types";
 
 export interface QuestionRow {
@@ -267,6 +268,10 @@ export function QuestionTable({
                     type="button"
                     onClick={() =>
                       gate.requirePhone(() => {
+                        void logEvent({
+                          event: "pdf_download",
+                          questionId: r.id,
+                        });
                         window.location.href = `/api/questions/${r.id}/pdf`;
                       })
                     }
@@ -280,7 +285,13 @@ export function QuestionTable({
                   <button
                     type="button"
                     onClick={() =>
-                      gate.requirePhone(() => router.push(`/app/questions/${r.id}`))
+                      gate.requirePhone(() => {
+                        void logEvent({
+                          event: "question_open",
+                          questionId: r.id,
+                        });
+                        router.push(`/app/questions/${r.id}`);
+                      })
                     }
                     className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3.5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd] sm:px-5"
                   >

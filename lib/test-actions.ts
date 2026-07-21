@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import { getQuestionsForSubject, getSubjectBySlug, getTestSets } from "@/lib/queries";
+import { logEvent } from "@/lib/activity";
 
 export type TestActionResult =
   | { ok: true; score: number; total: number }
@@ -67,6 +68,13 @@ export async function startTestAttempt(input: {
     .single();
 
   if (error || !attempt) return { error: error?.message ?? "Could not start." };
+
+  await logEvent({
+    event: "test_start",
+    subjectId: subject.id,
+    setSlug: set.id,
+    meta: { environment: input.environment, questions: questionIds.length },
+  });
   return { attemptId: attempt.id as string };
 }
 
@@ -101,7 +109,7 @@ export async function submitTestAttempt(input: {
 
   const { data: attempt } = await supabase
     .from("test_attempts")
-    .select("id, user_id, question_ids, status, subject_slug, score, total")
+    .select("id, user_id, question_ids, status, subject_slug, set_id, score, total")
     .eq("id", input.attemptId)
     .maybeSingle();
   if (!attempt || attempt.user_id !== user.id)
@@ -162,6 +170,17 @@ export async function submitTestAttempt(input: {
     })
     .eq("id", input.attemptId);
   if (tErr) return { ok: false, error: tErr.message };
+
+  await logEvent({
+    event: "test_submit",
+    setSlug: attempt.set_id as string,
+    meta: {
+      score,
+      total: questionIds.length,
+      timeSeconds: Math.max(0, Math.round(input.timeSeconds)),
+      leaveCount: Math.max(0, Math.round(input.leaveCount)),
+    },
+  });
 
   revalidatePath(`/app/subjects/${attempt.subject_slug}`);
   revalidatePath("/app/progress");

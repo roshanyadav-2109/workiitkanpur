@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { cn, formatClock } from "@/lib/utils";
 import { useStopwatch } from "@/lib/use-stopwatch";
 import { usePhoneGate } from "@/components/phone/phone-gate";
-import { saveNote, saveSubmission } from "@/lib/actions";
+import { recordAttempt, saveNote, saveSubmission } from "@/lib/actions";
+import { logEvent } from "@/lib/activity";
 import { Markdown } from "@/components/markdown";
 import { RuntimeArea } from "@/components/execution/runtime-area";
 import { StatusIndicator, type QuestionStatus } from "@/components/ui/status";
@@ -268,9 +269,25 @@ export function QuestionIDE({
   }
 
   function handleGraded(r: GradeResult) {
-    // Reflect the outcome locally only (no attempt recorded in practice):
-    // green when all tests pass, red when a submission fails.
+    // Green when all tests pass, red when a submission fails.
     setStatus(r.correct ? "solved" : "wrong");
+    if (!isAuthed) return;
+    // The attempt is what progress, best times and the leaderboard read; the
+    // event is the finer-grained trail. Both are best-effort — a failure here
+    // must not cost the learner their run.
+    startTransition(async () => {
+      await recordAttempt({
+        questionId: current.id,
+        status: r.correct ? "solved" : "attempted",
+        timeSpentSeconds: seconds,
+        isCorrect: r.correct,
+      });
+      await logEvent({
+        event: r.correct ? "solved" : "submit",
+        questionId: current.id,
+        meta: { passed: r.passed, total: r.total, seconds },
+      });
+    });
   }
 
   // Persist the last submitted code (signed-in users only) so it can be shown
@@ -487,6 +504,10 @@ export function QuestionIDE({
                 type="button"
                 onClick={() =>
                   gate.requirePhone(() => {
+                    void logEvent({
+                      event: "pdf_download",
+                      questionId: current.id,
+                    });
                     window.location.href = `/api/questions/${current.id}/pdf`;
                   })
                 }
