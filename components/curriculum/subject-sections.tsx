@@ -58,7 +58,12 @@ export function SubjectSections({
     "flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[8px] border px-3.5 py-2 text-[13.5px] font-medium transition-colors";
 
   return (
-    <div className="flex flex-col gap-4 lg:flex-row lg:gap-7">
+    // Floor the row at roughly a screen tall so a short tab (a single paper, or
+    // one question) still leaves enough page to scroll the banner away and let
+    // the sticky rail pin under the navbar — the same behaviour a long list gets
+    // for free. The floor only adds empty space below short content; long
+    // content grows past it as before.
+    <div className="flex flex-col gap-4 lg:min-h-[calc(100vh-3.5rem)] lg:flex-row lg:gap-7">
       {/* Desktop — left section nav. It scrolls away with the banner, then pins
           just under the (sticky, h-14) navbar so only the question list keeps
           moving. `self-start` is what makes that work: a stretched flex child
