@@ -50,25 +50,6 @@ export function TestSeriesList({
         </div>
       ))}
 
-      {[2, 3].map((n) => (
-        <div
-          key={n}
-          className="flex items-center justify-between gap-4 rounded-[3px] border border-hairline bg-surface px-5 py-4"
-        >
-          <div className="min-w-0">
-            <h3 className="text-[15.5px] font-semibold text-fg">
-              Set {n} — Full OPPE Mock
-            </h3>
-            <p className="mt-1 text-[13px] text-fg-muted">
-              Unlocks after you finish Set {n - 1}
-            </p>
-          </div>
-          <span className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-[#ececeb] px-5 text-[13px] font-medium text-fg-faint">
-            🔒 Locked
-          </span>
-        </div>
-      ))}
-
       {live.length === 0 && (
         <p className="text-[13px] text-fg-muted">
           No test sets are available for this subject yet.

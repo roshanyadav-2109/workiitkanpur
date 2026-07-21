@@ -9,6 +9,7 @@ import {
   getUserAttempts,
   getTestAttempts,
   getCurriculum,
+  getTestSets,
   type TestAttemptRow,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
@@ -20,7 +21,7 @@ import type { QuestionStatus } from "@/components/ui/status";
 import { SubjectSections } from "@/components/curriculum/subject-sections";
 import { TestSeriesList } from "@/components/curriculum/test-series-list";
 import { BannerCarousel } from "@/components/curriculum/banner-carousel";
-import { buildSetsForSubject, setMeta } from "@/lib/test-series";
+import { setMeta } from "@/lib/test-series";
 
 export async function generateMetadata({
   params,
@@ -66,7 +67,11 @@ export default async function SubjectDetailPage({
     pastTests = tests;
   }
 
-  const rows: QuestionRow[] = questions.map((q) => ({
+  // The Practice tab lists the practice bank. Questions that belong to a Test
+  // Series paper are that paper's, and are reached by sitting it.
+  const rows: QuestionRow[] = questions
+    .filter((q) => q.practice_only)
+    .map((q) => ({
     id: q.id,
     title: q.title,
     topicId: q.topic?.id ?? q.topic_id,
@@ -79,7 +84,7 @@ export default async function SubjectDetailPage({
     bestTimeSeconds: best.get(q.id) ?? null,
   }));
 
-  const testSets = buildSetsForSubject(questions).map(setMeta);
+  const testSets = (await getTestSets(subject.id)).map(setMeta);
 
   return (
     <>

@@ -9,6 +9,7 @@ import type {
   Topic,
 } from "@/lib/types";
 import type { Curriculum } from "@/lib/curriculum";
+import type { TestSection, TestSet } from "@/lib/test-series";
 
 export interface QuestionMinimal {
   id: string;
@@ -75,6 +76,58 @@ export async function getCurriculum(): Promise<Curriculum> {
         level: o.level,
       })),
   };
+}
+
+/**
+ * The Test Series papers for a subject, newest first, each with its problems
+ * grouped into the sections the original exam used.
+ */
+export async function getTestSets(subjectId: string): Promise<TestSet[]> {
+  const supabase = await createClient();
+  const { data: sets } = await supabase
+    .from("test_sets")
+    .select(
+      "slug, title, duration_seconds, is_available, sort_order, " +
+        "questions:test_set_questions(question_id, section, marks, sort_order)",
+    )
+    .eq("subject_id", subjectId)
+    .order("sort_order", { ascending: true });
+
+  type Row = {
+    slug: string;
+    title: string;
+    duration_seconds: number;
+    is_available: boolean;
+    questions: {
+      question_id: string;
+      section: string | null;
+      sort_order: number;
+    }[] | null;
+  };
+
+  return ((sets ?? []) as unknown as Row[]).map((s) => {
+    const items = [...(s.questions ?? [])].sort(
+      (a, b) => a.sort_order - b.sort_order,
+    );
+    // Preserve the paper's own section order rather than sorting by name.
+    const sections: TestSection[] = [];
+    for (const item of items) {
+      const name = item.section ?? "Questions";
+      let section = sections.find((x) => x.name === name);
+      if (!section) {
+        section = { name, week: null, questionIds: [] };
+        sections.push(section);
+      }
+      section.questionIds.push(item.question_id);
+    }
+    return {
+      id: s.slug,
+      name: s.title,
+      durationSeconds: s.duration_seconds,
+      available: s.is_available && items.length > 0,
+      sections,
+    };
+  });
 }
 
 export async function getSubjectBySlug(slug: string): Promise<Subject | null> {

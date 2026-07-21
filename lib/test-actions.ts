@@ -3,8 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
-import { getQuestionsForSubject, getSubjectBySlug } from "@/lib/queries";
-import { buildSetsForSubject } from "@/lib/test-series";
+import { getQuestionsForSubject, getSubjectBySlug, getTestSets } from "@/lib/queries";
 
 export type TestActionResult =
   | { ok: true; score: number; total: number }
@@ -35,8 +34,7 @@ export async function startTestAttempt(input: {
   const subject = await getSubjectBySlug(input.slug);
   if (!subject) return { error: "Subject not found." };
 
-  const questions = await getQuestionsForSubject(subject.id);
-  const set = buildSetsForSubject(questions).find((s) => s.id === input.setId);
+  const set = (await getTestSets(subject.id)).find((s) => s.id === input.setId);
   if (!set || !set.available) return { error: "Set not available." };
 
   const { data: open } = await supabase

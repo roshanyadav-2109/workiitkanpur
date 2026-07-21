@@ -1,0 +1,2285 @@
+[
+ {
+  "slug": "may-2024",
+  "title": "May 2024",
+  "exam": "OPPE 1",
+  "year": 2024,
+  "source": "unknowniitians.com PYQ - May 2024",
+  "sort_order": 1,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Abs Diff Between Sum And Sum Of Squares",
+    "body_md": "Given two integers, find the absolute difference between their sum and the sum of their squares.\n\nEg.\na, b = 2,3\nsum is 5\nsum of squares is 13\nabsolute difference is 8\n\nArgs:\n    a - int : The first integer.\n    b - int : The second integer.\n\nReturns:\n    int: absolute difference between the sum and the sum of squares\n\n## Your task\n\nImplement this function:\n\n```python\ndef abs_diff_between_sum_and_sum_of_squares(a:int, b:int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `a`, `b`.\n\n## Example\n\nInput\n\n```\n2\n3\n```\n\nOutput\n\n```\n8\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef abs_diff_between_sum_and_sum_of_squares(a:int, b:int) -> int:\n    return abs((a + b) - (a ** 2 + b ** 2))\n```",
+    "difficulty": "easy",
+    "starter_code": "def abs_diff_between_sum_and_sum_of_squares(a:int, b:int) -> int:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = abs_diff_between_sum_and_sum_of_squares(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "a",
+     "b"
+    ],
+    "tests": [
+     {
+      "stdin": "2\n3",
+      "expected": "8",
+      "hidden": false
+     },
+     {
+      "stdin": "0\n0",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "-1\n1",
+      "expected": "2",
+      "hidden": true
+     },
+     {
+      "stdin": "10\n5",
+      "expected": "110",
+      "hidden": true
+     },
+     {
+      "stdin": "7\n7",
+      "expected": "84",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 1,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Swap Except Middle Three",
+    "body_md": "Given an odd-length string,\nswap the parts before and after the middle three characters,\nwhile keeping the middle three characters in place.\n\nAssume the string has at least 5 characters.\n\nExamples:\n    \"firstabclast1\" -> \"last1abcfirst\"\n    \"abcdefghi\" -> \"ghidefabc\"\n\nArgs:\n    s (str): The input string of odd length.\n\nReturns:\n    str: The modified string with the parts swapped.\n\n## Your task\n\nImplement this function:\n\n```python\ndef swap_except_middle_three(s: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'abcdefghi'\n```\n\nOutput\n\n```\n'ghidefabc'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef swap_except_middle_three(s: str) -> str:\n    start = (len(s) - 3) // 2\n    end = start + 3\n    return s[end:] + s[start:end] + s[:start]\n```",
+    "difficulty": "easy",
+    "starter_code": "def swap_except_middle_three(s: str) -> str:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = swap_except_middle_three(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "s"
+    ],
+    "tests": [
+     {
+      "stdin": "'abcdefghi'",
+      "expected": "'ghidefabc'",
+      "hidden": false
+     },
+     {
+      "stdin": "'firstabclast1'",
+      "expected": "'last1abcfirst'",
+      "hidden": false
+     },
+     {
+      "stdin": "'abcde'",
+      "expected": "'ebcda'",
+      "hidden": true
+     },
+     {
+      "stdin": "'hello world'",
+      "expected": "'orldo whell'",
+      "hidden": true
+     },
+     {
+      "stdin": "'aXbYcZdWe'",
+      "expected": "'dWeYcZaXb'",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 2,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Interleave Lists",
+    "body_md": "Given three lists of same length,\ninterleave them together and return the interleaved list.\n\nExample:\n    list1 = [1, 2, 3]\n    list2 = ['a', 'b', 'c']\n    list3 = [(1,1),(2,2),(3,3)]\n    output = [1, 'a', (1,1), 2, 'b', (2,2), 3, 'c', (3,3)]\n\nArgs:\n    list1 (list): The first list.\n    list2 (list): The second list.\n    list3 (list): The third list.\n\nReturns:\n    list: A list containing interleaved elements from all three lists.\n\n## Your task\n\nImplement this function:\n\n```python\ndef interleave_lists(list1, list2, list3):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `list1`, `list2`, `list3`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3]\n['a', 'b', 'c']\n[(1, 1), (2, 2), (3, 3)]\n```\n\nOutput\n\n```\n[1, 'a', (1, 1), 2, 'b', (2, 2), 3, 'c', (3, 3)]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef interleave_lists(list1, list2, list3):\n    result = []\n    for a, b, c in zip(list1, list2, list3):\n        result.append(a)\n        result.append(b)\n        result.append(c)\n    return result\n```",
+    "difficulty": "easy",
+    "starter_code": "def interleave_lists(list1, list2, list3):\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:3]]\n_out = interleave_lists(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "list1",
+     "list2",
+     "list3"
+    ],
+    "tests": [
+     {
+      "stdin": "[1, 2, 3]\n['a', 'b', 'c']\n[(1, 1), (2, 2), (3, 3)]",
+      "expected": "[1, 'a', (1, 1), 2, 'b', (2, 2), 3, 'c', (3, 3)]",
+      "hidden": false
+     },
+     {
+      "stdin": "[1]\n[2]\n[3]",
+      "expected": "[1, 2, 3]",
+      "hidden": false
+     },
+     {
+      "stdin": "[]\n[]\n[]",
+      "expected": "[]",
+      "hidden": true
+     },
+     {
+      "stdin": "[10, 20]\n['x', 'y']\n[True, False]",
+      "expected": "[10, 'x', True, 20, 'y', False]",
+      "hidden": true
+     },
+     {
+      "stdin": "['a', 'b', 'c', 'd']\n[1, 2, 3, 4]\n[1.5, 2.5, 3.5, 4.5]",
+      "expected": "['a', 1, 1.5, 'b', 2, 2.5, 'c', 3, 3.5, 'd', 4, 4.5]",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 3,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Has More Than 5 Unique Digits",
+    "body_md": "Determine if a given integer has more than 5 unique digits.\n\nArgs:\n    num (int): The input integer.\n\nReturns:\n    bool: True if the integer has more than 5 unique digits, otherwise False.\n\n## Your task\n\nImplement this function:\n\n```python\ndef has_more_than_5_unique_digits(num: int) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `num`.\n\n## Example\n\nInput\n\n```\n1234567\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef has_more_than_5_unique_digits(num: int) -> bool:\n    return len(set(str(abs(num)))) > 5\n```",
+    "difficulty": "easy",
+    "starter_code": "def has_more_than_5_unique_digits(num: int) -> bool:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = has_more_than_5_unique_digits(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "num"
+    ],
+    "tests": [
+     {
+      "stdin": "1234567",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "1111111",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "123456",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "1234554321",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "102030405060",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 4,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Final Position",
+    "body_md": "Given an initial position of a point moving in a cartesian plane with a constant velocity,\nfind the the final position of the point after a given time.\n\nHint: final position = intial position + velocity * time\n\nArgs:\n    pos - tuple[int]: A tuple representing the position vector (x1, y1).\n    vel - tuple[int]: A tuple representing the velocity vector (vx, vy).\n    time - int: time of movement.\n\nReturns:\n    tuple[int]: A tuple representing the displacement (dx, dy).\n\n## Your task\n\nImplement this function:\n\n```python\ndef final_position(pos: tuple, vel: tuple, time:int) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `pos`, `vel`, `time`.\n\n## Example\n\nInput\n\n```\n(0, 0)\n(1, 2)\n3\n```\n\nOutput\n\n```\n(3, 6)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef final_position(pos: tuple, vel: tuple, time:int) -> tuple:\n    return tuple(p + v * time for p, v in zip(pos, vel))\n```",
+    "difficulty": "easy",
+    "starter_code": "def final_position(pos: tuple, vel: tuple, time:int) -> tuple:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:3]]\n_out = final_position(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "pos",
+     "vel",
+     "time"
+    ],
+    "tests": [
+     {
+      "stdin": "(0, 0)\n(1, 2)\n3",
+      "expected": "(3, 6)",
+      "hidden": false
+     },
+     {
+      "stdin": "(1, 1)\n(0, 0)\n10",
+      "expected": "(1, 1)",
+      "hidden": false
+     },
+     {
+      "stdin": "(5, -3)\n(-1, 2)\n4",
+      "expected": "(1, 5)",
+      "hidden": true
+     },
+     {
+      "stdin": "(2, 3)\n(4, 5)\n0",
+      "expected": "(2, 3)",
+      "hidden": true
+     },
+     {
+      "stdin": "(-10, 20)\n(3, -4)\n5",
+      "expected": "(5, 0)",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 5,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Remove Keys Not In List",
+    "body_md": "Remove keys from a dictionary that are not present in a given list.\nThe function modifies the dictionary in place and does not return anything.\n\nNote:\n    Modifying a dict while iterating over it will give an error in python.\n    So, make a copy of the dict keys and then iterate over it.\n\nArgs:\n    d (dict): The dictionary to modify.\n    l (list): The list of keys to keep in the dictionary.\n\nReturns:\n    None\n\n## Your task\n\nImplement this function:\n\n```python\ndef remove_keys_not_in_list(d: dict, l: list) -> None:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `d`, `l`.\n\n## Example\n\nInput\n\n```\n{'a': 1, 'b': 2, 'c': 3}\n['a', 'c']\n```\n\nOutput\n\n```\n{'a': 1, 'c': 3}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef remove_keys_not_in_list(d: dict, l: list) -> None:\n    for key in list(d.keys()):\n        if key not in l:\n            del d[key]\n```",
+    "difficulty": "easy",
+    "starter_code": "def remove_keys_not_in_list(d: dict, l: list) -> None:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = remove_keys_not_in_list(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+    "input_labels": [
+     "d",
+     "l"
+    ],
+    "tests": [
+     {
+      "stdin": "{'a': 1, 'b': 2, 'c': 3}\n['a', 'c']",
+      "expected": "{'a': 1, 'c': 3}",
+      "hidden": false
+     },
+     {
+      "stdin": "{'x': 10, 'y': 20}\n[]",
+      "expected": "{}",
+      "hidden": false
+     },
+     {
+      "stdin": "{}\n['a']",
+      "expected": "{}",
+      "hidden": true
+     },
+     {
+      "stdin": "{1: 'one', 2: 'two', 3: 'three'}\n[1, 3, 5]",
+      "expected": "{1: 'one', 3: 'three'}",
+      "hidden": true
+     },
+     {
+      "stdin": "{'a': 1, 'b': 2}\n['a', 'b']",
+      "expected": "{'a': 1, 'b': 2}",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 6,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Is All Same Word Twice",
+    "body_md": "Given a list of strings, check if all strings follow the format where the same word is repeated exactly twice with a hyphen in-between them. The word repeated should not be empty.\n\nExamples of correct format:\n\n\"fast-fast\" - correct\n\"go-go\" - correct\n\"yeah-yeah\" - correct\n\nExamples of incorrect format:\n\n\"fast-slow\" - incorrect (different words)\n\"fast-fast-fast\" - incorrect (word repeated more than twice)\n\"fastfast\" - incorrect (no hyphen)\n\"asfdadf\" - incorrect (no hyphen, word not repeated)\n\"-\" incorrect (empty word)\n\nArgs:\n    strings (list): A list of strings to be checked.\n\nReturns:\n    bool: True if all strings are of the given format, otherwise False.\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_all_same_word_twice(strings: list) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `strings`.\n\n## Example\n\nInput\n\n```\n['fast-fast', 'go-go', 'yeah-yeah']\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef is_all_same_word_twice(strings: list) -> bool:\n    for s in strings:\n        parts = s.split('-')\n        if len(parts) != 2:\n            return False\n        if parts[0] == '' or parts[0] != parts[1]:\n            return False\n    return True\n```",
+    "difficulty": "hard",
+    "starter_code": "def is_all_same_word_twice(strings: list) -> bool:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = is_all_same_word_twice(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "strings"
+    ],
+    "tests": [
+     {
+      "stdin": "['fast-fast', 'go-go', 'yeah-yeah']",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "['fast-fast', 'fast-slow']",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "['fast-fast-fast']",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "['-', 'go-go']",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "['a-a', 'python-python']",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 2 - Data Processing",
+    "marks": 20,
+    "sort_order": 7,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Most Occuring First Letter",
+    "body_md": "Given a multi-line passage where the words are separated by spaces, find the letter which occurs most frequently as the first letter of any word. Consider both uppercase and lowercase letters as the same and return the letter in lowercase.\n\nAssume there will be only one letter that occurs the most number of times as the first letter of a word.\n\nExample:\n\n```\npassage = '''\nword1 Word2 word3 word4 text1 text2\ntext3 Text4 word5 text5 word6\npython1 python2 Python3\n'''\n```\n\nThe function will return \"w\" because \"w\" is the most frequently occurring first letter.\n\nReturns the letter which occurs most frequently\nas the first letter of any word.(case insensitive)\n\nArgs:\n    passage (str): A multi-line string representing the passage.\n\nReturns:\n    str: The most frequently occurring first letter in lowercase.\n\n## Your task\n\nImplement this function:\n\n```python\ndef most_occuring_first_letter(passage: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `passage`.\n\n## Example\n\nInput\n\n```\n'word1 Word2 word3 word4 text1 text2\\ntext3 Text4 word5 text5 word6\\npython1 python2 Python3'\n```\n\nOutput\n\n```\n'w'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef most_occuring_first_letter(passage: str) -> str:\n    counts = {}\n    for word in passage.split():\n        letter = word[0].lower()\n        counts[letter] = counts.get(letter, 0) + 1\n    return max(counts, key=counts.get)\n```",
+    "difficulty": "hard",
+    "starter_code": "def most_occuring_first_letter(passage: str) -> str:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = most_occuring_first_letter(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "passage"
+    ],
+    "tests": [
+     {
+      "stdin": "'word1 Word2 word3 word4 text1 text2\\ntext3 Text4 word5 text5 word6\\npython1 python2 Python3'",
+      "expected": "'w'",
+      "hidden": false
+     },
+     {
+      "stdin": "'apple ant\\nbanana Apple\\nAnt axe'",
+      "expected": "'a'",
+      "hidden": false
+     },
+     {
+      "stdin": "'Hello world\\nhi there\\nHouse home'",
+      "expected": "'h'",
+      "hidden": true
+     },
+     {
+      "stdin": "'single'",
+      "expected": "'s'",
+      "hidden": true
+     },
+     {
+      "stdin": "'cat dog cow\\ndeer camel'",
+      "expected": "'c'",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 3 - Data Processing",
+    "marks": 20,
+    "sort_order": 8,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   },
+   {
+    "title": "Run Length Encoding",
+    "body_md": "Given `n` positive integers over multiple lines, where `n` is provided in the first line, print the run-length encoding sequence for each number on separate lines. Run-length encoding represents how many times a digit is repeated consecutively. For each number, every two values in the output represent the count of consecutive digits followed by the digit itself.\n\n## Input\n\n- The first line contains an integer `n` representing the number of integers.\n- The next `n` lines each contain one integer.\n\n## Output\n\n- For each of the `n` integers, print the run-length encoded sequence on a new line. Each line contains pairs of numbers where the first number in each pair is the count of consecutive digits, followed by the digit itself.\n\n## Example\n\nFor example, given the following input:\n\n```\n4\n44455544445\n666666\n77778888877\n234567\n```\n\nThe output should be:\n\n```\n3 4 3 5 4 4 1 5\n6 6\n4 7 5 8 2 7\n1 2 1 3 1 4 1 5 1 6 1 7\n```\n\n## Explanation\n\n```\n44455544445 - 3 4 3 5 4 4 1 5 - 3 times 4, 3 times 5, 4 times 4 and 1 time 5\n666666 - 6 6 - 6 times 6\n77778888877 - 4 7 5 8 2 7 - 4 times 7, 5 times 8, 2 times 7\n234567 - 1 2 1 3 1 4 1 5 1 6 1 7 - 1 time 2, 1 time 3, 1 time 4, 1 time 5, 1 time 6, 1 time 7\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n4\n44455544445\n666666\n77778888877\n234567\n```\n\nOutput\n\n```\n3 4 3 5 4 4 1 5\n6 6\n4 7 5 8 2 7\n1 2 1 3 1 4 1 5 1 6 1 7\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor _ in range(n):\n    s = input().strip()\n    parts = []\n    i = 0\n    while i < len(s):\n        j = i\n        while j < len(s) and s[j] == s[i]:\n            j += 1\n        parts.append(str(j - i))\n        parts.append(s[i])\n        i = j\n    print(' '.join(parts))\n```",
+    "difficulty": "hard",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "4\n44455544445\n666666\n77778888877\n234567",
+      "expected": "3 4 3 5 4 4 1 5\n6 6\n4 7 5 8 2 7\n1 2 1 3 1 4 1 5 1 6 1 7",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n7",
+      "expected": "1 7",
+      "hidden": false
+     },
+     {
+      "stdin": "2\n111\n222333",
+      "expected": "3 1\n3 2 3 3",
+      "hidden": true
+     },
+     {
+      "stdin": "3\n1\n22\n333",
+      "expected": "1 1\n2 2\n3 3",
+      "hidden": true
+     },
+     {
+      "stdin": "2\n1223334444\n9999999999",
+      "expected": "1 1 2 2 3 3 4 4\n10 9",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 4 - I/O based Problem Solving",
+    "marks": 30,
+    "sort_order": 9,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024"
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "may-2024-set2",
+  "title": "May 2024 Set2",
+  "exam": "OPPE 1",
+  "year": 2024,
+  "source": "unknowniitians.com PYQ - May 2024 Set2",
+  "sort_order": 2,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Is Right Triangle With Even Sides",
+    "body_md": "Implement the function according to the docstring.\n\nGiven three side lengths in the increasing order of length as `a`, `b`, and `c`,\nwhere `a <= b <= c`, check if the given sides are the sides of a right triangle\nwhose perpendicular sides are of even length.\n\n*Hint: in a right triangle the square of hypotenuse is the sum of square of the\nother two sides.*\n\n**Arguments:**\n\n- `a: int` - the first side length\n- `b: int` - the second side length\n- `c: int` - the hypotenuse length\n\n**Return:**\n\n- `bool` - `True` if the sides form a right triangle and the perpendicular sides\n  are even, else `False`\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_right_triangle_with_even_sides(a: int, b: int, c: int) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `a`, `b`, `c`.\n\n## Example\n\nInput\n\n```\n6\n8\n10\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef is_right_triangle_with_even_sides(a: int, b: int, c: int) -> bool:\n    sides = sorted([a, b, c])\n    if sides[0] ** 2 + sides[1] ** 2 != sides[2] ** 2:\n        return False\n    return sides[0] % 2 == 0 and sides[1] % 2 == 0\n```",
+    "difficulty": "easy",
+    "starter_code": "def is_right_triangle_with_even_sides(a: int, b: int, c: int) -> bool:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:3]]\n_out = is_right_triangle_with_even_sides(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "a",
+     "b",
+     "c"
+    ],
+    "tests": [
+     {
+      "stdin": "6\n8\n10",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "3\n4\n5",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n2\n3",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "8\n15\n17",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "12\n16\n20",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 1,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Odd Indices Alpha And Even Indices Digits",
+    "body_md": "Implement the function according to the docstring.\n\nGiven a string, check if all the odd indices are alphabets and the even indices\nare digits.\n\n*Note: indices start from 0.*\n\n**Arguments:**\n\n- `string: str` - the input string\n\n**Return:**\n\n- `bool` - `True` if all odd indices are alphabets and even indices are digits,\n  else `False`\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_odd_indices_alpha_and_even_indices_digits(string: str) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `string`.\n\n## Example\n\nInput\n\n```\n'1a2b3c'\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef is_odd_indices_alpha_and_even_indices_digits(string: str) -> bool:\n    for i, ch in enumerate(string):\n        if i % 2 == 0:\n            if not ch.isdigit():\n                return False\n        elif not ch.isalpha():\n            return False\n    return True\n```",
+    "difficulty": "easy",
+    "starter_code": "def is_odd_indices_alpha_and_even_indices_digits(string: str) -> bool:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = is_odd_indices_alpha_and_even_indices_digits(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "string"
+    ],
+    "tests": [
+     {
+      "stdin": "'1a2b3c'",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "'a1b2c3'",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "'9z'",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "'12ab'",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "'5'",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 2,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Swap Even And Odd Indices",
+    "body_md": "Implement the function according to the docstring.\n\nGiven a list of integers, swap the values at the even indices and the odd\nindices by modifying the same list.\n\n**Arguments:**\n\n- `l: list` - the input list of integers\n\n**Return:**\n\n- `None` - the input list is modified inside the function.\n\n## Your task\n\nImplement this function:\n\n```python\ndef swap_even_and_odd_indices(l: list) -> None:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3, 4]\n```\n\nOutput\n\n```\n[2, 1, 4, 3]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef swap_even_and_odd_indices(l: list) -> None:\n    for i in range(0, len(l) - 1, 2):\n        l[i], l[i + 1] = l[i + 1], l[i]\n```",
+    "difficulty": "easy",
+    "starter_code": "def swap_even_and_odd_indices(l: list) -> None:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = swap_even_and_odd_indices(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+    "input_labels": [
+     "l"
+    ],
+    "tests": [
+     {
+      "stdin": "[1, 2, 3, 4]",
+      "expected": "[2, 1, 4, 3]",
+      "hidden": false
+     },
+     {
+      "stdin": "[1, 2, 3, 4, 5]",
+      "expected": "[2, 1, 4, 3, 5]",
+      "hidden": false
+     },
+     {
+      "stdin": "[10, 20]",
+      "expected": "[20, 10]",
+      "hidden": true
+     },
+     {
+      "stdin": "[7]",
+      "expected": "[7]",
+      "hidden": true
+     },
+     {
+      "stdin": "[9, 8, 7, 6, 5, 4]",
+      "expected": "[8, 9, 6, 7, 4, 5]",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 3,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Unique Chars In First Not In Second",
+    "body_md": "Implement the function according to the docstring.\n\nGiven two words as strings, find the unique chars that are present in the first\nword but not in the second word.\n\nAssume all characters in the input are in lowercase. The order of elements in\nthe set doesn't matter while returning.\n\n**Example**\n\n```\nwater, watch -> {'e', 'r'}\n```\n\n**Arguments:**\n\n- `s1: str` - the first string\n- `s2: str` - the second string\n\n**Return:**\n\n- `set` - the unique characters present in the first string but not in the\n  second string\n\n## Your task\n\nImplement this function:\n\n```python\ndef unique_chars_present_in_first_not_in_second(s1: str, s2: str) -> set:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s1`, `s2`.\n\n## Example\n\nInput\n\n```\n'water'\n'watch'\n```\n\nOutput\n\n```\n{'e', 'r'}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef unique_chars_present_in_first_not_in_second(s1: str, s2: str) -> set:\n    return set(s1) - set(s2)\n```",
+    "difficulty": "easy",
+    "starter_code": "def unique_chars_present_in_first_not_in_second(s1: str, s2: str) -> set:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = unique_chars_present_in_first_not_in_second(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "s1",
+     "s2"
+    ],
+    "tests": [
+     {
+      "stdin": "'water'\n'watch'",
+      "expected": "{'e', 'r'}",
+      "hidden": false
+     },
+     {
+      "stdin": "'hello'\n'world'",
+      "expected": "{'e', 'h'}",
+      "hidden": false
+     },
+     {
+      "stdin": "'abc'\n'abc'",
+      "expected": "set()",
+      "hidden": true
+     },
+     {
+      "stdin": "'python'\n'java'",
+      "expected": "{'h', 'n', 'o', 'p', 't', 'y'}",
+      "hidden": true
+     },
+     {
+      "stdin": "'programming'\n'gram'",
+      "expected": "{'i', 'n', 'o', 'p'}",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 4,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Repeat Tuple Elements",
+    "body_md": "Implement the function according to the docstring.\n\nGiven a tuple of length two, say `(a, b)`, create a tuple with `a` repeated `b`\nnumber of times and `b` repeated `a` number of times.\n\n**Example**\n\n```\nrepeat((2, 3)) -> (2, 2, 2, 3, 3)\n```\n\n**Arguments:**\n\n- `t: tuple` - a tuple of two integers `(a, b)`\n\n**Return:**\n\n- `tuple` - a new tuple with `a` repeated `b` times followed by `b` repeated `a`\n  times\n\n## Your task\n\nImplement this function:\n\n```python\ndef repeat(t: tuple) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `t`.\n\n## Example\n\nInput\n\n```\n(2, 3)\n```\n\nOutput\n\n```\n(2, 2, 2, 3, 3)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef repeat(t: tuple) -> tuple:\n    a, b = t\n    return (a,) * b + (b,) * a\n```",
+    "difficulty": "easy",
+    "starter_code": "def repeat(t: tuple) -> tuple:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = repeat(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "t"
+    ],
+    "tests": [
+     {
+      "stdin": "(2, 3)",
+      "expected": "(2, 2, 2, 3, 3)",
+      "hidden": false
+     },
+     {
+      "stdin": "(1, 4)",
+      "expected": "(1, 1, 1, 1, 4)",
+      "hidden": false
+     },
+     {
+      "stdin": "(3, 3)",
+      "expected": "(3, 3, 3, 3, 3, 3)",
+      "hidden": true
+     },
+     {
+      "stdin": "(0, 5)",
+      "expected": "(0, 0, 0, 0, 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "(4, 2)",
+      "expected": "(4, 4, 2, 2, 2, 2)",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 5,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Numbers And Their Squares",
+    "body_md": "Implement the function according to the docstring.\n\nGiven an integer `n`, create a dictionary with the numbers from 1 to `n`\n(inclusive) as keys and their squares as values.\n\n**Arguments:**\n\n- `n: int` - the input integer\n\n**Return:**\n\n- `dict` - the dictionary with numbers from 1 to `n` as keys and their squares\n  as values\n\n## Your task\n\nImplement this function:\n\n```python\ndef num_squares(n: int) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef num_squares(n: int) -> dict:\n    return {i: i * i for i in range(1, n + 1)}\n```",
+    "difficulty": "easy",
+    "starter_code": "def num_squares(n: int) -> dict:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = num_squares(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "n"
+    ],
+    "tests": [
+     {
+      "stdin": "5",
+      "expected": "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}",
+      "hidden": false
+     },
+     {
+      "stdin": "1",
+      "expected": "{1: 1}",
+      "hidden": false
+     },
+     {
+      "stdin": "10",
+      "expected": "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81, 10: 100}",
+      "hidden": true
+     },
+     {
+      "stdin": "3",
+      "expected": "{1: 1, 2: 4, 3: 9}",
+      "hidden": true
+     },
+     {
+      "stdin": "2",
+      "expected": "{1: 1, 2: 4}",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 6,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Row Index With Most Zeros",
+    "body_md": "Given a `m x n` matrix, find the index of the row with the maximum number of\nzeros. Assume there will be only one row with the maximum number of zeros.\n\n**Example**\n\n```\n[\n [1, 0, 1, 4, 1],\n [1, 5, 1, 1, 2],\n [2, 0, 2, 0, 3],\n [3, 0, 0, 0, 4],\n]\n```\n\n**Explanation**\n\nThe 4th row (index 3) has the maximum number of zeros, so the answer is `3`.\n\n**Arguments:**\n\n- `matrix: list[list]`\n\n**Return:**\n\n- `int` - index of the row with the maximum number of zeros.\n\n## Your task\n\nImplement this function:\n\n```python\ndef row_index_with_most_number_of_zeros(matrix: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `matrix`.\n\n## Example\n\nInput\n\n```\n[[1, 0, 1, 4, 1], [1, 5, 1, 1, 2], [2, 0, 2, 0, 3], [3, 0, 0, 0, 4]]\n```\n\nOutput\n\n```\n3\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef row_index_with_most_number_of_zeros(matrix: list) -> int:\n    best_index = 0\n    best_count = -1\n    for i, row in enumerate(matrix):\n        count = 0\n        for value in row:\n            if value == 0:\n                count += 1\n        if count > best_count:\n            best_count = count\n            best_index = i\n    return best_index\n```",
+    "difficulty": "hard",
+    "starter_code": "def row_index_with_most_number_of_zeros(matrix: list) -> int:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = row_index_with_most_number_of_zeros(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "matrix"
+    ],
+    "tests": [
+     {
+      "stdin": "[[1, 0, 1, 4, 1], [1, 5, 1, 1, 2], [2, 0, 2, 0, 3], [3, 0, 0, 0, 4]]",
+      "expected": "3",
+      "hidden": false
+     },
+     {
+      "stdin": "[[0, 0, 0], [1, 2, 3], [0, 1, 2]]",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "[[1, 2], [0, 3], [4, 5]]",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "[[5]]",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "[[1, 2, 3], [4, 5, 6], [0, 0, 7], [8, 0, 9]]",
+      "expected": "2",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 2 - Data Processing",
+    "marks": 20,
+    "sort_order": 7,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Top K Teams By Runs",
+    "body_md": "Given a list of dictionaries with batsman names, runs, and team names, find the\ntop `k` teams in terms of total runs.\n\nCreate a list with the top `k` teams in terms of total runs starting from the\nhighest to the lowest runs.\n\nAssume no two teams have the same number of runs.\n\n**Arguments:**\n\n- `batsmen: list of dict` - list containing dictionaries with keys `'name'`,\n  `'runs'`, and `'team'`\n- `k: int` - number of top teams to return\n\n**Return:**\n\n- `list` - top `k` teams in terms of total runs\n\n## Your task\n\nImplement this function:\n\n```python\ndef top_k_teams(batsmen: list, k: int) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `batsmen`, `k`.\n\n## Example\n\nInput\n\n```\n[{'name': 'Rohit', 'runs': 90, 'team': 'MI'}, {'name': 'Kohli', 'runs': 70, 'team': 'RCB'}, {'name': 'Bumrah', 'runs': 15, 'team': 'MI'}, {'name': 'Dhoni', 'runs': 50, 'team': 'CSK'}]\n2\n```\n\nOutput\n\n```\n['MI', 'RCB']\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef top_k_teams(batsmen: list, k: int) -> list:\n    totals = {}\n    for batsman in batsmen:\n        team = batsman['team']\n        totals[team] = totals.get(team, 0) + batsman['runs']\n    ranked = sorted(totals, key=lambda team: totals[team], reverse=True)\n    return ranked[:k]\n```",
+    "difficulty": "hard",
+    "starter_code": "def top_k_teams(batsmen: list, k: int) -> list:\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = top_k_teams(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "batsmen",
+     "k"
+    ],
+    "tests": [
+     {
+      "stdin": "[{'name': 'Rohit', 'runs': 90, 'team': 'MI'}, {'name': 'Kohli', 'runs': 70, 'team': 'RCB'}, {'name': 'Bumrah', 'runs': 15, 'team': 'MI'}, {'name': 'Dhoni', 'runs': 50, 'team': 'CSK'}]\n2",
+      "expected": "['MI', 'RCB']",
+      "hidden": false
+     },
+     {
+      "stdin": "[{'name': 'Rohit', 'runs': 90, 'team': 'MI'}, {'name': 'Kohli', 'runs': 70, 'team': 'RCB'}, {'name': 'Bumrah', 'runs': 15, 'team': 'MI'}, {'name': 'Dhoni', 'runs': 50, 'team': 'CSK'}]\n1",
+      "expected": "['MI']",
+      "hidden": false
+     },
+     {
+      "stdin": "[{'name': 'Rohit', 'runs': 90, 'team': 'MI'}, {'name': 'Kohli', 'runs': 70, 'team': 'RCB'}, {'name': 'Bumrah', 'runs': 15, 'team': 'MI'}, {'name': 'Dhoni', 'runs': 50, 'team': 'CSK'}]\n3",
+      "expected": "['MI', 'RCB', 'CSK']",
+      "hidden": true
+     },
+     {
+      "stdin": "[{'name': 'A', 'runs': 30, 'team': 'X'}, {'name': 'B', 'runs': 45, 'team': 'Y'}, {'name': 'C', 'runs': 20, 'team': 'X'}]\n2",
+      "expected": "['X', 'Y']",
+      "hidden": true
+     },
+     {
+      "stdin": "[{'name': 'P', 'runs': 10, 'team': 'T1'}, {'name': 'Q', 'runs': 25, 'team': 'T2'}, {'name': 'R', 'runs': 5, 'team': 'T3'}]\n1",
+      "expected": "['T2']",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 3 - Data Processing",
+    "marks": 20,
+    "sort_order": 8,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   },
+   {
+    "title": "Longest Antakshari Subsequence",
+    "body_md": "The input is in multiple lines. The first line contains a positive integer `n`.\nThis is followed by `n` lines, each containing sequences of words. Each line thus\nconsists of multiple words, separated by commas, with no spaces in between words.\n\nYou have to output, for each line, the length of the longest subsequence of words\nfollowing the antakshari property. Assume all words are lowercase.\n\nA sub-sequence is a subset of consecutive words in this sequence.\n\nA sub-sequence is said to have the antakshari property if the last letter of\nevery word is equal to the first letter in the next word in the sequence.\n\n**Input Format**\n\n1. The first line contains an integer `n` denoting the number of sequences.\n2. The following `n` lines each contain a sequence of comma separated words.\n\n**Output Format**\n\nFor each sequence, output the length of the largest sub-sequence that follows the\nantakshari property over multiple lines.\n\n**Example**\n\nInput:\n\n```\n2\none,two,order,real,long,tight,tree,cool,lot,trouble\nant,tree,ear,rat,tower,retail\n```\n\nOutput:\n\n```\n4\n6\n```\n\n**Explanation**\n\nFor the first sequence `one,two,order,real,long,tight,tree,cool,lot,trouble`, the\nlongest sub-sequence with the antakshari property is `two,order,real,long`, which\nhas a length of 4.\n\nFor the second sequence `ant,tree,ear,rat,tower,retail`, the longest sub-sequence\nwith the antakshari property is `ant,tree,ear,rat,tower,retail`, which has a\nlength of 6.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\none,two,order,real,long,tight,tree,cool,lot,trouble\nant,tree,ear,rat,tower,retail\n```\n\nOutput\n\n```\n4\n6\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor _ in range(n):\n    words = input().strip().split(',')\n    best = 1\n    current = 1\n    for i in range(1, len(words)):\n        if words[i - 1][-1] == words[i][0]:\n            current += 1\n        else:\n            current = 1\n        if current > best:\n            best = current\n    print(best)\n```",
+    "difficulty": "hard",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "2\none,two,order,real,long,tight,tree,cool,lot,trouble\nant,tree,ear,rat,tower,retail",
+      "expected": "4\n6",
+      "hidden": false
+     },
+     {
+      "stdin": "1\napple,elephant,tiger,rat",
+      "expected": "4",
+      "hidden": false
+     },
+     {
+      "stdin": "1\ncat,dog,bird",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "3\nsun,net,tap,pen\nred,dog,goat,tiger\none",
+      "expected": "4\n4\n1",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nsolo\nab,ba,ab,ba,ab",
+      "expected": "1\n5",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 4 - I/O based Problem Solving",
+    "marks": 30,
+    "sort_order": 9,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set2"
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "may-2024-set3",
+  "title": "May 2024 Set3",
+  "exam": "OPPE 1",
+  "year": 2024,
+  "source": "unknowniitians.com PYQ - May 2024 Set3",
+  "sort_order": 3,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Square And Clip",
+    "body_md": "Implement the function according to the docstring.\n\nSquare the given integer and clip the result to `threshold` (clipping means if the value `x` goes greater than the threshold, keep it at threshold).\n\n**Arguments:**\n\n- `x: int` - the input number\n- `threshold: int` - the threshold value\n\n**Return:**\n\n- `int` - squared and clipped result\n\n## Your task\n\nImplement this function:\n\n```python\ndef square_and_clip(x: int, threshold: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `x`, `threshold`.\n\n## Example\n\nInput\n\n```\n3\n5\n```\n\nOutput\n\n```\n5\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef square_and_clip(x: int, threshold: int) -> int:\n    squared = x * x\n    if squared > threshold:\n        return threshold\n    return squared\n```",
+    "difficulty": "easy",
+    "starter_code": "def square_and_clip(x: int, threshold: int) -> int:\n    '''\n    Square the given integer and clip the result to threshold (clipping means if\n    the value x goes greater than the threshold, keep it at threshold).\n    Arguments:\n    x: int - the input number\n    threshold: int - the threshold value\n    Return:\n    int - squared and clipped result\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = square_and_clip(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "x",
+     "threshold"
+    ],
+    "tests": [
+     {
+      "stdin": "3\n5",
+      "expected": "5",
+      "hidden": false
+     },
+     {
+      "stdin": "2\n10",
+      "expected": "4",
+      "hidden": false
+     },
+     {
+      "stdin": "0\n1",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "-4\n20",
+      "expected": "16",
+      "hidden": true
+     },
+     {
+      "stdin": "7\n49",
+      "expected": "49",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 1,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Lower First Half Upper Second Half",
+    "body_md": "Implement the function according to the docstring.\n\nGiven an even-length string of any case, create a string with the first half in lowercase and the second half in uppercase.\n\n**Arguments:**\n\n- `s: str` - the input string\n\n**Return:**\n\n- `str` - the modified string\n\n## Your task\n\nImplement this function:\n\n```python\ndef lowercase_first_half_and_uppercase_second_half(s: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'HelloWorld'\n```\n\nOutput\n\n```\n'helloWORLD'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef lowercase_first_half_and_uppercase_second_half(s: str) -> str:\n    half = len(s) // 2\n    return s[:half].lower() + s[half:].upper()\n```",
+    "difficulty": "easy",
+    "starter_code": "def lowercase_first_half_and_uppercase_second_half(s: str) -> str:\n    '''\n    Given an even-length string of any case, create a string with the first half\n    in lowercase and the second half in uppercase.\n    Arguments:\n    s: str - the input string\n    Return:\n    str - the modified string\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = lowercase_first_half_and_uppercase_second_half(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "s"
+    ],
+    "tests": [
+     {
+      "stdin": "'HelloWorld'",
+      "expected": "'helloWORLD'",
+      "hidden": false
+     },
+     {
+      "stdin": "'ABCD'",
+      "expected": "'abCD'",
+      "hidden": false
+     },
+     {
+      "stdin": "''",
+      "expected": "''",
+      "hidden": true
+     },
+     {
+      "stdin": "'PyThOn'",
+      "expected": "'pytHON'",
+      "hidden": true
+     },
+     {
+      "stdin": "'aabbccdd'",
+      "expected": "'aabbCCDD'",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 2,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Add Middle Element To Both Ends",
+    "body_md": "Implement the function according to the docstring.\n\nGiven an odd-length list, insert the middle element to both ends of the list.\n\nModify the input list and do not return a new list.\n\n**Arguments:**\n\n- `l: list` - the input list\n\n**Return:**\n\n- `None` - the input list is modified inside the function.\n\n## Your task\n\nImplement this function:\n\n```python\ndef add_the_middle_element_to_both_ends(l: list) -> None:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3]\n```\n\nOutput\n\n```\n[2, 1, 2, 3, 2]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef add_the_middle_element_to_both_ends(l: list) -> None:\n    middle = l[len(l) // 2]\n    l.insert(0, middle)\n    l.append(middle)\n```",
+    "difficulty": "easy",
+    "starter_code": "def add_the_middle_element_to_both_ends(l: list) -> None:\n    '''\n    Given an odd-length list, insert the middle element to both ends of the list.\n    Modify the input list and do not return a new list.\n    Arguments:\n    l: list - the input list\n    Return:\n    None - the input list is modified inside the function.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = add_the_middle_element_to_both_ends(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+    "input_labels": [
+     "l"
+    ],
+    "tests": [
+     {
+      "stdin": "[1, 2, 3]",
+      "expected": "[2, 1, 2, 3, 2]",
+      "hidden": false
+     },
+     {
+      "stdin": "[5]",
+      "expected": "[5, 5, 5]",
+      "hidden": false
+     },
+     {
+      "stdin": "['a', 'b', 'c', 'd', 'e']",
+      "expected": "['c', 'a', 'b', 'c', 'd', 'e', 'c']",
+      "hidden": true
+     },
+     {
+      "stdin": "[10, 20, 30, 40, 50, 60, 70]",
+      "expected": "[40, 10, 20, 30, 40, 50, 60, 70, 40]",
+      "hidden": true
+     },
+     {
+      "stdin": "[0, 0, 1]",
+      "expected": "[0, 0, 0, 1, 0]",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 3,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Number Of Unique Common Digits",
+    "body_md": "Implement the function according to the docstring.\n\nGiven two integers, return the number of unique digits that are common in both numbers.\n\nEg, `287498, 295424` - 2, 4 and 9 are common to both nums so answer is 3\n\n**Arguments:**\n\n- `n1: int` - the first number\n- `n2: int` - the second number\n\n**Return:**\n\n- `int` - the number of unique common digits.\n\n## Your task\n\nImplement this function:\n\n```python\ndef number_of_unique_common_digits(n1: int, n2: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n1`, `n2`.\n\n## Example\n\nInput\n\n```\n287498\n295424\n```\n\nOutput\n\n```\n3\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef number_of_unique_common_digits(n1: int, n2: int) -> int:\n    d1 = set(str(abs(n1)))\n    d2 = set(str(abs(n2)))\n    return len(d1 & d2)\n```",
+    "difficulty": "easy",
+    "starter_code": "def number_of_unique_common_digits(n1: int, n2: int) -> int:\n    '''\n    Given two integers, return the number of unique digits that are common in\n    both numbers.\n    Eg, 287498,295424 - 2, 4 and 9 are common to both nums so answer is 3\n    Arguments:\n    n1: int - the first number\n    n2: int - the second number\n    Return:\n    int - the number of unique common digits.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = number_of_unique_common_digits(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "n1",
+     "n2"
+    ],
+    "tests": [
+     {
+      "stdin": "287498\n295424",
+      "expected": "3",
+      "hidden": false
+     },
+     {
+      "stdin": "123\n456",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "0\n0",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "1111\n1212",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "9876543210\n1357",
+      "expected": "4",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 4,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Manhattan Distance Via B",
+    "body_md": "Implement the function according to the docstring.\n\nGiven three points a, b, and c on the Cartesian plane, calculate the Manhattan distance to go from point a to point c via point b.\n\nManhattan distance is the sum of the absolute differences of their Cartesian coordinates.\n\n**Args:**\n\n- `a (tuple)`: Coordinates of point a as (x1, y1).\n- `b (tuple)`: Coordinates of point b as (x2, y2).\n- `c (tuple)`: Coordinates of point c as (x3, y3).\n\n**Returns:**\n\n- `int`: The Manhattan distance from point a to point c via point b.\n\n## Your task\n\nImplement this function:\n\n```python\ndef manhattan_distance_via_b(a: tuple, b: tuple, c: tuple) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `a`, `b`, `c`.\n\n## Example\n\nInput\n\n```\n(0, 0)\n(1, 1)\n(2, 2)\n```\n\nOutput\n\n```\n4\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef manhattan_distance_via_b(a: tuple, b: tuple, c: tuple) -> int:\n    a_to_b = abs(a[0] - b[0]) + abs(a[1] - b[1])\n    b_to_c = abs(b[0] - c[0]) + abs(b[1] - c[1])\n    return a_to_b + b_to_c\n```",
+    "difficulty": "easy",
+    "starter_code": "def manhattan_distance_via_b(a: tuple, b: tuple, c: tuple) -> int:\n    '''\n    Given three points a, b, and c on the Cartesian plane, calculate the\n    Manhattan distance to go from point a to point c via point b.\n    Manhattan distance is the sum of the absolute differences of their\n    Cartesian coordinates.\n    Args:\n    a (tuple): Coordinates of point a as (x1, y1).\n    b (tuple): Coordinates of point b as (x2, y2).\n    c (tuple): Coordinates of point c as (x3, y3).\n    Returns:\n    int: The Manhattan distance from point a to point c via point b.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:3]]\n_out = manhattan_distance_via_b(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "a",
+     "b",
+     "c"
+    ],
+    "tests": [
+     {
+      "stdin": "(0, 0)\n(1, 1)\n(2, 2)",
+      "expected": "4",
+      "hidden": false
+     },
+     {
+      "stdin": "(0, 0)\n(0, 0)\n(0, 0)",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "(1, 2)\n(3, 4)\n(5, 6)",
+      "expected": "8",
+      "hidden": true
+     },
+     {
+      "stdin": "(-1, -1)\n(2, 3)\n(0, 0)",
+      "expected": "12",
+      "hidden": true
+     },
+     {
+      "stdin": "(10, 0)\n(0, 10)\n(10, 0)",
+      "expected": "40",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 5,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Create Indexed Dict",
+    "body_md": "Implement the function according to the docstring.\n\nGiven a list of names, create a dictionary with the indices as keys and the names as values.\n\n**Args:**\n\n- `names (list)`: A list of names.\n\n**Returns:**\n\n- `dict`: A dictionary with indices as keys and names as values.\n\n## Your task\n\nImplement this function:\n\n```python\ndef create_indexed_dict(names: list) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `names`.\n\n## Example\n\nInput\n\n```\n['Alice', 'Bob', 'Charlie']\n```\n\nOutput\n\n```\n{0: 'Alice', 1: 'Bob', 2: 'Charlie'}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef create_indexed_dict(names: list) -> dict:\n    return {index: name for index, name in enumerate(names)}\n```",
+    "difficulty": "easy",
+    "starter_code": "def create_indexed_dict(names: list) -> dict:\n    '''\n    Given a list of names, create a dictionary with the indices as keys and the\n    names as values.\n    Args:\n    names (list): A list of names.\n    Returns:\n    dict: A dictionary with indices as keys and names as values.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = create_indexed_dict(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "names"
+    ],
+    "tests": [
+     {
+      "stdin": "['Alice', 'Bob', 'Charlie']",
+      "expected": "{0: 'Alice', 1: 'Bob', 2: 'Charlie'}",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "{}",
+      "hidden": false
+     },
+     {
+      "stdin": "['solo']",
+      "expected": "{0: 'solo'}",
+      "hidden": true
+     },
+     {
+      "stdin": "['a', 'b', 'a']",
+      "expected": "{0: 'a', 1: 'b', 2: 'a'}",
+      "hidden": true
+     },
+     {
+      "stdin": "['Ram', 'Shyam', 'Sita', 'Gita', 'Mohan']",
+      "expected": "{0: 'Ram', 1: 'Shyam', 2: 'Sita', 3: 'Gita', 4: 'Mohan'}",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 1 - Data types",
+    "marks": 5,
+    "sort_order": 6,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Num To Word",
+    "body_md": "Given an integer, generate a string with its digits as words separated by hyphens.\n\n**Arguments:**\n\n- `num: int` - the input number\n\n**Return:**\n\n- `str` - the string with digits as words separated by hyphens\n\n**Example**\n\n`num_to_word(123)` returns `'one-two-three'`\n\n## Your task\n\nImplement this function:\n\n```python\ndef num_to_word(num: int) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `num`.\n\n## Example\n\nInput\n\n```\n123\n```\n\nOutput\n\n```\n'one-two-three'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef num_to_word(num: int) -> str:\n    words = ['zero', 'one', 'two', 'three', 'four',\n             'five', 'six', 'seven', 'eight', 'nine']\n    return '-'.join(words[int(digit)] for digit in str(abs(num)))\n```",
+    "difficulty": "hard",
+    "starter_code": "def num_to_word(num: int) -> str:\n    '''\n    Given an integer, generate a string with its digits as words separated by\n    hyphens.\n    Arguments:\n    num: int - the input number\n    Return:\n    str - the string with digits as words separated by hyphens\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = num_to_word(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "num"
+    ],
+    "tests": [
+     {
+      "stdin": "123",
+      "expected": "'one-two-three'",
+      "hidden": false
+     },
+     {
+      "stdin": "0",
+      "expected": "'zero'",
+      "hidden": false
+     },
+     {
+      "stdin": "9",
+      "expected": "'nine'",
+      "hidden": true
+     },
+     {
+      "stdin": "1000",
+      "expected": "'one-zero-zero-zero'",
+      "hidden": true
+     },
+     {
+      "stdin": "528491",
+      "expected": "'five-two-eight-four-nine-one'",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 2 - Data Processing",
+    "marks": 20,
+    "sort_order": 7,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Courses Sorted By Enrollment",
+    "body_md": "Given a dictionary of student roll numbers with the list of courses they chose, find the courses sorted from the most number of enrollments to the least.\n\nAssume no courses will have the same number of students enrolled.\n\n**Arguments:**\n\n- `student_courses: dict` - a dictionary where keys are student roll numbers and values are lists of courses they chose\n\n**Return:**\n\n- `list` - a list of courses sorted by the number of students enrolled in descending order\n\n## Your task\n\nImplement this function:\n\n```python\ndef courses_sorted_by_enrollment(student_courses: dict) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `student_courses`.\n\n## Example\n\nInput\n\n```\n{'21f1001': ['python', 'maths', 'stats'], '21f1002': ['python', 'maths'], '21f1003': ['python']}\n```\n\nOutput\n\n```\n['python', 'maths', 'stats']\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef courses_sorted_by_enrollment(student_courses: dict) -> list:\n    counts = {}\n    for courses in student_courses.values():\n        for course in courses:\n            counts[course] = counts.get(course, 0) + 1\n    return sorted(counts, key=lambda course: counts[course], reverse=True)\n```",
+    "difficulty": "hard",
+    "starter_code": "def courses_sorted_by_enrollment(student_courses: dict) -> list:\n    '''\n    Given a dictionary of student roll numbers with the list of courses they\n    chose, find the courses sorted from the most number of enrollments to the\n    least. Assume no courses will have the same number of students enrolled.\n    Arguments:\n    student_courses: dict - a dictionary where keys are student roll numbers\n    and values are lists of courses they chose\n    Return:\n    list - a list of courses sorted by the number of students enrolled in\n    descending order\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = courses_sorted_by_enrollment(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "student_courses"
+    ],
+    "tests": [
+     {
+      "stdin": "{'21f1001': ['python', 'maths', 'stats'], '21f1002': ['python', 'maths'], '21f1003': ['python']}",
+      "expected": "['python', 'maths', 'stats']",
+      "hidden": false
+     },
+     {
+      "stdin": "{}",
+      "expected": "[]",
+      "hidden": false
+     },
+     {
+      "stdin": "{'21f1001': ['python']}",
+      "expected": "['python']",
+      "hidden": true
+     },
+     {
+      "stdin": "{'r1': ['cs', 'ml', 'dbms'], 'r2': ['ml', 'dbms'], 'r3': ['ml'], 'r4': ['dbms', 'ml']}",
+      "expected": "['ml', 'dbms', 'cs']",
+      "hidden": true
+     },
+     {
+      "stdin": "{'21f1': ['bdm', 'mlf'], '21f2': ['mlf'], '21f3': ['mlf', 'bdm', 'mlp'], '21f4': ['mlf', 'bdm']}",
+      "expected": "['mlf', 'bdm', 'mlp']",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 3 - Data Processing",
+    "marks": 20,
+    "sort_order": 8,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   },
+   {
+    "title": "Daily Balance Tracker",
+    "body_md": "Given an initial balance and a series of daily transactions, find the minimum balance, maximum balance, and balance at the end of the day for each day. The input will consist of multiple lines where the first line gives the number of days, the second line gives the initial balance, and each subsequent line represents the transactions for one day. The final balance of the previous day will be the initial balance of the current day.\n\n**Input**\n\n1. The first line contains an integer `n`, the number of days.\n2. The second line contains an integer `initial_balance`, the initial balance for the first day.\n3. Each of the next `n` lines contains a space-separated list of integers representing transactions for that day.\n\n**Output**\n\nFor each day, print the minimum balance, maximum balance, and current balance as a comma-separated string.\n\n**Sample Input**\n\n```\n2\n150\n-10 10 -10 5\n20 -20 30 -10\n```\n\n**Sample Output**\n\n```\n140,150,145\n145,175,165\n```\n\n**Explanation**\n\nDay 1:\n\n- Initial balance: 150\n- Transactions: -10, 10, -10, 5\n- Calculations: Balance after -10: 140, Balance after +10: 150, Balance after -10: 140, Balance after +5: 145\n- Min balance: 140, Max balance: 150, Current Balance: 145\n- Output for Day 1: `140,150,145`\n\nDay 2:\n\n- Initial balance (end balance of Day 1): 145\n- Transactions: 20, -20, 30, -10\n- Calculations: Balance after +20: 165, Balance after -20: 145, Balance after +30: 175, Balance after -10: 165\n- Min balance: 145, Max balance: 175, Current Balance: 165\n- Output for Day 2: `145,175,165`\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\n150\n-10 10 -10 5\n20 -20 30 -10\n```\n\nOutput\n\n```\n140,150,145\n145,175,165\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nbalance = int(input())\n\nfor _ in range(n):\n    transactions = [int(value) for value in input().split()]\n    minimum = maximum = balance\n    first = True\n    for amount in transactions:\n        balance += amount\n        if first:\n            minimum = maximum = balance\n            first = False\n        else:\n            if balance < minimum:\n                minimum = balance\n            if balance > maximum:\n                maximum = balance\n    print(str(minimum) + \",\" + str(maximum) + \",\" + str(balance))\n```",
+    "difficulty": "hard",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "2\n150\n-10 10 -10 5\n20 -20 30 -10",
+      "expected": "140,150,145\n145,175,165",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n0\n5",
+      "expected": "5,5,5",
+      "hidden": false
+     },
+     {
+      "stdin": "3\n100\n-50 -30\n10 20 30\n-5 -5 -5",
+      "expected": "20,50,20\n30,80,80\n65,75,65",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n1000\n-100 200 -300 400 -500",
+      "expected": "700,1200,700",
+      "hidden": true
+     },
+     {
+      "stdin": "2\n50\n0 0\n-60 10",
+      "expected": "50,50,50\n-10,0,0",
+      "hidden": true
+     }
+    ],
+    "section": "Problem 4 - I/O based Problem Solving",
+    "marks": 30,
+    "sort_order": 9,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "may-2024-set3"
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "sep-2024",
+  "title": "September 2024",
+  "exam": "OPPE 1",
+  "year": 2024,
+  "source": "unknowniitians.com PYQ - September 2024",
+  "sort_order": 4,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Sum Squares Abs Diff Squares",
+    "body_md": "Write a function `sum_squares_abs_diff_squares` that takes two integer inputs, `a` and `b`, and returns a tuple with:\n\n1. The sum of the squares of `a` and `b`.\n2. The absolute difference of the squares of `a` and `b`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\nGiven the inputs `a = 3` and `b = 4`:\n\n**Explanation**\n\n- The sum of squares would be 9 + 16 = 25.\n- The absolute difference of squares would be |9 - 16| = 7.\n\nSo, `sum_squares_abs_diff_squares(3, 4)` should return `(25, 7)`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef sum_squares_abs_diff_squares(a:int, b:int) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `a`, `b`.\n\n## Example\n\nInput\n\n```\n3\n4\n```\n\nOutput\n\n```\n(25, 7)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef sum_squares_abs_diff_squares(a:int, b:int) -> tuple:\n    return (a ** 2 + b ** 2, abs(a ** 2 - b ** 2))\n```",
+    "difficulty": "medium",
+    "starter_code": "def sum_squares_abs_diff_squares(a:int, b:int) -> tuple:\n    '''Return the sum of squares and the absolute difference of squares.\n    Args:\n        a, b : int - input numbers\n    Returns:\n        tuple - tuple with sum of squares and absolute difference of squares.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = sum_squares_abs_diff_squares(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "a",
+     "b"
+    ],
+    "tests": [
+     {
+      "stdin": "3\n4",
+      "expected": "(25, 7)",
+      "hidden": false
+     },
+     {
+      "stdin": "0\n0",
+      "expected": "(0, 0)",
+      "hidden": false
+     },
+     {
+      "stdin": "-2\n5",
+      "expected": "(29, 21)",
+      "hidden": true
+     },
+     {
+      "stdin": "10\n10",
+      "expected": "(200, 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "7\n1",
+      "expected": "(50, 48)",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   },
+   {
+    "title": "Is Odd Length Palindrome",
+    "body_md": "Write a function `is_odd_length_palindrome` that takes a string `s` and returns `True` if `s` is a palindrome of odd length, and `False` otherwise.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n- `\"hello\"` --> `False` (not a palindrome)\n- `\"noon\"` --> `False` (palindrome but not odd length)\n- `\"nun\"` --> `True` (palindrome and odd length)\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_odd_length_palindrome(s: str) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'hello'\n```\n\nOutput\n\n```\nFalse\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef is_odd_length_palindrome(s: str) -> bool:\n    return len(s) % 2 == 1 and s == s[::-1]\n```",
+    "difficulty": "medium",
+    "starter_code": "def is_odd_length_palindrome(s: str) -> bool:\n    '''Check if a string is a palindrome with odd length.\n    Args:\n        s : str - input string\n    Returns:\n        bool - True if s is a palindrome with odd length, False otherwise.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = is_odd_length_palindrome(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "s"
+    ],
+    "tests": [
+     {
+      "stdin": "'hello'",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "'noon'",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "'nun'",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "'racecar'",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "''",
+      "expected": "False",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   },
+   {
+    "title": "Remove Elements At Two Indices",
+    "body_md": "Write a function `remove_elements_at_two_indices` that takes a list `l` and two indices `i1` and `i2`. The function should remove the elements at these two indices from the list `l`.\n\nAssume the indices are non-negative and unique.\n\nThe function should not return anything but should modify the input list directly.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> l = [1, 2, 3, 4, 5, 6, 7]\n>>> i1 = 5\n>>> i2 = 1\n>>> remove_elements_at_two_indices(l, i1, i2)\n>>> l\n[1, 3, 4, 5, 7]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef remove_elements_at_two_indices(l: list, i1: int, i2: int):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`, `i1`, `i2`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3, 4, 5, 6, 7]\n5\n1\n```\n\nOutput\n\n```\n[1, 3, 4, 5, 7]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef remove_elements_at_two_indices(l: list, i1: int, i2: int):\n    for idx in sorted((i1, i2), reverse=True):\n        del l[idx]\n```",
+    "difficulty": "medium",
+    "starter_code": "def remove_elements_at_two_indices(l: list, i1: int, i2: int):\n    '''Remove elements at two specified indices in the list.\n    Args:\n        l : list - input list\n        i1, i2 : int - indices of elements to remove\n                 both are non-negative and unique\n    Returns:\n        None - modifies the list in place\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:3]]\n_out = remove_elements_at_two_indices(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+    "input_labels": [
+     "l",
+     "i1",
+     "i2"
+    ],
+    "tests": [
+     {
+      "stdin": "[1, 2, 3, 4, 5, 6, 7]\n5\n1",
+      "expected": "[1, 3, 4, 5, 7]",
+      "hidden": false
+     },
+     {
+      "stdin": "[10, 20, 30]\n0\n2",
+      "expected": "[20]",
+      "hidden": false
+     },
+     {
+      "stdin": "['a', 'b', 'c', 'd']\n1\n2",
+      "expected": "['a', 'd']",
+      "hidden": true
+     },
+     {
+      "stdin": "[1, 2]\n0\n1",
+      "expected": "[]",
+      "hidden": true
+     },
+     {
+      "stdin": "[5, 6, 7, 8, 9]\n4\n0",
+      "expected": "[6, 7, 8]",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   },
+   {
+    "title": "Sum Of Squares Of Even",
+    "body_md": "Write a function `sum_of_squares_of_even` that takes a list of integers `nums` and returns the sum of squares of all even numbers in the list.\n\n```\n>>> nums = [1, 2, 3, 4, 5, 6]\n>>> sum_of_squares_of_even(nums)\n56\n```\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n**Explanation**\n\nIn the list `[1, 2, 3, 4, 5, 6]`, the even numbers are `2`, `4`, and `6`. The sum of their squares is 4 + 16 + 36 = 56.\n\n## Your task\n\nImplement this function:\n\n```python\ndef sum_of_squares_of_even(nums: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `nums`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3, 4, 5, 6]\n```\n\nOutput\n\n```\n56\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef sum_of_squares_of_even(nums: list) -> int:\n    return sum(n * n for n in nums if n % 2 == 0)\n```",
+    "difficulty": "hard",
+    "starter_code": "def sum_of_squares_of_even(nums: list) -> int:\n    '''Return the sum of squares of all even numbers in the list.\n    Args:\n        nums : list - list of integers\n    Returns:\n        int - sum of squares of all even numbers\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = sum_of_squares_of_even(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "nums"
+    ],
+    "tests": [
+     {
+      "stdin": "[1, 2, 3, 4, 5, 6]",
+      "expected": "56",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "[1, 3, 5, 7]",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "[-2, -4, 3]",
+      "expected": "20",
+      "hidden": true
+     },
+     {
+      "stdin": "[0, 2, 4, 8]",
+      "expected": "84",
+      "hidden": true
+     }
+    ],
+    "section": "Section B - Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   },
+   {
+    "title": "Uppercase Vowels Passage",
+    "body_md": "Write a program that takes a passage with `n` lines of text as input. For each line, convert all vowels (`a, e, i, o, u`) to uppercase and all other characters to lowercase.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer n, the number of lines.\n- The next n lines contain the passage.\n\n### Output Format\n\n- Print the passage with vowels in uppercase and all other characters in lowercase.\n\n### Hint\n\nUse the `upper` and `lower` methods of `str` to convert characters as needed.\n\n### Example\n\nInput:\n\n```\n2\nHello World\nPython Programming\n```\n\nOutput:\n\n```\nhEllO wOrld\npythOn prOgrAmmIng\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\nHello World\nPython Programming\n```\n\nOutput\n\n```\nhEllO wOrld\npythOn prOgrAmmIng\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor _ in range(n):\n    line = input()\n    out = ''\n    for ch in line:\n        if ch.lower() in 'aeiou':\n            out += ch.upper()\n        else:\n            out += ch.lower()\n    print(out)\n```",
+    "difficulty": "hard",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "2\nHello World\nPython Programming",
+      "expected": "hEllO wOrld\npythOn prOgrAmmIng",
+      "hidden": false
+     },
+     {
+      "stdin": "1\naEiOu",
+      "expected": "AEIOU",
+      "hidden": false
+     },
+     {
+      "stdin": "3\nAAA\nbcd\nMixed CASE Text",
+      "expected": "AAA\nbcd\nmIxEd cAsE tExt",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nRhythm Myths",
+      "expected": "rhythm myths",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nData Structures 101\nIIT Madras BS Degree",
+      "expected": "dAtA strUctUrEs 101\nIIt mAdrAs bs dEgrEE",
+      "hidden": true
+     }
+    ],
+    "section": "Section B - Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   },
+   {
+    "title": "Get Roll Nos By Criteria",
+    "body_md": "Given the data of student marks in the format of list of tuples of format `(rollno:str, marks:int)`, write a function to filter student roll numbers based on the following criteria:\n\n- `'above_average'`: Students with marks above or equal to the average.\n- `'below_average'`: Students with marks below the average.\n- `'fail'`: Students with marks less than 40.\n- `'toppers'`: Students with marks 90 or above.\n- `None`: Return all roll numbers.\n- Any other value should return `None`.\n\nThe order of the roll numbers in the filtered roll numbers should be same as they appear in the data.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition. You can define helper functions if needed, but the actual solution should be in the given function template.\n\n### Example\n\n```python\ndata = [(\"101\", 85), (\"102\", 75), (\"103\", 45), (\"104\", 95), (\"105\", 35)]\nprint(get_roll_nos(data, 'above_average'))  # Output: [\"101\", \"102\", \"104\"]\nprint(get_roll_nos(data, 'fail'))           # Output: [\"105\"]\nprint(get_roll_nos(data, 'toppers'))        # Output: [\"104\"]\nprint(get_roll_nos(data))                   # Output: [\"101\", \"102\", \"103\", \"104\", \"105\"]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef get_roll_nos(data:list, criteria=None):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `data`, `criteria`.\n\n## Example\n\nInput\n\n```\n[(\"101\", 85), (\"102\", 75), (\"103\", 45), (\"104\", 95), (\"105\", 35)]\n'above_average'\n```\n\nOutput\n\n```\n['101', '102', '104']\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef get_roll_nos(data:list, criteria=None):\n    if criteria is None:\n        return [roll for roll, marks in data]\n    if criteria == 'fail':\n        return [roll for roll, marks in data if marks < 40]\n    if criteria == 'toppers':\n        return [roll for roll, marks in data if marks >= 90]\n    if criteria in ('above_average', 'below_average'):\n        average = sum(marks for roll, marks in data) / len(data) if data else 0\n        if criteria == 'above_average':\n            return [roll for roll, marks in data if marks >= average]\n        return [roll for roll, marks in data if marks < average]\n    return None\n```",
+    "difficulty": "medium",
+    "starter_code": "def get_roll_nos(data:list, criteria=None):\n    '''\n    Filter roll numbers based on criteria.\n    Args:\n        data (list): List of tuples with roll number and marks.\n        criteria (str, optional): The criteria for filtering.\n    Returns:\n        list: List of roll numbers matching the criteria or None if invalid criteria.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = get_roll_nos(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "data",
+     "criteria"
+    ],
+    "tests": [
+     {
+      "stdin": "[(\"101\", 85), (\"102\", 75), (\"103\", 45), (\"104\", 95), (\"105\", 35)]\n'above_average'",
+      "expected": "['101', '102', '104']",
+      "hidden": false
+     },
+     {
+      "stdin": "[(\"101\", 85), (\"102\", 75), (\"103\", 45), (\"104\", 95), (\"105\", 35)]\n'fail'",
+      "expected": "['105']",
+      "hidden": false
+     },
+     {
+      "stdin": "[(\"101\", 85), (\"102\", 75), (\"103\", 45), (\"104\", 95), (\"105\", 35)]\n'toppers'",
+      "expected": "['104']",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"101\", 85), (\"102\", 75), (\"103\", 45), (\"104\", 95), (\"105\", 35)]",
+      "expected": "['101', '102', '103', '104', '105']",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"201\", 90), (\"202\", 39), (\"203\", 60)]\n'ranking'",
+      "expected": "None",
+      "hidden": true
+     }
+    ],
+    "section": "Section 3 - I/O based Problem Solving",
+    "marks": 15,
+    "sort_order": 6,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   },
+   {
+    "title": "V Shaped Pattern",
+    "body_md": "Given an integer `n` (where `n > 0`), print a \"V\" shaped pattern with `n` rows. The pattern should use backslashes (`\\`) and forward slashes (`/`) for each row, with the `v` character at the bottom. There should be no spaces to the right of the pattern.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- A single integer n, representing the number of rows in the pattern.\n\n### Output Format\n\n- A \"V\" shaped pattern with n rows, as described.\n\n### Constraints\n\n- 1 <= n\n\n### Examples\n\nInput:\n\n```\n1\n```\n\nOutput:\n\n```\nv\n```\n\nInput:\n\n```\n2\n```\n\nOutput:\n\n```\n\\ /\n v\n```\n\nInput:\n\n```\n3\n```\n\nOutput:\n\n```\n\\   /\n \\ /\n  v\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1\n```\n\nOutput\n\n```\nv\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor i in range(n - 1):\n    print(' ' * i + '\\\\' + ' ' * (2 * (n - 1 - i) - 1) + '/')\nprint(' ' * (n - 1) + 'v')\n```",
+    "difficulty": "medium",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "1",
+      "expected": "v",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": "\\ /\n v",
+      "hidden": false
+     },
+     {
+      "stdin": "3",
+      "expected": "\\   /\n \\ /\n  v",
+      "hidden": true
+     },
+     {
+      "stdin": "5",
+      "expected": "\\       /\n \\     /\n  \\   /\n   \\ /\n    v",
+      "hidden": true
+     },
+     {
+      "stdin": "7",
+      "expected": "\\           /\n \\         /\n  \\       /\n   \\     /\n    \\   /\n     \\ /\n      v",
+      "hidden": true
+     }
+    ],
+    "section": "Section 3 - I/O based Problem Solving",
+    "marks": 15,
+    "sort_order": 7,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024"
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "sep-2024-set2",
+  "title": "September 2024 Set2",
+  "exam": "OPPE 1",
+  "year": 2024,
+  "source": "unknowniitians.com PYQ - September 2024 Set2",
+  "sort_order": 5,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Is Positive Odd Or Negative Even",
+    "body_md": "Write a function `is_positive_odd_or_negative_even` that checks if an integer is either a positive odd number or a negative even number. Return `True` if the number meets one of these conditions; otherwise, return `False`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example cases\n\n- `0` --> `False` (neither positive nor negative)\n- `3` --> `True` (positive odd)\n- `-4` --> `True` (negative even)\n- `4` --> `False` (positive but even)\n- `-3` --> `False` (negative but odd)\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_positive_odd_or_negative_even(n: int) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n0\n```\n\nOutput\n\n```\nFalse\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef is_positive_odd_or_negative_even(n: int) -> bool:\n    return (n > 0 and n % 2 != 0) or (n < 0 and n % 2 == 0)\n```",
+    "difficulty": "medium",
+    "starter_code": "def is_positive_odd_or_negative_even(n: int) -> bool:\n    '''Check if the number is a positive odd or a negative even.\n    Args:\n        n : int - input integer\n    Returns:\n        bool - True if positive odd or negative even, else False\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = is_positive_odd_or_negative_even(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "n"
+    ],
+    "tests": [
+     {
+      "stdin": "0",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "3",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "-4",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "4",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "-3",
+      "expected": "False",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   },
+   {
+    "title": "Within And Has Double Quotes",
+    "body_md": "Write a function `within_and_has_double_quotes` that checks if a given string starts and ends with double quotes, and if there are double quotes inside the string (excluding the first and last characters). Return `True` if both conditions are met, and `False` otherwise.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example cases\n\n- `\"abcd\"efgh\"` --> `True` (starts and ends with double quotes, and has double quotes inside)\n- `'abcd\"efgh\"'` --> `False` (does not start with double quotes)\n- `\"'abcd'efgh'\"` --> `False` (uses single quotes)\n- `\"abcdefgh\"` --> `False` (no double quotes inside the quotes)\n\n## Your task\n\nImplement this function:\n\n```python\ndef within_and_has_double_quotes(s: str) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'\"abcd\"efgh\"'\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef within_and_has_double_quotes(s: str) -> bool:\n    if len(s) < 2 or s[0] != '\"' or s[-1] != '\"':\n        return False\n    return '\"' in s[1:-1]\n```",
+    "difficulty": "medium",
+    "starter_code": "def within_and_has_double_quotes(s: str) -> bool:\n    '''Check if the string is enclosed with double quotes and has double quotes inside.\n    Args:\n        s : str - input string\n    Returns:\n        bool - True if the string starts and ends with double quotes and has double quotes inside\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = within_and_has_double_quotes(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "s"
+    ],
+    "tests": [
+     {
+      "stdin": "'\"abcd\"efgh\"'",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "'\\'abcd\"efgh\"\\''",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "'\"\\'abcd\\'efgh\\'\"'",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "'\"abcdefgh\"'",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "'\"a\"b\"'",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   },
+   {
+    "title": "Replace Middle With N Times Middle",
+    "body_md": "Given a tuple `t` of odd length, and a positive integer `n`, replace the middle element with `n` copies of itself.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Examples\n\nFor `t = (1, 2, 3, 4, 5)` and `n = 5`, the result should be `(1, 2, 3, 3, 3, 3, 3, 4, 5)`.\n\nFor `t = (1, 2, 3)` and `n = 4`, the result should be `(1, 2, 2, 2, 2, 3)`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef replace_middle_with_n_times_middle(t: tuple, n: int) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `t`, `n`.\n\n## Example\n\nInput\n\n```\n(1, 2, 3, 4, 5)\n5\n```\n\nOutput\n\n```\n(1, 2, 3, 3, 3, 3, 3, 4, 5)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef replace_middle_with_n_times_middle(t: tuple, n: int) -> tuple:\n    mid = len(t) // 2\n    return t[:mid] + (t[mid],) * n + t[mid + 1:]\n```",
+    "difficulty": "medium",
+    "starter_code": "def replace_middle_with_n_times_middle(t: tuple, n: int) -> tuple:\n    '''\n    Replace the middle element of a tuple with `n` copies of the middle element.\n    Args:\n        t (tuple): A tuple with an odd number of elements.\n        n (int): The number of times the middle element should be repeated.\n    Returns:\n        tuple: A new tuple with the middle element replaced by `n` copies.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = replace_middle_with_n_times_middle(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "t",
+     "n"
+    ],
+    "tests": [
+     {
+      "stdin": "(1, 2, 3, 4, 5)\n5",
+      "expected": "(1, 2, 3, 3, 3, 3, 3, 4, 5)",
+      "hidden": false
+     },
+     {
+      "stdin": "(1, 2, 3)\n4",
+      "expected": "(1, 2, 2, 2, 2, 3)",
+      "hidden": false
+     },
+     {
+      "stdin": "(7,)\n3",
+      "expected": "(7, 7, 7)",
+      "hidden": true
+     },
+     {
+      "stdin": "('a', 'b', 'c', 'd', 'e', 'f', 'g')\n1",
+      "expected": "('a', 'b', 'c', 'd', 'e', 'f', 'g')",
+      "hidden": true
+     },
+     {
+      "stdin": "(10, 20, 30, 40, 50)\n2",
+      "expected": "(10, 20, 30, 30, 40, 50)",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   },
+   {
+    "title": "Count Positive Ignore None",
+    "body_md": "Given a list which contains integers and `None`, count the number of positive integers while ignoring `None` values. Zero should not be counted.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\nFor the list `[1, -2, 3, 0, None, 4]`, the result should be `3` because the positive integers are `1`, `3`, and `4`.\n\n### Explanation\n\n- We ignore `None` values.\n- We also ignore `0` because it is not positive.\n- The positive integers are 1, 3, and 4, so the count is 3.\n\n## Your task\n\nImplement this function:\n\n```python\ndef count_positive_ignore_none(nums: list):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `nums`.\n\n## Example\n\nInput\n\n```\n[1, -2, 3, 0, None, 4]\n```\n\nOutput\n\n```\n3\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef count_positive_ignore_none(nums: list):\n    count = 0\n    for x in nums:\n        if x is not None and x > 0:\n            count += 1\n    return count\n```",
+    "difficulty": "hard",
+    "starter_code": "def count_positive_ignore_none(nums: list):\n    '''\n    Count the number of positive integers in the list, ignoring `None` values and zeros.\n    Args:\n        nums (list): A list of numbers, possibly containing `None` values.\n    Returns:\n        int: The count of positive integers in the list.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = count_positive_ignore_none(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "nums"
+    ],
+    "tests": [
+     {
+      "stdin": "[1, -2, 3, 0, None, 4]",
+      "expected": "3",
+      "hidden": false
+     },
+     {
+      "stdin": "[None, None, None]",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "[10, 20, 30]",
+      "expected": "3",
+      "hidden": true
+     },
+     {
+      "stdin": "[0, -1, None, 7, 8, -9, 2]",
+      "expected": "3",
+      "hidden": true
+     }
+    ],
+    "section": "Section B - Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   },
+   {
+    "title": "Alternate Sum And Absolute Difference",
+    "body_md": "Given `n` pairs of integers, print the sum and the absolute difference of each pair alternatively, starting with the sum for the first pair.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `n`, the number of pairs.\n- The next `n` lines each contain two comma-separated integers.\n\n### Output Format\n\n- For each pair of integers, print the sum if it is an odd-numbered pair (starting from 1), and the absolute difference if it is an even numbered pair.\n\n### Example\n\nInput\n\n```\n3\n1,2\n3,5\n4,3\n```\n\nOutput\n\n```\n3\n2\n7\n```\n\n### Explanation\n\n1. First pair (1, 2): Sum (1 + 2 = 3)\n2. Second pair (3, 5): Absolute difference (|3 - 5| = 2)\n3. Third pair (4, 3): Sum (4 + 3 = 7)\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n1,2\n3,5\n4,3\n```\n\nOutput\n\n```\n3\n2\n7\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor i in range(1, n + 1):\n    a, b = [int(x) for x in input().split(',')]\n    if i % 2 == 1:\n        print(a + b)\n    else:\n        print(abs(a - b))\n```",
+    "difficulty": "hard",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "3\n1,2\n3,5\n4,3",
+      "expected": "3\n2\n7",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n10,20",
+      "expected": "30",
+      "hidden": false
+     },
+     {
+      "stdin": "2\n-5,-7\n8,3",
+      "expected": "-12\n5",
+      "hidden": true
+     },
+     {
+      "stdin": "4\n0,0\n1,1\n2,3\n-4,6",
+      "expected": "0\n0\n5\n10",
+      "hidden": true
+     },
+     {
+      "stdin": "5\n100,200\n7,7\n-1,-2\n15,4\n9,-9",
+      "expected": "300\n0\n-3\n11\n0",
+      "hidden": true
+     }
+    ],
+    "section": "Section B - Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   },
+   {
+    "title": "Walk Matrix",
+    "body_md": "Given a square matrix, walk along the matrix according to a specified path and return a list of elements based on the path.\n\nPaths:\n\n- `\"L\"`: Start from the top-left corner and traverse in an \"L\" shape.\n- `\"Z\"`: Start from the top-left corner and traverse the matrix in a \"Z\" shape.\n- `\"O\"`: Start from the top-left corner and traverse the matrix clockwise in an \"O\" shape.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition. You can define helper functions if needed, but the actual solution should be in the given function template.\n\n### Example\n\nFor matrix\n\n```\nM = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n]\n```\n\n- L-shape: `[1, 4, 7, 8, 9]`\n- Z-shape: `[1, 2, 3, 5, 7, 8, 9]`\n- O-shape: `[1, 2, 3, 6, 9, 8, 7, 4]`\n\nNote: \"L\" has 2 private test cases where \"Z\" and \"O\" has one private test case each.\n\n## Your task\n\nImplement this function:\n\n```python\ndef walk_matrix(M, shape):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `M`, `shape`.\n\n## Example\n\nInput\n\n```\n[[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n'L'\n```\n\nOutput\n\n```\n[1, 4, 7, 8, 9]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef walk_matrix(M, shape):\n    n = len(M)\n    if n == 0:\n        return []\n    if n == 1:\n        return [M[0][0]]\n    if shape == \"L\":\n        path = [M[i][0] for i in range(n)]\n        path += [M[n - 1][j] for j in range(1, n)]\n        return path\n    if shape == \"Z\":\n        path = list(M[0])\n        path += [M[i][n - 1 - i] for i in range(1, n - 1)]\n        path += list(M[n - 1])\n        return path\n    if shape == \"O\":\n        path = [M[0][j] for j in range(n)]\n        path += [M[i][n - 1] for i in range(1, n)]\n        path += [M[n - 1][j] for j in range(n - 2, -1, -1)]\n        path += [M[i][0] for i in range(n - 2, 0, -1)]\n        return path\n    return []\n```",
+    "difficulty": "medium",
+    "starter_code": "def walk_matrix(M, shape):\n    \"\"\"\n    Walk along the matrix M according to the specified shape and return the path.\n    Args:\n        M (list of lists): The square matrix.\n        shape (str): Path shape, one of \"L\", \"O\", or \"Z\".\n    Returns:\n        list: Path along the matrix according to the shape.\n    \"\"\"\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = walk_matrix(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "M",
+     "shape"
+    ],
+    "tests": [
+     {
+      "stdin": "[[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n'L'",
+      "expected": "[1, 4, 7, 8, 9]",
+      "hidden": false
+     },
+     {
+      "stdin": "[[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n'Z'",
+      "expected": "[1, 2, 3, 5, 7, 8, 9]",
+      "hidden": false
+     },
+     {
+      "stdin": "[[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n'O'",
+      "expected": "[1, 2, 3, 6, 9, 8, 7, 4]",
+      "hidden": true
+     },
+     {
+      "stdin": "[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]\n'L'",
+      "expected": "[1, 5, 9, 13, 14, 15, 16]",
+      "hidden": true
+     },
+     {
+      "stdin": "[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]\n'O'",
+      "expected": "[1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5]",
+      "hidden": true
+     }
+    ],
+    "section": "Section 3 - I/O based Problem Solving",
+    "marks": 15,
+    "sort_order": 6,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   },
+   {
+    "title": "X Shaped Pattern",
+    "body_md": "Given an integer `n` (where `n >= 0`), print an \"X\" shaped pattern with `n` rows above and below a central character `x`. The pattern should use backslashes (`\\`) and forward slashes (`/`) to form the \"X\" shape, with increasing spaces between them as they approach the center. There should be no spaces to the right of the pattern.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input\n\n- A single integer `n`, representing the number of rows above and below the center of the \"X\".\n\n### Output\n\n- An \"X\" shaped pattern with `n` rows above and below a central `x` character, as described.\n\n### Examples\n\nInput:\n\n```\n0\n```\n\nOutput:\n\n```\nx\n```\n\nInput:\n\n```\n1\n```\n\nOutput:\n\n```\n\\ /\n x\n/ \\\n```\n\nInput:\n\n```\n2\n```\n\nOutput:\n\n```\n\\   /\n \\ /\n  x\n / \\\n/   \\\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n0\n```\n\nOutput\n\n```\nx\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor i in range(n):\n    print(' ' * i + '\\\\' + ' ' * (2 * (n - i) - 1) + '/')\nprint(' ' * n + 'x')\nfor i in range(n - 1, -1, -1):\n    print(' ' * i + '/' + ' ' * (2 * (n - i) - 1) + '\\\\')\n```",
+    "difficulty": "medium",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "0",
+      "expected": "x",
+      "hidden": false
+     },
+     {
+      "stdin": "1",
+      "expected": "\\ /\n x\n/ \\",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": "\\   /\n \\ /\n  x\n / \\\n/   \\",
+      "hidden": true
+     },
+     {
+      "stdin": "3",
+      "expected": "\\     /\n \\   /\n  \\ /\n   x\n  / \\\n /   \\\n/     \\",
+      "hidden": true
+     },
+     {
+      "stdin": "4",
+      "expected": "\\       /\n \\     /\n  \\   /\n   \\ /\n    x\n   / \\\n  /   \\\n /     \\\n/       \\",
+      "hidden": true
+     }
+    ],
+    "section": "Section 3 - I/O based Problem Solving",
+    "marks": 15,
+    "sort_order": 7,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set2"
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "sep-2024-set3",
+  "title": "September 2024 Set3",
+  "exam": "OPPE 1",
+  "year": 2024,
+  "source": "unknowniitians.com PYQ - September 2024 Set3",
+  "sort_order": 6,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Div By Exactly One",
+    "body_md": "Write a function `div_by_exactly_one` that takes three integers `num`, `a`, and `b`. The function should return `True` if `num` is divisible by exactly one of the numbers `a` or `b`, and `False` otherwise.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n**Examples:**\n\n- `num=20, a=5, b=6` --> `True` (20 is divisible by 5 only)\n- `num=20, a=5, b=10` --> `False` (20 is divisible by both 5 and 10)\n- `num=20, a=6, b=10` --> `True` (20 is divisible by 10 only)\n- `num=20, a=6, b=7` --> `False` (20 is not divisible by either 6 or 7)\n\n## Your task\n\nImplement this function:\n\n```python\ndef div_by_exactly_one(num: int, a: int, b: int) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `num`, `a`, `b`.\n\n## Example\n\nInput\n\n```\n20\n5\n6\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef div_by_exactly_one(num: int, a: int, b: int) -> bool:\n    return (num % a == 0) != (num % b == 0)\n```",
+    "difficulty": "medium",
+    "starter_code": "def div_by_exactly_one(num: int, a: int, b: int) -> bool:\n    '''Check if num is divisible by exactly one of a or b.\n\n    Args:\n        num, a, b : int - input numbers\n    Returns:\n        bool - True if num is divisible by exactly one of a or b, otherwise False.\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:3]]\n_out = div_by_exactly_one(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "num",
+     "a",
+     "b"
+    ],
+    "tests": [
+     {
+      "stdin": "20\n5\n6",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "20\n5\n10",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "20\n6\n10",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "20\n6\n7",
+      "expected": "False",
+      "hidden": true
+     },
+     {
+      "stdin": "100\n10\n3",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set3"
+    ]
+   },
+   {
+    "title": "Convert Date Format",
+    "body_md": "Convert a date string from the format `mm-dd-yy` to `yy-dd-mm`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n**Example**\n\n```\nInput: \"12-25-21\"\nOutput: \"21-25-12\"\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef mm_dd_yy_to_yy_dd_mm(date: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `date`.\n\n## Example\n\nInput\n\n```\n'12-25-21'\n```\n\nOutput\n\n```\n'21-25-12'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef mm_dd_yy_to_yy_dd_mm(date: str) -> str:\n    mm, dd, yy = date.split(\"-\")\n    return \"-\".join([yy, dd, mm])\n```",
+    "difficulty": "medium",
+    "starter_code": "def mm_dd_yy_to_yy_dd_mm(date: str) -> str:\n    \"\"\"\n    Convert a date string from the format mm-dd-yy to yy-dd-mm.\n\n    Args:\n        date (str): The date in the format \"mm-dd-yy\".\n    Returns:\n        str: The date in the format \"yy-dd-mm\".\n    Example:\n        >>> mm_dd_yy_to_yy_dd_mm(\"12-25-21\")\n        \"21-25-12\"\n    \"\"\"\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:1]]\n_out = mm_dd_yy_to_yy_dd_mm(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "date"
+    ],
+    "tests": [
+     {
+      "stdin": "'12-25-21'",
+      "expected": "'21-25-12'",
+      "hidden": false
+     },
+     {
+      "stdin": "'01-02-03'",
+      "expected": "'03-02-01'",
+      "hidden": false
+     },
+     {
+      "stdin": "'11-11-11'",
+      "expected": "'11-11-11'",
+      "hidden": true
+     },
+     {
+      "stdin": "'09-30-99'",
+      "expected": "'99-30-09'",
+      "hidden": true
+     },
+     {
+      "stdin": "'06-15-24'",
+      "expected": "'24-15-06'",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set3"
+    ]
+   },
+   {
+    "title": "Increment Value With Max Limit",
+    "body_md": "Write a function `increment_value_with_max_limit` that increments the value for a specified key in a dictionary by a given increment value (`inc`). However, the value should not exceed a specified maximum limit (`limit`).\n\nAssume the dictionary values are integers. If the resulting value after incrementing is greater than the limit, it should be capped at the limit.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n**Example**\n\n```python\n>>> d = {\"x\": 5, \"y\": 3, \"z\": 5}\n>>> key, inc, limit = \"y\", 5, 5\n>>> increment_value_with_max_limit(d, key, inc, limit)\n>>> d\n{\"x\": 5, \"y\": 5, \"z\": 5}   # 3+5=8 but max limit is 5\n\n>>> increment_value_with_max_limit(d, \"z\", 5, 11)\n>>> d\n{\"x\": 5, \"y\": 5, \"z\": 10}  # 5+5=10 less than limit\n\n>>> increment_value_with_max_limit(d, \"x\", 5, 4)\n>>> d\n{\"x\": 4, \"y\": 5, \"z\": 10}  # capped at the limit 4\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef increment_value_with_max_limit(d: dict, key: str, inc: int, limit: int):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `d`, `key`, `inc`, `limit`.\n\n## Example\n\nInput\n\n```\n{'x': 5, 'y': 3, 'z': 5}\n'y'\n5\n5\n```\n\nOutput\n\n```\n{'x': 5, 'y': 5, 'z': 5}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef increment_value_with_max_limit(d: dict, key: str, inc: int, limit: int):\n    d[key] = min(d[key] + inc, limit)\n```",
+    "difficulty": "medium",
+    "starter_code": "def increment_value_with_max_limit(d: dict, key: str, inc: int, limit: int):\n    '''\n    Increment the value for the given key in the\n    dictionary by `inc`, but not beyond `limit`.\n\n    Modify the value in the dictionary do not return the new value.\n\n    Args:\n        d : dict - dictionary with integer values\n        key : str - key to increment in the dictionary\n        inc : int - increment value\n        limit : int - maximum limit for the value\n    Returns:\n        None\n    '''\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:4]]\n_out = increment_value_with_max_limit(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+    "input_labels": [
+     "d",
+     "key",
+     "inc",
+     "limit"
+    ],
+    "tests": [
+     {
+      "stdin": "{'x': 5, 'y': 3, 'z': 5}\n'y'\n5\n5",
+      "expected": "{'x': 5, 'y': 5, 'z': 5}",
+      "hidden": false
+     },
+     {
+      "stdin": "{'x': 5, 'y': 5, 'z': 5}\n'z'\n5\n11",
+      "expected": "{'x': 5, 'y': 5, 'z': 10}",
+      "hidden": false
+     },
+     {
+      "stdin": "{'x': 5, 'y': 5, 'z': 10}\n'x'\n5\n4",
+      "expected": "{'x': 4, 'y': 5, 'z': 10}",
+      "hidden": true
+     },
+     {
+      "stdin": "{'a': 0, 'b': 7}\n'a'\n3\n100",
+      "expected": "{'a': 3, 'b': 7}",
+      "hidden": true
+     },
+     {
+      "stdin": "{'p': 2, 'q': 9}\n'q'\n1\n9",
+      "expected": "{'p': 2, 'q': 9}",
+      "hidden": true
+     }
+    ],
+    "section": "Section 1 - Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set3"
+    ]
+   },
+   {
+    "title": "Swap And Reverse Lines",
+    "body_md": "Given multiple lines of input, modify the lines as follows:\n\n- Swap every two consecutive lines.\n- Reverse every odd-numbered line in the output sequence.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n**Input Format:**\n\n- The first line contains the integer `n`, the number of lines.\n- The next `n` lines contain text strings.\n\n**Output Format:**\n\n- Print the transformed lines according to the rules specified.\n\n**Example**\n\nFor the input:\n\n```\n5\napple\norange\npineapple\nmango\nkiwi\n```\n\nThe output should be:\n\n```\negnaro\napple\nognam\npineapple\niwik\n```\n\n**Explanation:**\n\n- The first and second lines are swapped, with the first line (orange) reversed.\n- The third and fourth lines are swapped, with the third line (mango) reversed.\n- The fifth line (kiwi), being alone, is reversed.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\napple\norange\npineapple\nmango\nkiwi\n```\n\nOutput\n\n```\negnaro\napple\nognam\npineapple\niwik\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nlines = [input() for _ in range(n)]\n\nfor i in range(0, n - 1, 2):\n    lines[i], lines[i + 1] = lines[i + 1], lines[i]\n\nfor i in range(0, n, 2):\n    lines[i] = lines[i][::-1]\n\nfor line in lines:\n    print(line)\n```",
+    "difficulty": "hard",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "5\napple\norange\npineapple\nmango\nkiwi",
+      "expected": "egnaro\napple\nognam\npineapple\niwik",
+      "hidden": false
+     },
+     {
+      "stdin": "4\nab\ncd\nef\ngh",
+      "expected": "dc\nab\nhg\nef",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nhello",
+      "expected": "olleh",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nhello\nworld",
+      "expected": "dlrow\nhello",
+      "hidden": true
+     },
+     {
+      "stdin": "6\none\ntwo\nthree\nfour\nfive\nsix",
+      "expected": "owt\none\nruof\nthree\nxis\nfive",
+      "hidden": true
+     }
+    ],
+    "section": "Section B - Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set3"
+    ]
+   },
+   {
+    "title": "Get Words By Criteria",
+    "body_md": "Given a list of words (case-insensitive), filter the words based on specific criteria and return the result as a list in the same order as the input. The criteria are as follows:\n\n- `continuous`: words that end with \"ing\" (case-insensitive)\n- `vowel_rich`: words that contain more than 5 vowels (not equal to 5)\n- `consonant_rich`: words that contain more than 5 consonants (not equal to 5)\n- `sorted`: words where the letters are sorted in ascending order\n\nIf any other criteria is given, return `None`.\n\nNote: You can use the string methods like `isalpha` and `lower` if needed.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition. You can define helper functions if needed, but the actual solution should be in the given function template.\n\n**Example**\n\nFor the list `[\"running\", \"aeiobcdioe\", \"acc\", \"xyz\", \"BOTbot\", \"BboOTt\", \"jumpiNg\", \"SPINNING\", \"alphabetical\"]`:\n\n- `continuous` criteria will yield `[\"running\", \"jumpiNg\", \"SPINNING\"]`\n- `vowel_rich` criteria will yield `[\"aeiobcdioe\"]`\n- `consonant_rich` criteria will yield `[\"SPINNING\", \"alphabetical\"]`\n- `sorted` criteria will yield `[\"acc\", \"xyz\", \"BboOTt\"]`\n\n## Your task\n\nImplement this function:\n\n```python\ndef get_words_by_criteria(words, criteria=None):\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `words`, `criteria`.\n\n## Example\n\nInput\n\n```\n['running', 'aeiobcdioe', 'acc', 'xyz', 'BOTbot', 'BboOTt', 'jumpiNg', 'SPINNING', 'alphabetical']\n'continuous'\n```\n\nOutput\n\n```\n['running', 'jumpiNg', 'SPINNING']\n```",
+    "solution_md": "## Reference solution\n\n```python\nVOWELS = \"aeiou\"\n\n\ndef count_vowels(word):\n    return sum(1 for ch in word.lower() if ch in VOWELS)\n\n\ndef count_consonants(word):\n    return sum(1 for ch in word.lower() if ch.isalpha() and ch not in VOWELS)\n\n\ndef is_sorted(word):\n    low = word.lower()\n    return all(low[i] <= low[i + 1] for i in range(len(low) - 1))\n\n\ndef get_words_by_criteria(words, criteria=None):\n    if criteria == \"continuous\":\n        return [w for w in words if w.lower().endswith(\"ing\")]\n    if criteria == \"vowel_rich\":\n        return [w for w in words if count_vowels(w) > 5]\n    if criteria == \"consonant_rich\":\n        return [w for w in words if count_consonants(w) > 5]\n    if criteria == \"sorted\":\n        return [w for w in words if is_sorted(w)]\n    return None\n```",
+    "difficulty": "medium",
+    "starter_code": "def get_words_by_criteria(words, criteria=None):\n    \"\"\"\n    Filters words based on the given criteria.\n\n    Args:\n        words (list): List of words.\n        criteria (str): The filter criteria.\n    Returns:\n        list: Filtered list of words matching the criteria, or None if invalid criteria.\n    \"\"\"\n    ...\n",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport ast as _ast, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [_ast.literal_eval(_l) for _l in _lines[:2]]\n_out = get_words_by_criteria(*_args)\nprint(_oppe_fmt(_out))\n",
+    "input_labels": [
+     "words",
+     "criteria"
+    ],
+    "tests": [
+     {
+      "stdin": "['running', 'aeiobcdioe', 'acc', 'xyz', 'BOTbot', 'BboOTt', 'jumpiNg', 'SPINNING', 'alphabetical']\n'continuous'",
+      "expected": "['running', 'jumpiNg', 'SPINNING']",
+      "hidden": false
+     },
+     {
+      "stdin": "['running', 'aeiobcdioe', 'acc', 'xyz', 'BOTbot', 'BboOTt', 'jumpiNg', 'SPINNING', 'alphabetical']\n'vowel_rich'",
+      "expected": "['aeiobcdioe']",
+      "hidden": false
+     },
+     {
+      "stdin": "['running', 'aeiobcdioe', 'acc', 'xyz', 'BOTbot', 'BboOTt', 'jumpiNg', 'SPINNING', 'alphabetical']\n'consonant_rich'",
+      "expected": "['SPINNING', 'alphabetical']",
+      "hidden": true
+     },
+     {
+      "stdin": "['running', 'aeiobcdioe', 'acc', 'xyz', 'BOTbot', 'BboOTt', 'jumpiNg', 'SPINNING', 'alphabetical']\n'sorted'",
+      "expected": "['acc', 'xyz', 'BboOTt']",
+      "hidden": true
+     },
+     {
+      "stdin": "['Typing', 'aaa', 'zzzz']\n'palindrome'",
+      "expected": "None",
+      "hidden": true
+     }
+    ],
+    "section": "Section 3 - I/O based Problem Solving",
+    "marks": 15,
+    "sort_order": 5,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set3"
+    ]
+   },
+   {
+    "title": "N Shaped Pattern",
+    "body_md": "Given an integer `n` (where `n > 0`), print an \"N\" shaped pattern with `n` rows. The pattern should have vertical bars (`|`) on the left and right sides of each row, with a backslash (`\\`) moving diagonally from the top-left to the bottom-right. There should be no spaces to the right of the pattern.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n**Input Format**\n\n- A single integer `n`, representing the number of rows in the pattern.\n\n**Output Format**\n\n- An \"N\" shaped pattern with `n` rows, as described.\n\n**Examples**\n\nInput:\n\n```\n1\n```\n\nOutput:\n\n```\n|\\|\n```\n\nInput:\n\n```\n2\n```\n\nOutput:\n\n```\n|\\ |\n| \\|\n```\n\nInput:\n\n```\n3\n```\n\nOutput:\n\n```\n|\\  |\n| \\ |\n|  \\|\n```\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1\n```\n\nOutput\n\n```\n|\\|\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\n\nfor i in range(n):\n    print(\"|\" + \" \" * i + \"\\\\\" + \" \" * (n - i - 1) + \"|\")\n```",
+    "difficulty": "medium",
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "harness": null,
+    "input_labels": null,
+    "tests": [
+     {
+      "stdin": "1",
+      "expected": "|\\|",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": "|\\ |\n| \\|",
+      "hidden": false
+     },
+     {
+      "stdin": "3",
+      "expected": "|\\  |\n| \\ |\n|  \\|",
+      "hidden": true
+     },
+     {
+      "stdin": "4",
+      "expected": "|\\   |\n| \\  |\n|  \\ |\n|   \\|",
+      "hidden": true
+     },
+     {
+      "stdin": "6",
+      "expected": "|\\     |\n| \\    |\n|  \\   |\n|   \\  |\n|    \\ |\n|     \\|",
+      "hidden": true
+     }
+    ],
+    "section": "Section 3 - I/O based Problem Solving",
+    "marks": 15,
+    "sort_order": 6,
+    "tags": [
+     "oppe-1",
+     "pyq",
+     "python",
+     "sep-2024-set3"
+    ]
+   }
+  ]
+ }
+]

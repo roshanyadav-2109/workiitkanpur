@@ -1,8 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { getQuestionsForSubject, getSubjectBySlug } from "@/lib/queries";
-import { buildSetsForSubject } from "@/lib/test-series";
+import { getQuestionsForSubject, getSubjectBySlug, getTestSets } from "@/lib/queries";
 import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
 import { TestDeviceGuard } from "@/components/test/device-guard";
@@ -33,7 +32,7 @@ export default async function RunPage({
     );
 
   const questions = await getQuestionsForSubject(subject.id);
-  const set = buildSetsForSubject(questions).find((s) => s.id === setId);
+  const set = (await getTestSets(subject.id)).find((s) => s.id === setId);
   if (!set || !set.available) notFound();
 
   // Open (or resume) the attempt row this paper writes into.
