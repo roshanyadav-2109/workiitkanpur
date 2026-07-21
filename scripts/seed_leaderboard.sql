@@ -22,13 +22,27 @@ from (values
 ) as s(email, name, idx)
 where not exists (select 1 from auth.users u where u.email = s.email);
 
+-- Only these accounts ever receive sample activity. Earlier this seeded every
+-- row in public.profiles, which meant a real person who signed in was handed a
+-- fake solved history. Real logins must start clean.
+create or replace view public.seed_students as
+  select p.id
+    from public.profiles p
+    join auth.users u on u.id = p.id
+   where u.email in (
+     'tester@oppe.dev',
+     'aarav.sharma@oppe.dev','meera.krishnan@oppe.dev','rohan.verma@oppe.dev',
+     'priya.das@oppe.dev','kabir.mehta@oppe.dev','ananya.rao@oppe.dev',
+     'ishaan.gupta@oppe.dev'
+   );
+
 -- 2) Solved attempts across users x questions (deterministic, varied times)
 insert into public.attempts (user_id, question_id, status, time_spent_seconds, is_correct, created_at)
 select p.id, q.id, 'solved'::attempt_status,
        25 + (abs(hashtextextended(p.id::text || q.id::text, 42)) % 220)::int,
        true,
        now() - ((abs(hashtextextended(p.id::text || q.id::text, 3)) % 240)) * interval '1 hour'
-from public.profiles p
+from public.seed_students p
 cross join public.questions q
 where (abs(hashtextextended(p.id::text || q.id::text, 7)) % 100) < 68
   and not exists (select 1 from public.attempts a where a.user_id = p.id and a.question_id = q.id);
@@ -39,7 +53,7 @@ select p.id, q.id, 'attempted'::attempt_status,
        40 + (abs(hashtextextended(p.id::text || q.id::text, 11)) % 180)::int,
        false,
        now() - ((abs(hashtextextended(p.id::text || q.id::text, 5)) % 200)) * interval '1 hour'
-from public.profiles p
+from public.seed_students p
 cross join public.questions q
 where (abs(hashtextextended(p.id::text || q.id::text, 7)) % 100) >= 68
   and (abs(hashtextextended(p.id::text || q.id::text, 9)) % 100) < 55

@@ -57,8 +57,11 @@ export function SubjectSections({
 
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:gap-7">
-      {/* Desktop — left section nav */}
-      <aside className="hidden shrink-0 lg:block lg:w-56">
+      {/* Desktop — left section nav. It scrolls away with the banner, then pins
+          just under the (sticky, h-14) navbar so only the question list keeps
+          moving. `self-start` is what makes that work: a stretched flex child
+          fills the row and has nowhere to stick to. */}
+      <aside className="hidden shrink-0 lg:sticky lg:top-[72px] lg:block lg:w-56 lg:self-start">
         <nav className="overflow-hidden rounded-[3px] border border-hairline">
           {SECTIONS.map((s) => {
             const on = s.id === active;

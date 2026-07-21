@@ -3,7 +3,7 @@
   "num": 1,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q1. Abs Diff Between Sum And Sum Of Squares",
+  "title": "Abs Diff Between Sum And Sum Of Squares",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
@@ -49,20 +49,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "abs_diff_between_sum_and_sum_of_squares"
+   "abs_diff_between_sum_and_sum_of_squares",
+   "q1"
   ]
  },
  {
   "num": 2,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q2. Swap Except Middle Three",
+  "title": "Swap Except Middle Three",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 2,
+  "sort_order": 178,
   "tests": [
    {
     "stdin": "'abcdefghi'",
@@ -101,20 +102,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "swap_except_middle_three"
+   "swap_except_middle_three",
+   "q2"
   ]
  },
  {
   "num": 3,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q3. Interleave Lists",
+  "title": "Interleave Lists",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 3,
+  "sort_order": 67,
   "tests": [
    {
     "stdin": "[1, 2]\n['a', 'b']\n[(1, 1), (2, 2)]",
@@ -155,20 +157,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "interleave_lists"
+   "interleave_lists",
+   "q3"
   ]
  },
  {
   "num": 4,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q4. Has More Than 5 Unique Digits",
+  "title": "Has More Than 5 Unique Digits",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 4,
+  "sort_order": 61,
   "tests": [
    {
     "stdin": "1234567",
@@ -207,20 +210,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "has_more_than_5_unique_digits"
+   "has_more_than_5_unique_digits",
+   "q4"
   ]
  },
  {
   "num": 5,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q5. Final Position",
+  "title": "Final Position",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 5,
+  "sort_order": 48,
   "tests": [
    {
     "stdin": "(0, 0)\n(1, 2)\n3",
@@ -261,20 +265,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "final_position"
+   "final_position",
+   "q5"
   ]
  },
  {
   "num": 6,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q6. Remove Keys Not In List",
+  "title": "Remove Keys Not In List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 6,
+  "sort_order": 133,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2, 'c': 3}\n['a', 'c']",
@@ -314,20 +319,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "remove_keys_not_in_list"
+   "remove_keys_not_in_list",
+   "q6"
   ]
  },
  {
   "num": 7,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q7. Is Positive Odd Or Negative Even",
+  "title": "Is Positive Odd Or Negative Even",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 7,
+  "sort_order": 76,
   "tests": [
    {
     "stdin": "3",
@@ -366,20 +372,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_positive_odd_or_negative_even"
+   "is_positive_odd_or_negative_even",
+   "q7"
   ]
  },
  {
   "num": 8,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q8. Replace Middle With N Times",
+  "title": "Replace Middle With N Times",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 8,
+  "sort_order": 137,
   "tests": [
    {
     "stdin": "(1, 2, 3, 4, 5)\n3",
@@ -419,20 +426,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "replace_middle_with_n_times"
+   "replace_middle_with_n_times",
+   "q8"
   ]
  },
  {
   "num": 9,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q9. Div By Exactly One",
+  "title": "Div By Exactly One",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 9,
+  "sort_order": 41,
   "tests": [
    {
     "stdin": "20\n5\n6",
@@ -473,20 +481,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "div_by_exactly_one"
+   "div_by_exactly_one",
+   "q9"
   ]
  },
  {
   "num": 10,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q10. Mm Dd Yy To Yy Dd Mm",
+  "title": "Mm Dd Yy To Yy Dd Mm",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 10,
+  "sort_order": 108,
   "tests": [
    {
     "stdin": "'12-25-21'",
@@ -525,20 +534,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "mm_dd_yy_to_yy_dd_mm"
+   "mm_dd_yy_to_yy_dd_mm",
+   "q10"
   ]
  },
  {
   "num": 11,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q11. Increment Value With Max Limit",
+  "title": "Increment Value With Max Limit",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 11,
+  "sort_order": 64,
   "tests": [
    {
     "stdin": "{'score': 10}\n'score'\n5\n100",
@@ -580,20 +590,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "increment_value_with_max_limit"
+   "increment_value_with_max_limit",
+   "q11"
   ]
  },
  {
   "num": 12,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q12. Is Right Triangle With Even Sides",
+  "title": "Is Right Triangle With Even Sides",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 12,
+  "sort_order": 77,
   "tests": [
    {
     "stdin": "6\n8\n10",
@@ -634,20 +645,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_right_triangle_with_even_sides"
+   "is_right_triangle_with_even_sides",
+   "q12"
   ]
  },
  {
   "num": 13,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q13. Is Odd Indices Alpha Even Indices Digits",
+  "title": "Is Odd Indices Alpha Even Indices Digits",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 13,
+  "sort_order": 74,
   "tests": [
    {
     "stdin": "'1a2b3c'",
@@ -686,20 +698,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_odd_indices_alpha_even_indices_digits"
+   "is_odd_indices_alpha_even_indices_digits",
+   "q13"
   ]
  },
  {
   "num": 14,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q14. Unique Chars In First Not Second",
+  "title": "Unique Chars In First Not Second",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 14,
+  "sort_order": 191,
   "tests": [
    {
     "stdin": "'water'\n'watch'",
@@ -739,20 +752,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "unique_chars_in_first_not_second"
+   "unique_chars_in_first_not_second",
+   "q14"
   ]
  },
  {
   "num": 15,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q15. Swap Even And Odd Indices",
+  "title": "Swap Even And Odd Indices",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 15,
+  "sort_order": 177,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -791,20 +805,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "swap_even_and_odd_indices"
+   "swap_even_and_odd_indices",
+   "q15"
   ]
  },
  {
   "num": 16,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q16. Repeat Tuple",
+  "title": "Repeat Tuple",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 16,
+  "sort_order": 136,
   "tests": [
    {
     "stdin": "(2, 3)",
@@ -843,20 +858,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "repeat_tuple"
+   "repeat_tuple",
+   "q16"
   ]
  },
  {
   "num": 17,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q17. Num Squares",
+  "title": "Num Squares",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 17,
+  "sort_order": 116,
   "tests": [
    {
     "stdin": "5",
@@ -895,20 +911,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "num_squares"
+   "num_squares",
+   "q17"
   ]
  },
  {
   "num": 18,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q18. Within And Has Double Quotes",
+  "title": "Within And Has Double Quotes",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 18,
+  "sort_order": 195,
   "tests": [
    {
     "stdin": "'\"say \"hi\" now\"'",
@@ -947,20 +964,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "within_and_has_double_quotes"
+   "within_and_has_double_quotes",
+   "q18"
   ]
  },
  {
   "num": 19,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q19. Is Valid Triangle",
+  "title": "Is Valid Triangle",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 19,
+  "sort_order": 80,
   "tests": [
    {
     "stdin": "3\n4\n5",
@@ -1001,20 +1019,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_valid_triangle"
+   "is_valid_triangle",
+   "q19"
   ]
  },
  {
   "num": 20,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q20. Rotate List Right",
+  "title": "Rotate List Right",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 20,
+  "sort_order": 144,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4, 5]\n2",
@@ -1054,20 +1073,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "rotate_list_right"
+   "rotate_list_right",
+   "q20"
   ]
  },
  {
   "num": 21,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q21. Merge Alternating",
+  "title": "Merge Alternating",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 21,
+  "sort_order": 104,
   "tests": [
    {
     "stdin": "'abc'\n'12345'",
@@ -1107,20 +1127,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "merge_alternating"
+   "merge_alternating",
+   "q21"
   ]
  },
  {
   "num": 22,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q22. Second Largest In Tuple",
+  "title": "Second Largest In Tuple",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 22,
+  "sort_order": 153,
   "tests": [
    {
     "stdin": "(5, 3, 5, 1, 4)",
@@ -1159,20 +1180,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "second_largest_in_tuple"
+   "second_largest_in_tuple",
+   "q22"
   ]
  },
  {
   "num": 23,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q23. Count Vowels Consonants",
+  "title": "Count Vowels Consonants",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 23,
+  "sort_order": 28,
   "tests": [
    {
     "stdin": "'Hello World'",
@@ -1211,20 +1233,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "count_vowels_consonants"
+   "count_vowels_consonants",
+   "q23"
   ]
  },
  {
   "num": 24,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q24. Flatten Nested List",
+  "title": "Flatten Nested List",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 24,
+  "sort_order": 54,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4], [5]]",
@@ -1263,20 +1286,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "flatten_nested_list"
+   "flatten_nested_list",
+   "q24"
   ]
  },
  {
   "num": 25,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q25. Dict From Two Lists",
+  "title": "Dict From Two Lists",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 25,
+  "sort_order": 35,
   "tests": [
    {
     "stdin": "['a', 'b', 'c']\n[1, 2, 3]",
@@ -1316,20 +1340,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "dict_from_two_lists"
+   "dict_from_two_lists",
+   "q25"
   ]
  },
  {
   "num": 26,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q26. Reverse Words",
+  "title": "Reverse Words",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 26,
+  "sort_order": 141,
   "tests": [
    {
     "stdin": "'hello world python'",
@@ -1368,20 +1393,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "reverse_words"
+   "reverse_words",
+   "q26"
   ]
  },
  {
   "num": 27,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q27. Is Palindrome",
+  "title": "Is Palindrome",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 27,
+  "sort_order": 75,
   "tests": [
    {
     "stdin": "'racecar'",
@@ -1420,20 +1446,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_palindrome"
+   "is_palindrome",
+   "q27"
   ]
  },
  {
   "num": 28,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q28. Sum Of Digits",
+  "title": "Sum Of Digits",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 28,
+  "sort_order": 170,
   "tests": [
    {
     "stdin": "1234",
@@ -1472,20 +1499,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "sum_of_digits"
+   "sum_of_digits",
+   "q28"
   ]
  },
  {
   "num": 29,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q29. Clamp Value",
+  "title": "Clamp Value",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 29,
+  "sort_order": 17,
   "tests": [
    {
     "stdin": "5\n1\n10",
@@ -1526,20 +1554,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "clamp_value"
+   "clamp_value",
+   "q29"
   ]
  },
  {
   "num": 30,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q30. Remove Duplicates Preserve Order",
+  "title": "Remove Duplicates Preserve Order",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 30,
+  "sort_order": 132,
   "tests": [
    {
     "stdin": "[1, 2, 2, 3, 1, 4]",
@@ -1578,20 +1607,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "remove_duplicates_preserve_order"
+   "remove_duplicates_preserve_order",
+   "q30"
   ]
  },
  {
   "num": 31,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q31. Is Even Length And Symmetric",
+  "title": "Is Even Length And Symmetric",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 31,
+  "sort_order": 73,
   "tests": [
    {
     "stdin": "'abba'",
@@ -1630,20 +1660,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_even_length_and_symmetric"
+   "is_even_length_and_symmetric",
+   "q31"
   ]
  },
  {
   "num": 32,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q32. Tuple Element Frequency",
+  "title": "Tuple Element Frequency",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 32,
+  "sort_order": 187,
   "tests": [
    {
     "stdin": "(1, 2, 2, 3, 3, 3)",
@@ -1682,20 +1713,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "tuple_element_frequency"
+   "tuple_element_frequency",
+   "q32"
   ]
  },
  {
   "num": 33,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q33. Swap First Last",
+  "title": "Swap First Last",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 33,
+  "sort_order": 179,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -1734,20 +1766,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "swap_first_last"
+   "swap_first_last",
+   "q33"
   ]
  },
  {
   "num": 34,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q34. String To List Of Words",
+  "title": "String To List Of Words",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 34,
+  "sort_order": 166,
   "tests": [
    {
     "stdin": "' hello world '",
@@ -1786,20 +1819,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "string_to_list_of_words"
+   "string_to_list_of_words",
+   "q34"
   ]
  },
  {
   "num": 35,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q35. Is Subset Dict",
+  "title": "Is Subset Dict",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 35,
+  "sort_order": 79,
   "tests": [
    {
     "stdin": "{'a': 1}\n{'a': 1, 'b': 2}",
@@ -1839,20 +1873,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_subset_dict"
+   "is_subset_dict",
+   "q35"
   ]
  },
  {
   "num": 36,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q36. List Intersection",
+  "title": "List Intersection",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 36,
+  "sort_order": 86,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]\n[3, 4, 5, 6]",
@@ -1892,20 +1927,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "list_intersection"
+   "list_intersection",
+   "q36"
   ]
  },
  {
   "num": 37,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q37. Count Upper Lower Digit",
+  "title": "Count Upper Lower Digit",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 37,
+  "sort_order": 27,
   "tests": [
    {
     "stdin": "'Hello World 123'",
@@ -1944,20 +1980,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "count_upper_lower_digit"
+   "count_upper_lower_digit",
+   "q37"
   ]
  },
  {
   "num": 38,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q38. Merge Two Dicts",
+  "title": "Merge Two Dicts",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 38,
+  "sort_order": 106,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2}\n{'b': 3, 'c': 4}",
@@ -1997,20 +2034,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "merge_two_dicts"
+   "merge_two_dicts",
+   "q38"
   ]
  },
  {
   "num": 39,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q39. Replace Vowels",
+  "title": "Replace Vowels",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 39,
+  "sort_order": 138,
   "tests": [
    {
     "stdin": "'hello'\n'*'",
@@ -2050,20 +2088,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "replace_vowels"
+   "replace_vowels",
+   "q39"
   ]
  },
  {
   "num": 40,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q40. Chunk List",
+  "title": "Chunk List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 40,
+  "sort_order": 15,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4, 5]\n2",
@@ -2103,20 +2142,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "chunk_list"
+   "chunk_list",
+   "q40"
   ]
  },
  {
   "num": 41,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q41. Is Anagram",
+  "title": "Is Anagram",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 41,
+  "sort_order": 71,
   "tests": [
    {
     "stdin": "'listen'\n'silent'",
@@ -2156,20 +2196,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_anagram"
+   "is_anagram",
+   "q41"
   ]
  },
  {
   "num": 42,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q42. Dict Invert",
+  "title": "Dict Invert",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 42,
+  "sort_order": 38,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2}",
@@ -2208,20 +2249,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "dict_invert"
+   "dict_invert",
+   "q42"
   ]
  },
  {
   "num": 43,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q43. First Non Repeating Char",
+  "title": "First Non Repeating Char",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 43,
+  "sort_order": 51,
   "tests": [
    {
     "stdin": "'aabccbd'",
@@ -2260,20 +2302,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "first_non_repeating_char"
+   "first_non_repeating_char",
+   "q43"
   ]
  },
  {
   "num": 44,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q44. Matrix Diagonal Sum",
+  "title": "Matrix Diagonal Sum",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 44,
+  "sort_order": 94,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -2312,20 +2355,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "matrix_diagonal_sum"
+   "matrix_diagonal_sum",
+   "q44"
   ]
  },
  {
   "num": 45,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q45. Zip With Index",
+  "title": "Zip With Index",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 45,
+  "sort_order": 199,
   "tests": [
    {
     "stdin": "['a', 'b']",
@@ -2364,20 +2408,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "zip_with_index"
+   "zip_with_index",
+   "q45"
   ]
  },
  {
   "num": 46,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q46. Title Case",
+  "title": "Title Case",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 46,
+  "sort_order": 182,
   "tests": [
    {
     "stdin": "'hello world'",
@@ -2416,20 +2461,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "title_case"
+   "title_case",
+   "q46"
   ]
  },
  {
   "num": 47,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q47. Remove All Occurrences",
+  "title": "Remove All Occurrences",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 47,
+  "sort_order": 130,
   "tests": [
    {
     "stdin": "[1, 2, 3, 2, 4, 2]\n2",
@@ -2469,20 +2515,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "remove_all_occurrences"
+   "remove_all_occurrences",
+   "q47"
   ]
  },
  {
   "num": 48,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q48. Nested Dict Access",
+  "title": "Nested Dict Access",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 48,
+  "sort_order": 114,
   "tests": [
    {
     "stdin": "{'a': {'b': 5}}\n['a', 'b']",
@@ -2522,20 +2569,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "nested_dict_access"
+   "nested_dict_access",
+   "q48"
   ]
  },
  {
   "num": 49,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q49. Even Odd Partition",
+  "title": "Even Odd Partition",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 49,
+  "sort_order": 43,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4, 5, 6]",
@@ -2574,20 +2622,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "even_odd_partition"
+   "even_odd_partition",
+   "q49"
   ]
  },
  {
   "num": 50,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q50. Running Sum",
+  "title": "Running Sum",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 50,
+  "sort_order": 149,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -2626,20 +2675,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "running_sum"
+   "running_sum",
+   "q50"
   ]
  },
  {
   "num": 51,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q51. String Compression",
+  "title": "String Compression",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 51,
+  "sort_order": 161,
   "tests": [
    {
     "stdin": "'aaabbc'",
@@ -2678,20 +2728,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "string_compression"
+   "string_compression",
+   "q51"
   ]
  },
  {
   "num": 52,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q52. Max Consecutive Ones",
+  "title": "Max Consecutive Ones",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 52,
+  "sort_order": 102,
   "tests": [
    {
     "stdin": "[1, 1, 0, 1, 1, 1]",
@@ -2730,20 +2781,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "max_consecutive_ones"
+   "max_consecutive_ones",
+   "q52"
   ]
  },
  {
   "num": 53,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q53. Tuple To Dict",
+  "title": "Tuple To Dict",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 53,
+  "sort_order": 188,
   "tests": [
    {
     "stdin": "[('a', 1), ('b', 2)]",
@@ -2782,20 +2834,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "tuple_to_dict"
+   "tuple_to_dict",
+   "q53"
   ]
  },
  {
   "num": 54,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q54. Caesar Shift Char",
+  "title": "Caesar Shift Char",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 54,
+  "sort_order": 11,
   "tests": [
    {
     "stdin": "'a'\n3",
@@ -2835,20 +2888,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "caesar_shift_char"
+   "caesar_shift_char",
+   "q54"
   ]
  },
  {
   "num": 55,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q55. List Difference",
+  "title": "List Difference",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 55,
+  "sort_order": 85,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]\n[2, 4]",
@@ -2888,20 +2942,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "list_difference"
+   "list_difference",
+   "q55"
   ]
  },
  {
   "num": 56,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q56. Multiply All Elements",
+  "title": "Multiply All Elements",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 56,
+  "sort_order": 113,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -2940,20 +2995,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "multiply_all_elements"
+   "multiply_all_elements",
+   "q56"
   ]
  },
  {
   "num": 57,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q57. Deep Copy Nested List",
+  "title": "Deep Copy Nested List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 57,
+  "sort_order": 32,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -2992,20 +3048,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "deep_copy_nested_list"
+   "deep_copy_nested_list",
+   "q57"
   ]
  },
  {
   "num": 58,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q58. Is Sorted",
+  "title": "Is Sorted",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 58,
+  "sort_order": 78,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -3044,20 +3101,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_sorted"
+   "is_sorted",
+   "q58"
   ]
  },
  {
   "num": 59,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q59. Extract Digits",
+  "title": "Extract Digits",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 59,
+  "sort_order": 45,
   "tests": [
    {
     "stdin": "'a1b2c3'",
@@ -3096,20 +3154,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "extract_digits"
+   "extract_digits",
+   "q59"
   ]
  },
  {
   "num": 60,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q60. Most Frequent Element",
+  "title": "Most Frequent Element",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 60,
+  "sort_order": 109,
   "tests": [
    {
     "stdin": "[1, 2, 2, 3, 2]",
@@ -3148,20 +3207,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "most_frequent_element"
+   "most_frequent_element",
+   "q60"
   ]
  },
  {
   "num": 61,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q61. Transpose Matrix",
+  "title": "Transpose Matrix",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 61,
+  "sort_order": 186,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -3200,20 +3260,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "transpose_matrix"
+   "transpose_matrix",
+   "q61"
   ]
  },
  {
   "num": 62,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q62. Second Largest",
+  "title": "Second Largest",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 62,
+  "sort_order": 151,
   "tests": [
    {
     "stdin": "[10, 5, 8, 20]",
@@ -3252,20 +3313,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "second_largest"
+   "second_largest",
+   "q62"
   ]
  },
  {
   "num": 63,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q63. Rotate List",
+  "title": "Rotate List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 63,
+  "sort_order": 143,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4, 5]\n2",
@@ -3305,20 +3367,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "rotate_list"
+   "rotate_list",
+   "q63"
   ]
  },
  {
   "num": 64,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q64. Is Anagram",
+  "title": "Is Anagram",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 64,
+  "sort_order": 72,
   "tests": [
    {
     "stdin": "'Listen'\n'Silent'",
@@ -3358,20 +3421,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "is_anagram"
+   "is_anagram",
+   "q64"
   ]
  },
  {
   "num": 65,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q65. Sum Of Digits",
+  "title": "Sum Of Digits",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 65,
+  "sort_order": 171,
   "tests": [
    {
     "stdin": "1234",
@@ -3410,20 +3474,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "sum_of_digits"
+   "sum_of_digits",
+   "q65"
   ]
  },
  {
   "num": 66,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q66. Chunk List",
+  "title": "Chunk List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 66,
+  "sort_order": 16,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4, 5]\n2",
@@ -3463,20 +3528,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "chunk_list"
+   "chunk_list",
+   "q66"
   ]
  },
  {
   "num": 67,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q67. Title Case",
+  "title": "Title Case",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 67,
+  "sort_order": 183,
   "tests": [
    {
     "stdin": "'hello world'",
@@ -3515,20 +3581,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "title_case"
+   "title_case",
+   "q67"
   ]
  },
  {
   "num": 68,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q68. Flatten List",
+  "title": "Flatten List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 68,
+  "sort_order": 53,
   "tests": [
    {
     "stdin": "[[1, 2], [3, [4]], 5]",
@@ -3567,20 +3634,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "flatten_list"
+   "flatten_list",
+   "q68"
   ]
  },
  {
   "num": 69,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q69. Remove Consecutive Duplicates",
+  "title": "Remove Consecutive Duplicates",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 69,
+  "sort_order": 131,
   "tests": [
    {
     "stdin": "'aabbccaab'",
@@ -3619,20 +3687,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "remove_consecutive_duplicates"
+   "remove_consecutive_duplicates",
+   "q69"
   ]
  },
  {
   "num": 70,
   "section": "A",
   "topic": "Data Types & Basics",
-  "title": "Q70. Dict From Two Lists",
+  "title": "Dict From Two Lists",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 70,
+  "sort_order": 36,
   "tests": [
    {
     "stdin": "['a', 'b']\n[1, 2]",
@@ -3672,20 +3741,21 @@
    "oppe-1",
    "section-a",
    "python",
-   "dict_from_two_lists"
+   "dict_from_two_lists",
+   "q70"
   ]
  },
  {
   "num": 71,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q71. Is All Same Word Twice",
+  "title": "Is All Same Word Twice",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 71,
+  "sort_order": 70,
   "tests": [
    {
     "stdin": "['fast-fast', 'go-go']",
@@ -3724,20 +3794,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "is_all_same_word_twice"
+   "is_all_same_word_twice",
+   "q71"
   ]
  },
  {
   "num": 72,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q72. Most Occurring First Letter",
+  "title": "Most Occurring First Letter",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 72,
+  "sort_order": 110,
   "tests": [
    {
     "stdin": "'the cat and the dog ate the treat'",
@@ -3776,20 +3847,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "most_occurring_first_letter"
+   "most_occurring_first_letter",
+   "q72"
   ]
  },
  {
   "num": 73,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q73. Row With Most Zeros",
+  "title": "Row With Most Zeros",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 73,
+  "sort_order": 146,
   "tests": [
    {
     "stdin": "[[1, 0, 0], [0, 0, 0], [1, 1, 1]]",
@@ -3828,20 +3900,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "row_with_most_zeros"
+   "row_with_most_zeros",
+   "q73"
   ]
  },
  {
   "num": 74,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q74. Top K Teams",
+  "title": "Top K Teams",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 74,
+  "sort_order": 184,
   "tests": [
    {
     "stdin": "[{'name': 'A', 'runs': 50, 'team': 'X'}, {'name': 'B', 'runs': 30, 'team': 'Y'}, {'name': 'C', 'runs': 20, 'team': 'X'}]\n2",
@@ -3881,20 +3954,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "top_k_teams"
+   "top_k_teams",
+   "q74"
   ]
  },
  {
   "num": 75,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q75. Count Positive Ignore None",
+  "title": "Count Positive Ignore None",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 75,
+  "sort_order": 25,
   "tests": [
    {
     "stdin": "[1, -2, 3, 0, None, 4]",
@@ -3933,20 +4007,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "count_positive_ignore_none"
+   "count_positive_ignore_none",
+   "q75"
   ]
  },
  {
   "num": 76,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q76. Walk Matrix",
+  "title": "Walk Matrix",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 76,
+  "sort_order": 194,
   "tests": [
    {
     "stdin": "[[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n'L'",
@@ -3986,20 +4061,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "walk_matrix"
+   "walk_matrix",
+   "q76"
   ]
  },
  {
   "num": 77,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q77. Get Words By Criteria",
+  "title": "Get Words By Criteria",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 77,
+  "sort_order": 58,
   "tests": [
    {
     "stdin": "['running', 'walk', 'singing', 'cat']\n'continuous'",
@@ -4039,20 +4115,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "get_words_by_criteria"
+   "get_words_by_criteria",
+   "q77"
   ]
  },
  {
   "num": 78,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q78. Group By First Letter",
+  "title": "Group By First Letter",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 78,
+  "sort_order": 59,
   "tests": [
    {
     "stdin": "['Apple', 'ant', 'Banana']",
@@ -4091,20 +4168,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "group_by_first_letter"
+   "group_by_first_letter",
+   "q78"
   ]
  },
  {
   "num": 79,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q79. Matrix Column Sums",
+  "title": "Matrix Column Sums",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 79,
+  "sort_order": 92,
   "tests": [
    {
     "stdin": "[[1, 2, 3], [4, 5, 6]]",
@@ -4143,20 +4221,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "matrix_column_sums"
+   "matrix_column_sums",
+   "q79"
   ]
  },
  {
   "num": 80,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q80. Filter By Value Range",
+  "title": "Filter By Value Range",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 80,
+  "sort_order": 47,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 5, 'c': 10, 'd': 15}\n3\n12",
@@ -4197,20 +4276,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "filter_by_value_range"
+   "filter_by_value_range",
+   "q80"
   ]
  },
  {
   "num": 81,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q81. Word Frequency",
+  "title": "Word Frequency",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 81,
+  "sort_order": 196,
   "tests": [
    {
     "stdin": "'the cat the dog'",
@@ -4249,20 +4329,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "word_frequency"
+   "word_frequency",
+   "q81"
   ]
  },
  {
   "num": 82,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q82. Students Above Average",
+  "title": "Students Above Average",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 82,
+  "sort_order": 168,
   "tests": [
    {
     "stdin": "[('Alice', 80), ('Bob', 60), ('Carol', 90)]",
@@ -4301,20 +4382,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "students_above_average"
+   "students_above_average",
+   "q82"
   ]
  },
  {
   "num": 83,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q83. Flatten Dict Values",
+  "title": "Flatten Dict Values",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 83,
+  "sort_order": 52,
   "tests": [
    {
     "stdin": "{'b': [3], 'a': [1, 2]}",
@@ -4353,20 +4435,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "flatten_dict_values"
+   "flatten_dict_values",
+   "q83"
   ]
  },
  {
   "num": 84,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q84. Find Pairs With Sum",
+  "title": "Find Pairs With Sum",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 84,
+  "sort_order": 50,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]\n5",
@@ -4406,20 +4489,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "find_pairs_with_sum"
+   "find_pairs_with_sum",
+   "q84"
   ]
  },
  {
   "num": 85,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q85. Sort Dict By Value",
+  "title": "Sort Dict By Value",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 85,
+  "sort_order": 157,
   "tests": [
    {
     "stdin": "{'a': 3, 'b': 1, 'c': 2}",
@@ -4458,20 +4542,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "sort_dict_by_value"
+   "sort_dict_by_value",
+   "q85"
   ]
  },
  {
   "num": 86,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q86. Remove Short Words",
+  "title": "Remove Short Words",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 86,
+  "sort_order": 134,
   "tests": [
    {
     "stdin": "['hi', 'hello', 'hey', 'greetings']\n3",
@@ -4511,20 +4596,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "remove_short_words"
+   "remove_short_words",
+   "q86"
   ]
  },
  {
   "num": 87,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q87. Moving Average",
+  "title": "Moving Average",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 87,
+  "sort_order": 111,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4, 5]\n3",
@@ -4564,20 +4650,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "moving_average"
+   "moving_average",
+   "q87"
   ]
  },
  {
   "num": 88,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q88. Count Char Types In List",
+  "title": "Count Char Types In List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 88,
+  "sort_order": 21,
   "tests": [
    {
     "stdin": "['abc 123', 'hello world']",
@@ -4616,20 +4703,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "count_char_types_in_list"
+   "count_char_types_in_list",
+   "q88"
   ]
  },
  {
   "num": 89,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q89. Matrix Multiply Scalar",
+  "title": "Matrix Multiply Scalar",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 89,
+  "sort_order": 96,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]\n3",
@@ -4669,20 +4757,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "matrix_multiply_scalar"
+   "matrix_multiply_scalar",
+   "q89"
   ]
  },
  {
   "num": 90,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q90. Longest Consecutive Sequence",
+  "title": "Longest Consecutive Sequence",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 90,
+  "sort_order": 88,
   "tests": [
    {
     "stdin": "[100, 4, 200, 1, 3, 2]",
@@ -4721,20 +4810,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "longest_consecutive_sequence"
+   "longest_consecutive_sequence",
+   "q90"
   ]
  },
  {
   "num": 91,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q91. Common Keys With Same Values",
+  "title": "Common Keys With Same Values",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 91,
+  "sort_order": 20,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2, 'c': 3}\n{'a': 1, 'b': 5, 'd': 3}",
@@ -4774,20 +4864,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "common_keys_with_same_values"
+   "common_keys_with_same_values",
+   "q91"
   ]
  },
  {
   "num": 92,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q92. Pivot List Around Element",
+  "title": "Pivot List Around Element",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 92,
+  "sort_order": 126,
   "tests": [
    {
     "stdin": "[3, 1, 4, 1, 5, 9, 2, 6]\n4",
@@ -4827,20 +4918,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "pivot_list_around_element"
+   "pivot_list_around_element",
+   "q92"
   ]
  },
  {
   "num": 93,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q93. Count Words Starting With Vowel",
+  "title": "Count Words Starting With Vowel",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 93,
+  "sort_order": 29,
   "tests": [
    {
     "stdin": "'an apple a day keeps the doctor away'",
@@ -4879,20 +4971,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "count_words_starting_with_vowel"
+   "count_words_starting_with_vowel",
+   "q93"
   ]
  },
  {
   "num": 94,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q94. Inverse Mapping",
+  "title": "Inverse Mapping",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 94,
+  "sort_order": 68,
   "tests": [
    {
     "stdin": "{'a': [1, 2], 'b': [2, 3]}",
@@ -4931,20 +5024,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "inverse_mapping"
+   "inverse_mapping",
+   "q94"
   ]
  },
  {
   "num": 95,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q95. Sum Nested List",
+  "title": "Sum Nested List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 95,
+  "sort_order": 169,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -4983,20 +5077,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "sum_nested_list"
+   "sum_nested_list",
+   "q95"
   ]
  },
  {
   "num": 96,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q96. Merge Sorted Lists",
+  "title": "Merge Sorted Lists",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 96,
+  "sort_order": 105,
   "tests": [
    {
     "stdin": "[1, 3, 5]\n[2, 4, 6]",
@@ -5036,20 +5131,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "merge_sorted_lists"
+   "merge_sorted_lists",
+   "q96"
   ]
  },
  {
   "num": 97,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q97. Top N Values From Dict",
+  "title": "Top N Values From Dict",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 97,
+  "sort_order": 185,
   "tests": [
    {
     "stdin": "{'a': 5, 'b': 9, 'c': 1, 'd': 7}\n2",
@@ -5089,20 +5185,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "top_n_values_from_dict"
+   "top_n_values_from_dict",
+   "q97"
   ]
  },
  {
   "num": 98,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q98. Zip With Index",
+  "title": "Zip With Index",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 98,
+  "sort_order": 200,
   "tests": [
    {
     "stdin": "['a', 'b', 'c']",
@@ -5141,20 +5238,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "zip_with_index"
+   "zip_with_index",
+   "q98"
   ]
  },
  {
   "num": 99,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q99. Group Consecutive",
+  "title": "Group Consecutive",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 99,
+  "sort_order": 60,
   "tests": [
    {
     "stdin": "[1, 1, 2, 2, 2, 3, 1, 1]",
@@ -5193,20 +5291,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "group_consecutive"
+   "group_consecutive",
+   "q99"
   ]
  },
  {
   "num": 100,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q100. Dict Value Sum",
+  "title": "Dict Value Sum",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 100,
+  "sort_order": 39,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2, 'c': 3}",
@@ -5245,20 +5344,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "dict_value_sum"
+   "dict_value_sum",
+   "q100"
   ]
  },
  {
   "num": 101,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q101. Unique Elements In Order",
+  "title": "Unique Elements In Order",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 101,
+  "sort_order": 192,
   "tests": [
    {
     "stdin": "[3, 1, 2, 1, 3, 4]",
@@ -5297,20 +5397,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "unique_elements_in_order"
+   "unique_elements_in_order",
+   "q101"
   ]
  },
  {
   "num": 102,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q102. Running Max",
+  "title": "Running Max",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 102,
+  "sort_order": 148,
   "tests": [
    {
     "stdin": "[3, 1, 4, 1, 5]",
@@ -5349,20 +5450,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "running_max"
+   "running_max",
+   "q102"
   ]
  },
  {
   "num": 103,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q103. Rotate Matrix 90",
+  "title": "Rotate Matrix 90",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 103,
+  "sort_order": 145,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -5401,20 +5503,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "rotate_matrix_90"
+   "rotate_matrix_90",
+   "q103"
   ]
  },
  {
   "num": 104,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q104. Count Even Odd",
+  "title": "Count Even Odd",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 104,
+  "sort_order": 22,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -5453,20 +5556,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "count_even_odd"
+   "count_even_odd",
+   "q104"
   ]
  },
  {
   "num": 105,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q105. Nested Dict Lookup",
+  "title": "Nested Dict Lookup",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 105,
+  "sort_order": 115,
   "tests": [
    {
     "stdin": "{'a': {'b': 1}}\n['a', 'b']",
@@ -5506,20 +5610,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "nested_dict_lookup"
+   "nested_dict_lookup",
+   "q105"
   ]
  },
  {
   "num": 106,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q106. Partition List",
+  "title": "Partition List",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 106,
+  "sort_order": 123,
   "tests": [
    {
     "stdin": "[5, 2, 8, 1]\n4",
@@ -5559,20 +5664,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "partition_list"
+   "partition_list",
+   "q106"
   ]
  },
  {
   "num": 107,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q107. Interleave Dicts",
+  "title": "Interleave Dicts",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 107,
+  "sort_order": 66,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2}\n{'b': 3, 'c': 4}",
@@ -5612,20 +5718,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "interleave_dicts"
+   "interleave_dicts",
+   "q107"
   ]
  },
  {
   "num": 108,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q108. Sliding Window Max",
+  "title": "Sliding Window Max",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 108,
+  "sort_order": 155,
   "tests": [
    {
     "stdin": "[1, 3, 2, 5, 4]\n3",
@@ -5665,20 +5772,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "sliding_window_max"
+   "sliding_window_max",
+   "q108"
   ]
  },
  {
   "num": 109,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q109. Matrix Row Means",
+  "title": "Matrix Row Means",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 109,
+  "sort_order": 97,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -5717,20 +5825,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "matrix_row_means"
+   "matrix_row_means",
+   "q109"
   ]
  },
  {
   "num": 110,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q110. String Pattern Check",
+  "title": "String Pattern Check",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 110,
+  "sort_order": 163,
   "tests": [
    {
     "stdin": "'abab'\n'cat dog cat dog'",
@@ -5770,20 +5879,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "string_pattern_check"
+   "string_pattern_check",
+   "q110"
   ]
  },
  {
   "num": 111,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q111. Cumulative Sum",
+  "title": "Cumulative Sum",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 111,
+  "sort_order": 31,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -5822,20 +5932,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "cumulative_sum"
+   "cumulative_sum",
+   "q111"
   ]
  },
  {
   "num": 112,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q112. Matrix Trace",
+  "title": "Matrix Trace",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 112,
+  "sort_order": 100,
   "tests": [
    {
     "stdin": "[[1, 2], [3, 4]]",
@@ -5874,20 +5985,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "matrix_trace"
+   "matrix_trace",
+   "q112"
   ]
  },
  {
   "num": 113,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q113. Index Of All Occurrences",
+  "title": "Index Of All Occurrences",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 113,
+  "sort_order": 65,
   "tests": [
    {
     "stdin": "[1, 2, 3, 2, 1]\n2",
@@ -5927,20 +6039,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "index_of_all_occurrences"
+   "index_of_all_occurrences",
+   "q113"
   ]
  },
  {
   "num": 114,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q114. Deeply Flatten",
+  "title": "Deeply Flatten",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 114,
+  "sort_order": 33,
   "tests": [
    {
     "stdin": "[1, [2, [3, [4]]], 5]",
@@ -5979,20 +6092,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "deeply_flatten"
+   "deeply_flatten",
+   "q114"
   ]
  },
  {
   "num": 115,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q115. Dict Intersection",
+  "title": "Dict Intersection",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 115,
+  "sort_order": 37,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2}\n{'b': 3, 'c': 4}",
@@ -6032,20 +6146,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "dict_intersection"
+   "dict_intersection",
+   "q115"
   ]
  },
  {
   "num": 116,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q116. Map Values",
+  "title": "Map Values",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 116,
+  "sort_order": 90,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2}\n'double'",
@@ -6085,20 +6200,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "map_values"
+   "map_values",
+   "q116"
   ]
  },
  {
   "num": 117,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q117. Count Inversions",
+  "title": "Count Inversions",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 117,
+  "sort_order": 23,
   "tests": [
    {
     "stdin": "[2, 4, 1, 3, 5]",
@@ -6137,20 +6253,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "count_inversions"
+   "count_inversions",
+   "q117"
   ]
  },
  {
   "num": 118,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q118. Second Most Frequent",
+  "title": "Second Most Frequent",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 118,
+  "sort_order": 154,
   "tests": [
    {
     "stdin": "[1, 1, 2, 2, 2, 3]",
@@ -6189,20 +6306,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "second_most_frequent"
+   "second_most_frequent",
+   "q118"
   ]
  },
  {
   "num": 119,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q119. List To Nested Dict",
+  "title": "List To Nested Dict",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 119,
+  "sort_order": 87,
   "tests": [
    {
     "stdin": "['a', 'b', 'c']\n1",
@@ -6242,20 +6360,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "list_to_nested_dict"
+   "list_to_nested_dict",
+   "q119"
   ]
  },
  {
   "num": 120,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q120. Alternating Elements",
+  "title": "Alternating Elements",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 120,
+  "sort_order": 3,
   "tests": [
    {
     "stdin": "[10, 20, 30, 40, 50]",
@@ -6294,20 +6413,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "alternating_elements"
+   "alternating_elements",
+   "q120"
   ]
  },
  {
   "num": 121,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q121. Check Subset",
+  "title": "Check Subset",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 121,
+  "sort_order": 14,
   "tests": [
    {
     "stdin": "[1, 2]\n[1, 2, 3, 4]",
@@ -6347,20 +6467,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "check_subset"
+   "check_subset",
+   "q121"
   ]
  },
  {
   "num": 122,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q122. Key With Max List Length",
+  "title": "Key With Max List Length",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 122,
+  "sort_order": 81,
   "tests": [
    {
     "stdin": "{'a': [1, 2], 'b': [1, 2, 3]}",
@@ -6399,20 +6520,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "key_with_max_list_length"
+   "key_with_max_list_length",
+   "q122"
   ]
  },
  {
   "num": 123,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q123. String Compression",
+  "title": "String Compression",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 123,
+  "sort_order": 162,
   "tests": [
    {
     "stdin": "'aaabbcccc'",
@@ -6451,20 +6573,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "string_compression"
+   "string_compression",
+   "q123"
   ]
  },
  {
   "num": 124,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q124. Product Except Self",
+  "title": "Product Except Self",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 124,
+  "sort_order": 129,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -6503,20 +6626,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "product_except_self"
+   "product_except_self",
+   "q124"
   ]
  },
  {
   "num": 125,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q125. Sort By Multiple Keys",
+  "title": "Sort By Multiple Keys",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 125,
+  "sort_order": 156,
   "tests": [
    {
     "stdin": "[('alice', 30, 85), ('bob', 25, 90), ('carol', 30, 95)]",
@@ -6555,20 +6679,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "sort_by_multiple_keys"
+   "sort_by_multiple_keys",
+   "q125"
   ]
  },
  {
   "num": 126,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q126. Find Duplicates",
+  "title": "Find Duplicates",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 126,
+  "sort_order": 49,
   "tests": [
    {
     "stdin": "[1, 2, 3, 2, 4, 3]",
@@ -6607,20 +6732,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "find_duplicates"
+   "find_duplicates",
+   "q126"
   ]
  },
  {
   "num": 127,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q127. Pairwise Sum",
+  "title": "Pairwise Sum",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 127,
+  "sort_order": 120,
   "tests": [
    {
     "stdin": "[1, 2, 3, 4]",
@@ -6659,20 +6785,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "pairwise_sum"
+   "pairwise_sum",
+   "q127"
   ]
  },
  {
   "num": 128,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q128. Caesar Encrypt",
+  "title": "Caesar Encrypt",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 128,
+  "sort_order": 10,
   "tests": [
    {
     "stdin": "'hello'\n3",
@@ -6712,20 +6839,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "caesar_encrypt"
+   "caesar_encrypt",
+   "q128"
   ]
  },
  {
   "num": 129,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q129. Max Difference Pair",
+  "title": "Max Difference Pair",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 129,
+  "sort_order": 103,
   "tests": [
    {
     "stdin": "[2, 7, 1, 9]",
@@ -6764,20 +6892,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "max_difference_pair"
+   "max_difference_pair",
+   "q129"
   ]
  },
  {
   "num": 130,
   "section": "B",
   "topic": "Data Processing",
-  "title": "Q130. Swap Keys Values",
+  "title": "Swap Keys Values",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 130,
+  "sort_order": 180,
   "tests": [
    {
     "stdin": "{'a': 1, 'b': 2}",
@@ -6816,20 +6945,21 @@
    "oppe-1",
    "section-b",
    "python",
-   "swap_keys_values"
+   "swap_keys_values",
+   "q130"
   ]
  },
  {
   "num": 131,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q131. Run-Length Encoding",
+  "title": "Run-Length Encoding",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 131,
+  "sort_order": 147,
   "tests": [
    {
     "stdin": "1\n44455544445",
@@ -6866,20 +6996,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "run-length encoding"
+   "run-length encoding",
+   "q131"
   ]
  },
  {
   "num": 132,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q132. Antakshari Chain",
+  "title": "Antakshari Chain",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 132,
+  "sort_order": 4,
   "tests": [
    {
     "stdin": "1\nApple,Elephant,Tiger,Rat",
@@ -6916,20 +7047,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "antakshari chain"
+   "antakshari chain",
+   "q132"
   ]
  },
  {
   "num": 133,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q133. Sum/Diff Odd/Even Pairs",
+  "title": "Sum/Diff Odd/Even Pairs",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 133,
+  "sort_order": 175,
   "tests": [
    {
     "stdin": "4\n3,5\n10,4\n2,2\n7,9",
@@ -6966,20 +7098,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "sum/diff odd/even pairs"
+   "sum/diff odd/even pairs",
+   "q133"
   ]
  },
  {
   "num": 134,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q134. Swap and Reverse Lines",
+  "title": "Swap and Reverse Lines",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 134,
+  "sort_order": 176,
   "tests": [
    {
     "stdin": "4\nabcd\nefgh\nijkl\nmnop",
@@ -7016,20 +7149,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "swap and reverse lines"
+   "swap and reverse lines",
+   "q134"
   ]
  },
  {
   "num": 135,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q135. Staircase Pattern",
+  "title": "Staircase Pattern",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 135,
+  "sort_order": 160,
   "tests": [
    {
     "stdin": "4",
@@ -7066,20 +7200,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "staircase pattern"
+   "staircase pattern",
+   "q135"
   ]
  },
  {
   "num": 136,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q136. Caesar Cipher",
+  "title": "Caesar Cipher",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 136,
+  "sort_order": 9,
   "tests": [
    {
     "stdin": "Hello\n3",
@@ -7116,20 +7251,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "caesar cipher"
+   "caesar cipher",
+   "q136"
   ]
  },
  {
   "num": 137,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q137. Student Grade Classifier",
+  "title": "Student Grade Classifier",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 137,
+  "sort_order": 167,
   "tests": [
    {
     "stdin": "3\nAlice,95\nBob,72\nCharlie,58",
@@ -7166,20 +7302,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "student grade classifier"
+   "student grade classifier",
+   "q137"
   ]
  },
  {
   "num": 138,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q138. Matrix Transpose (I/O)",
+  "title": "Matrix Transpose (I/O)",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 138,
+  "sort_order": 101,
   "tests": [
    {
     "stdin": "2 3\n1 2 3\n4 5 6",
@@ -7216,20 +7353,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "matrix transpose (i/o)"
+   "matrix transpose (i/o)",
+   "q138"
   ]
  },
  {
   "num": 139,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q139. Frequency Counter",
+  "title": "Frequency Counter",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 139,
+  "sort_order": 56,
   "tests": [
    {
     "stdin": "5\napple\nbanana\napple\ncherry\nbanana",
@@ -7266,20 +7404,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "frequency counter"
+   "frequency counter",
+   "q139"
   ]
  },
  {
   "num": 140,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q140. Palindrome Checker",
+  "title": "Palindrome Checker",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 140,
+  "sort_order": 121,
   "tests": [
    {
     "stdin": "3\nracecar\nhello\nlevel",
@@ -7316,20 +7455,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "palindrome checker"
+   "palindrome checker",
+   "q140"
   ]
  },
  {
   "num": 141,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q141. Diamond Pattern",
+  "title": "Diamond Pattern",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 141,
+  "sort_order": 34,
   "tests": [
    {
     "stdin": "3",
@@ -7366,20 +7506,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "diamond pattern"
+   "diamond pattern",
+   "q141"
   ]
  },
  {
   "num": 142,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q142. Number Triangle",
+  "title": "Number Triangle",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 142,
+  "sort_order": 119,
   "tests": [
    {
     "stdin": "4",
@@ -7416,20 +7557,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "number triangle"
+   "number triangle",
+   "q142"
   ]
  },
  {
   "num": 143,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q143. Sum of Digits (I/O)",
+  "title": "Sum of Digits (I/O)",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 143,
+  "sort_order": 172,
   "tests": [
    {
     "stdin": "3\n123\n4567\n9",
@@ -7466,20 +7608,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "sum of digits (i/o)"
+   "sum of digits (i/o)",
+   "q143"
   ]
  },
  {
   "num": 144,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q144. Fibonacci Sequence",
+  "title": "Fibonacci Sequence",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 144,
+  "sort_order": 46,
   "tests": [
    {
     "stdin": "10",
@@ -7516,20 +7659,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "fibonacci sequence"
+   "fibonacci sequence",
+   "q144"
   ]
  },
  {
   "num": 145,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q145. Vowel Remover",
+  "title": "Vowel Remover",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 145,
+  "sort_order": 193,
   "tests": [
    {
     "stdin": "3\nhello\nworld\nprogramming",
@@ -7566,20 +7710,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "vowel remover"
+   "vowel remover",
+   "q145"
   ]
  },
  {
   "num": 146,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q146. Two Sum Indices",
+  "title": "Two Sum Indices",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 146,
+  "sort_order": 189,
   "tests": [
    {
     "stdin": "4\n2 7 11 15\n9",
@@ -7616,20 +7761,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "two sum indices"
+   "two sum indices",
+   "q146"
   ]
  },
  {
   "num": 147,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q147. Longest Word Per Line",
+  "title": "Longest Word Per Line",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 147,
+  "sort_order": 89,
   "tests": [
    {
     "stdin": "3\nthe quick brown fox\nhello world\na bb ccc",
@@ -7666,20 +7812,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "longest word per line"
+   "longest word per line",
+   "q147"
   ]
  },
  {
   "num": 148,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q148. Duplicate Remover",
+  "title": "Duplicate Remover",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 148,
+  "sort_order": 42,
   "tests": [
    {
     "stdin": "6\n1 2 2 3 1 4",
@@ -7716,20 +7863,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "duplicate remover"
+   "duplicate remover",
+   "q148"
   ]
  },
  {
   "num": 149,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q149. Matrix Row Sum",
+  "title": "Matrix Row Sum",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 149,
+  "sort_order": 98,
   "tests": [
    {
     "stdin": "3 3\n1 2 3\n4 5 6\n7 8 9",
@@ -7766,20 +7914,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "matrix row sum"
+   "matrix row sum",
+   "q149"
   ]
  },
  {
   "num": 150,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q150. Reverse Each Word",
+  "title": "Reverse Each Word",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 150,
+  "sort_order": 140,
   "tests": [
    {
     "stdin": "1\nhello world",
@@ -7816,20 +7965,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "reverse each word"
+   "reverse each word",
+   "q150"
   ]
  },
  {
   "num": 151,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q151. Number to Words",
+  "title": "Number to Words",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 151,
+  "sort_order": 118,
   "tests": [
    {
     "stdin": "123",
@@ -7866,20 +8016,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "number to words"
+   "number to words",
+   "q151"
   ]
  },
  {
   "num": 152,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q152. Check Sorted Array",
+  "title": "Check Sorted Array",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 152,
+  "sort_order": 13,
   "tests": [
    {
     "stdin": "5\n1 2 3 4 5",
@@ -7916,20 +8067,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "check sorted array"
+   "check sorted array",
+   "q152"
   ]
  },
  {
   "num": 153,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q153. Count Lines with Keyword",
+  "title": "Count Lines with Keyword",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 153,
+  "sort_order": 24,
   "tests": [
    {
     "stdin": "3\nerror\nsystem error occurred\nall fine here\nfatal error logged",
@@ -7966,20 +8118,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "count lines with keyword"
+   "count lines with keyword",
+   "q153"
   ]
  },
  {
   "num": 154,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q154. Spiral First Row/Col",
+  "title": "Spiral First Row/Col",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 154,
+  "sort_order": 159,
   "tests": [
    {
     "stdin": "3\n1 2 3\n4 5 6\n7 8 9",
@@ -8016,20 +8169,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "spiral first row/col"
+   "spiral first row/col",
+   "q154"
   ]
  },
  {
   "num": 155,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q155. Zigzag Pattern",
+  "title": "Zigzag Pattern",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 155,
+  "sort_order": 198,
   "tests": [
    {
     "stdin": "3",
@@ -8066,20 +8220,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "zigzag pattern"
+   "zigzag pattern",
+   "q155"
   ]
  },
  {
   "num": 156,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q156. Bracket Validator",
+  "title": "Bracket Validator",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 156,
+  "sort_order": 8,
   "tests": [
    {
     "stdin": "3\n()\n([)]\n{[()]}",
@@ -8116,20 +8271,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "bracket validator"
+   "bracket validator",
+   "q156"
   ]
  },
  {
   "num": 157,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q157. Prime Number Check",
+  "title": "Prime Number Check",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 157,
+  "sort_order": 128,
   "tests": [
    {
     "stdin": "5\n2\n3\n4\n17\n1",
@@ -8166,20 +8322,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "prime number check"
+   "prime number check",
+   "q157"
   ]
  },
  {
   "num": 158,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q158. Inverted Triangle",
+  "title": "Inverted Triangle",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 158,
+  "sort_order": 69,
   "tests": [
    {
     "stdin": "4",
@@ -8216,20 +8373,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "inverted triangle"
+   "inverted triangle",
+   "q158"
   ]
  },
  {
   "num": 159,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q159. Column Max",
+  "title": "Column Max",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 159,
+  "sort_order": 18,
   "tests": [
    {
     "stdin": "3 3\n1 2 3\n4 5 6\n7 8 9",
@@ -8266,20 +8424,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "column max"
+   "column max",
+   "q159"
   ]
  },
  {
   "num": 160,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q160. Alternate Case",
+  "title": "Alternate Case",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 160,
+  "sort_order": 2,
   "tests": [
    {
     "stdin": "hello",
@@ -8316,20 +8475,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "alternate case"
+   "alternate case",
+   "q160"
   ]
  },
  {
   "num": 161,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q161. GCD of Array",
+  "title": "GCD of Array",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 161,
+  "sort_order": 57,
   "tests": [
    {
     "stdin": "4\n12 18 24 36",
@@ -8366,20 +8526,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "gcd of array"
+   "gcd of array",
+   "q161"
   ]
  },
  {
   "num": 162,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q162. Hollow Rectangle",
+  "title": "Hollow Rectangle",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 162,
+  "sort_order": 62,
   "tests": [
    {
     "stdin": "4 6",
@@ -8416,20 +8577,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "hollow rectangle"
+   "hollow rectangle",
+   "q162"
   ]
  },
  {
   "num": 163,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q163. Pascal's Triangle Row",
+  "title": "Pascal's Triangle Row",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 163,
+  "sort_order": 124,
   "tests": [
    {
     "stdin": "5",
@@ -8466,20 +8628,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "pascal's triangle row"
+   "pascal's triangle row",
+   "q163"
   ]
  },
  {
   "num": 164,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q164. Word Reversal in Sentence",
+  "title": "Word Reversal in Sentence",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 164,
+  "sort_order": 197,
   "tests": [
    {
     "stdin": "hello world",
@@ -8516,20 +8679,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "word reversal in sentence"
+   "word reversal in sentence",
+   "q164"
   ]
  },
  {
   "num": 165,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q165. Binary Representation",
+  "title": "Binary Representation",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 165,
+  "sort_order": 6,
   "tests": [
    {
     "stdin": "3\n5\n10\n255",
@@ -8566,20 +8730,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "binary representation"
+   "binary representation",
+   "q165"
   ]
  },
  {
   "num": 166,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q166. Matrix Diagonal Difference",
+  "title": "Matrix Diagonal Difference",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 166,
+  "sort_order": 93,
   "tests": [
    {
     "stdin": "3\n1 2 3\n4 5 6\n9 8 9",
@@ -8616,20 +8781,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "matrix diagonal difference"
+   "matrix diagonal difference",
+   "q166"
   ]
  },
  {
   "num": 167,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q167. String Pattern Matching",
+  "title": "String Pattern Matching",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 167,
+  "sort_order": 164,
   "tests": [
    {
     "stdin": "4\nap\napple\nbanana\ngrape\napricot",
@@ -8666,20 +8832,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "string pattern matching"
+   "string pattern matching",
+   "q167"
   ]
  },
  {
   "num": 168,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q168. Power Calculator",
+  "title": "Power Calculator",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 168,
+  "sort_order": 127,
   "tests": [
    {
     "stdin": "3\n2,3\n5,2\n10,0",
@@ -8716,20 +8883,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "power calculator"
+   "power calculator",
+   "q168"
   ]
  },
  {
   "num": 169,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q169. Sandwich Number",
+  "title": "Sandwich Number",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 169,
+  "sort_order": 150,
   "tests": [
    {
     "stdin": "4\n121\n135\n246\n1234",
@@ -8766,20 +8934,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "sandwich number"
+   "sandwich number",
+   "q169"
   ]
  },
  {
   "num": 170,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q170. Cumulative Product",
+  "title": "Cumulative Product",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 170,
+  "sort_order": 30,
   "tests": [
    {
     "stdin": "4\n1 2 3 4",
@@ -8816,20 +8985,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "cumulative product"
+   "cumulative product",
+   "q170"
   ]
  },
  {
   "num": 171,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q171. Border Elements",
+  "title": "Border Elements",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 171,
+  "sort_order": 7,
   "tests": [
    {
     "stdin": "3 3\n1 2 3\n4 5 6\n7 8 9",
@@ -8866,20 +9036,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "border elements"
+   "border elements",
+   "q171"
   ]
  },
  {
   "num": 172,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q172. Largest of Three",
+  "title": "Largest of Three",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 172,
+  "sort_order": 82,
   "tests": [
    {
     "stdin": "3 7 5",
@@ -8916,20 +9087,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "largest of three"
+   "largest of three",
+   "q172"
   ]
  },
  {
   "num": 173,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q173. Multiplication Table",
+  "title": "Multiplication Table",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 173,
+  "sort_order": 112,
   "tests": [
    {
     "stdin": "7",
@@ -8966,20 +9138,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "multiplication table"
+   "multiplication table",
+   "q173"
   ]
  },
  {
   "num": 174,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q174. Even/Odd Counter",
+  "title": "Even/Odd Counter",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 174,
+  "sort_order": 44,
   "tests": [
    {
     "stdin": "5\n1 2 3 4 5",
@@ -9016,20 +9189,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "even/odd counter"
+   "even/odd counter",
+   "q174"
   ]
  },
  {
   "num": 175,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q175. String Rotation Check",
+  "title": "String Rotation Check",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 175,
+  "sort_order": 165,
   "tests": [
    {
     "stdin": "abcde\ncdeab",
@@ -9066,20 +9240,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "string rotation check"
+   "string rotation check",
+   "q175"
   ]
  },
  {
   "num": 176,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q176. Right Triangle Pattern",
+  "title": "Right Triangle Pattern",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 176,
+  "sort_order": 142,
   "tests": [
    {
     "stdin": "5",
@@ -9116,20 +9291,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "right triangle pattern"
+   "right triangle pattern",
+   "q176"
   ]
  },
  {
   "num": 177,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q177. Matrix Addition",
+  "title": "Matrix Addition",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 177,
+  "sort_order": 91,
   "tests": [
    {
     "stdin": "2 2\n1 2\n3 4\n5 6\n7 8",
@@ -9166,20 +9342,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "matrix addition"
+   "matrix addition",
+   "q177"
   ]
  },
  {
   "num": 178,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q178. Armstrong Number",
+  "title": "Armstrong Number",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 178,
+  "sort_order": 5,
   "tests": [
    {
     "stdin": "153",
@@ -9216,20 +9393,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "armstrong number"
+   "armstrong number",
+   "q178"
   ]
  },
  {
   "num": 179,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q179. Count Substring",
+  "title": "Count Substring",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 179,
+  "sort_order": 26,
   "tests": [
    {
     "stdin": "abababa\naba",
@@ -9266,20 +9444,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "count substring"
+   "count substring",
+   "q179"
   ]
  },
  {
   "num": 180,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q180. Perfect Number",
+  "title": "Perfect Number",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 180,
+  "sort_order": 125,
   "tests": [
    {
     "stdin": "6",
@@ -9316,20 +9495,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "perfect number"
+   "perfect number",
+   "q180"
   ]
  },
  {
   "num": 181,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q181. Sort Words Alphabetically",
+  "title": "Sort Words Alphabetically",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 181,
+  "sort_order": 158,
   "tests": [
    {
     "stdin": "banana apple cherry",
@@ -9366,20 +9546,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "sort words alphabetically"
+   "sort words alphabetically",
+   "q181"
   ]
  },
  {
   "num": 182,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q182. Remove Vowels",
+  "title": "Remove Vowels",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 182,
+  "sort_order": 135,
   "tests": [
    {
     "stdin": "Hello World",
@@ -9416,20 +9597,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "remove vowels"
+   "remove vowels",
+   "q182"
   ]
  },
  {
   "num": 183,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q183. LCM of Two Numbers",
+  "title": "LCM of Two Numbers",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 183,
+  "sort_order": 83,
   "tests": [
    {
     "stdin": "4 6",
@@ -9466,20 +9648,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "lcm of two numbers"
+   "lcm of two numbers",
+   "q183"
   ]
  },
  {
   "num": 184,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q184. Floyd's Triangle",
+  "title": "Floyd's Triangle",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 184,
+  "sort_order": 55,
   "tests": [
    {
     "stdin": "4",
@@ -9516,20 +9699,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "floyd's triangle"
+   "floyd's triangle",
+   "q184"
   ]
  },
  {
   "num": 185,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q185. Unique Characters",
+  "title": "Unique Characters",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 185,
+  "sort_order": 190,
   "tests": [
    {
     "stdin": "programming",
@@ -9566,20 +9750,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "unique characters"
+   "unique characters",
+   "q185"
   ]
  },
  {
   "num": 186,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q186. Sum of Series",
+  "title": "Sum of Series",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 186,
+  "sort_order": 174,
   "tests": [
    {
     "stdin": "5",
@@ -9616,20 +9801,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "sum of series"
+   "sum of series",
+   "q186"
   ]
  },
  {
   "num": 187,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q187. Matrix Identity Check",
+  "title": "Matrix Identity Check",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 187,
+  "sort_order": 95,
   "tests": [
    {
     "stdin": "3\n1 0 0\n0 1 0\n0 0 1",
@@ -9666,20 +9852,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "matrix identity check"
+   "matrix identity check",
+   "q187"
   ]
  },
  {
   "num": 188,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q188. Second Largest in List",
+  "title": "Second Largest in List",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 188,
+  "sort_order": 152,
   "tests": [
    {
     "stdin": "5\n3 1 4 1 5",
@@ -9716,20 +9903,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "second largest in list"
+   "second largest in list",
+   "q188"
   ]
  },
  {
   "num": 189,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q189. Palindrome String",
+  "title": "Palindrome String",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 189,
+  "sort_order": 122,
   "tests": [
    {
     "stdin": "racecar",
@@ -9766,20 +9954,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "palindrome string"
+   "palindrome string",
+   "q189"
   ]
  },
  {
   "num": 190,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q190. Character Frequency Map",
+  "title": "Character Frequency Map",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 190,
+  "sort_order": 12,
   "tests": [
    {
     "stdin": "hello",
@@ -9816,20 +10005,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "character frequency map"
+   "character frequency map",
+   "q190"
   ]
  },
  {
   "num": 191,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q191. Number Pyramid",
+  "title": "Number Pyramid",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 191,
+  "sort_order": 117,
   "tests": [
    {
     "stdin": "4",
@@ -9866,20 +10056,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "number pyramid"
+   "number pyramid",
+   "q191"
   ]
  },
  {
   "num": 192,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q192. Leap Year Checker",
+  "title": "Leap Year Checker",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 192,
+  "sort_order": 84,
   "tests": [
    {
     "stdin": "2024",
@@ -9916,20 +10107,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "leap year checker"
+   "leap year checker",
+   "q192"
   ]
  },
  {
   "num": 193,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q193. Merge Two Sorted Arrays (I/O)",
+  "title": "Merge Two Sorted Arrays (I/O)",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 193,
+  "sort_order": 107,
   "tests": [
    {
     "stdin": "3\n1 3 5\n3\n2 4 6",
@@ -9966,20 +10158,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "merge two sorted arrays (i/o)"
+   "merge two sorted arrays (i/o)",
+   "q193"
   ]
  },
  {
   "num": 194,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q194. Sum of Prime Numbers",
+  "title": "Sum of Prime Numbers",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 194,
+  "sort_order": 173,
   "tests": [
    {
     "stdin": "10",
@@ -10016,20 +10209,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "sum of prime numbers"
+   "sum of prime numbers",
+   "q194"
   ]
  },
  {
   "num": 195,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q195. Hourglass Pattern",
+  "title": "Hourglass Pattern",
   "difficulty": "medium",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 195,
+  "sort_order": 63,
   "tests": [
    {
     "stdin": "5",
@@ -10066,20 +10260,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "hourglass pattern"
+   "hourglass pattern",
+   "q195"
   ]
  },
  {
   "num": 196,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q196. Digit Sum Until Single",
+  "title": "Digit Sum Until Single",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 196,
+  "sort_order": 40,
   "tests": [
    {
     "stdin": "9875",
@@ -10116,20 +10311,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "digit sum until single"
+   "digit sum until single",
+   "q196"
   ]
  },
  {
   "num": 197,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q197. Reverse a Number",
+  "title": "Reverse a Number",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 197,
+  "sort_order": 139,
   "tests": [
    {
     "stdin": "1234",
@@ -10166,20 +10362,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "reverse a number"
+   "reverse a number",
+   "q197"
   ]
  },
  {
   "num": 198,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q198. Common Elements of Two Lists",
+  "title": "Common Elements of Two Lists",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 198,
+  "sort_order": 19,
   "tests": [
    {
     "stdin": "1 2 3 4 5\n3 4 5 6 7",
@@ -10216,20 +10413,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "common elements of two lists"
+   "common elements of two lists",
+   "q198"
   ]
  },
  {
   "num": 199,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q199. Matrix Spiral Print",
+  "title": "Matrix Spiral Print",
   "difficulty": "hard",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 199,
+  "sort_order": 99,
   "tests": [
    {
     "stdin": "3 3\n1 2 3\n4 5 6\n7 8 9",
@@ -10266,20 +10464,21 @@
    "oppe-1",
    "section-c",
    "python",
-   "matrix spiral print"
+   "matrix spiral print",
+   "q199"
   ]
  },
  {
   "num": 200,
   "section": "C",
   "topic": "I/O Based Problem Solving",
-  "title": "Q200. Temperature Converter",
+  "title": "Temperature Converter",
   "difficulty": "easy",
   "kind": "coding",
   "language": "python",
   "exam": "OPPE 1",
   "practice_only": true,
-  "sort_order": 200,
+  "sort_order": 181,
   "tests": [
    {
     "stdin": "3\n0\n100\n37",
@@ -10316,7 +10515,8 @@
    "oppe-1",
    "section-c",
    "python",
-   "temperature converter"
+   "temperature converter",
+   "q200"
   ]
  }
 ]
