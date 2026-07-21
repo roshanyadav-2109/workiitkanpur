@@ -231,6 +231,7 @@ export function SqlRuntime({
             value={query}
             onChange={setQuery}
             ariaLabel="SQL query"
+            language="sql"
             placeholder="SELECT ..."
             fill
           />
@@ -250,6 +251,7 @@ export function SqlRuntime({
         value={query}
         onChange={setQuery}
         ariaLabel="SQL query"
+            language="sql"
         minRows={6}
         placeholder="SELECT ..."
       />

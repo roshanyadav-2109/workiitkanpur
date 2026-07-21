@@ -13,23 +13,91 @@ function escapeHtml(s: string): string {
     .replace(/>/g, "&gt;");
 }
 
-/**
- * Editor highlighting — only `#` comments are coloured (green, like a compiler).
- * All other code stays the default ink colour.
- */
-function highlight(code: string): string {
-  const re = /(#[^\n]*)|([\s\S])/g;
+/* Deliberately quiet: four muted colours, everything else stays ink. Enough to
+ * tell structure from content at a glance without the editor turning into a
+ * rainbow. */
+const COMMENT = "#8b8b96"; // grey — comments recede
+const KEYWORD = "#2f8f5b"; // green — def, return, if, for …
+const BUILTIN = "#5a48d6"; // violet (the app accent) — print, len, range …
+const STRING = "#9a6636"; // muted amber — literals
+
+const KEYWORDS = new Set([
+  "and", "as", "assert", "async", "await", "break", "class", "continue", "def",
+  "del", "elif", "else", "except", "finally", "for", "from", "global", "if",
+  "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise",
+  "return", "try", "while", "with", "yield", "True", "False", "None",
+]);
+
+const BUILTINS = new Set([
+  "abs", "all", "any", "bool", "chr", "dict", "divmod", "enumerate", "filter",
+  "float", "format", "frozenset", "input", "int", "isinstance", "len", "list",
+  "map", "max", "min", "ord", "print", "range", "reversed", "round", "set",
+  "sorted", "str", "sum", "tuple", "type", "zip",
+]);
+
+/* Strings (triple-quoted first, so docstrings win), then comments, then words.
+ * A half-typed string matches none of the string alternatives and falls through
+ * to the single-character branch, so typing never garbles the line. */
+const PY_TOKEN =
+  /"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|#[^\n]*|[A-Za-z_]\w*|[\s\S]/g;
+
+function paint(text: string, color: string | null): string {
+  const safe = escapeHtml(text);
+  return color ? `<span style="color:${color}">${safe}</span>` : safe;
+}
+
+function highlightPython(code: string): string {
   let out = "";
   let m: RegExpExecArray | null;
-  while ((m = re.exec(code))) {
-    if (m[1]) {
-      out += `<span style="color:#2f9e63">${escapeHtml(m[1])}</span>`;
-    } else {
-      out += escapeHtml(m[2]);
+  PY_TOKEN.lastIndex = 0;
+  while ((m = PY_TOKEN.exec(code))) {
+    const t = m[0];
+    const head = t[0];
+    let color: string | null = null;
+    if (head === "#") color = COMMENT;
+    else if (head === '"' || head === "'") color = STRING;
+    else if (/[A-Za-z_]/.test(head)) {
+      if (KEYWORDS.has(t)) color = KEYWORD;
+      else if (BUILTINS.has(t)) color = BUILTIN;
     }
+    out += paint(t, color);
   }
+  return out;
+}
+
+/** SQL gets the same restraint: keywords green, strings amber, -- comments grey. */
+const SQL_KEYWORDS = new Set(
+  ("select from where group by order having join left right inner outer on as " +
+    "and or not in is null distinct limit offset insert into values update set " +
+    "delete create table primary key foreign references count sum avg min max " +
+    "case when then else end union all asc desc between like exists")
+    .split(" "),
+);
+
+const SQL_TOKEN =
+  /--[^\n]*|'(?:''|[^'\n])*'|"(?:[^"\n])*"|[A-Za-z_]\w*|[\s\S]/g;
+
+function highlightSql(code: string): string {
+  let out = "";
+  let m: RegExpExecArray | null;
+  SQL_TOKEN.lastIndex = 0;
+  while ((m = SQL_TOKEN.exec(code))) {
+    const t = m[0];
+    const head = t[0];
+    let color: string | null = null;
+    if (t.startsWith("--")) color = COMMENT;
+    else if (head === "'" || head === '"') color = STRING;
+    else if (/[A-Za-z_]/.test(head) && SQL_KEYWORDS.has(t.toLowerCase()))
+      color = KEYWORD;
+    out += paint(t, color);
+  }
+  return out;
+}
+
+function highlight(code: string, language: "python" | "sql"): string {
+  const body = language === "sql" ? highlightSql(code) : highlightPython(code);
   // Trailing newline keeps the last line's height in sync with the textarea.
-  return out + "\n";
+  return body + "\n";
 }
 
 const boxClass =
@@ -51,6 +119,7 @@ export function CodeEditor({
   className,
   minRows = 10,
   fill = false,
+  language = "python",
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -60,13 +129,15 @@ export function CodeEditor({
   minRows?: number;
   /** Grow to fill the parent (parent must have a bounded height). */
   fill?: boolean;
+  /** Which highlighter to use. */
+  language?: "python" | "sql";
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
   // Selection to apply after a programmatic value change (controlled textarea).
   const pendingSelection = useRef<[number, number] | null>(null);
 
-  const html = useMemo(() => highlight(value), [value]);
+  const html = useMemo(() => highlight(value, language), [value, language]);
 
   useLayoutEffect(() => {
     if (pendingSelection.current && ref.current) {

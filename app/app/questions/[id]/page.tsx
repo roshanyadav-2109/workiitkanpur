@@ -51,8 +51,11 @@ export default async function QuestionPage({
   }
 
   // Group the subject's questions by topic (week) for the left navigation.
+  // Test Series papers keep their own questions and are sat from Test Series,
+  // so they are not listed here — they carry no topic and would otherwise pile
+  // up under an "Other" heading.
   const groupMap = new Map<string, IDETopicGroup>();
-  for (const q of allQuestions) {
+  for (const q of allQuestions.filter((x) => x.practice_only)) {
     const key = q.topic?.id ?? "none";
     if (!groupMap.has(key)) {
       groupMap.set(key, {
