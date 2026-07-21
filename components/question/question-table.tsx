@@ -260,7 +260,8 @@ export function QuestionTable({
                     download
                     title="Download question with solution (PDF)"
                     aria-label={`Download "${r.title}" with solution as PDF`}
-                    className="grid h-9 w-9 place-items-center rounded-[3px] border border-hairline-strong text-fg-muted transition-colors hover:bg-surface hover:text-fg"
+                    // red mark, plain background -- it reads as "PDF" without a coloured chip
+                    className="grid h-9 w-9 place-items-center rounded-[3px] border border-hairline-strong text-err transition-colors hover:border-err/50 hover:bg-surface"
                   >
                     <IconFilePdf size={18} />
                   </a>

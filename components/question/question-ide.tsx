@@ -484,7 +484,7 @@ export function QuestionIDE({
                 download
                 aria-label="Download this question with solution as PDF"
                 title="Download question with solution (PDF)"
-                className="grid h-8 w-8 place-items-center rounded-md border border-hairline text-fg-muted transition-colors hover:bg-surface hover:text-fg"
+                className="grid h-8 w-8 place-items-center rounded-md border border-hairline text-err transition-colors hover:border-err/50 hover:bg-surface"
               >
                 <IconFilePdf size={16} />
               </a>
