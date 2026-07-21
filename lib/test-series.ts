@@ -29,7 +29,8 @@ export interface TestSetMeta {
  * a real deployment can later back this with dedicated set tables.
  */
 export function buildSetsForSubject(questions: QuestionWithTopic[]): TestSet[] {
-  const coding = questions.filter((q) => q.kind === "coding");
+  // practice_only questions (the large OPPE practice bank) never become papers.
+  const coding = questions.filter((q) => q.kind === "coding" && !q.practice_only);
 
   const byTopic = new Map<string, { week: number | null; ids: string[] }>();
   for (const q of coding) {

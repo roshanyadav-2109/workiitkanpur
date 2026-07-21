@@ -60,6 +60,12 @@ export function PythonRuntime({
   // there's nothing saved yet; otherwise a generic starter comment.
   const starter = question.starter_code || STARTER;
 
+  // "Write this function" questions print nothing on their own, so a hidden
+  // driver is appended before running: it reads the arguments from stdin and
+  // prints the return value. Questions without a harness run exactly as typed.
+  const withHarness = (src: string) =>
+    question.harness ? `${src}\n\n${question.harness}\n` : src;
+
   // Load persisted code (practice) or the provided initial answer (exam).
   useEffect(() => {
     if (mode === "exam") {
@@ -98,7 +104,7 @@ export function PythonRuntime({
     setRunning(true);
     setRunOut(null);
     onRunOutput?.(null);
-    const res = await runner.run(code, stdin);
+    const res = await runner.run(withHarness(code), stdin);
     const out = { stdout: res.stdout, stderr: res.stderr, timedOut: res.timedOut };
     setRunOut(out);
     onRunOutput?.(out);
@@ -111,7 +117,7 @@ export function PythonRuntime({
     const results: Outcome[] = [];
     for (let i = 0; i < question.tests.length; i++) {
       const t = question.tests[i];
-      const res = await runner.run(code, t.stdin);
+      const res = await runner.run(withHarness(code), t.stdin);
       const passed = res.ok && gradeOutput(t, res.stdout);
       results.push({
         index: i,
@@ -140,7 +146,7 @@ export function PythonRuntime({
     const toRun = runAll ? indexed : indexed.filter((x) => !x.t.hidden);
     const results: Outcome[] = [];
     for (const { t, index } of toRun) {
-      const res = await runner.run(code, t.stdin);
+      const res = await runner.run(withHarness(code), t.stdin);
       const passed = res.ok && gradeOutput(t, res.stdout);
       results.push({
         index,

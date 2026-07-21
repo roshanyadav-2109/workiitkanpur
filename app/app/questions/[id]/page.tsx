@@ -89,6 +89,7 @@ export default async function QuestionPage({
         setup_sql: question.setup_sql,
         starter_code: question.starter_code,
         language: question.language,
+        harness: question.harness,
         reference_sql:
           question.kind === "sql"
             ? extractSqlBlock(question.solution_md)

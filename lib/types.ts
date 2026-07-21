@@ -68,6 +68,15 @@ export interface Question {
   starter_code: string | null;
   /** Fixed authoring language (python / sql / c / java / bash). Not user-changeable. */
   language: string | null;
+  /**
+   * Hidden driver appended to the learner's code before running, for questions
+   * that ask for a function rather than a whole program: it reads the arguments
+   * from stdin as Python literals, calls the function and prints the result.
+   * NULL runs the code as-is.
+   */
+  harness: string | null;
+  /** Excluded from Test Series paper assembly (practice bank only). */
+  practice_only: boolean;
 }
 
 export type TestAttemptStatus = "in_progress" | "submitted" | "expired";

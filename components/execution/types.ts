@@ -42,6 +42,7 @@ export type RuntimeQuestion = Pick<
   | "setup_sql"
   | "starter_code"
   | "language"
+  | "harness"
 > & {
   /** Reference query for grading SQL (practice only — never sent during exams). */
   reference_sql?: string | null;

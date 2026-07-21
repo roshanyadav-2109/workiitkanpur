@@ -58,6 +58,7 @@ export default async function RunPage({
         setup_sql: q.setup_sql,
         starter_code: q.starter_code,
         language: q.language,
+        harness: q.harness,
       })),
   }));
 
