@@ -1,0 +1,372 @@
+[
+ {
+  "title": "Loss Percent",
+  "section": "Data types",
+  "marks": 5,
+  "sort_order": 1,
+  "difficulty": "easy",
+  "tests": [
+   {
+    "stdin": "10\n8",
+    "expected": "20.0",
+    "hidden": false
+   },
+   {
+    "stdin": "20\n15",
+    "expected": "25.0",
+    "hidden": false
+   },
+   {
+    "stdin": "100\n80",
+    "expected": "20.0",
+    "hidden": true
+   },
+   {
+    "stdin": "7\n7",
+    "expected": "0.0",
+    "hidden": true
+   },
+   {
+    "stdin": "1000\n1",
+    "expected": "99.9",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `loss_percent` that takes the buying price `bp` and the selling price `sp` of an item and returns the loss percentage, computed as\n\n```\n(bp - sp) / bp * 100\n```\n\nThe value returned is a `float`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> loss_percent(10, 8)\n20.0\n>>> loss_percent(20, 15)\n25.0\n```\n\nFor `bp = 10` and `sp = 8` the loss is `10 - 8 = 2`, which is `2 / 10 * 100 = 20.0` percent of the buying price.\n\n## Your task\n\nImplement this function:\n\n```python\ndef loss_percent(bp: int, sp: int) -> float:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `bp`, `sp`.\n\n## Example\n\nInput\n\n```\n10\n8\n```\n\nOutput\n\n```\n20.0\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef loss_percent(bp: int, sp: int) -> float:\n    return (bp - sp) / bp * 100\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = loss_percent(*_args)\nprint(_oppe_fmt(_out))\n",
+  "starter_code": "def loss_percent(bp: int, sp: int) -> float:\n    '''Find the loss percentage given the buying price and the selling price.\n    Args:\n        bp : int - the buying price\n        sp : int - the selling price\n    Returns:\n        float - the loss percentage\n    '''\n    ...\n",
+  "input_labels": [
+   "bp",
+   "sp"
+  ]
+ },
+ {
+  "title": "Swap First And Last Chars",
+  "section": "Data types",
+  "marks": 5,
+  "sort_order": 2,
+  "difficulty": "easy",
+  "tests": [
+   {
+    "stdin": "'hello'",
+    "expected": "'oellh'",
+    "hidden": false
+   },
+   {
+    "stdin": "'world'",
+    "expected": "'dorlw'",
+    "hidden": false
+   },
+   {
+    "stdin": "'ab'",
+    "expected": "'ba'",
+    "hidden": true
+   },
+   {
+    "stdin": "'python'",
+    "expected": "'nythop'",
+    "hidden": true
+   },
+   {
+    "stdin": "'racecar'",
+    "expected": "'racecar'",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `swap_first_and_last_chars` that takes a string `s` and returns a new string in which the first and the last characters of `s` have been swapped. Every other character stays where it is. Assume `s` has at least two characters.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> swap_first_and_last_chars(\"hello\")\n'oellh'\n>>> swap_first_and_last_chars(\"world\")\n'dorlw'\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef swap_first_and_last_chars(s: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'hello'\n```\n\nOutput\n\n```\n'oellh'\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef swap_first_and_last_chars(s: str) -> str:\n    return s[-1] + s[1:-1] + s[0]\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = swap_first_and_last_chars(*_args)\nprint(_oppe_fmt(_out))\n",
+  "starter_code": "def swap_first_and_last_chars(s: str) -> str:\n    '''Swap the first and last characters of a string.\n    Args:\n        s : str - the input string, at least two characters long\n    Returns:\n        str - the string with first and last characters swapped\n    '''\n    ...\n",
+  "input_labels": [
+   "s"
+  ]
+ },
+ {
+  "title": "Add First Three Items To The Last",
+  "section": "Data types",
+  "marks": 5,
+  "sort_order": 3,
+  "difficulty": "easy",
+  "tests": [
+   {
+    "stdin": "[1, 2, 3, 4, 5]",
+    "expected": "[1, 2, 3, 4, 5, 1, 2, 3]",
+    "hidden": false
+   },
+   {
+    "stdin": "[10, 20, 30]",
+    "expected": "[10, 20, 30, 10, 20, 30]",
+    "hidden": false
+   },
+   {
+    "stdin": "['a', 'b', 'c', 'd', 'e']",
+    "expected": "['a', 'b', 'c', 'd', 'e', 'a', 'b', 'c']",
+    "hidden": true
+   },
+   {
+    "stdin": "[0, 1, 2, 3, 4, 5, 6]",
+    "expected": "[0, 1, 2, 3, 4, 5, 6, 0, 1, 2]",
+    "hidden": true
+   },
+   {
+    "stdin": "[True, False, True]",
+    "expected": "[True, False, True, True, False, True]",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `add_first_three_items_to_the_last` that takes a list `l` and appends its first three elements, in the same order, to the end of the list.\n\nThe list must be modified **in place** - the function does not return a new list. Assume the list has at least three elements.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> lst = [1, 2, 3, 4, 5]\n>>> add_first_three_items_to_the_last(lst)\n>>> lst\n[1, 2, 3, 4, 5, 1, 2, 3]\n```\n\n## Your task\n\nImplement this function:\n\n```python\ndef add_first_three_items_to_the_last(l: list) -> None:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3, 4, 5]\n```\n\nOutput\n\n```\n[1, 2, 3, 4, 5, 1, 2, 3]\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef add_first_three_items_to_the_last(l: list) -> None:\n    l.extend(l[:3])\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = add_first_three_items_to_the_last(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+  "starter_code": "def add_first_three_items_to_the_last(l: list) -> None:\n    '''Add the first three elements to the end of the list, in the same order.\n    Modify the list in place.\n    Args:\n        l : list - the input list, with at least three elements\n    Returns:\n        None - modifies the list in place\n    '''\n    ...\n",
+  "input_labels": [
+   "l"
+  ]
+ },
+ {
+  "title": "Are Alternate Positions Equal",
+  "section": "Data types",
+  "marks": 5,
+  "sort_order": 4,
+  "difficulty": "easy",
+  "tests": [
+   {
+    "stdin": "(1, 2, 3, 4, 5, 6)",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "(1, 1, 2, 2, 3, 3)",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "('a', 'a', 'b', 'b')",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "(4, 4, 5, 6)",
+    "expected": "False",
+    "hidden": true
+   },
+   {
+    "stdin": "(9, 9)",
+    "expected": "True",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `are_alternate_positions_equal` that takes a tuple `t` and checks whether the tuple is built out of equal consecutive pairs, that is whether\n\n```\nt[0] == t[1], t[2] == t[3], t[4] == t[5], ...\n```\n\nReturn `True` if every such pair holds equal elements, and `False` otherwise. Assume the tuple has an even number of elements.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> are_alternate_positions_equal((1, 2, 3, 4, 5, 6))\nFalse\n>>> are_alternate_positions_equal((1, 1, 2, 2, 3, 3))\nTrue\n```\n\nIn the first tuple `1 != 2`, so the answer is `False`. In the second one `1 == 1`, `2 == 2` and `3 == 3`, so the answer is `True`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef are_alternate_positions_equal(t: tuple) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `t`.\n\n## Example\n\nInput\n\n```\n(1, 2, 3, 4, 5, 6)\n```\n\nOutput\n\n```\nFalse\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef are_alternate_positions_equal(t: tuple) -> bool:\n    for i in range(0, len(t), 2):\n        if t[i] != t[i + 1]:\n            return False\n    return True\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = are_alternate_positions_equal(*_args)\nprint(_oppe_fmt(_out))\n",
+  "starter_code": "def are_alternate_positions_equal(t: tuple) -> bool:\n    '''Check if the elements at alternate positions in the tuple are equal.\n    Assume an even number of elements in the tuple.\n    Args:\n        t : tuple - the input tuple\n    Returns:\n        bool - True if t[0] == t[1], t[2] == t[3], ... else False\n    '''\n    ...\n",
+  "input_labels": [
+   "t"
+  ]
+ },
+ {
+  "title": "Has All Values",
+  "section": "Data types",
+  "marks": 5,
+  "sort_order": 5,
+  "difficulty": "easy",
+  "tests": [
+   {
+    "stdin": "[1, 2, 3, 4, 4, 3, 2, 1]\n{1, 2, 3, 4}",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 2, 3, 1, 2, 3, 3]\n{2, 3}",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "[5, 5, 5]\n{5}",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "[1, 2]\n{1, 2, 3}",
+    "expected": "False",
+    "hidden": true
+   },
+   {
+    "stdin": "[]\nset()",
+    "expected": "True",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `has_all_values` that takes a list of numbers `l` and a set of numbers `s`, and returns `True` if the numbers that appear in `l` are exactly the numbers in `s` - every number of `l` is present in `s`, and every number of `s` appears at least once in `l`. Return `False` otherwise. Repeated values in the list are ignored.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> has_all_values([1, 2, 3, 4, 4, 3, 2, 1], {1, 2, 3, 4})\nTrue\n>>> has_all_values([1, 2, 3, 1, 2, 3, 3], {2, 3})\nFalse\n```\n\nThe first list contains exactly the numbers `1, 2, 3, 4`, which is what the set holds, so the answer is `True`. In the second case the list contains a `1`, which the set does not hold, so the answer is `False`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef has_all_values(l: list, s: set) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`, `s`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3, 4, 4, 3, 2, 1]\n{1, 2, 3, 4}\n```\n\nOutput\n\n```\nTrue\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef has_all_values(l: list, s: set) -> bool:\n    return set(l) == s\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = has_all_values(*_args)\nprint(_oppe_fmt(_out))\n",
+  "starter_code": "def has_all_values(l: list, s: set) -> bool:\n    '''Check whether the numbers in the list are exactly the numbers in the set.\n    Args:\n        l : list - the input list of numbers\n        s : set  - the input set of numbers\n    Returns:\n        bool - True if the distinct values of l are exactly s, else False\n    '''\n    ...\n",
+  "input_labels": [
+   "l",
+   "s"
+  ]
+ },
+ {
+  "title": "Swap Key And Value",
+  "section": "Data types",
+  "marks": 5,
+  "sort_order": 6,
+  "difficulty": "easy",
+  "tests": [
+   {
+    "stdin": "{'a': 1, 'b': 2, 'c': 3}\n'b'",
+    "expected": "{'a': 1, 'c': 3, 2: 'b'}",
+    "hidden": false
+   },
+   {
+    "stdin": "{1: 'a', 2: 'b', 3: 'c'}\n2",
+    "expected": "{1: 'a', 3: 'c', 'b': 2}",
+    "hidden": false
+   },
+   {
+    "stdin": "{'x': 10}\n'x'",
+    "expected": "{10: 'x'}",
+    "hidden": true
+   },
+   {
+    "stdin": "{'a': 1, 'b': 2}\n'z'",
+    "expected": "{'a': 1, 'b': 2}",
+    "hidden": true
+   },
+   {
+    "stdin": "{'p': 'q'}\n'p'",
+    "expected": "{'q': 'p'}",
+    "hidden": true
+   }
+  ],
+  "body_md": "Write a function `swap_key_and_value` that takes a dictionary `d` and a key `k`, and swaps that key with its value: the entry `k` is removed from the dictionary and a new entry is added whose key is the old value and whose value is `k`. The new entry is added at the end, as any newly inserted key would be.\n\nThe dictionary must be modified **in place** - do not build and return a new dictionary. If `k` is not a key of `d`, leave the dictionary unchanged.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> d = {'a': 1, 'b': 2, 'c': 3}\n>>> swap_key_and_value(d, 'b')\n>>> d\n{'a': 1, 'c': 3, 2: 'b'}\n```\n\nThe pair `'b': 2` is removed and the pair `2: 'b'` is added in its place.\n\n## Your task\n\nImplement this function:\n\n```python\ndef swap_key_and_value(d: dict, k) -> None:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `d`, `k`.\n\n## Example\n\nInput\n\n```\n{'a': 1, 'b': 2, 'c': 3}\n'b'\n```\n\nOutput\n\n```\n{'a': 1, 'c': 3, 2: 'b'}\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef swap_key_and_value(d: dict, k) -> None:\n    if k in d:\n        value = d[k]\n        del d[k]\n        d[value] = k\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = swap_key_and_value(*_args)\nprint(_oppe_fmt(_args[0]))\n",
+  "starter_code": "def swap_key_and_value(d: dict, k) -> None:\n    '''Swap the key and the value for a given key in a dictionary.\n    Modify the dictionary in place, do not return a new dictionary.\n    Args:\n        d : dict - the input dictionary\n        k        - the key to swap\n    Returns:\n        None - modifies the dictionary in place\n    '''\n    ...\n",
+  "input_labels": [
+   "d",
+   "k"
+  ]
+ },
+ {
+  "title": "Hostile Pairs",
+  "section": "Data Processing",
+  "marks": 20,
+  "sort_order": 7,
+  "difficulty": "hard",
+  "tests": [
+   {
+    "stdin": "[12, 34, 56, 13]",
+    "expected": "4",
+    "hidden": false
+   },
+   {
+    "stdin": "[1, 2, 3]",
+    "expected": "3",
+    "hidden": false
+   },
+   {
+    "stdin": "[11, 11, 11]",
+    "expected": "0",
+    "hidden": true
+   },
+   {
+    "stdin": "[102, 345, 678, 90]",
+    "expected": "5",
+    "hidden": true
+   },
+   {
+    "stdin": "[7]",
+    "expected": "0",
+    "hidden": true
+   }
+  ],
+  "body_md": "Two positive integers are called **hostile** if they have no digit in common. For example `12` and `34` are hostile, while `12` and `13` are not, because both contain the digit `1`.\n\nWrite a function `n_hostile_pairs` that takes a list of positive integers `L` and returns the number of hostile pairs in it. A pair is a choice of two numbers at two different positions of the list, and the pair `(L[i], L[j])` is counted only once.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> n_hostile_pairs([12, 34, 56, 13])\n4\n```\n\nThe hostile pairs are `(12, 34)`, `(12, 56)`, `(34, 56)` and `(56, 13)`. The pairs `(12, 13)` and `(34, 13)` share the digits `1` and `3`, so they are not hostile.\n\n## Your task\n\nImplement this function:\n\n```python\ndef n_hostile_pairs(L: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `L`.\n\n## Example\n\nInput\n\n```\n[12, 34, 56, 13]\n```\n\nOutput\n\n```\n4\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef n_hostile_pairs(L: list) -> int:\n    hostile_pairs = 0\n    n = len(L)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if not set(str(L[i])) & set(str(L[j])):\n                hostile_pairs += 1\n    return hostile_pairs\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = n_hostile_pairs(*_args)\nprint(_oppe_fmt(_out))\n",
+  "starter_code": "def n_hostile_pairs(L: list) -> int:\n    '''Given a list of integers, find the number of hostile pairs in the given list.\n    Two positive integers are called hostile if they have no common digits.\n    Args:\n        L : list[int] - numbers to check\n    Returns:\n        int - number of hostile pairs\n    '''\n    ...\n",
+  "input_labels": [
+   "L"
+  ]
+ },
+ {
+  "title": "Are Anagrams",
+  "section": "Data Processing",
+  "marks": 20,
+  "sort_order": 8,
+  "difficulty": "hard",
+  "tests": [
+   {
+    "stdin": "['listen', 'silent', 'enlist']",
+    "expected": "True",
+    "hidden": false
+   },
+   {
+    "stdin": "['listen', 'silent', 'hello']",
+    "expected": "False",
+    "hidden": false
+   },
+   {
+    "stdin": "['abc']",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "[]",
+    "expected": "True",
+    "hidden": true
+   },
+   {
+    "stdin": "['aab', 'aba', 'baa', 'bab']",
+    "expected": "False",
+    "hidden": true
+   }
+  ],
+  "body_md": "Two words are **anagrams** of each other if one can be obtained by rearranging the letters of the other, so both words use exactly the same letters the same number of times.\n\nWrite a function `are_anagrams` that takes a list of lowercase words and returns `True` if all the words in the list are anagrams of one another, and `False` otherwise. A list with no words or with a single word counts as `True`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> are_anagrams(['listen', 'silent', 'enlist'])\nTrue\n>>> are_anagrams(['listen', 'silent', 'hello'])\nFalse\n```\n\n`listen`, `silent` and `enlist` are all made of the same six letters. `hello` is not, so the second list gives `False`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef are_anagrams(words: list) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `words`.\n\n## Example\n\nInput\n\n```\n['listen', 'silent', 'enlist']\n```\n\nOutput\n\n```\nTrue\n```",
+  "solution_md": "## Reference solution\n\n```python\ndef are_anagrams(words: list) -> bool:\n    if not words:\n        return True\n    sorted_first_word = sorted(words[0])\n    for word in words[1:]:\n        if sorted(word) != sorted_first_word:\n            return False\n    return True\n```",
+  "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = are_anagrams(*_args)\nprint(_oppe_fmt(_out))\n",
+  "starter_code": "def are_anagrams(words: list) -> bool:\n    '''Check if all the given words are anagrams.\n    Args:\n        words : list[str] - list of lowercase words\n    Returns:\n        bool - True if all the words are anagrams, else False\n    '''\n    ...\n",
+  "input_labels": [
+   "words"
+  ]
+ },
+ {
+  "title": "Bar Graph Perimeter",
+  "section": "I/O Based Problem Solving",
+  "marks": 30,
+  "sort_order": 9,
+  "difficulty": "hard",
+  "tests": [
+   {
+    "stdin": "1\n5 3 4 1 3 2 5",
+    "expected": "36",
+    "hidden": false
+   },
+   {
+    "stdin": "2\n3 3 3\n1 2 3",
+    "expected": "12\n12",
+    "hidden": false
+   },
+   {
+    "stdin": "1\n4",
+    "expected": "10",
+    "hidden": true
+   },
+   {
+    "stdin": "3\n1 1 1 1\n5 1 5\n2 4 2 4",
+    "expected": "10\n24\n20",
+    "hidden": true
+   },
+   {
+    "stdin": "2\n10\n1 2 3 4 5",
+    "expected": "22\n20",
+    "hidden": true
+   }
+  ],
+  "body_md": "A bar graph is drawn from a list of bar heights. Every bar is `1` unit wide and at least `1` unit tall, the heights are integers, and the bars stand side by side on a common base with no gaps between them.\n\nWrite a program that reads a number of bar graphs and prints the perimeter of each of them. The perimeter is the total length of the outline of the shape formed by the bars: the base, the top of every bar, the two outer sides, and the vertical steps between neighbouring bars of different heights.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `n`, the number of bar graphs.\n- Each of the next `n` lines contains the space separated heights of the bars of one bar graph.\n\n### Output Format\n\n- For each bar graph, print its perimeter on a line of its own, in the order in which the bar graphs were given.\n\n### Example\n\nInput:\n\n```\n1\n5 3 4 1 3 2 5\n```\n\nOutput:\n\n```\n36\n```\n\n**Explanation**\n\n- The base and the tops of the `7` bars contribute `7 + 7 = 14`.\n- The leftmost and the rightmost sides contribute `5 + 5 = 10`.\n- The steps between neighbouring bars contribute `|5-3| + |3-4| + |4-1| + |1-3| + |3-2| + |2-5| = 12`.\n\nThe perimeter is `14 + 10 + 12 = 36`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1\n5 3 4 1 3 2 5\n```\n\nOutput\n\n```\n36\n```",
+  "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor _ in range(n):\n    hts = list(map(int, input().split()))\n    perimeter = 2 * len(hts) + hts[0] + hts[-1]\n    for i in range(len(hts) - 1):\n        perimeter += abs(hts[i] - hts[i + 1])\n    print(perimeter)\n```",
+  "harness": null,
+  "starter_code": "# Read input with input(); print your answer.\n",
+  "input_labels": null
+ }
+]
