@@ -12,15 +12,17 @@ import {
   type SubjectCard,
 } from "@/components/curriculum/subjects-browser";
 import { offeringsFor } from "@/lib/curriculum";
+import { getCurriculum } from "@/lib/queries";
 import type { QuestionStatus } from "@/components/ui/status";
 
 export const metadata: Metadata = { title: "Subjects" };
 
 export default async function SubjectsPage() {
   const user = await getCurrentUser();
-  const [subjects, questions] = await Promise.all([
+  const [subjects, questions, curriculum] = await Promise.all([
     getSubjects(),
     getAllQuestionsMinimal(),
+    getCurriculum(),
   ]);
 
   let status = new Map<string, QuestionStatus>();
@@ -35,7 +37,7 @@ export default async function SubjectsPage() {
     const exams = Array.from(
       new Set(qs.map((q) => q.exam).filter((e): e is string => !!e)),
     ).sort();
-    const offerings = offeringsFor(s.slug);
+    const offerings = offeringsFor(curriculum, s.slug);
     // Group offerings by branch so each (branch → its levels) is one display row.
     const byBranch = new Map<string, string[]>();
     for (const o of offerings) {
@@ -69,7 +71,7 @@ export default async function SubjectsPage() {
           description="Content is on its way. Check back shortly."
         />
       ) : (
-        <SubjectsBrowser cards={cards} />
+        <SubjectsBrowser cards={cards} curriculum={curriculum} />
       )}
     </>
   );

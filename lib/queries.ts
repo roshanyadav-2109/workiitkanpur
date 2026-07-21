@@ -8,6 +8,7 @@ import type {
   Subject,
   Topic,
 } from "@/lib/types";
+import type { Curriculum } from "@/lib/curriculum";
 
 export interface QuestionMinimal {
   id: string;
@@ -33,6 +34,47 @@ export async function getSubjects(): Promise<Subject[]> {
     .order("sort_order", { ascending: true })
     .order("name", { ascending: true });
   return data ?? [];
+}
+
+/**
+ * The degree / level / subject map. Small reference data, read once per page
+ * and then passed down — client components never query it themselves.
+ */
+export async function getCurriculum(): Promise<Curriculum> {
+  const supabase = await createClient();
+  const [{ data: degrees }, { data: offerings }] = await Promise.all([
+    supabase
+      .from("degrees")
+      .select("slug, name, short_name")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .from("subject_offerings")
+      .select("level, sort_order, subject:subjects(slug), degree:degrees(slug)")
+      .order("sort_order", { ascending: true }),
+  ]);
+
+  type OfferingRow = {
+    level: string;
+    subject: { slug: string } | null;
+    degree: { slug: string } | null;
+  };
+
+  return {
+    degrees: (degrees ?? []).map(
+      (d: { slug: string; name: string; short_name: string }) => ({
+        id: d.slug,
+        name: d.name,
+        shortName: d.short_name,
+      }),
+    ),
+    offerings: ((offerings ?? []) as unknown as OfferingRow[])
+      .filter((o) => o.subject?.slug && o.degree?.slug)
+      .map((o) => ({
+        subject: o.subject!.slug,
+        degree: o.degree!.slug,
+        level: o.level,
+      })),
+  };
 }
 
 export async function getSubjectBySlug(slug: string): Promise<Subject | null> {

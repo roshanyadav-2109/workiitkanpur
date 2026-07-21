@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CoursePickerModal } from "@/components/curriculum/course-picker-modal";
-import type { SubjectLite } from "@/lib/curriculum";
+import type { Curriculum, SubjectLite } from "@/lib/curriculum";
 
 /**
  * Shown on a subject's questions page: the degree/level context the learner
@@ -15,12 +15,14 @@ export function SubjectContextBar({
   level,
   canChange,
   subjects,
+  curriculum,
 }: {
   slug: string;
   degreeName?: string;
   level?: string;
   canChange: boolean;
   subjects: SubjectLite[];
+  curriculum: Curriculum;
 }) {
   const [open, setOpen] = useState(false);
   const hasContext = !!degreeName || !!level;
@@ -52,6 +54,7 @@ export function SubjectContextBar({
         open={open}
         initial={{ subject: slug }}
         subjects={subjects}
+        curriculum={curriculum}
         onClose={() => setOpen(false)}
       />
     </>

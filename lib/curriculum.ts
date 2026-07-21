@@ -1,73 +1,90 @@
-// Curriculum map for the course picker: which (degree, level) contexts each
-// subject is offered in. The questions themselves are the same per subject —
-// the degree/level is navigational context used to disambiguate the path in.
+// Which (degree, level) contexts each subject is offered in.
+//
+// The data lives in the `degrees` and `subject_offerings` tables (see
+// 0014_curriculum.sql) and is read with getCurriculum(); everything here is a
+// pure function over that snapshot, so server components query once and client
+// components receive it as a prop.
+//
+// A subject is not owned by one degree: Programming in Python is Foundation in
+// Data Science and Diploma in Electronic Systems, and Introduction to C
+// Programming is Foundation in two different degrees. The questions are the
+// same per subject — degree/level is navigational context.
 
 export interface Degree {
+  /** Stable slug: "ds", "es", "as". */
   id: string;
+  /** Full title, e.g. "BS in Data Science and Applications". */
   name: string;
+  /** Compact label for filters and pills, e.g. "Data Science & Applications". */
+  shortName: string;
 }
-
-export const DEGREES: Degree[] = [
-  { id: "ds", name: "Data Science & Applications" },
-  { id: "es", name: "Electronic Systems" },
-];
-
-export const DEGREE_BY_ID: Record<string, Degree> = Object.fromEntries(
-  DEGREES.map((d) => [d.id, d]),
-);
 
 export interface Offering {
+  subject: string; // subject slug
   degree: string; // Degree.id
-  level: string;
+  level: string; // "Foundation" | "Diploma" | "Degree"
 }
 
-// Foundation courses are common to both degrees; later levels are branch-specific.
-export const OFFERINGS: Record<string, Offering[]> = {
-  python: [
-    { degree: "ds", level: "Foundation" },
-    { degree: "es", level: "Foundation" },
-    { degree: "ds", level: "Diploma" },
-  ],
-  dbms: [{ degree: "ds", level: "Diploma" }],
-  pdsa: [{ degree: "ds", level: "Diploma" }],
-  java: [
-    { degree: "ds", level: "Diploma" },
-    { degree: "ds", level: "Degree" },
-  ],
-  c: [{ degree: "es", level: "Foundation" }],
-  syscmd: [{ degree: "es", level: "Diploma" }],
-};
-
-export function offeringsFor(slug: string): Offering[] {
-  return OFFERINGS[slug] ?? [];
+export interface Curriculum {
+  degrees: Degree[];
+  offerings: Offering[];
 }
+
+export const EMPTY_CURRICULUM: Curriculum = { degrees: [], offerings: [] };
+
+const LEVEL_ORDER = ["Foundation", "Diploma", "Degree"];
 
 function uniq<T>(arr: T[]): T[] {
   return [...new Set(arr)];
 }
 
-const LEVEL_ORDER = ["Foundation", "Diploma", "Degree"];
-
-/** Distinct levels offered in a degree (branch), in curriculum order. */
-export function levelsForDegree(degreeId: string): string[] {
-  return uniq(
-    Object.values(OFFERINGS)
-      .flat()
-      .filter((o) => o.degree === degreeId)
-      .map((o) => o.level),
-  ).sort((a, b) => LEVEL_ORDER.indexOf(a) - LEVEL_ORDER.indexOf(b));
+export function degreeById(cur: Curriculum, id: string): Degree | undefined {
+  return cur.degrees.find((d) => d.id === id);
 }
 
-/** Subject slugs offered at a specific (degree, level). */
-function subjectSlugsForDegreeLevel(degreeId: string, level: string): string[] {
-  return Object.keys(OFFERINGS).filter((slug) =>
-    OFFERINGS[slug].some((o) => o.degree === degreeId && o.level === level),
+/** Compact label for a degree id, falling back to the raw id. */
+export function degreeLabel(cur: Curriculum, id: string): string {
+  return degreeById(cur, id)?.shortName ?? id;
+}
+
+export function offeringsFor(cur: Curriculum, slug: string): Offering[] {
+  return cur.offerings.filter((o) => o.subject === slug);
+}
+
+export function sortLevels(levels: string[]): string[] {
+  return [...levels].sort(
+    (a, b) => LEVEL_ORDER.indexOf(a) - LEVEL_ORDER.indexOf(b),
   );
 }
 
-export function subjectSlugsForDegree(degreeId: string): string[] {
-  return Object.keys(OFFERINGS).filter((slug) =>
-    OFFERINGS[slug].some((o) => o.degree === degreeId),
+/** Distinct levels offered in a degree (branch), in curriculum order. */
+export function levelsForDegree(cur: Curriculum, degreeId: string): string[] {
+  return sortLevels(
+    uniq(
+      cur.offerings.filter((o) => o.degree === degreeId).map((o) => o.level),
+    ),
+  );
+}
+
+/** Subject slugs offered at a specific (degree, level). */
+function subjectSlugsForDegreeLevel(
+  cur: Curriculum,
+  degreeId: string,
+  level: string,
+): string[] {
+  return uniq(
+    cur.offerings
+      .filter((o) => o.degree === degreeId && o.level === level)
+      .map((o) => o.subject),
+  );
+}
+
+export function subjectSlugsForDegree(
+  cur: Curriculum,
+  degreeId: string,
+): string[] {
+  return uniq(
+    cur.offerings.filter((o) => o.degree === degreeId).map((o) => o.subject),
   );
 }
 
@@ -95,6 +112,7 @@ export type PickerStep =
  * is determined it returns { kind: "done" } with the resolved context.
  */
 export function resolveStep(
+  cur: Curriculum,
   state: PickerState,
   subjects: SubjectLite[],
 ): PickerStep {
@@ -102,12 +120,12 @@ export function resolveStep(
   // for that branch, then a subject offered at that (degree, level). The same
   // subject can appear under different branches/levels, so it's filtered by both.
   if (state.degree && !state.subject) {
-    const levels = levelsForDegree(state.degree);
+    const levels = levelsForDegree(cur, state.degree);
     if (!state.level && levels.length > 1) {
       return { kind: "level", options: levels };
     }
     const level = state.level ?? levels[0];
-    const slugs = subjectSlugsForDegreeLevel(state.degree, level);
+    const slugs = subjectSlugsForDegreeLevel(cur, state.degree, level);
     return {
       kind: "subject",
       options: subjects.filter((s) => slugs.includes(s.slug)),
@@ -119,7 +137,7 @@ export function resolveStep(
     return { kind: "subject", options: subjects };
   }
 
-  let offs = offeringsFor(state.subject);
+  let offs = offeringsFor(cur, state.subject);
   if (offs.length === 0) return { kind: "done", subject: state.subject };
   if (state.degree) offs = offs.filter((o) => o.degree === state.degree);
 
@@ -130,17 +148,19 @@ export function resolveStep(
     if (degreeIds.length > 1) {
       return {
         kind: "degree",
-        options: degreeIds.map((id) => DEGREE_BY_ID[id]).filter(Boolean),
+        options: degreeIds
+          .map((id) => degreeById(cur, id))
+          .filter((d): d is Degree => !!d),
       };
     }
     degree = degreeIds[0];
-    offs = offeringsFor(state.subject).filter((o) => o.degree === degree);
+    offs = offeringsFor(cur, state.subject).filter((o) => o.degree === degree);
   }
 
   // 3. Level.
   let level = state.level;
   if (!level) {
-    const levels = uniq(offs.map((o) => o.level));
+    const levels = sortLevels(uniq(offs.map((o) => o.level)));
     if (levels.length > 1) return { kind: "level", options: levels };
     level = levels[0];
   }

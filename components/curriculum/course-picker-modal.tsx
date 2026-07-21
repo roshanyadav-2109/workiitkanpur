@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   resolveStep,
   subjectHref,
+  type Curriculum,
   type PickerState,
   type SubjectLite,
 } from "@/lib/curriculum";
@@ -30,11 +31,13 @@ export function CoursePickerModal({
   open,
   initial,
   subjects,
+  curriculum,
   onClose,
 }: {
   open: boolean;
   initial: PickerState;
   subjects: SubjectLite[];
+  curriculum: Curriculum;
   onClose: () => void;
 }) {
   const router = useRouter();
@@ -56,7 +59,7 @@ export function CoursePickerModal({
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  const step = resolveStep(state, subjects);
+  const step = resolveStep(curriculum, state, subjects);
   const doneHref =
     step.kind === "done"
       ? subjectHref(step.subject, step.degree, step.level)

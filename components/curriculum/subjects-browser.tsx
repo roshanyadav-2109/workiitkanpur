@@ -6,7 +6,7 @@ import { SubjectLogo } from "@/components/subject-logo";
 import { IconLockFilled } from "@/components/icons";
 import { Select } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
-import { DEGREE_BY_ID } from "@/lib/curriculum";
+import { degreeLabel, type Curriculum } from "@/lib/curriculum";
 
 export interface SubjectCard {
   id: string;
@@ -25,7 +25,13 @@ export interface SubjectCard {
 
 const LEVEL_ORDER = ["Foundation", "Diploma", "Degree"];
 
-export function SubjectsBrowser({ cards }: { cards: SubjectCard[] }) {
+export function SubjectsBrowser({
+  cards,
+  curriculum,
+}: {
+  cards: SubjectCard[];
+  curriculum: Curriculum;
+}) {
   const [branch, setBranch] = useState("all");
   const [level, setLevel] = useState("all");
 
@@ -33,9 +39,9 @@ export function SubjectsBrowser({ cards }: { cards: SubjectCard[] }) {
   const branches = useMemo(
     () =>
       Array.from(new Set(cards.flatMap((c) => c.branches))).sort((a, b) =>
-        (DEGREE_BY_ID[a]?.name ?? a).localeCompare(DEGREE_BY_ID[b]?.name ?? b),
+        degreeLabel(curriculum, a).localeCompare(degreeLabel(curriculum, b)),
       ),
-    [cards],
+    [cards, curriculum],
   );
   const levels = useMemo(
     () =>
@@ -70,7 +76,7 @@ export function SubjectsBrowser({ cards }: { cards: SubjectCard[] }) {
               <option value="all">All branches</option>
               {branches.map((b) => (
                 <option key={b} value={b}>
-                  {DEGREE_BY_ID[b]?.name ?? b}
+                  {degreeLabel(curriculum, b)}
                 </option>
               ))}
             </Select>
@@ -104,7 +110,7 @@ export function SubjectsBrowser({ cards }: { cards: SubjectCard[] }) {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {filtered.map((s) => (
-            <SubjectCardView key={s.id} s={s} />
+            <SubjectCardView key={s.id} s={s} curriculum={curriculum} />
           ))}
         </div>
       )}
@@ -112,7 +118,13 @@ export function SubjectsBrowser({ cards }: { cards: SubjectCard[] }) {
   );
 }
 
-function SubjectCardView({ s }: { s: SubjectCard }) {
+function SubjectCardView({
+  s,
+  curriculum,
+}: {
+  s: SubjectCard;
+  curriculum: Curriculum;
+}) {
   const pct = s.total ? Math.round((s.solved / s.total) * 100) : 0;
 
   return (
@@ -147,7 +159,7 @@ function SubjectCardView({ s }: { s: SubjectCard }) {
                 key={o.branch}
                 className="text-[16px] font-normal leading-snug text-fg"
               >
-                {DEGREE_BY_ID[o.branch]?.name ?? o.branch} | {o.levels.join(" | ")}
+                {degreeLabel(curriculum, o.branch)} | {o.levels.join(" | ")}
               </p>
             ))}
           </div>

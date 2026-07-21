@@ -8,6 +8,7 @@ import {
   getTopicsForSubject,
   getUserAttempts,
   getTestAttempts,
+  getCurriculum,
   type TestAttemptRow,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
@@ -44,10 +45,11 @@ export default async function SubjectDetailPage({
   // is_active is the release switch — inactive subjects are not browsable.
   if (!subject || !subject.is_active) notFound();
 
-  const [topics, questions, banners] = await Promise.all([
+  const [topics, questions, banners, curriculum] = await Promise.all([
     getTopicsForSubject(subject.id),
     getQuestionsForSubject(subject.id),
     getCarouselBanners(),
+    getCurriculum(),
   ]);
 
   const user = await getCurrentUser();
@@ -102,6 +104,7 @@ export default async function SubjectDetailPage({
         }
       >
         <QuestionTable
+          curriculum={curriculum}
           rows={rows}
           topics={topics.map((t) => ({ id: t.id, name: t.name, week: t.week }))}
           initialExam={exam}

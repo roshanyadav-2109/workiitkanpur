@@ -7,7 +7,7 @@ import { Input, Select } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
 import { IconSearch, IconFilePdf } from "@/components/icons";
 import { formatClock, cn } from "@/lib/utils";
-import { DEGREE_BY_ID } from "@/lib/curriculum";
+import { degreeLabel, type Curriculum } from "@/lib/curriculum";
 import type { QuestionKind } from "@/lib/types";
 
 export interface QuestionRow {
@@ -45,10 +45,12 @@ export function QuestionTable({
   rows,
   topics,
   initialExam,
+  curriculum,
 }: {
   rows: QuestionRow[];
   topics: { id: string; name: string; week: number | null }[];
   initialExam?: string;
+  curriculum: Curriculum;
 }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
@@ -122,7 +124,7 @@ export function QuestionTable({
               <option value="all">All branches</option>
               {branches.map((b) => (
                 <option key={b} value={b}>
-                  {DEGREE_BY_ID[b]?.name ?? b}
+                  {degreeLabel(curriculum, b)}
                 </option>
               ))}
             </Select>

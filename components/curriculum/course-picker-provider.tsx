@@ -11,6 +11,7 @@ import { CoursePickerModal } from "@/components/curriculum/course-picker-modal";
 import {
   offeringsFor,
   subjectHref,
+  type Curriculum,
   type PickerState,
   type SubjectLite,
 } from "@/lib/curriculum";
@@ -32,9 +33,11 @@ export function useCoursePicker(): CoursePickerCtx {
 
 export function CoursePickerProvider({
   subjects,
+  curriculum,
   children,
 }: {
   subjects: SubjectLite[];
+  curriculum: Curriculum;
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -48,14 +51,14 @@ export function CoursePickerProvider({
 
   const goToSubject = useCallback(
     (slug: string) => {
-      const offs = offeringsFor(slug);
+      const offs = offeringsFor(curriculum, slug);
       if (offs.length <= 1) {
         router.push(subjectHref(slug, offs[0]?.degree, offs[0]?.level));
       } else {
         openPicker({ subject: slug });
       }
     },
-    [router, openPicker],
+    [router, openPicker, curriculum],
   );
 
   return (
@@ -65,6 +68,7 @@ export function CoursePickerProvider({
         open={open}
         initial={initial}
         subjects={subjects}
+        curriculum={curriculum}
         onClose={() => setOpen(false)}
       />
     </Ctx.Provider>

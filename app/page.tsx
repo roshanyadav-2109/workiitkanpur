@@ -6,24 +6,12 @@ import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks
 import { HomeCarousel } from "@/components/home/home-carousel";
 import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
-import type { SubjectLite } from "@/lib/curriculum";
-
-const BRANCHES: { degreeId: string | null; name: string; note: string }[] = [
-  {
-    degreeId: "ds",
-    name: "Data Science & Applications",
-    note: "Foundation · Diploma · Degree",
-  },
-  {
-    degreeId: "es",
-    name: "Electronic Systems",
-    note: "Foundation · Diploma · Degree",
-  },
-  { degreeId: null, name: "More programmes", note: "Coming soon" },
-];
+import { getCurriculum } from "@/lib/queries";
+import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
 
 export default async function LandingPage() {
   const supabase = await createClient();
+  const curriculum = await getCurriculum();
   const { data: subjects } = await supabase
     .from("subjects")
     .select("slug, name, short_code, is_active")
@@ -37,11 +25,22 @@ export default async function LandingPage() {
   const shownSubjects = allSubjects.slice(0, 4);
   const hasMore = allSubjects.length > 4;
 
+  // Programmes and the levels each one actually offers, straight from the
+  // curriculum tables, so a new degree shows up here without a code change.
+  const branches: { degreeId: string | null; name: string; note: string }[] = [
+    ...curriculum.degrees.map((d) => ({
+      degreeId: d.id,
+      name: d.shortName,
+      note: levelsForDegree(curriculum, d.id).join(" · "),
+    })),
+    { degreeId: null, name: "More programmes", note: "Coming soon" },
+  ];
+
   return (
     <div className="flex min-h-dvh flex-col">
       <TopNav right={<ProfileMenu />} />
 
-      <CoursePickerProvider subjects={allSubjects}>
+      <CoursePickerProvider subjects={allSubjects} curriculum={curriculum}>
         <main className="flex-1">
           {/* Hero — centred */}
           <section className="mx-auto flex w-full max-w-[1500px] flex-col items-center px-3 pb-10 pt-12 text-center sm:w-[85%] sm:px-5 sm:pt-16">
@@ -79,7 +78,7 @@ export default async function LandingPage() {
               Available courses
             </h2>
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {BRANCHES.map((b) => (
+              {branches.map((b) => (
                 <BranchBlock
                   key={b.name}
                   degreeId={b.degreeId}
