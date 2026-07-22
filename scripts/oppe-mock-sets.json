@@ -976,5 +976,1659 @@
     "input_labels": null
    }
   ]
+ },
+ {
+  "slug": "oppe-mock-5",
+  "title": "OPPE Mock 5",
+  "sort_order": 11,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Longest Consonant Run",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"strength\"",
+      "expected": "4",
+      "hidden": false
+     },
+     {
+      "stdin": "\"aeiou\"",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "\"\"",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "\"rhythm\"",
+      "expected": "6",
+      "hidden": true
+     },
+     {
+      "stdin": "\"banana\"",
+      "expected": "1",
+      "hidden": true
+     }
+    ],
+    "body_md": "In the study of word structure, a *consonant run* is a maximal stretch of consecutive consonant letters. A consonant is any alphabetic character that is **not** one of the vowels `a`, `e`, `i`, `o`, `u` (the letter `y` counts as a consonant). Comparison is case-insensitive.\n\nGiven a word, return the length of its longest consonant run. Any character that is not a consonant (a vowel, or any non-letter) breaks the current run.\n\nExample:\n`word = \"strength\"` has runs `str` (length 3) and `ngth` (length 4), so the answer is `4`.\n\nArgs:\n    word (str): a word (possibly empty).\n\nReturns:\n    int: the length of the longest run of consecutive consonants.\n\n## Your task\n\nImplement this function:\n\n```python\ndef longest_consonant_run(word: str) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `word`.\n\n## Example\n\nInput\n\n```\n\"strength\"\n```\n\nOutput\n\n```\n4\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef longest_consonant_run(word: str) -> int:\n    vowels = set('aeiou')\n    best = 0\n    current = 0\n    for ch in word.lower():\n        if ch.isalpha() and ch not in vowels:\n            current += 1\n            if current > best:\n                best = current\n        else:\n            current = 0\n    return best\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = longest_consonant_run(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def longest_consonant_run(word: str) -> int:\n    ...\n",
+    "input_labels": [
+     "word"
+    ]
+   },
+   {
+    "title": "Camel To Snake",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"camelCase\"",
+      "expected": "'camel_case'",
+      "hidden": false
+     },
+     {
+      "stdin": "\"getUserName\"",
+      "expected": "'get_user_name'",
+      "hidden": false
+     },
+     {
+      "stdin": "\"A\"",
+      "expected": "'a'",
+      "hidden": true
+     },
+     {
+      "stdin": "\"\"",
+      "expected": "''",
+      "hidden": true
+     },
+     {
+      "stdin": "\"parseHTMLTag\"",
+      "expected": "'parse_h_t_m_l_tag'",
+      "hidden": true
+     }
+    ],
+    "body_md": "Programmers write identifiers in different styles. Convert a `camelCase` (or `PascalCase`) identifier into `snake_case` using this rule: walk through the characters left to right; every **uppercase** letter, except one that appears at the very start of the string, begins a new word, so insert an underscore `_` before it. Finally, lowercase every letter.\n\nA leading uppercase letter does **not** get an underscore in front of it. Characters that are already lowercase, digits, or underscores are copied through unchanged (apart from lowercasing).\n\nExample:\n`name = \"parseHTMLTag\"` becomes `\"parse_h_t_m_l_tag\"` (each of `H`, `T`, `M`, `L`, `T` starts a new word), and `\"camelCase\"` becomes `\"camel_case\"`.\n\nArgs:\n    name (str): an identifier in camelCase or PascalCase (possibly empty).\n\nReturns:\n    str: the snake_case form of the identifier.\n\n## Your task\n\nImplement this function:\n\n```python\ndef camel_to_snake(name: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `name`.\n\n## Example\n\nInput\n\n```\n\"camelCase\"\n```\n\nOutput\n\n```\n'camel_case'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef camel_to_snake(name: str) -> str:\n    result = []\n    for i, ch in enumerate(name):\n        if ch.isupper() and i > 0:\n            result.append('_')\n            result.append(ch.lower())\n        else:\n            result.append(ch.lower())\n    return ''.join(result)\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = camel_to_snake(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def camel_to_snake(name: str) -> str:\n    ...\n",
+    "input_labels": [
+     "name"
+    ]
+   },
+   {
+    "title": "Vowel Index Map",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"Education\"",
+      "expected": "{'a': [4], 'e': [0], 'i': [6], 'o': [7], 'u': [2]}",
+      "hidden": false
+     },
+     {
+      "stdin": "\"aaa\"",
+      "expected": "{'a': [0, 1, 2]}",
+      "hidden": false
+     },
+     {
+      "stdin": "\"xyz\"",
+      "expected": "{}",
+      "hidden": true
+     },
+     {
+      "stdin": "\"\"",
+      "expected": "{}",
+      "hidden": true
+     },
+     {
+      "stdin": "\"Programming\"",
+      "expected": "{'a': [5], 'i': [8], 'o': [2]}",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a string, build a map that records where each vowel occurs. For every vowel among `a`, `e`, `i`, `o`, `u` that appears in the string (matching case-insensitively), the map should hold a list of the indices at which it appears, in increasing order. Vowels that never appear are left out of the map entirely.\n\nThe returned dictionary must have its keys in the fixed order `a`, `e`, `i`, `o`, `u` (skipping any absent vowel). Indices are 0-based positions in the original string.\n\nExample:\n`s = \"Education\"` -> `{'a': [4], 'e': [0], 'i': [6], 'o': [7], 'u': [2]}` because (lowercased) the `e` is at index 0, `u` at 2, `a` at 4, `i` at 6 and `o` at 7.\n\nArgs:\n    s (str): any string (possibly empty).\n\nReturns:\n    dict: maps each present vowel (lowercase) to the sorted list of its indices.\n\n## Your task\n\nImplement this function:\n\n```python\ndef vowel_index_map(s: str) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n\"Education\"\n```\n\nOutput\n\n```\n{'a': [4], 'e': [0], 'i': [6], 'o': [7], 'u': [2]}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef vowel_index_map(s: str) -> dict:\n    lowered = s.lower()\n    result = {}\n    for v in 'aeiou':\n        positions = [i for i, ch in enumerate(lowered) if ch == v]\n        if positions:\n            result[v] = positions\n    return result\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = vowel_index_map(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def vowel_index_map(s: str) -> dict:\n    ...\n",
+    "input_labels": [
+     "s"
+    ]
+   },
+   {
+    "title": "Token Type Tally",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "\"hello world 42 abc123 x-y\"",
+      "expected": "{'alpha': 2, 'numeric': 1, 'alnum': 1, 'other': 1}",
+      "hidden": false
+     },
+     {
+      "stdin": "\"\"",
+      "expected": "{'alpha': 0, 'numeric': 0, 'alnum': 0, 'other': 0}",
+      "hidden": false
+     },
+     {
+      "stdin": "\"one two three\"",
+      "expected": "{'alpha': 3, 'numeric': 0, 'alnum': 0, 'other': 0}",
+      "hidden": true
+     },
+     {
+      "stdin": "\"100 200 300\"",
+      "expected": "{'alpha': 0, 'numeric': 3, 'alnum': 0, 'other': 0}",
+      "hidden": true
+     },
+     {
+      "stdin": "\"code2024 pure 3.14 !!!\"",
+      "expected": "{'alpha': 1, 'numeric': 0, 'alnum': 1, 'other': 2}",
+      "hidden": true
+     }
+    ],
+    "body_md": "A simple tokenizer splits a sentence into tokens on whitespace. Classify every token into exactly one of four buckets and count how many fall into each:\n\n- `alpha`: the token is made up entirely of letters.\n- `numeric`: the token is made up entirely of digits.\n- `alnum`: the token mixes letters and digits (every character is a letter or digit, and it contains at least one of each).\n- `other`: anything else (the token contains a character that is neither a letter nor a digit).\n\nReturn a dictionary with the four keys `alpha`, `numeric`, `alnum`, `other` (always all four, in that order) mapped to their counts. Splitting is on runs of whitespace, so leading/trailing spaces produce no empty tokens.\n\nExample:\n`sentence = \"hello world 42 abc123 x-y\"` -> `{'alpha': 2, 'numeric': 1, 'alnum': 1, 'other': 1}` (`hello`, `world` are alpha; `42` is numeric; `abc123` mixes letters and digits; `x-y` contains a hyphen so it is other).\n\nArgs:\n    sentence (str): the text to tokenize (possibly empty).\n\nReturns:\n    dict: counts for keys 'alpha', 'numeric', 'alnum', 'other'.\n\n## Your task\n\nImplement this function:\n\n```python\ndef token_type_tally(sentence: str) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `sentence`.\n\n## Example\n\nInput\n\n```\n\"hello world 42 abc123 x-y\"\n```\n\nOutput\n\n```\n{'alpha': 2, 'numeric': 1, 'alnum': 1, 'other': 1}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef token_type_tally(sentence: str) -> dict:\n    tally = {'alpha': 0, 'numeric': 0, 'alnum': 0, 'other': 0}\n    for token in sentence.split():\n        if token.isalpha():\n            tally['alpha'] += 1\n        elif token.isdigit():\n            tally['numeric'] += 1\n        elif token.isalnum():\n            tally['alnum'] += 1\n        else:\n            tally['other'] += 1\n    return tally\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = token_type_tally(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def token_type_tally(sentence: str) -> dict:\n    ...\n",
+    "input_labels": [
+     "sentence"
+    ]
+   },
+   {
+    "title": "Token Frequency Ranking",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "2\nThe cat sat on the mat.\nThe cat ran!",
+      "expected": "the 3\ncat 2\nmat 1\non 1\nran 1\nsat 1",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nhello",
+      "expected": "hello 1",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nRed red RED blue Blue",
+      "expected": "red 3\nblue 2",
+      "hidden": true
+     },
+     {
+      "stdin": "3\na b c\na b\na",
+      "expected": "a 3\nb 2\nc 1",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nWait... really? Yes -- yes, YES!",
+      "expected": "yes 3\nreally 1\nwait 1",
+      "hidden": true
+     }
+    ],
+    "body_md": "You are given several lines of text and must produce a frequency ranking of the words (tokens) in it.\n\nTokenize each line on whitespace. For every raw token, strip any leading and trailing punctuation drawn from the set `. , ! ? ; : ' \" ( ) -` and convert it to lowercase. Punctuation in the middle of a token (such as the apostrophe in `it's`) is kept. After cleaning, discard any token that has become empty. Count how many times each remaining token occurs.\n\n## Input\n- The first line contains an integer `N`, the number of text lines.\n- Each of the next `N` lines is a line of text.\n\n## Output\n- One line per distinct token, formatted `token count`, sorted by count in **descending** order; ties are broken by the token in **ascending** alphabetical order.\n\n## Constraints\n- 1 <= N <= 1000\n- Each line has at most 1000 characters.\n- At least one non-empty token is present overall.\n\n## Example\nInput:\n```\n2\nThe cat sat on the mat.\nThe cat ran!\n```\nOutput:\n```\nthe 3\ncat 2\nmat 1\non 1\nran 1\nsat 1\n```\nExplanation: after lowercasing and stripping the trailing `.` and `!`, `the` appears 3 times and `cat` twice; the remaining tokens each appear once and are listed alphabetically.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\nThe cat sat on the mat.\nThe cat ran!\n```\n\nOutput\n\n```\nthe 3\ncat 2\nmat 1\non 1\nran 1\nsat 1\n```",
+    "solution_md": "## Reference solution\n\n```python\nfrom collections import Counter\nn = int(input())\ncounts = Counter()\npunct = \".,!?;:'\\\"()-\"\nfor _ in range(n):\n    line = input()\n    for raw in line.split():\n        token = raw.strip(punct).lower()\n        if token:\n            counts[token] += 1\nfor token in sorted(counts, key=lambda t: (-counts[t], t)):\n    print(f\"{token} {counts[token]}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Most Verbose Author",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "{\"alice\": [100, 300], \"bob\": [500], \"carol\": [200, 200]}",
+      "expected": "'bob'",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"solo\": [42]}",
+      "expected": "'solo'",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"amy\": [100], \"bob\": [100]}",
+      "expected": "'amy'",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"x\": [1, 2, 3], \"y\": [10]}",
+      "expected": "'y'",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"a\": [0], \"b\": [0, 0], \"c\": [1]}",
+      "expected": "'c'",
+      "hidden": true
+     }
+    ],
+    "body_md": "A blogging platform stores, for each author, the word counts of the articles they have written. The data is a dictionary mapping an author's name to a non-empty list of integer word counts.\n\nReturn the name of the author whose articles have the highest **average** word count. If two or more authors are tied for the highest average, return the one whose name comes first alphabetically.\n\nExample:\n`articles = {\"alice\": [100, 300], \"bob\": [500], \"carol\": [200, 200]}` -> `\"bob\"` because the averages are alice `200.0`, bob `500.0`, carol `200.0`, and bob's is the largest.\n\nArgs:\n    articles (dict): maps each author name (str) to a non-empty list of int word counts.\n\nReturns:\n    str: the name of the author with the highest average word count (alphabetical tie-break).\n\n## Your task\n\nImplement this function:\n\n```python\ndef top_author_by_avg(articles: dict) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `articles`.\n\n## Example\n\nInput\n\n```\n{\"alice\": [100, 300], \"bob\": [500], \"carol\": [200, 200]}\n```\n\nOutput\n\n```\n'bob'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef top_author_by_avg(articles: dict) -> str:\n    best_author = None\n    best_avg = None\n    for author in sorted(articles):\n        counts = articles[author]\n        avg = sum(counts) / len(counts)\n        if best_avg is None or avg > best_avg:\n            best_avg = avg\n            best_author = author\n    return best_author\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = top_author_by_avg(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def top_author_by_avg(articles: dict) -> str:\n    ...\n",
+    "input_labels": [
+     "articles"
+    ]
+   },
+   {
+    "title": "Greedy Word Wrap",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "10\nthe quick brown fox jumps",
+      "expected": "the quick\nbrown fox\njumps",
+      "hidden": false
+     },
+     {
+      "stdin": "5\na b c d e",
+      "expected": "a b c\nd e",
+      "hidden": false
+     },
+     {
+      "stdin": "3\nab cd ef",
+      "expected": "ab\ncd\nef",
+      "hidden": true
+     },
+     {
+      "stdin": "20\nhello world",
+      "expected": "hello world",
+      "hidden": true
+     },
+     {
+      "stdin": "1\na b c",
+      "expected": "a\nb\nc",
+      "hidden": true
+     }
+    ],
+    "body_md": "A text editor wraps a paragraph so that no output line exceeds a given width. Implement the classic **greedy** word-wrap: read the words left to right and keep adding the next word to the current line as long as it fits; when it would not fit, start a new line with that word. Words placed on the same line are separated by exactly one space, and a line's length is the number of characters it contains (including those single spaces).\n\nFormally, a word can be appended to a non-empty current line only if `len(current) + 1 + len(word) <= W`. The first word of a line is always placed regardless of width (each individual word is guaranteed to fit within `W`).\n\n## Input\n- The first line contains an integer `W`, the maximum line width.\n- The second line contains the text: one or more words separated by single spaces.\n\n## Output\n- The wrapped text, one line per output line, using the greedy rule above.\n\n## Constraints\n- 1 <= W <= 1000\n- The text contains at least one word; every word's length is at most `W`.\n\n## Example\nInput:\n```\n10\nthe quick brown fox jumps\n```\nOutput:\n```\nthe quick\nbrown fox\njumps\n```\nExplanation: `the quick` has length 9 (fits in 10); adding `brown` would make length 15, so `brown` starts a new line, and so on.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n10\nthe quick brown fox jumps\n```\n\nOutput\n\n```\nthe quick\nbrown fox\njumps\n```",
+    "solution_md": "## Reference solution\n\n```python\nw = int(input())\ntext = input()\nwords = text.split()\nline = \"\"\nfor word in words:\n    if line == \"\":\n        line = word\n    elif len(line) + 1 + len(word) <= w:\n        line += \" \" + word\n    else:\n        print(line)\n        line = word\nif line:\n    print(line)\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Word Wave",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "CODE",
+      "expected": "   C\n  CO\n COD\nCODE\n COD\n  CO\n   C",
+      "hidden": false
+     },
+     {
+      "stdin": "X",
+      "expected": "X",
+      "hidden": false
+     },
+     {
+      "stdin": "PYTHON",
+      "expected": "     P\n    PY\n   PYT\n  PYTH\n PYTHO\nPYTHON\n PYTHO\n  PYTH\n   PYT\n    PY\n     P",
+      "hidden": true
+     },
+     {
+      "stdin": "ab",
+      "expected": " a\nab\n a",
+      "hidden": true
+     },
+     {
+      "stdin": "Hello",
+      "expected": "    H\n   He\n  Hel\n Hell\nHello\n Hell\n  Hel\n   He\n    H",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a single word, print a right-aligned wave pattern built from its growing then shrinking prefixes.\n\nLet `n` be the length of the word. Print `2*n - 1` lines. The first `n` lines show the prefixes of length `1, 2, ..., n`; the remaining `n - 1` lines show the prefixes of length `n-1, n-2, ..., 1`. Every line is right-aligned to width `n`: a prefix of length `i` is preceded by `n - i` spaces so that the last characters line up in a column.\n\n## Input\n- A single line containing the word (a non-empty string with no spaces).\n\n## Output\n- The `2*n - 1` lines of the wave, each right-aligned to width `n`.\n\n## Constraints\n- 1 <= length of the word <= 100\n\n## Example\nInput:\n```\nCODE\n```\nOutput:\n```\n   C\n  CO\n COD\nCODE\n COD\n  CO\n   C\n```\nExplanation: the prefixes grow `C`, `CO`, `COD`, `CODE` and then shrink back down, each padded on the left with spaces so the pattern forms a wave.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\nCODE\n```\n\nOutput\n\n```\n   C\n  CO\n COD\nCODE\n COD\n  CO\n   C\n```",
+    "solution_md": "## Reference solution\n\n```python\nword = input()\nn = len(word)\nsizes = list(range(1, n + 1)) + list(range(n - 1, 0, -1))\nfor i in sizes:\n    line = \"\"\n    for _ in range(n - i):\n        line += \" \"\n    for j in range(i):\n        line += word[j]\n    print(line)\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
+ },
+ {
+  "slug": "oppe-mock-6",
+  "title": "OPPE Mock 6",
+  "sort_order": 12,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Alternating Digit Sum",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "121",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "4726",
+      "expected": "7",
+      "hidden": false
+     },
+     {
+      "stdin": "0",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "-1936",
+      "expected": "11",
+      "hidden": true
+     },
+     {
+      "stdin": "1234567890",
+      "expected": "-5",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `alternating_digit_sum` that takes an integer `n` and returns the **alternating sum** of its digits, starting from the **rightmost** (units) digit with a `+` sign, the next digit with a `-` sign, then `+`, and so on. The sign of `n` is ignored, so work with the absolute value of `n`.\n\nThis value is exactly what the divisibility-by-`11` test computes: `n` is divisible by `11` precisely when this alternating sum is a multiple of `11`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> alternating_digit_sum(121)\n0\n>>> alternating_digit_sum(4726)\n5\n```\n\nFor `121`, reading from the right: `+1 - 2 + 1 = 0`. For `4726`, from the right: `+6 - 2 + 7 - 4 = 5`.\n\n**Args:**\n\n- `n` : int - the input integer (may be negative)\n\n**Returns:**\n\n- int - the alternating sum of the digits of `abs(n)`, units digit first with a plus sign.\n\n## Your task\n\nImplement this function:\n\n```python\ndef alternating_digit_sum(n: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n121\n```\n\nOutput\n\n```\n0\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef alternating_digit_sum(n: int) -> int:\n    digits = [int(c) for c in str(abs(n))]\n    total = 0\n    sign = 1\n    for d in reversed(digits):\n        total += sign * d\n        sign = -sign\n    return total\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = alternating_digit_sum(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def alternating_digit_sum(n: int) -> int:\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "Digits In Base",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "13\n2",
+      "expected": "[1, 1, 0, 1]",
+      "hidden": false
+     },
+     {
+      "stdin": "255\n16",
+      "expected": "[15, 15]",
+      "hidden": false
+     },
+     {
+      "stdin": "0\n2",
+      "expected": "[0]",
+      "hidden": true
+     },
+     {
+      "stdin": "1000\n10",
+      "expected": "[1, 0, 0, 0]",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n2",
+      "expected": "[1]",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `digits_in_base` that takes a non-negative integer `n` and an integer base `b` (with `b >= 2`) and returns the list of digits of `n` written in base `b`, **most significant digit first**. Each digit must be an integer in the range `0` to `b - 1`.\n\nIf `n` is `0`, the representation is the single digit `[0]`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> digits_in_base(13, 2)\n[1, 1, 0, 1]\n>>> digits_in_base(255, 16)\n[15, 15]\n```\n\nIn base `2`, `13 = 8 + 4 + 1`, which is `1101`, so the digits are `[1, 1, 0, 1]`. In base `16`, `255` is `FF`, i.e. the two digits `15` and `15`.\n\n**Args:**\n\n- `n` : int - a non-negative integer\n- `b` : int - the base, `b >= 2`\n\n**Returns:**\n\n- list - the base-`b` digits of `n`, most significant first.\n\n## Your task\n\nImplement this function:\n\n```python\ndef digits_in_base(n: int, b: int) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`, `b`.\n\n## Example\n\nInput\n\n```\n13\n2\n```\n\nOutput\n\n```\n[1, 1, 0, 1]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef digits_in_base(n: int, b: int) -> list:\n    if n == 0:\n        return [0]\n    digits = []\n    while n > 0:\n        digits.append(n % b)\n        n //= b\n    return digits[::-1]\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = digits_in_base(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def digits_in_base(n: int, b: int) -> list:\n    ...\n",
+    "input_labels": [
+     "n",
+     "b"
+    ]
+   },
+   {
+    "title": "Is Harshad Number",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "18",
+      "expected": "True",
+      "hidden": false
+     },
+     {
+      "stdin": "19",
+      "expected": "False",
+      "hidden": false
+     },
+     {
+      "stdin": "1",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "100",
+      "expected": "True",
+      "hidden": true
+     },
+     {
+      "stdin": "72",
+      "expected": "True",
+      "hidden": true
+     }
+    ],
+    "body_md": "A **Harshad number** (also called a Niven number) is a positive integer that is divisible by the sum of its own digits. Write a function `is_harshad` that takes a positive integer `n` and returns `True` if `n` is a Harshad number and `False` otherwise.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> is_harshad(18)\nTrue\n>>> is_harshad(19)\nFalse\n```\n\nThe digits of `18` sum to `9`, and `18` is divisible by `9`, so `18` is a Harshad number. The digits of `19` sum to `10`, and `19` is not divisible by `10`, so it is not.\n\n**Args:**\n\n- `n` : int - a positive integer\n\n**Returns:**\n\n- bool - `True` if `n` is divisible by the sum of its digits, else `False`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef is_harshad(n: int) -> bool:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n18\n```\n\nOutput\n\n```\nTrue\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef is_harshad(n: int) -> bool:\n    digit_sum = sum(int(c) for c in str(n))\n    return n % digit_sum == 0\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = is_harshad(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def is_harshad(n: int) -> bool:\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "Prime Factorization",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "360",
+      "expected": "{2: 3, 3: 2, 5: 1}",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": "{2: 1}",
+      "hidden": false
+     },
+     {
+      "stdin": "97",
+      "expected": "{97: 1}",
+      "hidden": true
+     },
+     {
+      "stdin": "1024",
+      "expected": "{2: 10}",
+      "hidden": true
+     },
+     {
+      "stdin": "600",
+      "expected": "{2: 3, 3: 1, 5: 2}",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `prime_factorization` that takes an integer `n` with `n >= 2` and returns a dictionary mapping each **prime factor** of `n` to the number of times it divides `n` (its exponent). The keys must be inserted in **increasing order** of the prime factor.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> prime_factorization(360)\n{2: 3, 3: 2, 5: 1}\n>>> prime_factorization(97)\n{97: 1}\n```\n\nBecause `360 = 2 * 2 * 2 * 3 * 3 * 5`, the prime `2` appears `3` times, `3` appears `2` times, and `5` appears once. `97` is prime, so it maps to itself with exponent `1`.\n\n**Args:**\n\n- `n` : int - the integer to factor, `n >= 2`\n\n**Returns:**\n\n- dict - maps each prime factor to its exponent, keys in increasing order.\n\n## Your task\n\nImplement this function:\n\n```python\ndef prime_factorization(n: int) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n360\n```\n\nOutput\n\n```\n{2: 3, 3: 2, 5: 1}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef prime_factorization(n: int) -> dict:\n    factors = {}\n    d = 2\n    while d * d <= n:\n        while n % d == 0:\n            factors[d] = factors.get(d, 0) + 1\n            n //= d\n        d += 1\n    if n > 1:\n        factors[n] = factors.get(n, 0) + 1\n    return factors\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = prime_factorization(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def prime_factorization(n: int) -> dict:\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "GCD And LCM Pairs",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "2\n12 18\n7 5",
+      "expected": "gcd=6 lcm=36 coprime=no\ngcd=1 lcm=35 coprime=yes",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n1 1",
+      "expected": "gcd=1 lcm=1 coprime=yes",
+      "hidden": false
+     },
+     {
+      "stdin": "3\n17 34\n9 28\n100 10",
+      "expected": "gcd=17 lcm=34 coprime=no\ngcd=1 lcm=252 coprime=yes\ngcd=10 lcm=100 coprime=no",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n1000000 999999",
+      "expected": "gcd=1 lcm=999999000000 coprime=yes",
+      "hidden": true
+     },
+     {
+      "stdin": "4\n2 4\n6 9\n5 5\n21 14",
+      "expected": "gcd=2 lcm=4 coprime=no\ngcd=3 lcm=18 coprime=no\ngcd=5 lcm=5 coprime=no\ngcd=7 lcm=42 coprime=no",
+      "hidden": true
+     }
+    ],
+    "body_md": "For a pair of positive integers `a` and `b`, the **greatest common divisor** (GCD) is the largest integer dividing both, and the **least common multiple** (LCM) is the smallest positive integer that is a multiple of both. Two numbers are **coprime** when their GCD is `1`.\n\nWrite a program that reads several pairs of numbers and, for each pair, prints its GCD, its LCM, and whether the two numbers are coprime.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `T`, the number of pairs.\n- Each of the next `T` lines contains two space-separated positive integers `a` and `b`.\n\n### Output Format\n\n- For each pair, in the order given, print a line `gcd=<g> lcm=<l> coprime=<yes|no>`, where `<g>` is the GCD, `<l>` is the LCM, and the coprime field is `yes` if the GCD is `1` and `no` otherwise.\n\n### Constraints\n\n- `1 <= T <= 100`\n- `1 <= a, b <= 1000000`\n\n### Example\n\nInput:\n\n```\n2\n12 18\n7 5\n```\n\nOutput:\n\n```\ngcd=6 lcm=36 coprime=no\ngcd=1 lcm=35 coprime=yes\n```\n\n**Explanation**\n\nFor `12` and `18` the GCD is `6` and the LCM is `36`, so they are not coprime. For `7` and `5` the GCD is `1` (they share no factor), the LCM is `35`, and they are coprime.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\n12 18\n7 5\n```\n\nOutput\n\n```\ngcd=6 lcm=36 coprime=no\ngcd=1 lcm=35 coprime=yes\n```",
+    "solution_md": "## Reference solution\n\n```python\nimport math\nt = int(input())\nfor _ in range(t):\n    a, b = map(int, input().split())\n    g = math.gcd(a, b)\n    l = a * b // g\n    coprime = \"yes\" if g == 1 else \"no\"\n    print(f\"gcd={g} lcm={l} coprime={coprime}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Group With Most Primes",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "{'red': [2, 3, 4, 5], 'blue': [6, 8, 9], 'green': [11, 13]}",
+      "expected": "'red'",
+      "hidden": false
+     },
+     {
+      "stdin": "{'x': [1, 4, 6], 'y': [1, 1, 1]}",
+      "expected": "'x'",
+      "hidden": false
+     },
+     {
+      "stdin": "{'solo': [7]}",
+      "expected": "'solo'",
+      "hidden": true
+     },
+     {
+      "stdin": "{'a': [2], 'b': [2, 3]}",
+      "expected": "'b'",
+      "hidden": true
+     },
+     {
+      "stdin": "{'g1': [10, 15, 21, 22], 'g2': [23, 29, 31, 2], 'g3': [4, 9, 25, 49]}",
+      "expected": "'g2'",
+      "hidden": true
+     }
+    ],
+    "body_md": "You are given a dictionary `data` that maps a **group name** (a string) to a **list of integers** collected for that group. Write a function `most_primes_group` that returns the name of the group whose list contains the **greatest number of prime numbers**.\n\nIf two or more groups tie for the most primes, return the one whose name comes **first alphabetically**. You may assume `data` has at least one group.\n\nRecall that a prime number is an integer greater than `1` whose only positive divisors are `1` and itself. Values that are `1` or less are never prime.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> most_primes_group({'red': [2, 3, 4, 5], 'blue': [6, 8, 9], 'green': [11, 13]})\n'red'\n```\n\nThe `red` list has three primes (`2`, `3`, `5`), `green` has two (`11`, `13`), and `blue` has none, so `red` wins.\n\n**Args:**\n\n- `data` : dict - maps each group name (str) to a list of integers\n\n**Returns:**\n\n- str - the name of the group with the most primes, ties broken alphabetically.\n\n## Your task\n\nImplement this function:\n\n```python\ndef most_primes_group(data: dict) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `data`.\n\n## Example\n\nInput\n\n```\n{'red': [2, 3, 4, 5], 'blue': [6, 8, 9], 'green': [11, 13]}\n```\n\nOutput\n\n```\n'red'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef most_primes_group(data: dict) -> str:\n    def count_primes(nums):\n        c = 0\n        for x in nums:\n            if x < 2:\n                continue\n            is_p = True\n            d = 2\n            while d * d <= x:\n                if x % d == 0:\n                    is_p = False\n                    break\n                d += 1\n            if is_p:\n                c += 1\n        return c\n    best = None\n    best_count = -1\n    for group in sorted(data):\n        c = count_primes(data[group])\n        if c > best_count:\n            best_count = c\n            best = group\n    return best\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = most_primes_group(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def most_primes_group(data: dict) -> str:\n    ...\n",
+    "input_labels": [
+     "data"
+    ]
+   },
+   {
+    "title": "Prime Range Report",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "1 10",
+      "expected": "Primes: 2 3 5 7\nCount: 4\nSum: 17\nTwin pairs: 2",
+      "hidden": false
+     },
+     {
+      "stdin": "14 16",
+      "expected": "Primes: none\nCount: 0\nSum: 0\nTwin pairs: 0",
+      "hidden": false
+     },
+     {
+      "stdin": "2 2",
+      "expected": "Primes: 2\nCount: 1\nSum: 2\nTwin pairs: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "10 30",
+      "expected": "Primes: 11 13 17 19 23 29\nCount: 6\nSum: 112\nTwin pairs: 2",
+      "hidden": true
+     },
+     {
+      "stdin": "1 1",
+      "expected": "Primes: none\nCount: 0\nSum: 0\nTwin pairs: 0",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given an inclusive range of integers `[a, b]`, write a program that analyses the primes in that range and prints a short report.\n\nA **twin prime pair** is a pair of primes `(p, p + 2)` where both `p` and `p + 2` lie inside the range `[a, b]`.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- A single line with two space-separated integers `a` and `b` (with `a <= b`).\n\n### Output Format\n\nPrint exactly four lines:\n\n- `Primes: <p1> <p2> ...` — the primes in `[a, b]` in increasing order, separated by single spaces; if there are none, print `Primes: none`.\n- `Count: <k>` — how many primes were found.\n- `Sum: <s>` — the sum of those primes (`0` if there are none).\n- `Twin pairs: <t>` — the number of twin prime pairs fully inside the range.\n\n### Constraints\n\n- `1 <= a <= b <= 100000`\n\n### Example\n\nInput:\n\n```\n1 10\n```\n\nOutput:\n\n```\nPrimes: 2 3 5 7\nCount: 4\nSum: 17\nTwin pairs: 2\n```\n\n**Explanation**\n\nThe primes in `[1, 10]` are `2, 3, 5, 7`; their count is `4` and their sum is `17`. The twin pairs are `(3, 5)` and `(5, 7)`, giving `2`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1 10\n```\n\nOutput\n\n```\nPrimes: 2 3 5 7\nCount: 4\nSum: 17\nTwin pairs: 2\n```",
+    "solution_md": "## Reference solution\n\n```python\nline = input().split()\na = int(line[0])\nb = int(line[1])\n\ndef is_prime(x):\n    if x < 2:\n        return False\n    d = 2\n    while d * d <= x:\n        if x % d == 0:\n            return False\n        d += 1\n    return True\n\nprimes = []\nfor n in range(a, b + 1):\n    if is_prime(n):\n        primes.append(n)\n\nprime_set = set(primes)\ntwin = 0\nfor p in primes:\n    if p + 2 in prime_set:\n        twin += 1\n\nif primes:\n    print(\"Primes: \" + \" \".join(str(p) for p in primes))\nelse:\n    print(\"Primes: none\")\nprint(\"Count: \" + str(len(primes)))\nprint(\"Sum: \" + str(sum(primes)))\nprint(\"Twin pairs: \" + str(twin))\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Palindromic Number Pyramid",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "4",
+      "expected": "   1\n  1 2 1\n 1 2 3 2 1\n1 2 3 4 3 2 1",
+      "hidden": false
+     },
+     {
+      "stdin": "1",
+      "expected": "1",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": " 1\n1 2 1",
+      "hidden": true
+     },
+     {
+      "stdin": "5",
+      "expected": "    1\n   1 2 1\n  1 2 3 2 1\n 1 2 3 4 3 2 1\n1 2 3 4 5 4 3 2 1",
+      "hidden": true
+     },
+     {
+      "stdin": "7",
+      "expected": "      1\n     1 2 1\n    1 2 3 2 1\n   1 2 3 4 3 2 1\n  1 2 3 4 5 4 3 2 1\n 1 2 3 4 5 6 5 4 3 2 1\n1 2 3 4 5 6 7 6 5 4 3 2 1",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a program that reads a positive integer `n` and prints a centered number pyramid with `n` rows. Row `i` (counting from `1`) counts **up** from `1` to `i` and then back **down** to `1`, so the row reads the same forwards and backwards. The numbers in a row are separated by single spaces.\n\nTo centre the pyramid, row `i` is preceded by exactly `n - i` leading spaces (one space per missing level).\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- A single line containing the integer `n`.\n\n### Output Format\n\n- Print `n` lines forming the pyramid as described.\n\n### Constraints\n\n- `1 <= n <= 20`\n\n### Example\n\nInput:\n\n```\n4\n```\n\nOutput:\n\n```\n   1\n  1 2 1\n 1 2 3 2 1\n1 2 3 4 3 2 1\n```\n\n**Explanation**\n\nThe last row counts `1 2 3 4 3 2 1`. Each earlier row `i` counts up to `i` and back down, and is shifted right by `n - i` spaces so the pyramid is centred.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n4\n```\n\nOutput\n\n```\n   1\n  1 2 1\n 1 2 3 2 1\n1 2 3 4 3 2 1\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor i in range(1, n + 1):\n    spaces = \" \" * (n - i)\n    nums = list(range(1, i + 1)) + list(range(i - 1, 0, -1))\n    line = spaces + \" \".join(str(x) for x in nums)\n    print(line)\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
+ },
+ {
+  "slug": "oppe-mock-7",
+  "title": "OPPE Mock 7",
+  "sort_order": 13,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Split Price Tag",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"  apple : 45 \"",
+      "expected": "('APPLE', 45)",
+      "hidden": false
+     },
+     {
+      "stdin": "\"red apple:120\"",
+      "expected": "('RED APPLE', 120)",
+      "hidden": false
+     },
+     {
+      "stdin": "\"MILK:0\"",
+      "expected": "('MILK', 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "\"eggs :  199\"",
+      "expected": "('EGGS', 199)",
+      "hidden": true
+     },
+     {
+      "stdin": "\"z:7\"",
+      "expected": "('Z', 7)",
+      "hidden": true
+     }
+    ],
+    "body_md": "A price list stores every item on one line as a **price tag** of the form `name:price`, for example `red apple:120`. The name part may itself contain spaces, and either side of the colon may have extra surrounding blank space.\n\nWrite a function `split_price_tag` that takes such a tag string and returns a tuple `(name, price)` where `name` is the item name in **UPPERCASE** with the surrounding blanks removed, and `price` is the price as an `int`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `tag` : str - a price tag of the form `name:price`\n\n### Returns\n\n- `tuple` - `(NAME_UPPERCASE, price_int)`\n\n### Example\n\n```\n>>> split_price_tag(\"  apple : 45 \")\n('APPLE', 45)\n>>> split_price_tag(\"red apple:120\")\n('RED APPLE', 120)\n```\n\nIn the first tag the name `apple` becomes `APPLE` and the price text ` 45 ` becomes the integer `45`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef split_price_tag(tag: str) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `tag`.\n\n## Example\n\nInput\n\n```\n\"  apple : 45 \"\n```\n\nOutput\n\n```\n('APPLE', 45)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef split_price_tag(tag: str) -> tuple:\n    name, price = tag.split(\":\")\n    return (name.strip().upper(), int(price.strip()))\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = split_price_tag(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def split_price_tag(tag: str) -> tuple:\n    ...\n",
+    "input_labels": [
+     "tag"
+    ]
+   },
+   {
+    "title": "Distinct Word Lengths",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"the quick brown fox\"",
+      "expected": "[3, 5]",
+      "hidden": false
+     },
+     {
+      "stdin": "\"\"",
+      "expected": "[]",
+      "hidden": false
+     },
+     {
+      "stdin": "\"a bb ccc dd e\"",
+      "expected": "[1, 2, 3]",
+      "hidden": true
+     },
+     {
+      "stdin": "\"hello hello hello\"",
+      "expected": "[5]",
+      "hidden": true
+     },
+     {
+      "stdin": "\"one two six ten\"",
+      "expected": "[3]",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `distinct_word_lengths` that takes a string `sentence` and returns a **sorted list** of the distinct lengths of the words in it. Words are separated by whitespace. If the sentence has no words, return an empty list.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `sentence` : str - a string of whitespace-separated words\n\n### Returns\n\n- `list` - the sorted distinct word lengths (ascending)\n\n### Example\n\n```\n>>> distinct_word_lengths(\"the quick brown fox\")\n[3, 5]\n>>> distinct_word_lengths(\"a bb ccc dd e\")\n[1, 2, 3]\n```\n\nIn `\"the quick brown fox\"` the word lengths are `3, 5, 5, 3`, so the distinct lengths sorted are `[3, 5]`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef distinct_word_lengths(sentence: str) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `sentence`.\n\n## Example\n\nInput\n\n```\n\"the quick brown fox\"\n```\n\nOutput\n\n```\n[3, 5]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef distinct_word_lengths(sentence: str) -> list:\n    return sorted({len(w) for w in sentence.split()})\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = distinct_word_lengths(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def distinct_word_lengths(sentence: str) -> list:\n    ...\n",
+    "input_labels": [
+     "sentence"
+    ]
+   },
+   {
+    "title": "Group Sizes",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "{\"a\": \"x\", \"b\": \"y\", \"c\": \"x\"}",
+      "expected": "{'x': 2, 'y': 1}",
+      "hidden": false
+     },
+     {
+      "stdin": "{}",
+      "expected": "{}",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"only\": \"g\"}",
+      "expected": "{'g': 1}",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"a\": \"z\", \"b\": \"z\", \"c\": \"z\"}",
+      "expected": "{'z': 3}",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"p\": \"m\", \"q\": \"n\", \"r\": \"m\", \"s\": \"n\"}",
+      "expected": "{'m': 2, 'n': 2}",
+      "hidden": true
+     }
+    ],
+    "body_md": "A membership table maps each member's name to the group they belong to, as a dictionary `member -> group`. Write a function `group_sizes` that takes this dictionary `labels` and returns a new dictionary mapping each group to the **number of members** in it.\n\nThe groups in the returned dictionary must appear in the order each group is **first seen** while scanning the members. An empty input gives an empty dictionary.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `labels` : dict - maps each member name (str) to its group (str)\n\n### Returns\n\n- `dict` - maps each group to its member count (int)\n\n### Example\n\n```\n>>> group_sizes({\"a\": \"x\", \"b\": \"y\", \"c\": \"x\"})\n{'x': 2, 'y': 1}\n```\n\nGroup `x` has members `a` and `c` (count `2`) and group `y` has member `b` (count `1`). Group `x` is listed first because it was seen first.\n\n## Your task\n\nImplement this function:\n\n```python\ndef group_sizes(labels: dict) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `labels`.\n\n## Example\n\nInput\n\n```\n{\"a\": \"x\", \"b\": \"y\", \"c\": \"x\"}\n```\n\nOutput\n\n```\n{'x': 2, 'y': 1}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef group_sizes(labels: dict) -> dict:\n    out = {}\n    for g in labels.values():\n        out[g] = out.get(g, 0) + 1\n    return out\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = group_sizes(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def group_sizes(labels: dict) -> dict:\n    ...\n",
+    "input_labels": [
+     "labels"
+    ]
+   },
+   {
+    "title": "Subject Report",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "[(\"Ann\", \"Math\", 90), (\"Bob\", \"Math\", 80), (\"Ann\", \"Sci\", 70)]",
+      "expected": "{'Math': (85.0, 'Ann'), 'Sci': (70.0, 'Ann')}",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "{}",
+      "hidden": false
+     },
+     {
+      "stdin": "[(\"X\", \"Eng\", 55)]",
+      "expected": "{'Eng': (55.0, 'X')}",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"Ann\", \"Math\", 90), (\"Bob\", \"Math\", 90)]",
+      "expected": "{'Math': (90.0, 'Ann')}",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"A\", \"P\", 10), (\"B\", \"P\", 20), (\"C\", \"Q\", 30), (\"D\", \"Q\", 30)]",
+      "expected": "{'P': (15.0, 'B'), 'Q': (30.0, 'C')}",
+      "hidden": true
+     }
+    ],
+    "body_md": "An exam office keeps its marks as a list of records, where each record is a tuple `(name, subject, marks)`. A student may appear once per subject, and each subject may have many students.\n\nWrite a function `subject_report` that takes this list `records` and returns a dictionary mapping each subject to a tuple `(average, topper)`, where:\n\n- `average` is the mean of that subject's marks, **rounded to 2 decimals**, and\n- `topper` is the name of the student with the highest marks in that subject; if two students tie for the top, the one whose name is **alphabetically smaller** is the topper.\n\nIf `records` is empty, return an empty dictionary.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `records` : list - a list of `(name, subject, marks)` tuples\n\n### Returns\n\n- `dict` - maps each subject to `(average_rounded_2dp, topper_name)`\n\n### Example\n\n```\n>>> subject_report([(\"Ann\", \"Math\", 90), (\"Bob\", \"Math\", 80), (\"Ann\", \"Sci\", 70)])\n{'Math': (85.0, 'Ann'), 'Sci': (70.0, 'Ann')}\n```\n\nIn `Math` the marks are `90` and `80`, averaging `85.0`, and `Ann` (`90`) is the topper. In `Sci` only `Ann` appears with `70`, so the average is `70.0` and the topper is `Ann`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef subject_report(records: list) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `records`.\n\n## Example\n\nInput\n\n```\n[(\"Ann\", \"Math\", 90), (\"Bob\", \"Math\", 80), (\"Ann\", \"Sci\", 70)]\n```\n\nOutput\n\n```\n{'Math': (85.0, 'Ann'), 'Sci': (70.0, 'Ann')}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef subject_report(records: list) -> dict:\n    by = {}\n    for name, subject, marks in records:\n        by.setdefault(subject, []).append((name, marks))\n    out = {}\n    for subject, lst in by.items():\n        avg = round(sum(m for _, m in lst) / len(lst), 2)\n        topper = min(lst, key=lambda t: (-t[1], t[0]))[0]\n        out[subject] = (avg, topper)\n    return out\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = subject_report(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def subject_report(records: list) -> dict:\n    ...\n",
+    "input_labels": [
+     "records"
+    ]
+   },
+   {
+    "title": "Inventory Restock Report",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\nPEN 5 20 3\nBOOK 40 30 15\nINK 0 10 8",
+      "expected": "INK order 10 cost 80\nPEN order 15 cost 45\nRestock 2 of 3\nTotal order cost: 125",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nWIDGET 100 50 10",
+      "expected": "Restock 0 of 1\nTotal order cost: 0",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nA 0 5 2\nB 0 5 2",
+      "expected": "A order 5 cost 10\nB order 5 cost 10\nRestock 2 of 2\nTotal order cost: 20",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nX 5 5 100",
+      "expected": "Restock 0 of 1\nTotal order cost: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "4\nZED 1 2 5\nALPHA 3 10 4\nMID 7 7 9\nBRAVO 2 2 1",
+      "expected": "ALPHA order 7 cost 28\nZED order 1 cost 5\nRestock 2 of 4\nTotal order cost: 33",
+      "hidden": true
+     }
+    ],
+    "body_md": "A shop keeps an inventory table. Each product has a current `stock`, a `reorder_level`, and a `unit_price`. A product must be restocked when its stock is **strictly below** its reorder level. When it must be restocked, the shop orders exactly enough units to bring it up to the reorder level; the number of units ordered is `reorder_level - stock`, and the cost of that order is `(reorder_level - stock) * unit_price`.\n\nWrite a program that reads the inventory and prints, for every product that needs restocking, its order quantity and order cost, then a summary.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `N`, the number of products.\n- Each of the next `N` lines contains a product name (a single word), its `stock`, its `reorder_level`, and its `unit_price`, all separated by spaces.\n\n### Output Format\n\n- For every product that must be restocked, in **alphabetical order of name**, print a line `<name> order <qty> cost <cost>`.\n- Then print a line `Restock <k> of <N>` where `k` is how many products need restocking.\n- Then print a line `Total order cost: <total>`.\n\n### Constraints\n\n- `1 <= N <= 200`\n- `0 <= stock, reorder_level <= 100000`\n- `0 <= unit_price <= 10000`\n\n### Example\n\nInput:\n\n```\n3\nPEN 5 20 3\nBOOK 40 30 15\nINK 0 10 8\n```\n\nOutput:\n\n```\nINK order 10 cost 80\nPEN order 15 cost 45\nRestock 2 of 3\nTotal order cost: 125\n```\n\n**Explanation**\n\n`INK` (stock `0`, level `10`) needs `10` units costing `10*8 = 80`. `PEN` (stock `5`, level `20`) needs `15` units costing `15*3 = 45`. `BOOK` has stock `40 >= 30`, so it is not restocked. Listed alphabetically, the total order cost is `80 + 45 = 125`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nPEN 5 20 3\nBOOK 40 30 15\nINK 0 10 8\n```\n\nOutput\n\n```\nINK order 10 cost 80\nPEN order 15 cost 45\nRestock 2 of 3\nTotal order cost: 125\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nitems = []\nfor _ in range(n):\n    parts = input().split()\n    name = parts[0]\n    stock = int(parts[1])\n    level = int(parts[2])\n    price = int(parts[3])\n    items.append((name, stock, level, price))\n\nneed = []\nfor name, stock, level, price in items:\n    if stock < level:\n        qty = level - stock\n        need.append((name, qty, qty * price))\n\nneed.sort(key=lambda r: r[0])\ntotal = 0\nfor name, qty, cost in need:\n    total += cost\n    print(f\"{name} order {qty} cost {cost}\")\nprint(f\"Restock {len(need)} of {n}\")\nprint(f\"Total order cost: {total}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Top Total Scorer",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "{\"student\": [\"Ann\", \"Bob\", \"Ann\"], \"subject\": [\"M\", \"M\", \"S\"], \"score\": [90, 70, 40]}",
+      "expected": "('Ann', 130)",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"student\": [\"Zoe\"], \"subject\": [\"X\"], \"score\": [55]}",
+      "expected": "('Zoe', 55)",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"student\": [\"A\", \"B\"], \"subject\": [\"M\", \"M\"], \"score\": [50, 50]}",
+      "expected": "('A', 50)",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"student\": [\"K\", \"K\", \"K\"], \"subject\": [\"a\", \"b\", \"c\"], \"score\": [1, 2, 3]}",
+      "expected": "('K', 6)",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"student\": [\"P\", \"Q\", \"R\", \"P\", \"Q\"], \"subject\": [\"1\", \"1\", \"1\", \"2\", \"2\"], \"score\": [10, 20, 30, 40, 5]}",
+      "expected": "('P', 50)",
+      "hidden": true
+     }
+    ],
+    "body_md": "A results table is stored as a **dictionary of parallel lists** (columns). It has three columns of equal length:\n\n- `table[\"student\"]` - the student names,\n- `table[\"subject\"]` - the subject of each entry,\n- `table[\"score\"]` - the score of that student in that subject.\n\nRow `i` means `table[\"student\"][i]` scored `table[\"score\"][i]` in `table[\"subject\"][i]`. A student may appear in several rows (one per subject).\n\nWrite a function `top_total_scorer` that returns a tuple `(name, total)` for the student whose **total score across all their rows** is the highest. If two students tie on total, return the one whose name is **alphabetically smaller**. The table always has at least one row.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `table` : dict - a dict with keys `\"student\"`, `\"subject\"`, `\"score\"`, each mapping to a list\n\n### Returns\n\n- `tuple` - `(name, total_score)` of the top total scorer\n\n### Example\n\n```\n>>> top_total_scorer({\"student\": [\"Ann\", \"Bob\", \"Ann\"], \"subject\": [\"M\", \"M\", \"S\"], \"score\": [90, 70, 40]})\n('Ann', 130)\n```\n\n`Ann` scored `90 + 40 = 130`, `Bob` scored `70`, so `Ann` is the top total scorer with `130`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef top_total_scorer(table: dict) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `table`.\n\n## Example\n\nInput\n\n```\n{\"student\": [\"Ann\", \"Bob\", \"Ann\"], \"subject\": [\"M\", \"M\", \"S\"], \"score\": [90, 70, 40]}\n```\n\nOutput\n\n```\n('Ann', 130)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef top_total_scorer(table: dict) -> tuple:\n    totals = {}\n    for name, score in zip(table[\"student\"], table[\"score\"]):\n        totals[name] = totals.get(name, 0) + score\n    best = min(totals, key=lambda k: (-totals[k], k))\n    return (best, totals[best])\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = top_total_scorer(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def top_total_scorer(table: dict) -> tuple:\n    ...\n",
+    "input_labels": [
+     "table"
+    ]
+   },
+   {
+    "title": "Merge Overlapping Intervals",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "4\n1 3\n2 6\n8 10\n15 18",
+      "expected": "1 6\n8 10\n15 18\nCount: 3\nCovered: 10",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n5 10",
+      "expected": "5 10\nCount: 1\nCovered: 5",
+      "hidden": false
+     },
+     {
+      "stdin": "3\n1 4\n4 5\n5 6",
+      "expected": "1 6\nCount: 1\nCovered: 5",
+      "hidden": true
+     },
+     {
+      "stdin": "3\n5 6\n1 2\n3 4",
+      "expected": "1 2\n3 4\n5 6\nCount: 3\nCovered: 3",
+      "hidden": true
+     },
+     {
+      "stdin": "5\n1 10\n2 3\n4 5\n11 12\n11 20",
+      "expected": "1 10\n11 20\nCount: 2\nCovered: 18",
+      "hidden": true
+     }
+    ],
+    "body_md": "You are given a set of closed integer intervals `[a, b]`. Two intervals should be merged into one when they **overlap or merely touch** (that is, when the start of one is less than or equal to the end of another once they are ordered). Merging must be applied repeatedly until no more merges are possible.\n\nWrite a program that reads the intervals, prints the merged intervals in increasing order, and reports how many merged intervals remain and the total length they cover.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `N`, the number of intervals.\n- Each of the next `N` lines contains two integers `a` and `b` (`a <= b`), separated by a space.\n\n### Output Format\n\n- For each merged interval, in increasing order, print a line `<a> <b>`.\n- Then print a line `Count: <c>`, the number of merged intervals.\n- Then print a line `Covered: <t>`, where `t` is the sum of `(b - a)` over the merged intervals.\n\n### Constraints\n\n- `1 <= N <= 1000`\n- `-100000 <= a <= b <= 100000`\n\n### Example\n\nInput:\n\n```\n4\n1 3\n2 6\n8 10\n15 18\n```\n\nOutput:\n\n```\n1 6\n8 10\n15 18\nCount: 3\nCovered: 10\n```\n\n**Explanation**\n\n`[1, 3]` and `[2, 6]` overlap and merge into `[1, 6]`. `[8, 10]` and `[15, 18]` do not touch anything else. Three intervals remain, covering `(6-1) + (10-8) + (18-15) = 5 + 2 + 3 = 10`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n4\n1 3\n2 6\n8 10\n15 18\n```\n\nOutput\n\n```\n1 6\n8 10\n15 18\nCount: 3\nCovered: 10\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nintervals = []\nfor _ in range(n):\n    a, b = map(int, input().split())\n    intervals.append((a, b))\n\nintervals.sort()\nmerged = []\nfor a, b in intervals:\n    if merged and a <= merged[-1][1]:\n        prev_a, prev_b = merged[-1]\n        merged[-1] = (prev_a, max(prev_b, b))\n    else:\n        merged.append((a, b))\n\nfor a, b in merged:\n    print(a, b)\nprint(f\"Count: {len(merged)}\")\ncovered = sum(b - a for a, b in merged)\nprint(f\"Covered: {covered}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Butterfly Pattern",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "3\n*",
+      "expected": "*    *\n**  **\n******\n******\n**  **\n*    *",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n#",
+      "expected": "##\n##",
+      "hidden": false
+     },
+     {
+      "stdin": "4\n@",
+      "expected": "@      @\n@@    @@\n@@@  @@@\n@@@@@@@@\n@@@@@@@@\n@@@  @@@\n@@    @@\n@      @",
+      "hidden": true
+     },
+     {
+      "stdin": "2\n*",
+      "expected": "*  *\n****\n****\n*  *",
+      "hidden": true
+     },
+     {
+      "stdin": "5\nA",
+      "expected": "A        A\nAA      AA\nAAA    AAA\nAAAA  AAAA\nAAAAAAAAAA\nAAAAAAAAAA\nAAAA  AAAA\nAAA    AAA\nAA      AA\nA        A",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a size `n` and a fill character `c`, print a **butterfly pattern** made of `c`. The butterfly has `2 * n` rows. In the top half, row `i` (for `i` from `1` to `n`) contains `i` copies of `c`, then `2 * (n - i)` spaces, then `i` more copies of `c`. The bottom half is the mirror image of the top half (rows `n` down to `1`).\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `n`.\n- The second line contains a single character `c`, the fill character.\n\n### Output Format\n\n- Print the `2 * n` rows of the butterfly pattern, one per line.\n\n### Constraints\n\n- `1 <= n <= 100`\n- `c` is a single non-space character\n\n### Example\n\nInput:\n\n```\n3\n*\n```\n\nOutput:\n\n```\n*    *\n**  **\n******\n******\n**  **\n*    *\n```\n\n**Explanation**\n\nThe first row has `1` star, then `4` spaces, then `1` star. The middle rows have `3` stars, no spaces, then `3` stars (a solid line of `6`). The bottom half mirrors the top.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n*\n```\n\nOutput\n\n```\n*    *\n**  **\n******\n******\n**  **\n*    *\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nc = input().strip()\nrows = list(range(1, n + 1)) + list(range(n, 0, -1))\nfor i in rows:\n    line = \"\"\n    for _ in range(i):\n        line += c\n    for _ in range(2 * (n - i)):\n        line += \" \"\n    for _ in range(i):\n        line += c\n    print(line)\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
+ },
+ {
+  "slug": "oppe-mock-8",
+  "title": "OPPE Mock 8",
+  "sort_order": 14,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Checkerboard Square Color",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"a1\"",
+      "expected": "'dark'",
+      "hidden": false
+     },
+     {
+      "stdin": "\"h8\"",
+      "expected": "'dark'",
+      "hidden": false
+     },
+     {
+      "stdin": "\"a8\"",
+      "expected": "'light'",
+      "hidden": true
+     },
+     {
+      "stdin": "\"B8\"",
+      "expected": "'dark'",
+      "hidden": true
+     },
+     {
+      "stdin": "\"d5\"",
+      "expected": "'light'",
+      "hidden": true
+     }
+    ],
+    "body_md": "On a standard `8x8` chessboard the squares are named in algebraic notation: a file letter from `a` to `h` (the column) followed by a rank digit from `1` to `8` (the row). For example `a1` is the bottom-left corner.\n\nWrite a function `square_color` that takes such a coordinate as a string and returns the colour of that square, either `\"dark\"` or `\"light\"`. On a real board the corner `a1` is a **dark** square, and the colour flips every time you move one square in any direction. The file letter may be given in upper or lower case.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `coord` : str - a square name such as `\"e4\"` (file letter then rank digit)\n\n### Returns\n\n- str - `\"dark\"` or `\"light\"`\n\n### Example\n\n```\n>>> square_color(\"a1\")\n'dark'\n>>> square_color(\"a8\")\n'light'\n```\n\nIn `a1` the file index is `0` and the rank is `1`, whose sum `1` is odd, so the square is dark. In `a8` the sum `0 + 8 = 8` is even, so the square is light.\n\n## Your task\n\nImplement this function:\n\n```python\ndef square_color(coord: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `coord`.\n\n## Example\n\nInput\n\n```\n\"a1\"\n```\n\nOutput\n\n```\n'dark'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef square_color(coord: str) -> str:\n    file = coord[0].lower()\n    rank = int(coord[1:])\n    s = (ord(file) - ord('a')) + rank\n    return \"dark\" if s % 2 == 1 else \"light\"\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = square_color(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def square_color(coord: str) -> str:\n    ...\n",
+    "input_labels": [
+     "coord"
+    ]
+   },
+   {
+    "title": "Longest Dice Straight",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[2, 3, 3, 4, 6]",
+      "expected": "3",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "[5]",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "[4, 4, 4]",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "[10, 8, 9, 7, 6, 1]",
+      "expected": "5",
+      "hidden": true
+     }
+    ],
+    "body_md": "A player rolls several dice and wants to know the longest **straight** they hold: the length of the longest run of consecutive integer values that appear among the rolls. Duplicate values do not make a run longer, and the values do not have to be rolled in order.\n\nWrite a function `longest_straight` that takes a list of integer rolls and returns the length of the longest run of consecutive values present. For an empty list return `0`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `dice` : list - a list of integer die values (possibly empty, possibly with duplicates)\n\n### Returns\n\n- int - the length of the longest consecutive run of distinct values\n\n### Example\n\n```\n>>> longest_straight([2, 3, 3, 4, 6])\n3\n>>> longest_straight([10, 8, 9, 7, 6, 1])\n5\n```\n\nIn `[2, 3, 3, 4, 6]` the distinct values `{2, 3, 4, 6}` contain the run `2, 3, 4` of length `3`. In `[10, 8, 9, 7, 6, 1]` the values `6, 7, 8, 9, 10` form a run of length `5`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef longest_straight(dice: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `dice`.\n\n## Example\n\nInput\n\n```\n[2, 3, 3, 4, 6]\n```\n\nOutput\n\n```\n3\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef longest_straight(dice: list) -> int:\n    vals = set(dice)\n    best = 0\n    for v in vals:\n        if v - 1 not in vals:\n            length = 1\n            while v + length in vals:\n                length += 1\n            best = max(best, length)\n    return best\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = longest_straight(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def longest_straight(dice: list) -> int:\n    ...\n",
+    "input_labels": [
+     "dice"
+    ]
+   },
+   {
+    "title": "Score Tally By Player",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[(\"amy\", 5), (\"ben\", 3), (\"amy\", -2)]",
+      "expected": "{'amy': 3, 'ben': 3}",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "{}",
+      "hidden": false
+     },
+     {
+      "stdin": "[(\"solo\", 10)]",
+      "expected": "{'solo': 10}",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"a\", 1), (\"a\", 1), (\"a\", 1)]",
+      "expected": "{'a': 3}",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"x\", -5), (\"y\", 4), (\"x\", 5), (\"y\", -4)]",
+      "expected": "{'x': 0, 'y': 0}",
+      "hidden": true
+     }
+    ],
+    "body_md": "During a board game several scoring events happen. Each event is recorded as a `(player, points)` tuple, where `points` may be positive (a reward) or negative (a penalty). The same player can appear in many events.\n\nWrite a function `score_tally` that takes a list of such `(player, points)` tuples and returns a dictionary mapping each player to their total score (the sum of all their points). Players must appear in the dictionary in the order they were **first seen** in the list. For an empty list return an empty dictionary.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `records` : list - a list of `(player, points)` tuples\n\n### Returns\n\n- dict - a mapping from player name to total score\n\n### Example\n\n```\n>>> score_tally([(\"amy\", 5), (\"ben\", 3), (\"amy\", -2)])\n{'amy': 3, 'ben': 3}\n```\n\n`amy` scores `5` then loses `2`, for a total of `3`, while `ben` has a single event worth `3`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef score_tally(records: list) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `records`.\n\n## Example\n\nInput\n\n```\n[(\"amy\", 5), (\"ben\", 3), (\"amy\", -2)]\n```\n\nOutput\n\n```\n{'amy': 3, 'ben': 3}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef score_tally(records: list) -> dict:\n    totals = {}\n    for name, pts in records:\n        totals[name] = totals.get(name, 0) + pts\n    return totals\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = score_tally(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def score_tally(records: list) -> dict:\n    ...\n",
+    "input_labels": [
+     "records"
+    ]
+   },
+   {
+    "title": "Board Peaks",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "[[1, 2], [3, 4]]",
+      "expected": "[(1, 1)]",
+      "hidden": false
+     },
+     {
+      "stdin": "[[5]]",
+      "expected": "[(0, 0)]",
+      "hidden": false
+     },
+     {
+      "stdin": "[[3, 1], [1, 3]]",
+      "expected": "[(0, 0), (1, 1)]",
+      "hidden": true
+     },
+     {
+      "stdin": "[[2, 2], [2, 2]]",
+      "expected": "[]",
+      "hidden": true
+     },
+     {
+      "stdin": "[[9, 8, 7], [6, 5, 4], [3, 2, 1]]",
+      "expected": "[(0, 0)]",
+      "hidden": true
+     }
+    ],
+    "body_md": "A board is given as a rectangular grid of integer heights (a list of rows, each row a list of ints). A cell is a **peak** if its height is **strictly greater** than every one of its orthogonal neighbours (the cells directly up, down, left and right of it). Cells on an edge or corner simply have fewer neighbours to compare against.\n\nWrite a function `find_peaks` that returns the list of `(row, col)` coordinates of all peaks, listed in row-major order (scanning left to right within a row, top row first). A grid with a single cell has that cell as a peak.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `grid` : list - a non-empty list of equal-length rows of integers\n\n### Returns\n\n- list - `(row, col)` tuples of every peak cell, in row-major order\n\n### Example\n\n```\n>>> find_peaks([[1, 2], [3, 4]])\n[(1, 1)]\n>>> find_peaks([[3, 1], [1, 3]])\n[(0, 0), (1, 1)]\n```\n\nIn the first board only the value `4` at `(1, 1)` beats all its neighbours (`2` above and `3` to the left). In the second board both `3`s beat their two neighbours, so both are peaks. When every cell is equal there are no peaks and the result is an empty list.\n\n## Your task\n\nImplement this function:\n\n```python\ndef find_peaks(grid: list) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `grid`.\n\n## Example\n\nInput\n\n```\n[[1, 2], [3, 4]]\n```\n\nOutput\n\n```\n[(1, 1)]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef find_peaks(grid: list) -> list:\n    rows = len(grid)\n    cols = len(grid[0])\n    peaks = []\n    for r in range(rows):\n        for c in range(cols):\n            v = grid[r][c]\n            ok = True\n            for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] >= v:\n                    ok = False\n                    break\n            if ok:\n                peaks.append((r, c))\n    return peaks\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = find_peaks(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def find_peaks(grid: list) -> list:\n    ...\n",
+    "input_labels": [
+     "grid"
+    ]
+   },
+   {
+    "title": "Tic Tac Toe Winner",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\nXXX\nOO.\n...",
+      "expected": "X wins",
+      "hidden": false
+     },
+     {
+      "stdin": "3\nXOX\nOOX\nXXO",
+      "expected": "Draw",
+      "hidden": false
+     },
+     {
+      "stdin": "3\nX..\n.O.\n..X",
+      "expected": "In progress",
+      "hidden": true
+     },
+     {
+      "stdin": "3\nOOO\nX.X\nX..",
+      "expected": "O wins",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nXX\nOO",
+      "expected": "X wins",
+      "hidden": true
+     }
+    ],
+    "body_md": "A game of tic-tac-toe is played on an `N x N` board. Each cell holds `X`, `O`, or `.` (an empty cell). A player **wins** if they occupy a whole row, a whole column, or one of the two main diagonals with their own mark.\n\nWrite a program that reads a board and reports its state:\n\n- if some mark fills a full line, print `<mark> wins` (for example `X wins`),\n- otherwise, if the board is completely filled, print `Draw`,\n- otherwise print `In progress`.\n\nYou may assume the board is a valid position in which at most one mark has a winning line.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `N`, the size of the board.\n- Each of the next `N` lines is a string of exactly `N` characters, each `X`, `O`, or `.`.\n\n### Output Format\n\n- A single line: `X wins`, `O wins`, `Draw`, or `In progress`.\n\n### Constraints\n\n- `1 <= N <= 20`\n\n### Example\n\nInput:\n\n```\n3\nXXX\nOO.\n...\n```\n\nOutput:\n\n```\nX wins\n```\n\n**Explanation**\n\nThe top row is entirely `X`, so `X` has a winning line and the program prints `X wins`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nXXX\nOO.\n...\n```\n\nOutput\n\n```\nX wins\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nboard = [input() for _ in range(n)]\nlines = []\nfor r in range(n):\n    lines.append([board[r][c] for c in range(n)])\nfor c in range(n):\n    lines.append([board[r][c] for r in range(n)])\nlines.append([board[i][i] for i in range(n)])\nlines.append([board[i][n - 1 - i] for i in range(n)])\nwinner = None\nfor line in lines:\n    if line[0] != '.' and all(x == line[0] for x in line):\n        winner = line[0]\n        break\nif winner:\n    print(f\"{winner} wins\")\nelif all(ch != '.' for row in board for ch in row):\n    print(\"Draw\")\nelse:\n    print(\"In progress\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Top Scorer Per Level",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "[(\"amy\", 1, 50), (\"ben\", 1, 70), (\"amy\", 2, 30)]",
+      "expected": "{1: 'ben', 2: 'amy'}",
+      "hidden": false
+     },
+     {
+      "stdin": "[]",
+      "expected": "{}",
+      "hidden": false
+     },
+     {
+      "stdin": "[(\"solo\", 5, 99)]",
+      "expected": "{5: 'solo'}",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"a\", 1, 40), (\"b\", 1, 40)]",
+      "expected": "{1: 'a'}",
+      "hidden": true
+     },
+     {
+      "stdin": "[(\"z\", 3, 10), (\"y\", 3, 10), (\"x\", 2, 5)]",
+      "expected": "{3: 'y', 2: 'x'}",
+      "hidden": true
+     }
+    ],
+    "body_md": "An arcade game logs one record for every time a player finishes a level. Each record is a `(player, level, score)` tuple. The same player can play the same level many times, and a level may be played by many players.\n\nWrite a function `top_scorer_per_level` that takes the list of records and returns a dictionary mapping each level to the name of the player with the **highest single score** on that level. If two players are tied for the highest score on a level, the one whose name comes **first alphabetically** wins the level. Levels must appear in the dictionary in the order they are **first seen** in the records. For an empty list return an empty dictionary.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Args\n\n- `records` : list - a list of `(player, level, score)` tuples\n\n### Returns\n\n- dict - a mapping from level to the winning player's name\n\n### Example\n\n```\n>>> top_scorer_per_level([(\"amy\", 1, 50), (\"ben\", 1, 70), (\"amy\", 2, 30)])\n{1: 'ben', 2: 'amy'}\n```\n\nOn level `1`, `ben`'s `70` beats `amy`'s `50`, so `ben` tops level `1`. On level `2` only `amy` has a score, so she tops it.\n\n## Your task\n\nImplement this function:\n\n```python\ndef top_scorer_per_level(records: list) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `records`.\n\n## Example\n\nInput\n\n```\n[(\"amy\", 1, 50), (\"ben\", 1, 70), (\"amy\", 2, 30)]\n```\n\nOutput\n\n```\n{1: 'ben', 2: 'amy'}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef top_scorer_per_level(records: list) -> dict:\n    best = {}\n    for player, level, score in records:\n        if (level not in best\n                or score > best[level][0]\n                or (score == best[level][0] and player < best[level][1])):\n            best[level] = (score, player)\n    return {level: best[level][1] for level in best}\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = top_scorer_per_level(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def top_scorer_per_level(records: list) -> dict:\n    ...\n",
+    "input_labels": [
+     "records"
+    ]
+   },
+   {
+    "title": "Minesweeper Counts",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "3 3\n*..\n...\n..*",
+      "expected": "*10\n121\n01*",
+      "hidden": false
+     },
+     {
+      "stdin": "1 1\n.",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "1 1\n*",
+      "expected": "*",
+      "hidden": true
+     },
+     {
+      "stdin": "3 3\n***\n***\n***",
+      "expected": "***\n***\n***",
+      "hidden": true
+     },
+     {
+      "stdin": "2 4\n.*..\n...*",
+      "expected": "1*21\n112*",
+      "hidden": true
+     }
+    ],
+    "body_md": "In the game of Minesweeper the board is a grid where some cells hide a mine, marked `*`, and the rest are empty, marked `.`. To help the player, every empty cell is annotated with a single digit: the number of mines among its up-to-eight surrounding cells (horizontally, vertically, and diagonally adjacent). Mine cells are left as `*`.\n\nWrite a program that reads a board and prints the fully annotated board.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains two integers `R` and `C`, the number of rows and columns.\n- Each of the next `R` lines is a string of exactly `C` characters, each `*` or `.`.\n\n### Output Format\n\n- Print `R` lines. Each empty cell becomes the digit count of adjacent mines; each mine cell stays `*`.\n\n### Constraints\n\n- `1 <= R, C <= 100`\n\n### Example\n\nInput:\n\n```\n3 3\n*..\n...\n..*\n```\n\nOutput:\n\n```\n*10\n122\n01*\n```\n\n**Explanation**\n\nThe cell just right of the top-left mine touches exactly one mine, so it shows `1`; the centre cell touches both mines diagonally, so it shows `2`, and so on.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3 3\n*..\n...\n..*\n```\n\nOutput\n\n```\n*10\n121\n01*\n```",
+    "solution_md": "## Reference solution\n\n```python\nfirst = input().split()\nrows = int(first[0])\ncols = int(first[1])\ngrid = [input() for _ in range(rows)]\nout = []\nfor r in range(rows):\n    line = \"\"\n    for c in range(cols):\n        if grid[r][c] == '*':\n            line += '*'\n        else:\n            count = 0\n            for dr in (-1, 0, 1):\n                for dc in (-1, 0, 1):\n                    if dr == 0 and dc == 0:\n                        continue\n                    nr, nc = r + dr, c + dc\n                    if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == '*':\n                        count += 1\n            line += str(count)\n    out.append(line)\nprint(\"\\n\".join(out))\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Concentric Square Rings",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "1",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": "0 0\n0 0",
+      "hidden": false
+     },
+     {
+      "stdin": "3",
+      "expected": "0 0 0\n0 1 0\n0 0 0",
+      "hidden": true
+     },
+     {
+      "stdin": "5",
+      "expected": "0 0 0 0 0\n0 1 1 1 0\n0 1 2 1 0\n0 1 1 1 0\n0 0 0 0 0",
+      "hidden": true
+     },
+     {
+      "stdin": "6",
+      "expected": "0 0 0 0 0 0\n0 1 1 1 1 0\n0 1 2 2 1 0\n0 1 2 2 1 0\n0 1 1 1 1 0\n0 0 0 0 0 0",
+      "hidden": true
+     }
+    ],
+    "body_md": "A grid effect used in many puzzle games fills an `N x N` board so that each cell shows how many rings it is away from the border. Border cells are ring `0`, the cells just inside them are ring `1`, and so on toward the centre. In other words, a cell's value is the smallest distance from it to any of the four edges of the board.\n\nWrite a program that reads `N` and prints this board. Within each row the values are separated by a single space.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- A single line containing the integer `N`.\n\n### Output Format\n\n- Print `N` lines, each with `N` space-separated ring numbers.\n\n### Constraints\n\n- `1 <= N <= 40`\n\n### Example\n\nInput:\n\n```\n5\n```\n\nOutput:\n\n```\n0 0 0 0 0\n0 1 1 1 0\n0 1 2 1 0\n0 1 1 1 0\n0 0 0 0 0\n```\n\n**Explanation**\n\nThe outermost frame is all `0`s, the next frame in is all `1`s, and the single centre cell of a `5x5` board is `2` rings from the edge.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1\n```\n\nOutput\n\n```\n0\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor r in range(n):\n    row = []\n    for c in range(n):\n        row.append(str(min(r, c, n - 1 - r, n - 1 - c)))\n    print(\" \".join(row))\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
+ },
+ {
+  "slug": "oppe-mock-9",
+  "title": "OPPE Mock 9",
+  "sort_order": 15,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Parse Measurement",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "\"12.5cm\"",
+      "expected": "(12.5, 'cm')",
+      "hidden": false
+     },
+     {
+      "stdin": "\"-3.5K\"",
+      "expected": "(-3.5, 'K')",
+      "hidden": false
+     },
+     {
+      "stdin": "\"0m\"",
+      "expected": "(0.0, 'm')",
+      "hidden": true
+     },
+     {
+      "stdin": "\"100kPa\"",
+      "expected": "(100.0, 'kPa')",
+      "hidden": true
+     },
+     {
+      "stdin": "\"7.25mmHg\"",
+      "expected": "(7.25, 'mmHg')",
+      "hidden": true
+     }
+    ],
+    "body_md": "A lab instrument records each reading as a single string that glues a numeric **magnitude** directly onto a **unit** with no space between them, e.g. `\"12.5cm\"` or `\"-3.5K\"`.\n\nThe magnitude is an optional leading sign (`+` or `-`) followed by digits and at most one decimal point. Everything after the numeric part is the unit (letters and/or symbols).\n\nSplit the reading into its magnitude and its unit, returning the magnitude as a `float` and the unit as a `str`.\n\nExample:\n`parse_measurement(\"100kPa\")` returns `(100.0, 'kPa')`.\n\nArgs:\n    s (str): a reading such as \"12.5cm\"; always starts with a numeric magnitude.\n\nReturns:\n    tuple: a `(float, str)` pair of the magnitude and the unit.\n\n## Your task\n\nImplement this function:\n\n```python\ndef parse_measurement(s: str) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n\"12.5cm\"\n```\n\nOutput\n\n```\n(12.5, 'cm')\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef parse_measurement(s: str) -> tuple:\n    i = 0\n    n = len(s)\n    if i < n and s[i] in '+-':\n        i += 1\n    while i < n and (s[i].isdigit() or s[i] == '.'):\n        i += 1\n    value = float(s[:i])\n    unit = s[i:]\n    return (value, unit)\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = parse_measurement(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def parse_measurement(s: str) -> tuple:\n    ...\n",
+    "input_labels": [
+     "s"
+    ]
+   },
+   {
+    "title": "Classify Readings By Tolerance",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[9, 10, 11, 8, 12]\n10\n1",
+      "expected": "(1, 3, 1)",
+      "hidden": false
+     },
+     {
+      "stdin": "[]\n5\n2",
+      "expected": "(0, 0, 0)",
+      "hidden": false
+     },
+     {
+      "stdin": "[5, 5, 5]\n5\n0",
+      "expected": "(0, 3, 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "[1, 2, 3]\n10\n0.5",
+      "expected": "(3, 0, 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "[100, 90, 110]\n100\n5",
+      "expected": "(1, 1, 1)",
+      "hidden": true
+     }
+    ],
+    "body_md": "During quality control, each measured `reading` is compared against a `target` value with an allowed `tol` (tolerance). A reading is:\n\n- **below** if it is strictly less than `target - tol`,\n- **above** if it is strictly greater than `target + tol`,\n- **within** otherwise (i.e. `target - tol <= reading <= target + tol`).\n\nReturn a tuple `(below, within, above)` counting how many readings fall in each band.\n\nExample:\n`classify_readings([9, 10, 11, 8, 12], 10, 1)` returns `(1, 3, 1)` because 8 is below, 9/10/11 are within, and 12 is above.\n\nArgs:\n    readings (list): a list of numbers (may be empty).\n    target (float): the target value.\n    tol (float): the non-negative allowed tolerance.\n\nReturns:\n    tuple: `(below, within, above)` counts as integers.\n\n## Your task\n\nImplement this function:\n\n```python\ndef classify_readings(readings: list, target: float, tol: float) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `readings`, `target`, `tol`.\n\n## Example\n\nInput\n\n```\n[9, 10, 11, 8, 12]\n10\n1\n```\n\nOutput\n\n```\n(1, 3, 1)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef classify_readings(readings: list, target: float, tol: float) -> tuple:\n    below = within = above = 0\n    for x in readings:\n        if x < target - tol:\n            below += 1\n        elif x > target + tol:\n            above += 1\n        else:\n            within += 1\n    return (below, within, above)\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:3]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = classify_readings(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def classify_readings(readings: list, target: float, tol: float) -> tuple:\n    ...\n",
+    "input_labels": [
+     "readings",
+     "target",
+     "tol"
+    ]
+   },
+   {
+    "title": "Units Common To All Experiments",
+    "section": "Data types",
+    "marks": 10,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[[\"m\", \"s\", \"kg\"], [\"s\", \"kg\", \"A\"], [\"kg\", \"s\", \"mol\"]]",
+      "expected": "{'kg', 's'}",
+      "hidden": false
+     },
+     {
+      "stdin": "[[\"m\"]]",
+      "expected": "{'m'}",
+      "hidden": false
+     },
+     {
+      "stdin": "[[\"a\", \"b\"], [\"c\", \"d\"]]",
+      "expected": "set()",
+      "hidden": true
+     },
+     {
+      "stdin": "[[\"K\", \"K\", \"m\"], [\"m\", \"K\"]]",
+      "expected": "{'K', 'm'}",
+      "hidden": true
+     },
+     {
+      "stdin": "[[\"N\", \"J\", \"W\", \"Pa\"], [\"J\", \"W\", \"Pa\", \"N\"], [\"W\", \"N\", \"J\", \"Pa\"]]",
+      "expected": "{'J', 'N', 'Pa', 'W'}",
+      "hidden": true
+     }
+    ],
+    "body_md": "Several experiments each report the list of measurement units they used. Given a list of these per-experiment unit lists, return the set of units that appear in **every** experiment.\n\nThere is always at least one experiment. Units within one experiment may repeat, but each unit should be counted only once.\n\nExample:\n`common_units([[\"m\", \"s\", \"kg\"], [\"s\", \"kg\", \"A\"], [\"kg\", \"s\", \"mol\"]])` returns `{'kg', 's'}`.\n\nArgs:\n    experiments (list): a non-empty list of lists of unit strings.\n\nReturns:\n    set: the units common to all experiments (possibly empty).\n\n## Your task\n\nImplement this function:\n\n```python\ndef common_units(experiments: list) -> set:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `experiments`.\n\n## Example\n\nInput\n\n```\n[[\"m\", \"s\", \"kg\"], [\"s\", \"kg\", \"A\"], [\"kg\", \"s\", \"mol\"]]\n```\n\nOutput\n\n```\n{'kg', 's'}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef common_units(experiments: list) -> set:\n    result = set(experiments[0])\n    for exp in experiments[1:]:\n        result &= set(exp)\n    return result\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = common_units(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def common_units(experiments: list) -> set:\n    ...\n",
+    "input_labels": [
+     "experiments"
+    ]
+   },
+   {
+    "title": "Flag Outlier Readings",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 4,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "[10, 10, 10, 100, 10]\n1.5",
+      "expected": "[3]",
+      "hidden": false
+     },
+     {
+      "stdin": "[5, 5, 5, 5]\n2",
+      "expected": "[]",
+      "hidden": false
+     },
+     {
+      "stdin": "[1]\n1",
+      "expected": "[]",
+      "hidden": true
+     },
+     {
+      "stdin": "[1, 2, 3, 4, 100]\n1.5",
+      "expected": "[4]",
+      "hidden": true
+     },
+     {
+      "stdin": "[-50, 0, 0, 0, 50]\n1",
+      "expected": "[0, 4]",
+      "hidden": true
+     }
+    ],
+    "body_md": "A sensor produces a list of numeric `readings`. To spot anomalies, compute the **mean** and the **population standard deviation** of the readings, where\n\n```\nmean = (sum of readings) / n\nstd  = sqrt( (sum of (x - mean)**2 for each x) / n )\n```\n\nA reading at position `i` is an *outlier* if it lies more than `k` standard deviations from the mean, i.e. `abs(readings[i] - mean) > k * std`.\n\nReturn the list of indices (0-based, in increasing order) of the outlier readings. If the list is empty, return an empty list. When every reading is identical the std is 0 and there are no outliers.\n\nExample:\n`flag_outliers([10, 10, 10, 100, 10], 1.5)` returns `[3]` (mean 28, std 36, and only 100 lies beyond 1.5*36 = 54 from the mean).\n\nArgs:\n    readings (list): a list of numbers (may be empty).\n    k (float): the number of standard deviations that marks an outlier.\n\nReturns:\n    list: the indices of the outlier readings.\n\n## Your task\n\nImplement this function:\n\n```python\ndef flag_outliers(readings: list, k: float) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `readings`, `k`.\n\n## Example\n\nInput\n\n```\n[10, 10, 10, 100, 10]\n1.5\n```\n\nOutput\n\n```\n[3]\n```",
+    "solution_md": "## Reference solution\n\n```python\nimport math\n\ndef flag_outliers(readings: list, k: float) -> list:\n    n = len(readings)\n    if n == 0:\n        return []\n    mean = sum(readings) / n\n    var = sum((x - mean) ** 2 for x in readings) / n\n    std = math.sqrt(var)\n    result = []\n    for i, x in enumerate(readings):\n        if abs(x - mean) > k * std:\n            result.append(i)\n    return result\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = flag_outliers(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def flag_outliers(readings: list, k: float) -> list:\n    ...\n",
+    "input_labels": [
+     "readings",
+     "k"
+    ]
+   },
+   {
+    "title": "Journey Distance Report",
+    "section": "Data Processing",
+    "marks": 20,
+    "sort_order": 5,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\n60 1\n40 2\n80 0.5",
+      "expected": "DISTANCE: 180.00\nAVG SPEED: 51.43\nFAST SEGMENTS: 2",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n50 2",
+      "expected": "DISTANCE: 100.00\nAVG SPEED: 50.00\nFAST SEGMENTS: 0",
+      "hidden": false
+     },
+     {
+      "stdin": "2\n100 1\n0 1",
+      "expected": "DISTANCE: 100.00\nAVG SPEED: 50.00\nFAST SEGMENTS: 1",
+      "hidden": true
+     },
+     {
+      "stdin": "4\n30 1\n30 1\n30 1\n30 1",
+      "expected": "DISTANCE: 120.00\nAVG SPEED: 30.00\nFAST SEGMENTS: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "2\n10 0.5\n90 1.5",
+      "expected": "DISTANCE: 140.00\nAVG SPEED: 70.00\nFAST SEGMENTS: 1",
+      "hidden": true
+     }
+    ],
+    "body_md": "A vehicle's trip log is broken into segments. For each segment you are given a constant speed (km/h) and a duration (hours). The distance covered in a segment is `speed * duration`.\n\nRead the log and report:\n1. the total distance travelled,\n2. the average speed for the whole trip, defined as `total distance / total time`,\n3. how many segments had a speed strictly greater than that average speed.\n\n## Input\n- The first line contains an integer `N`, the number of segments.\n- Each of the next `N` lines contains a speed and a duration (both floating-point), separated by a space. Every duration is strictly positive.\n\n## Output\n- `DISTANCE: X` where `X` is the total distance (two decimals).\n- `AVG SPEED: Y` where `Y` is the average speed (two decimals).\n- `FAST SEGMENTS: K` where `K` is the number of segments faster than the average speed.\n\n## Constraints\n- 1 <= N <= 1000\n- 0.0 <= speed <= 100000.0\n- 0.0 < duration <= 1000.0\n\n## Example\nInput:\n```\n3\n60 1\n40 2\n80 0.5\n```\nOutput:\n```\nDISTANCE: 180.00\nAVG SPEED: 51.43\nFAST SEGMENTS: 2\n```\nExplanation: distances are 60, 80 and 40 for a total of 180 km over 3.5 h, so the average speed is 180/3.5 = 51.43 km/h. The 60 and 80 km/h segments beat this average, so 2 segments are fast.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n60 1\n40 2\n80 0.5\n```\n\nOutput\n\n```\nDISTANCE: 180.00\nAVG SPEED: 51.43\nFAST SEGMENTS: 2\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nspeeds = []\ndurations = []\nfor _ in range(n):\n    a, b = input().split()\n    speeds.append(float(a))\n    durations.append(float(b))\ntotal_distance = sum(s * d for s, d in zip(speeds, durations))\ntotal_time = sum(durations)\navg_speed = total_distance / total_time\nfast = sum(1 for s in speeds if s > avg_speed)\nprint(f\"DISTANCE: {total_distance:.2f}\")\nprint(f\"AVG SPEED: {avg_speed:.2f}\")\nprint(f\"FAST SEGMENTS: {fast}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Heaviest Element By Category",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "{\"name\": [\"Fe\", \"O\", \"Au\", \"H\", \"Cu\"], \"category\": [\"metal\", \"gas\", \"metal\", \"gas\", \"metal\"], \"mass\": [56, 16, 197, 1, 64]}",
+      "expected": "{'gas': 'O', 'metal': 'Au'}",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"name\": [\"X\"], \"category\": [\"a\"], \"mass\": [5]}",
+      "expected": "{'a': 'X'}",
+      "hidden": false
+     },
+     {
+      "stdin": "{\"name\": [\"A\", \"B\"], \"category\": [\"g\", \"g\"], \"mass\": [10, 10]}",
+      "expected": "{'g': 'A'}",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"name\": [\"p\", \"q\", \"r\"], \"category\": [\"z\", \"z\", \"z\"], \"mass\": [3, 9, 9]}",
+      "expected": "{'z': 'q'}",
+      "hidden": true
+     },
+     {
+      "stdin": "{\"name\": [\"m1\", \"m2\", \"m3\", \"m4\"], \"category\": [\"x\", \"y\", \"x\", \"y\"], \"mass\": [2.5, 3.5, 4.5, 1.5]}",
+      "expected": "{'x': 'm3', 'y': 'm2'}",
+      "hidden": true
+     }
+    ],
+    "body_md": "A dataset of chemical samples is stored as a dict of three parallel lists under the keys `\"name\"`, `\"category\"` and `\"mass\"`. The sample described by index `i` has name `data[\"name\"][i]`, belongs to `data[\"category\"][i]`, and has mass `data[\"mass\"][i]`.\n\nFor each category, find the **name** of the sample with the largest mass in that category. If two samples in a category tie for the largest mass, keep the one that appears **earlier** in the lists.\n\nReturn a dict mapping each category to that winning name, with the categories in sorted order.\n\nExample:\n```\ndata = {\n    \"name\":     [\"Fe\", \"O\", \"Au\", \"H\", \"Cu\"],\n    \"category\": [\"metal\", \"gas\", \"metal\", \"gas\", \"metal\"],\n    \"mass\":     [56, 16, 197, 1, 64],\n}\nheaviest_by_category(data)  # {'gas': 'O', 'metal': 'Au'}\n```\n\nArgs:\n    data (dict): a dict with parallel lists under keys \"name\", \"category\", \"mass\" (at least one sample).\n\nReturns:\n    dict: category -> name of the heaviest sample in that category.\n\n## Your task\n\nImplement this function:\n\n```python\ndef heaviest_by_category(data: dict) -> dict:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `data`.\n\n## Example\n\nInput\n\n```\n{\"name\": [\"Fe\", \"O\", \"Au\", \"H\", \"Cu\"], \"category\": [\"metal\", \"gas\", \"metal\", \"gas\", \"metal\"], \"mass\": [56, 16, 197, 1, 64]}\n```\n\nOutput\n\n```\n{'gas': 'O', 'metal': 'Au'}\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef heaviest_by_category(data: dict) -> dict:\n    best_name = {}\n    best_mass = {}\n    for name, cat, mass in zip(data[\"name\"], data[\"category\"], data[\"mass\"]):\n        if cat not in best_mass or mass > best_mass[cat]:\n            best_mass[cat] = mass\n            best_name[cat] = name\n    return {c: best_name[c] for c in sorted(best_name)}\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = heaviest_by_category(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def heaviest_by_category(data: dict) -> dict:\n    ...\n",
+    "input_labels": [
+     "data"
+    ]
+   },
+   {
+    "title": "Reservoir Level Simulation",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "10 100\n4\n50\n60\n-200\n30",
+      "expected": "FINAL: 30\nOVERFLOW: 1\nDRY: 1",
+      "hidden": false
+     },
+     {
+      "stdin": "0 50\n3\n-10\n-5\n60",
+      "expected": "FINAL: 50\nOVERFLOW: 1\nDRY: 2",
+      "hidden": false
+     },
+     {
+      "stdin": "25 25\n1\n0",
+      "expected": "FINAL: 25\nOVERFLOW: 0\nDRY: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "5 10\n0",
+      "expected": "FINAL: 5\nOVERFLOW: 0\nDRY: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "100 100\n2\n5\n-100",
+      "expected": "FINAL: 0\nOVERFLOW: 1\nDRY: 0",
+      "hidden": true
+     }
+    ],
+    "body_md": "A reservoir starts at water level `L` and has a maximum capacity `C`. Over a number of days a net change is applied to the level each day (positive for inflow, negative for outflow). After applying a day's change:\n\n- if the level would exceed the capacity `C`, the excess spills over: the level is clamped to `C` and that day counts as an **overflow day**;\n- if the level would drop below `0`, it is clamped to `0` and that day counts as a **dry day**;\n- otherwise the level simply changes with no clamping.\n\nSimulate all the days and report the final level, the number of overflow days, and the number of dry days.\n\n## Input\n- The first line contains two integers `L` and `C` (the starting level and the capacity), separated by a space.\n- The second line contains an integer `M`, the number of days.\n- Each of the next `M` lines contains one integer: that day's net change (may be negative).\n\n## Output\n- `FINAL: x` the final water level.\n- `OVERFLOW: a` the number of overflow days.\n- `DRY: b` the number of dry days.\n\n## Constraints\n- 0 <= L <= C <= 1000000\n- 0 <= M <= 1000\n- -1000000 <= change <= 1000000\n\n## Example\nInput:\n```\n10 100\n4\n50\n60\n-200\n30\n```\nOutput:\n```\nFINAL: 30\nOVERFLOW: 1\nDRY: 1\n```\nExplanation: 10 -> 60 -> would be 120 so clamps to 100 (overflow) -> would be -100 so clamps to 0 (dry) -> 30. One overflow day and one dry day, ending at level 30.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n10 100\n4\n50\n60\n-200\n30\n```\n\nOutput\n\n```\nFINAL: 30\nOVERFLOW: 1\nDRY: 1\n```",
+    "solution_md": "## Reference solution\n\n```python\nfirst = input().split()\nlevel = int(first[0])\ncapacity = int(first[1])\nm = int(input())\noverflow = 0\ndry = 0\nfor _ in range(m):\n    change = int(input())\n    level += change\n    if level > capacity:\n        level = capacity\n        overflow += 1\n    elif level < 0:\n        level = 0\n        dry += 1\nprint(f\"FINAL: {level}\")\nprint(f\"OVERFLOW: {overflow}\")\nprint(f\"DRY: {dry}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Concentric Ring Grid",
+    "section": "I/O Based Problem Solving",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "5",
+      "expected": "00000\n01110\n01210\n01110\n00000",
+      "hidden": false
+     },
+     {
+      "stdin": "1",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "2",
+      "expected": "00\n00",
+      "hidden": true
+     },
+     {
+      "stdin": "4",
+      "expected": "0000\n0110\n0110\n0000",
+      "hidden": true
+     },
+     {
+      "stdin": "3",
+      "expected": "000\n010\n000",
+      "hidden": true
+     }
+    ],
+    "body_md": "A field-intensity map is drawn on an `N x N` grid. Each cell is labelled with its **ring number**: the number of steps to the nearest edge of the grid. For a cell in row `i` and column `j` (both 0-based) this is\n\n```\nring = min(i, j, N-1-i, N-1-j)\n```\n\nSo the outer border is all `0`, the next ring in is all `1`, and so on, forming concentric square rings.\n\nPrint the grid as `N` lines, each of `N` digits with no spaces between them.\n\n## Input\n- A single line containing the integer `N`.\n\n## Output\n- `N` lines, each the `N` ring digits of that row.\n\n## Constraints\n- 1 <= N <= 19 (so every ring number is a single digit).\n\n## Example\nInput:\n```\n5\n```\nOutput:\n```\n00000\n01110\n01210\n01110\n00000\n```\nExplanation: the border cells are 0 steps from an edge, the inner ring is 1 step away, and the single centre cell is 2 steps away, giving the concentric pattern shown.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n```\n\nOutput\n\n```\n00000\n01110\n01210\n01110\n00000\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor i in range(n):\n    row = \"\"\n    for j in range(n):\n        ring = min(i, j, n - 1 - i, n - 1 - j)\n        row += str(ring)\n    print(row)\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
  }
 ]

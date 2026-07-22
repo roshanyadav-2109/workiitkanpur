@@ -13,7 +13,7 @@ const URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const COMMIT = process.argv.includes("--commit");
 
-const sets = JSON.parse(readFileSync(new URL("./oppe-mock-sets.json", import.meta.url), "utf8"));
+const sets = JSON.parse(readFileSync(`${import.meta.dirname}/oppe-mock-sets.json`, "utf8"));
 
 async function sql(query) {
   const r = await fetch(`https://api.supabase.com/v1/projects/${REF}/database/query`, {
