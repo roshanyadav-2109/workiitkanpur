@@ -35,8 +35,9 @@ type DifficultyFilter = "all" | Difficulty;
 
 /**
  * A three-bar meter for a question's difficulty: one bar lit for easy, two for
- * medium, three for hard, in the design system's green/amber/red. Compact and
- * wordless so it reads at a glance in a dense row, with a label for a11y.
+ * medium, three for hard, in the design system's green/amber/red. Purely
+ * visual — no word — with the level in the tooltip and aria-label so hovering
+ * and screen readers still get it.
  */
 const DIFFICULTY: Record<
   Difficulty,
@@ -51,23 +52,22 @@ function DifficultyMeter({ level }: { level: Difficulty }) {
   const d = DIFFICULTY[level];
   return (
     <span
-      className="inline-flex items-center gap-1"
+      className="inline-flex items-end gap-[3px]"
       title={`Difficulty: ${d.label}`}
       aria-label={`Difficulty: ${d.label}`}
+      role="img"
     >
-      <span className="flex items-end gap-[3px]" aria-hidden>
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            className={cn(
-              "w-[4px] rounded-[1px]",
-              i === 0 ? "h-[7px]" : i === 1 ? "h-[10px]" : "h-[13px]",
-              i < d.lit ? d.color : "bg-[#d9d7d2]",
-            )}
-          />
-        ))}
-      </span>
-      <span className="text-[12px] font-medium text-fg-muted">{d.label}</span>
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          aria-hidden
+          className={cn(
+            "w-[4px] rounded-[1px]",
+            i === 0 ? "h-[7px]" : i === 1 ? "h-[10px]" : "h-[13px]",
+            i < d.lit ? d.color : "bg-[#d9d7d2]",
+          )}
+        />
+      ))}
     </span>
   );
 }
