@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import {
   getCarouselBanners,
   getCurrentUser,
-  getQuestionsForSubject,
+  getSubjectQuestionList,
   getSubjectBySlug,
   getTopicsForSubject,
   getUserAttempts,
@@ -46,14 +46,15 @@ export default async function SubjectDetailPage({
   // is_active is the release switch — inactive subjects are not browsable.
   if (!subject || !subject.is_active) notFound();
 
-  const [topics, questions, banners, curriculum] = await Promise.all([
-    getTopicsForSubject(subject.id),
-    getQuestionsForSubject(subject.id),
-    getCarouselBanners(),
-    getCurriculum(),
-  ]);
-
-  const user = await getCurrentUser();
+  const [topics, questions, banners, curriculum, allSets, user] =
+    await Promise.all([
+      getTopicsForSubject(subject.id),
+      getSubjectQuestionList(subject.id),
+      getCarouselBanners(),
+      getCurriculum(),
+      getTestSets(subject.id),
+      getCurrentUser(),
+    ]);
   let status = new Map<string, QuestionStatus>();
   let best = new Map<string, number>();
   let pastTests: TestAttemptRow[] = [];
@@ -68,10 +69,9 @@ export default async function SubjectDetailPage({
   }
 
   // The Practice tab lists the practice bank. Questions that belong to a Test
-  // Series paper are that paper's, and are reached by sitting it.
-  const rows: QuestionRow[] = questions
-    .filter((q) => q.practice_only)
-    .map((q) => ({
+  // Series paper are that paper's, and are reached by sitting it — the query
+  // already excludes them.
+  const rows: QuestionRow[] = questions.map((q) => ({
     id: q.id,
     title: q.title,
     topicId: q.topic?.id ?? q.topic_id,
@@ -87,7 +87,6 @@ export default async function SubjectDetailPage({
 
   // Previous-year papers and mocks are sat identically but answer different
   // questions for a learner, so each gets its own section.
-  const allSets = await getTestSets(subject.id);
   const mockSets = allSets.filter((s) => s.category === "mock").map(setMeta);
   const pyqSets = allSets.filter((s) => s.category === "pyq").map(setMeta);
 

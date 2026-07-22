@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type {
   Attempt,
@@ -19,13 +20,33 @@ export interface QuestionMinimal {
   exam: string | null;
 }
 
-export async function getCurrentUser() {
+/**
+ * The signed-in user, or null.
+ *
+ * `auth.getUser()` is a network round-trip to the Auth server, and the layout
+ * plus the page underneath it both want the user. React `cache()` collapses
+ * those into one call per request.
+ */
+export const getCurrentUser = cache(async function getCurrentUser() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   return user;
-}
+});
+
+/** Whether the user has a phone on file — cached alongside the user lookup. */
+export const getProfilePhone = cache(async function getProfilePhone(
+  userId: string,
+): Promise<string | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("phone")
+    .eq("id", userId)
+    .maybeSingle();
+  return data?.phone ?? null;
+});
 
 export async function getSubjects(): Promise<Subject[]> {
   const supabase = await createClient();
@@ -153,16 +174,61 @@ export async function getTopicsForSubject(subjectId: string): Promise<Topic[]> {
   return data ?? [];
 }
 
-export async function getQuestionsForSubject(
+/** One row of the practice list / IDE side-nav. List columns only. */
+export interface QuestionListItem {
+  id: string;
+  title: string;
+  topic_id: string | null;
+  kind: Question["kind"];
+  exam: string | null;
+  difficulty: Difficulty;
+  tags: string[] | null;
+  practice_only: boolean;
+  topic: { id: string; name: string; week: number | null } | null;
+}
+
+/**
+ * The practice bank for a subject, list columns only.
+ *
+ * Deliberately narrow: `select("*")` here dragged body_md, solution_md, tests,
+ * harness and starter_code for every question in the subject (~1.1 MB) across
+ * the wire twice — once from Postgres, then again in the RSC payload — to
+ * render rows that use nine short fields (~27 kB). Test Series questions are
+ * filtered out in SQL rather than in JS for the same reason.
+ */
+export const getSubjectQuestionList = cache(async function getSubjectQuestionList(
   subjectId: string,
-): Promise<QuestionWithTopic[]> {
+): Promise<QuestionListItem[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("questions")
-    .select("*, topic:topics(id, name, week)")
+    .select(
+      "id, title, topic_id, kind, exam, difficulty, tags, practice_only, topic:topics(id, name, week)",
+    )
     .eq("subject_id", subjectId)
+    .eq("practice_only", true)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
+  return (data as unknown as QuestionListItem[]) ?? [];
+});
+
+/**
+ * Full question payloads for the handful of questions in one paper.
+ *
+ * The exam runner used to load every question in the subject and keep the
+ * eight it needed; this fetches only those eight.
+ */
+export async function getQuestionsForRun(
+  ids: string[],
+): Promise<QuestionWithTopic[]> {
+  if (ids.length === 0) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("questions")
+    .select(
+      "id, title, body_md, solution_md, kind, tests, mcq_options, mcq_answer, setup_sql, starter_code, language, harness, input_labels, difficulty",
+    )
+    .in("id", ids);
   return (data as unknown as QuestionWithTopic[]) ?? [];
 }
 

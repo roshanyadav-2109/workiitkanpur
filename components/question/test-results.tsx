@@ -151,11 +151,16 @@ export function TestCasesPanel({
   tests: TestCase[];
   summary: RunSummary | null;
 }) {
-  const publicTests = tests.filter((t) => !t.hidden);
+  // Keep each test's real position, so "Test 3" means the third test whether or
+  // not the ones before it are hidden — the same numbering the results use.
+  const publicTests = tests
+    .map((t, index) => ({ t, index }))
+    .filter((x) => !x.t.hidden);
   const privateCount = tests.filter((t) => t.hidden).length;
 
-  const fail = summary?.results.find((r) => !r.passed);
-  const shown = fail ?? summary?.results[0];
+  const byIndex = new Map((summary?.results ?? []).map((r) => [r.index, r]));
+  const failures = (summary?.results ?? []).filter((r) => !r.passed);
+  const hiddenFailures = failures.filter((r) => r.hidden);
 
   return (
     <div className="space-y-4">
@@ -176,34 +181,95 @@ export function TestCasesPanel({
         </div>
       )}
 
+      {/* Name the failures up front, so which test broke is the first thing
+          read rather than something to hunt for. */}
+      {summary && failures.length > 0 && (
+        <div className="rounded-[3px] border border-err/40 bg-err-weak px-3 py-2.5 text-[13px] font-medium text-err">
+          {failures.length === 1 ? "Test " : "Tests "}
+          {failures.map((r) => r.index + 1).join(", ")} failed
+          {hiddenFailures.length > 0 &&
+            ` (${hiddenFailures.length} hidden)`}
+          .
+        </div>
+      )}
+      {summary && failures.length === 0 && (
+        <div className="rounded-[3px] border border-ok/40 bg-ok-weak px-3 py-2.5 text-[13px] font-medium text-ok">
+          {/* A Run only executes the sample tests, so it cannot claim the
+              hidden ones passed. */}
+          {summary.action === "run"
+            ? `All ${summary.results.length} sample tests passed.`
+            : `All ${summary.results.length} tests passed.`}
+        </div>
+      )}
+
       {tests.length === 0 ? (
         <p className="text-[13px] text-fg">No test cases for this question.</p>
       ) : (
         <div className="space-y-3">
-          {publicTests.map((t, i) => (
-            <div
-              key={i}
-              className="overflow-hidden rounded-[3px] border border-hairline"
-            >
-              <div className="border-b border-hairline px-3 py-1.5 text-[12px] font-medium text-fg">
-                Test {i + 1}
-              </div>
-              <div className="grid gap-3 p-3 sm:grid-cols-2">
-                <div>
-                  <div className="mb-1 text-[11px] text-fg-muted">Input</div>
-                  <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
-                    {t.stdin || "—"}
-                  </pre>
+          {publicTests.map(({ t, index }) => {
+            const outcome = byIndex.get(index);
+            const failed = outcome ? !outcome.passed : false;
+            return (
+              <div
+                key={index}
+                className={cn(
+                  "overflow-hidden rounded-[3px] border",
+                  failed
+                    ? "border-err/40 bg-err-weak"
+                    : outcome
+                      ? "border-ok/40"
+                      : "border-hairline",
+                )}
+              >
+                <div
+                  className={cn(
+                    "flex items-center justify-between gap-3 border-b px-3 py-1.5 text-[12px] font-medium",
+                    failed
+                      ? "border-err/40 text-err"
+                      : outcome
+                        ? "border-ok/40 text-ok"
+                        : "border-hairline text-fg",
+                  )}
+                >
+                  <span>Test {index + 1}</span>
+                  {outcome && <span>{failed ? "Failed" : "Passed"}</span>}
                 </div>
-                <div>
-                  <div className="mb-1 text-[11px] text-fg-muted">Expected</div>
-                  <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
-                    {t.expected || "—"}
-                  </pre>
+                <div className="grid gap-3 p-3 sm:grid-cols-2">
+                  <div>
+                    <div className="mb-1 text-[11px] text-fg-muted">Input</div>
+                    <pre className="whitespace-pre-wrap rounded border border-hairline bg-canvas p-2 font-mono text-[12px] text-fg">
+                      {t.stdin || "—"}
+                    </pre>
+                  </div>
+                  <div>
+                    <div className="mb-1 text-[11px] text-fg-muted">
+                      Expected
+                    </div>
+                    <pre className="whitespace-pre-wrap rounded border border-hairline bg-canvas p-2 font-mono text-[12px] text-fg">
+                      {t.expected || "—"}
+                    </pre>
+                  </div>
                 </div>
+                {/* What this specific test actually produced, in place, so the
+                    comparison does not require scrolling elsewhere. */}
+                {failed && outcome && (
+                  <div className="px-3 pb-3">
+                    <div className="mb-1 text-[11px] text-fg-muted">
+                      {outcome.stderr ? "Error" : "Your output"}
+                    </div>
+                    <pre
+                      className={cn(
+                        "max-h-40 overflow-auto whitespace-pre-wrap rounded border border-err/40 bg-canvas p-2 font-mono text-[12px]",
+                        outcome.stderr ? "text-err" : "text-fg",
+                      )}
+                    >
+                      {outcome.stderr || outcome.got || "(no output)"}
+                    </pre>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
           {privateCount > 0 && (
             <p className="text-[13px] text-fg-muted">
               Plus {privateCount} hidden {privateCount === 1 ? "test" : "tests"}{" "}
@@ -213,33 +279,25 @@ export function TestCasesPanel({
         </div>
       )}
 
-      {summary &&
-        shown &&
-        (() => {
-          const title = fail
-            ? fail.stderr
-              ? "Error"
-              : "Your output (did not match)"
-            : "Your output";
-          const body = fail
-            ? fail.stderr || fail.got || "(no output)"
-            : shown.got || "(no output)";
-          return (
-            <div className="overflow-hidden rounded-[3px] border border-hairline">
-              <div className="border-b border-hairline px-3 py-1.5 text-[12px] font-medium text-fg">
-                {title}
-              </div>
-              <pre
-                className={cn(
-                  "max-h-56 overflow-auto whitespace-pre-wrap p-3 font-mono text-[12px]",
-                  fail && fail.stderr ? "text-err" : "text-fg",
-                )}
-              >
-                {body}
+      {/* Hidden tests never show their input, but a failure still needs to say
+          so — and report the error if the code crashed rather than mismatched. */}
+      {hiddenFailures.length > 0 && (
+        <div className="overflow-hidden rounded-[3px] border border-err/40 bg-err-weak">
+          <div className="border-b border-err/40 px-3 py-1.5 text-[12px] font-medium text-err">
+            Hidden {hiddenFailures.length === 1 ? "test" : "tests"}{" "}
+            {hiddenFailures.map((r) => r.index + 1).join(", ")} failed
+          </div>
+          <div className="px-3 py-2.5 text-[12px] text-fg-muted">
+            {hiddenFailures[0].stderr ? (
+              <pre className="max-h-40 overflow-auto whitespace-pre-wrap rounded border border-err/40 bg-canvas p-2 font-mono text-err">
+                {hiddenFailures[0].stderr}
               </pre>
-            </div>
-          );
-        })()}
+            ) : (
+              "The input for hidden tests is not shown. Check the edge cases your code may not handle."
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

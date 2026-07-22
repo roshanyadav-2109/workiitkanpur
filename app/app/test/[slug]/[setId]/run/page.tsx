@@ -1,7 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
-import { getQuestionsForSubject, getSubjectBySlug, getTestSets } from "@/lib/queries";
+import {
+  getCurrentUser,
+  getQuestionsForRun,
+  getSubjectBySlug,
+  getTestSets,
+} from "@/lib/queries";
 import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
 import { TestDeviceGuard } from "@/components/test/device-guard";
@@ -22,18 +26,22 @@ export default async function RunPage({
   if (!subject || !subject.is_active) notFound();
 
   // The paper is graded and stored server-side, so it needs a signed-in learner.
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const [user, sets] = await Promise.all([
+    getCurrentUser(),
+    getTestSets(subject.id),
+  ]);
   if (!user)
     redirect(
       `/login?next=${encodeURIComponent(`/app/test/${slug}/${setId}/run?env=${environment}`)}`,
     );
 
-  const questions = await getQuestionsForSubject(subject.id);
-  const set = (await getTestSets(subject.id)).find((s) => s.id === setId);
+  const set = sets.find((s) => s.id === setId);
   if (!set || !set.available) notFound();
+
+  // Only this paper's questions — not every question in the subject.
+  const questions = await getQuestionsForRun(
+    set.sections.flatMap((s) => s.questionIds),
+  );
 
   // Open (or resume) the attempt row this paper writes into.
   const started = await startTestAttempt({ slug, setId, environment });

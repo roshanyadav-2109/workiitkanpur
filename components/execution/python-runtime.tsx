@@ -377,20 +377,28 @@ export function PythonRuntime({
           </div>
           <ul className="divide-y divide-hairline">
             {outcomes.map((o) => (
-              <li key={o.index} className="px-3 py-2.5">
+              <li
+                key={o.index}
+                className={cn("px-3 py-2.5", !o.passed && "bg-err-weak")}
+              >
                 <div className="flex items-center gap-2">
                   {o.passed ? (
                     <IconCheck size={15} className="text-accent" />
                   ) : (
-                    <IconClose size={15} className="text-fg-muted" />
+                    <IconClose size={15} className="text-err" />
                   )}
-                  <span className="text-[13px] font-medium">
+                  <span
+                    className={cn(
+                      "text-[13px] font-medium",
+                      !o.passed && "text-err",
+                    )}
+                  >
                     {o.hidden ? `Hidden test ${o.index + 1}` : `Test ${o.index + 1}`}
                   </span>
                   <span
                     className={cn(
                       "text-[12px]",
-                      o.passed ? "text-accent" : "text-fg-muted",
+                      o.passed ? "text-accent" : "text-err",
                     )}
                   >
                     {o.passed ? "passed" : "failed"}

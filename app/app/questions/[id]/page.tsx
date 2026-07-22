@@ -4,7 +4,7 @@ import {
   getCurrentUser,
   getNote,
   getQuestionById,
-  getQuestionsForSubject,
+  getSubjectQuestionList,
   getUserAttempts,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
@@ -37,7 +37,7 @@ export default async function QuestionPage({
   const { question, subject, topic } = ctx;
 
   const [allQuestions, user] = await Promise.all([
-    getQuestionsForSubject(subject.id),
+    getSubjectQuestionList(subject.id),
     getCurrentUser(),
   ]);
 
@@ -67,7 +67,7 @@ export default async function QuestionPage({
   // so they are not listed here — they carry no topic and would otherwise pile
   // up under an "Other" heading.
   const groupMap = new Map<string, IDETopicGroup>();
-  for (const q of allQuestions.filter((x) => x.practice_only)) {
+  for (const q of allQuestions) {
     const key = q.topic?.id ?? "none";
     if (!groupMap.has(key)) {
       groupMap.set(key, {
