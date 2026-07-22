@@ -246,10 +246,10 @@ export function PythonRuntime({
                 size="sm"
                 onClick={() => gate.requirePhone(onRun)}
                 disabled={running || testing}
-                title="Run your code against the custom input"
+                title="Run your code against the custom input you typed"
               >
                 <IconPlay size={15} />
-                {running ? "Running…" : "Run code"}
+                {running ? "Running…" : "Run custom test"}
               </Button>
               <Button
                 variant="secondary"
@@ -258,7 +258,7 @@ export function PythonRuntime({
                 disabled={running || testing || visibleCount === 0}
                 title={`Runs the ${visibleCount} sample tests you can see.`}
               >
-                {testing ? "Running…" : "Run sample tests"}
+                {testing ? "Running…" : "Run code"}
               </Button>
               <Button
                 variant="primary"

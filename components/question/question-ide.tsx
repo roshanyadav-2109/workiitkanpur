@@ -25,7 +25,10 @@ import {
   IconProgress,
   IconSubjects,
 } from "@/components/icons";
-import { SqlResultPanel } from "@/components/question/test-results";
+import {
+  SqlResultPanel,
+  TestCasesPanel,
+} from "@/components/question/test-results";
 import type {
   GradeResult,
   RunOutput,
@@ -317,13 +320,6 @@ export function QuestionIDE({
     });
   }
 
-  // Tests carrying their original index, split into public/private.
-  const indexedTests = current.tests.map((t, index) => ({ t, index }));
-  const publicTests = indexedTests.filter((x) => !x.t.hidden);
-  const privateTests = indexedTests.filter((x) => x.t.hidden);
-  const resultByIndex = new Map(
-    summary?.results.map((r) => [r.index, r]) ?? [],
-  );
   const isCoding = current.kind === "coding";
   // Code-editor kinds share the same full-height editor frame (Python, SQL, …);
   // only the editor and how it runs differ.
@@ -558,87 +554,10 @@ export function QuestionIDE({
               <SqlResultPanel outcome={sqlOutcome} />
             )}
 
+            {/* The exam runner's panel, so a failed test reads the same way in
+                practice as it does in a paper — red block, its own output. */}
             {tab === "tests" && current.kind !== "sql" && (
-              <div className="space-y-4">
-                {/* Pass/fail confirmation lines. */}
-                {summary && (
-                  <div className="space-y-2.5 rounded-md border border-hairline p-3">
-                    <ProgressLine
-                      label="Public tests"
-                      passed={summary.publicPassed}
-                      total={summary.publicTotal}
-                      ran
-                    />
-                    <ProgressLine
-                      label="Private tests"
-                      passed={summary.privatePassed ?? 0}
-                      total={summary.privateTotal}
-                      ran={summary.privatePassed !== null}
-                    />
-                  </div>
-                )}
-
-                {current.tests.length === 0 ? (
-                  <p className="text-[13px] text-fg">
-                    No test cases for this question.
-                  </p>
-                ) : (
-                  <div className="space-y-3">
-                    {publicTests.map(({ t, index }, i) => (
-                      <div
-                        key={index}
-                        className="overflow-hidden rounded-md border border-hairline"
-                      >
-                        <div className="border-b border-hairline px-3 py-1.5 text-[12px] font-medium text-fg">
-                          Test {i + 1}
-                        </div>
-                        <div className="grid gap-3 p-3 sm:grid-cols-2">
-                          <div>
-                            <div className="mb-1 text-[11px] text-fg-muted">
-                              Input
-                            </div>
-                            <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
-                              {t.stdin || "—"}
-                            </pre>
-                          </div>
-                          <div>
-                            <div className="mb-1 text-[11px] text-fg-muted">
-                              Expected
-                            </div>
-                            <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
-                              {t.expected || "—"}
-                            </pre>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {privateTests.length > 0 && (
-                      <p className="text-[13px] text-fg-muted">
-                        + {privateTests.length} private{" "}
-                        {privateTests.length === 1 ? "test" : "tests"} run when
-                        you Submit.
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* One box, below the tests: error, or the obtained output. */}
-                {summary &&
-                  (() => {
-                    const fail = summary.results.find((r) => !r.passed);
-                    const shown = fail ?? summary.results[0];
-                    if (!shown) return null;
-                    const title = fail
-                      ? fail.stderr
-                        ? "Error"
-                        : "Your output (did not match)"
-                      : "Your output";
-                    const body = fail
-                      ? fail.stderr || fail.got || "(no output)"
-                      : shown.got || "(no output)";
-                    return <OutputBox title={title} body={body} />;
-                  })()}
-              </div>
+              <TestCasesPanel tests={current.tests} summary={summary} />
             )}
 
             {tab === "custom" && (
@@ -652,7 +571,8 @@ export function QuestionIDE({
                     input()
                   </code>
                   . Edit only the highlighted values (the labels stay fixed), then
-                  press <span className="font-medium text-fg">Run code</span>.
+                  press{" "}
+                  <span className="font-medium text-fg">Run custom test</span>.
                 </p>
 
                 <div className="space-y-2">
