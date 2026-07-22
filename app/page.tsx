@@ -6,7 +6,6 @@ import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks
 import { HomeCarousel } from "@/components/home/home-carousel";
 import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
-import { ResumeLink } from "@/components/shell/resume-link";
 import { getCurriculum } from "@/lib/queries";
 import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
 
@@ -62,8 +61,6 @@ export default async function LandingPage() {
               Practice for your{" "}
               <span className="highlight-word">OPPE Exams</span>
             </h1>
-
-            <ResumeLink />
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               {shownSubjects.map((s) => (

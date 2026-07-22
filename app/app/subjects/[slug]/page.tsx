@@ -79,6 +79,7 @@ export default async function SubjectDetailPage({
     week: q.topic?.week ?? null,
     kind: q.kind,
     exam: q.exam,
+    difficulty: q.difficulty,
     tags: q.tags ?? [],
     status: status.get(q.id) ?? "unsolved",
     bestTimeSeconds: best.get(q.id) ?? null,

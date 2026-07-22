@@ -11,7 +11,7 @@ import { formatClock, cn } from "@/lib/utils";
 import { degreeLabel, type Curriculum } from "@/lib/curriculum";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 import { logEvent } from "@/lib/activity";
-import type { QuestionKind } from "@/lib/types";
+import type { Difficulty, QuestionKind } from "@/lib/types";
 
 export interface QuestionRow {
   id: string;
@@ -21,6 +21,7 @@ export interface QuestionRow {
   week: number | null;
   kind: QuestionKind;
   exam: string | null;
+  difficulty: Difficulty;
   branch?: string | null;
   level?: string | null;
   tags: string[];
@@ -30,6 +31,46 @@ export interface QuestionRow {
 
 type StatusFilter = "all" | "solved" | "unsolved";
 type KindFilter = "all" | QuestionKind;
+type DifficultyFilter = "all" | Difficulty;
+
+/**
+ * A three-bar meter for a question's difficulty: one bar lit for easy, two for
+ * medium, three for hard, in the design system's green/amber/red. Compact and
+ * wordless so it reads at a glance in a dense row, with a label for a11y.
+ */
+const DIFFICULTY: Record<
+  Difficulty,
+  { label: string; lit: number; color: string }
+> = {
+  easy: { label: "Easy", lit: 1, color: "bg-ok" },
+  medium: { label: "Medium", lit: 2, color: "bg-[#d97706]" },
+  hard: { label: "Hard", lit: 3, color: "bg-err" },
+};
+
+function DifficultyMeter({ level }: { level: Difficulty }) {
+  const d = DIFFICULTY[level];
+  return (
+    <span
+      className="inline-flex items-center gap-1"
+      title={`Difficulty: ${d.label}`}
+      aria-label={`Difficulty: ${d.label}`}
+    >
+      <span className="flex items-end gap-[3px]" aria-hidden>
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className={cn(
+              "w-[4px] rounded-[1px]",
+              i === 0 ? "h-[7px]" : i === 1 ? "h-[10px]" : "h-[13px]",
+              i < d.lit ? d.color : "bg-[#d9d7d2]",
+            )}
+          />
+        ))}
+      </span>
+      <span className="text-[12px] font-medium text-fg-muted">{d.label}</span>
+    </span>
+  );
+}
 
 const KIND_LABEL: Record<QuestionKind, string> = {
   coding: "Coding",
@@ -63,6 +104,7 @@ export function QuestionTable({
   const [exam, setExam] = useState<string>(initialExam ?? "all");
   const [branch, setBranch] = useState<string>("all");
   const [level, setLevel] = useState<string>("all");
+  const [difficulty, setDifficulty] = useState<DifficultyFilter>("all");
   // Question-kind (MCQ / coding) filtering stays wired up for when other exam
   // types go live, but the control is hidden while everything is coding-only.
   const [kind] = useState<KindFilter>("all");
@@ -98,6 +140,7 @@ export function QuestionTable({
       // Branch/level only narrow when a question actually carries the tag.
       if (branch !== "all" && r.branch && r.branch !== branch) return false;
       if (level !== "all" && r.level && r.level !== level) return false;
+      if (difficulty !== "all" && r.difficulty !== difficulty) return false;
       if (kind !== "all" && r.kind !== kind) return false;
       if (status === "solved" && r.status !== "solved") return false;
       if (status === "unsolved" && r.status === "solved") return false;
@@ -107,7 +150,7 @@ export function QuestionTable({
       }
       return true;
     });
-  }, [rows, query, topic, exam, branch, level, status, kind]);
+  }, [rows, query, topic, exam, branch, level, difficulty, status, kind]);
 
   // Solid black border that doesn't recolour on focus. Compact on mobile,
   // roomier from sm up.
@@ -171,6 +214,20 @@ export function QuestionTable({
             </Select>
           </div>
         )}
+
+        <div className="w-full sm:w-[9.5rem] sm:max-w-full">
+          <Select
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value as DifficultyFilter)}
+            aria-label="Filter by difficulty"
+            className={filterCls}
+          >
+            <option value="all">All levels</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </Select>
+        </div>
 
         {topics.length > 0 && (
           <div className="w-full sm:w-[12rem] sm:max-w-full">
@@ -239,9 +296,14 @@ export function QuestionTable({
                 )}
               >
                 <div className="min-w-0 flex-1">
-                  <h3 className="line-clamp-2 text-[15.5px] font-semibold leading-snug tracking-[-0.005em] text-fg sm:truncate">
-                    {r.title}
-                  </h3>
+                  <div className="flex items-center gap-2.5">
+                    <h3 className="line-clamp-2 min-w-0 text-[15.5px] font-semibold leading-snug tracking-[-0.005em] text-fg sm:truncate">
+                      {r.title}
+                    </h3>
+                    <span className="shrink-0">
+                      <DifficultyMeter level={r.difficulty} />
+                    </span>
+                  </div>
                   <p className="mt-1 truncate text-[13px] text-fg-muted">
                     {r.week != null ? `Week ${r.week}` : ""}
                     {r.topicName
