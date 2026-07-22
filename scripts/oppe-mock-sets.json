@@ -1,0 +1,1461 @@
+[
+ {
+  "slug": "oppe-mock-2",
+  "title": "OPPE Mock 2",
+  "sort_order": 8,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Count Descents",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[3, 1, 4, 1, 5]",
+      "expected": "2",
+      "hidden": false
+     },
+     {
+      "stdin": "[1, 2, 3, 4]",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "[9, 7, 5, 3]",
+      "expected": "3",
+      "hidden": true
+     },
+     {
+      "stdin": "[5]",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "[2, 2, 2, 1]",
+      "expected": "1",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a list of integers, a *descent* is a position `i` where the element is strictly greater than the element immediately after it (`nums[i] > nums[i+1]`).\n\nReturn the number of descents in the list.\n\nExample:\n`nums = [3, 1, 4, 1, 5]` has descents at index 0 (3>1) and index 2 (4>1), so the answer is `2`.\n\nArgs:\n    nums (list): a list of integers.\n\nReturns:\n    int: the number of descents.\n\n## Your task\n\nImplement this function:\n\n```python\ndef count_descents(nums: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `nums`.\n\n## Example\n\nInput\n\n```\n[3, 1, 4, 1, 5]\n```\n\nOutput\n\n```\n2\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef count_descents(nums: list) -> int:\n    count = 0\n    for i in range(len(nums) - 1):\n        if nums[i] > nums[i + 1]:\n            count += 1\n    return count\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = count_descents(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def count_descents(nums: list) -> int:\n    ...\n",
+    "input_labels": [
+     "nums"
+    ]
+   },
+   {
+    "title": "Middle Character",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "'abcde'",
+      "expected": "'c'",
+      "hidden": false
+     },
+     {
+      "stdin": "'abcd'",
+      "expected": "'bc'",
+      "hidden": false
+     },
+     {
+      "stdin": "'x'",
+      "expected": "'x'",
+      "hidden": true
+     },
+     {
+      "stdin": "'python'",
+      "expected": "'th'",
+      "hidden": true
+     },
+     {
+      "stdin": "'racecar'",
+      "expected": "'e'",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a non-empty string `s`, return its middle portion:\n\n- If the length of `s` is odd, return the single middle character.\n- If the length of `s` is even, return the two middle characters.\n\nExamples:\n    \"abcde\" -> \"c\"\n    \"abcd\"  -> \"bc\"\n\nArgs:\n    s (str): a non-empty string.\n\nReturns:\n    str: the middle one or two characters.\n\n## Your task\n\nImplement this function:\n\n```python\ndef middle_character(s: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'abcde'\n```\n\nOutput\n\n```\n'c'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef middle_character(s: str) -> str:\n    n = len(s)\n    if n % 2 == 1:\n        return s[n // 2]\n    return s[n // 2 - 1:n // 2 + 1]\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = middle_character(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def middle_character(s: str) -> str:\n    ...\n",
+    "input_labels": [
+     "s"
+    ]
+   },
+   {
+    "title": "Second Largest Distinct",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[4, 1, 4, 3, 2]",
+      "expected": "3",
+      "hidden": false
+     },
+     {
+      "stdin": "[10, 20]",
+      "expected": "10",
+      "hidden": false
+     },
+     {
+      "stdin": "[5, 5, 9]",
+      "expected": "5",
+      "hidden": true
+     },
+     {
+      "stdin": "[-1, -2, -3]",
+      "expected": "-2",
+      "hidden": true
+     },
+     {
+      "stdin": "[100, 50, 100, 75]",
+      "expected": "75",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a list of integers, return the second largest *distinct* value.\n\nDuplicate values count only once. You may assume the list contains at least two distinct values.\n\nExample:\n`nums = [4, 1, 4, 3, 2]` has distinct values {1, 2, 3, 4}; the largest is 4 and the second largest distinct value is `3`.\n\nArgs:\n    nums (list): a list of integers with at least two distinct values.\n\nReturns:\n    int: the second largest distinct value.\n\n## Your task\n\nImplement this function:\n\n```python\ndef second_largest_distinct(nums: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `nums`.\n\n## Example\n\nInput\n\n```\n[4, 1, 4, 3, 2]\n```\n\nOutput\n\n```\n3\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef second_largest_distinct(nums: list) -> int:\n    unique = sorted(set(nums), reverse=True)\n    return unique[1]\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = second_largest_distinct(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def second_largest_distinct(nums: list) -> int:\n    ...\n",
+    "input_labels": [
+     "nums"
+    ]
+   },
+   {
+    "title": "Rotate Tuple Right",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 4,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "(1, 2, 3, 4, 5)\n2",
+      "expected": "(4, 5, 1, 2, 3)",
+      "hidden": false
+     },
+     {
+      "stdin": "(1, 2, 3)\n0",
+      "expected": "(1, 2, 3)",
+      "hidden": false
+     },
+     {
+      "stdin": "(1, 2, 3)\n3",
+      "expected": "(1, 2, 3)",
+      "hidden": true
+     },
+     {
+      "stdin": "('a', 'b', 'c', 'd')\n1",
+      "expected": "('d', 'a', 'b', 'c')",
+      "hidden": true
+     },
+     {
+      "stdin": "(7, 8)\n5",
+      "expected": "(8, 7)",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a tuple `t` and a non-negative integer `k`, rotate the tuple to the right by `k` positions and return the new tuple.\n\nRotating to the right means the last element moves to the front. If `k` is larger than the length of the tuple, the rotation wraps around (rotate by `k` modulo the length). An empty tuple is returned unchanged.\n\nExample:\n    t = (1, 2, 3, 4, 5), k = 2  ->  (4, 5, 1, 2, 3)\n\nArgs:\n    t (tuple): the tuple to rotate.\n    k (int): a non-negative number of positions to rotate right.\n\nReturns:\n    tuple: the rotated tuple.\n\n## Your task\n\nImplement this function:\n\n```python\ndef rotate_tuple_right(t: tuple, k: int) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `t`, `k`.\n\n## Example\n\nInput\n\n```\n(1, 2, 3, 4, 5)\n2\n```\n\nOutput\n\n```\n(4, 5, 1, 2, 3)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef rotate_tuple_right(t: tuple, k: int) -> tuple:\n    n = len(t)\n    if n == 0:\n        return t\n    k %= n\n    return t[-k:] + t[:-k]\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:2]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = rotate_tuple_right(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def rotate_tuple_right(t: tuple, k: int) -> tuple:\n    ...\n",
+    "input_labels": [
+     "t",
+     "k"
+    ]
+   },
+   {
+    "title": "Sum Of Odd Digits",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 5,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "13579",
+      "expected": "25",
+      "hidden": false
+     },
+     {
+      "stdin": "2468",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "-135",
+      "expected": "9",
+      "hidden": true
+     },
+     {
+      "stdin": "0",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "1000003",
+      "expected": "4",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given an integer `n`, return the sum of its digits that are odd. The sign of `n` is ignored (work with its absolute value).\n\nExample:\n`n = 13579` -> the odd digits are 1, 3, 5, 7, 9 and their sum is `25`.\n\nArgs:\n    n (int): the input integer.\n\nReturns:\n    int: the sum of the odd digits of `n`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef sum_of_odd_digits(n: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n13579\n```\n\nOutput\n\n```\n25\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef sum_of_odd_digits(n: int) -> int:\n    total = 0\n    for c in str(abs(n)):\n        d = int(c)\n        if d % 2 == 1:\n            total += d\n    return total\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = sum_of_odd_digits(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def sum_of_odd_digits(n: int) -> int:\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "Grocery Bill with GST",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\n2 50.00\n1 120.50\n3 15.00",
+      "expected": "Subtotal: 265.50\nTotal: 313.29",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n1 99.99",
+      "expected": "Subtotal: 99.99\nTotal: 117.99",
+      "hidden": false
+     },
+     {
+      "stdin": "2\n5 10.00\n2 25.00",
+      "expected": "Subtotal: 100.00\nTotal: 118.00",
+      "hidden": true
+     },
+     {
+      "stdin": "4\n1 1.00\n1 2.00\n1 3.00\n1 4.00",
+      "expected": "Subtotal: 10.00\nTotal: 11.80",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n10 0.50",
+      "expected": "Subtotal: 5.00\nTotal: 5.90",
+      "hidden": true
+     }
+    ],
+    "body_md": "A shopkeeper is preparing a customer's bill. The customer buys several items; for each item the shopkeeper notes the quantity purchased and the unit price in rupees. A flat GST of 18% is added to the subtotal to get the final total.\n\nRead the purchase and print the subtotal (before tax) and the total (after 18% GST), each rounded to exactly two decimal places.\n\n## Input\n- The first line contains an integer `N`, the number of items.\n- Each of the next `N` lines contains an integer quantity and a floating-point unit price, separated by a space.\n\n## Output\n- Line 1: `Subtotal: X` where `X` is the sum of quantity x unit price over all items.\n- Line 2: `Total: Y` where `Y` is the subtotal plus 18% GST.\n\nBoth amounts are printed with exactly two decimal places.\n\n## Constraints\n- 1 <= N <= 100\n- 1 <= quantity <= 1000\n- 0.0 <= unit price <= 100000.0\n\n## Example\nInput:\n```\n3\n2 50.00\n1 120.50\n3 15.00\n```\nOutput:\n```\nSubtotal: 265.50\nTotal: 313.29\n```\nExplanation: subtotal = 2x50.00 + 1x120.50 + 3x15.00 = 265.50; adding 18% GST gives 265.50 x 1.18 = 313.29.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n2 50.00\n1 120.50\n3 15.00\n```\n\nOutput\n\n```\nSubtotal: 265.50\nTotal: 313.29\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nsubtotal = 0.0\nfor _ in range(n):\n    parts = input().split()\n    qty = int(parts[0])\n    price = float(parts[1])\n    subtotal += qty * price\ntotal = subtotal * 1.18\nprint(f\"Subtotal: {subtotal:.2f}\")\nprint(f\"Total: {total:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   },
+   {
+    "title": "Loyalty Points Tiers",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\n500\n2000\n6000",
+      "expected": "5\n40\n300",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n999",
+      "expected": "9",
+      "hidden": false
+     },
+     {
+      "stdin": "1\n1000",
+      "expected": "20",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n5000",
+      "expected": "250",
+      "hidden": true
+     },
+     {
+      "stdin": "2\n4999\n100000",
+      "expected": "99\n5000",
+      "hidden": true
+     }
+    ],
+    "body_md": "A retail chain runs a loyalty programme. When a customer pays a bill, they earn reward points based on the bill amount according to the following tiers:\n\n- Bill below Rs 1000: earn 1% of the bill as points.\n- Bill from Rs 1000 up to (but not including) Rs 5000: earn 2% of the bill.\n- Bill of Rs 5000 or more: earn 5% of the bill.\n\nPoints are always rounded **down** to a whole number.\n\n## Input\n- The first line contains an integer `N`, the number of bills.\n- Each of the next `N` lines contains one bill amount (a floating-point number of rupees).\n\n## Output\n- For each bill, print the whole number of points earned, one per line, in the same order as the input.\n\n## Constraints\n- 1 <= N <= 100\n- 0.0 <= bill amount <= 1000000.0\n\n## Example\nInput:\n```\n3\n500\n2000\n6000\n```\nOutput:\n```\n5\n40\n300\n```\nExplanation: Rs 500 is below 1000, so 1% = 5 points. Rs 2000 is in the middle tier, so 2% = 40 points. Rs 6000 is in the top tier, so 5% = 300 points.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\n500\n2000\n6000\n```\n\nOutput\n\n```\n5\n40\n300\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nfor _ in range(n):\n    bill = float(input())\n    if bill < 1000:\n        rate = 0.01\n    elif bill < 5000:\n        rate = 0.02\n    else:\n        rate = 0.05\n    print(int(bill * rate))\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   },
+   {
+    "title": "Cheapest Shop",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\nAmazon 499 40\nFlipkart 520 0\nLocal 500 20",
+      "expected": "Flipkart 520.00",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nShopX 100 10",
+      "expected": "ShopX 110.00",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nAlpha 200 0\nBeta 150 40",
+      "expected": "Beta 190.00",
+      "hidden": true
+     },
+     {
+      "stdin": "3\nA 100 0\nB 100 0\nC 100 0",
+      "expected": "A 100.00",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nZoro 50 5\nAce 60 0",
+      "expected": "Zoro 55.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A shopper wants to buy the same product online and compares several shops. Each shop lists a product price and a delivery fee. The effective cost at a shop is its price plus its delivery fee. Find the shop with the lowest effective cost. If two shops tie on effective cost, choose the one whose name comes first alphabetically.\n\n## Input\n- The first line contains an integer `N`, the number of shops.\n- Each of the next `N` lines contains a shop name (a single word, no spaces), a product price, and a delivery fee, separated by spaces. Price and fee are floating-point rupee amounts.\n\n## Output\n- A single line: `NAME COST` where `NAME` is the chosen shop and `COST` is its effective cost printed with exactly two decimal places.\n\n## Constraints\n- 1 <= N <= 100\n- Shop names are unique and contain no spaces.\n- 0.0 <= price, delivery fee <= 1000000.0\n\n## Example\nInput:\n```\n3\nAmazon 499 40\nFlipkart 520 0\nLocal 500 20\n```\nOutput:\n```\nFlipkart 520.00\n```\nExplanation: effective costs are Amazon 539, Flipkart 520 and Local 520. Flipkart and Local tie at 520; 'Flipkart' comes before 'Local' alphabetically, so Flipkart is chosen.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nAmazon 499 40\nFlipkart 520 0\nLocal 500 20\n```\n\nOutput\n\n```\nFlipkart 520.00\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nbest = None\nfor _ in range(n):\n    parts = input().split()\n    name = parts[0]\n    cost = float(parts[1]) + float(parts[2])\n    if best is None or cost < best[0] or (cost == best[0] and name < best[1]):\n        best = (cost, name)\nprint(f\"{best[1]} {best[0]:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   },
+   {
+    "title": "Cashier Change Breakdown",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 9,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "1288",
+      "expected": "500 x 2\n200 x 1\n50 x 1\n20 x 1\n10 x 1\n5 x 1\n2 x 1\n1 x 1",
+      "hidden": false
+     },
+     {
+      "stdin": "1",
+      "expected": "1 x 1",
+      "hidden": false
+     },
+     {
+      "stdin": "500",
+      "expected": "500 x 1",
+      "hidden": true
+     },
+     {
+      "stdin": "999",
+      "expected": "500 x 1\n200 x 2\n50 x 1\n20 x 2\n5 x 1\n2 x 2",
+      "hidden": true
+     },
+     {
+      "stdin": "63",
+      "expected": "50 x 1\n10 x 1\n2 x 1\n1 x 1",
+      "hidden": true
+     }
+    ],
+    "body_md": "A cashier must hand back change using the fewest possible currency notes and coins. The available denominations (in rupees) are: 500, 200, 100, 50, 20, 10, 5, 2, 1. Given the change amount, work out how many pieces of each denomination to give, always using the largest denominations first (a greedy breakdown).\n\n## Input\n- A single line containing an integer `amount`, the change to be returned (in rupees).\n\n## Output\n- For each denomination that is used at least once, print a line `D x C` where `D` is the denomination and `C` is the count of that denomination. Print the denominations from largest to smallest, skipping any denomination whose count is zero.\n\n## Constraints\n- 1 <= amount <= 1000000\n\n## Example\nInput:\n```\n1288\n```\nOutput:\n```\n500 x 2\n200 x 1\n50 x 1\n20 x 1\n10 x 1\n5 x 1\n2 x 1\n1 x 1\n```\nExplanation: 1288 = 2x500 + 1x200 + 1x50 + 1x20 + 1x10 + 1x5 + 1x2 + 1x1. The 100 denomination is not needed, so it is skipped.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1288\n```\n\nOutput\n\n```\n500 x 2\n200 x 1\n50 x 1\n20 x 1\n10 x 1\n5 x 1\n2 x 1\n1 x 1\n```",
+    "solution_md": "## Reference solution\n\n```python\namount = int(input())\ndenoms = [500, 200, 100, 50, 20, 10, 5, 2, 1]\nfor d in denoms:\n    count = amount // d\n    if count > 0:\n        print(f\"{d} x {count}\")\n        amount -= count * d\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   },
+   {
+    "title": "End-of-Day Sales Summary",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 10,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "5\nDairy 120.00\nBakery 80.50\nDairy 45.50\nProduce 200.00\nBakery 19.50",
+      "expected": "Bakery: 100.00\nDairy: 165.50\nProduce: 200.00\nTOTAL: 465.50\nTOP: Produce",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nSnacks 30.00",
+      "expected": "Snacks: 30.00\nTOTAL: 30.00\nTOP: Snacks",
+      "hidden": false
+     },
+     {
+      "stdin": "3\nA 10.00\nB 10.00\nA 5.00",
+      "expected": "A: 15.00\nB: 10.00\nTOTAL: 25.00\nTOP: A",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nGadgets 999.99\nGadgets 0.01",
+      "expected": "Gadgets: 1000.00\nTOTAL: 1000.00\nTOP: Gadgets",
+      "hidden": true
+     },
+     {
+      "stdin": "4\nBooks 50.00\nToys 50.00\nBooks 10.00\nToys 60.00",
+      "expected": "Books: 60.00\nToys: 110.00\nTOTAL: 170.00\nTOP: Toys",
+      "hidden": true
+     }
+    ],
+    "body_md": "A neighbourhood shop keeps a log of every sale made during the day. Each entry in the log records the *category* of the item sold (a single word such as `Dairy` or `Bakery`) and the rupee amount of that sale. At closing time the owner wants a tidy summary: how much was sold in each category, the grand total for the day, and which category brought in the most money.\n\nWrite a program that reads the day's log and prints this report.\n\n## Input\n- The first line contains an integer `N`, the number of sales entries.\n- Each of the next `N` lines contains a category name (a single word) and a floating-point sale amount, separated by a space.\n\n## Output\n- First, for every category, print a line `Category: Amount` giving the total sales for that category, with the categories listed in alphabetical order and the amount printed to exactly two decimal places.\n- Then print `TOTAL: G` where `G` is the grand total of all sales (two decimals).\n- Finally print `TOP: C` where `C` is the category with the highest total. If two categories are tied for the highest total, choose the one that comes first alphabetically.\n\n## Constraints\n- 1 <= N <= 1000\n- Category names contain no spaces.\n- 0.0 <= sale amount <= 100000.0\n\n## Example\nInput:\n```\n5\nDairy 120.00\nBakery 80.50\nDairy 45.50\nProduce 200.00\nBakery 19.50\n```\nOutput:\n```\nBakery: 100.00\nDairy: 165.50\nProduce: 200.00\nTOTAL: 465.50\nTOP: Produce\n```\nExplanation: Bakery totals 80.50 + 19.50 = 100.00, Dairy totals 120.00 + 45.50 = 165.50, and Produce totals 200.00. The grand total is 465.50 and Produce is the highest-earning category.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\nDairy 120.00\nBakery 80.50\nDairy 45.50\nProduce 200.00\nBakery 19.50\n```\n\nOutput\n\n```\nBakery: 100.00\nDairy: 165.50\nProduce: 200.00\nTOTAL: 465.50\nTOP: Produce\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\ntotals = {}\nfor _ in range(n):\n    parts = input().rsplit(' ', 1)\n    category = parts[0]\n    amount = float(parts[1])\n    totals[category] = totals.get(category, 0.0) + amount\ngrand = 0.0\nfor category in sorted(totals):\n    print(f\"{category}: {totals[category]:.2f}\")\n    grand += totals[category]\nprint(f\"TOTAL: {grand:.2f}\")\ntop = min(sorted(totals), key=lambda c: -totals[c])\nprint(f\"TOP: {top}\")\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   },
+   {
+    "title": "Warehouse Stock and Sales",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 11,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "3\nPen 50 10 5.00\nNotebook 8 15 40.00\nEraser 20 5 3.00\n4\nPen 20\nNotebook 5\nEraser 25\nPen 40",
+      "expected": "REVENUE: 300.00\nREJECTED: 2\nRESTOCK Notebook",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nWidget 100 20 10.00\n1\nWidget 100",
+      "expected": "REVENUE: 1000.00\nREJECTED: 0\nRESTOCK Widget",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nA 5 2 10.00\nB 5 2 10.00\n2\nA 10\nB 1",
+      "expected": "REVENUE: 10.00\nREJECTED: 1",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nMilk 3 5 25.00\nBread 10 4 30.00\n0",
+      "expected": "REVENUE: 0.00\nREJECTED: 0\nRESTOCK Milk",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nGum 2 3 2.00\n3\nGum 1\nGum 1\nGum 1",
+      "expected": "REVENUE: 4.00\nREJECTED: 1\nRESTOCK Gum",
+      "hidden": true
+     }
+    ],
+    "body_md": "An online store manages a small warehouse. Each product has a current stock level, a reorder level, and a unit price. Through the day a sequence of orders arrives; each order asks for a quantity of a named product. An order is *fulfilled* only if the product exists and there is enough stock to cover it, in which case the stock is reduced and revenue is earned (quantity x unit price). Otherwise the order is *rejected* and the stock is left unchanged.\n\nAt the end of the day the manager wants the total revenue, how many orders were rejected, and a list of products that have fallen to or below their reorder level.\n\n## Input\n- The first line contains an integer `N`, the number of products.\n- Each of the next `N` lines contains a product name (single word), its stock (int), its reorder level (int), and its unit price (float), separated by spaces.\n- The next line contains an integer `M`, the number of orders.\n- Each of the next `M` lines contains a product name and a quantity (int), separated by a space. Orders are processed in the order given.\n\n## Output\n- `REVENUE: R` where `R` is the total revenue from fulfilled orders (two decimals).\n- `REJECTED: K` where `K` is the number of rejected orders.\n- Then, for every product whose final stock is less than or equal to its reorder level, print a line `RESTOCK name`, with those products listed in alphabetical order.\n\n## Constraints\n- 1 <= N <= 1000, 0 <= M <= 1000\n- Product names are unique and contain no spaces.\n- 0 <= stock, reorder level, quantity <= 1000000\n- 0.0 <= unit price <= 100000.0\n\n## Example\nInput:\n```\n3\nPen 50 10 5.00\nNotebook 8 15 40.00\nEraser 20 5 3.00\n4\nPen 20\nNotebook 5\nEraser 25\nPen 40\n```\nOutput:\n```\nREVENUE: 300.00\nREJECTED: 2\nRESTOCK Notebook\n```\nExplanation: 'Pen 20' is fulfilled (stock 50->30, revenue 100.00). 'Notebook 5' is fulfilled (stock 8->3, revenue +200.00). 'Eraser 25' is rejected (only 20 in stock). 'Pen 40' is rejected (only 30 left). Revenue is 300.00 with 2 rejections. Only Notebook (final stock 3 <= reorder 15) needs restocking.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nPen 50 10 5.00\nNotebook 8 15 40.00\nEraser 20 5 3.00\n4\nPen 20\nNotebook 5\nEraser 25\nPen 40\n```\n\nOutput\n\n```\nREVENUE: 300.00\nREJECTED: 2\nRESTOCK Notebook\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nstock = {}\nreorder = {}\nprice = {}\nfor _ in range(n):\n    parts = input().split()\n    name = parts[0]\n    stock[name] = int(parts[1])\n    reorder[name] = int(parts[2])\n    price[name] = float(parts[3])\nm = int(input())\nrevenue = 0.0\nrejected = 0\nfor _ in range(m):\n    parts = input().split()\n    name = parts[0]\n    qty = int(parts[1])\n    if name in stock and stock[name] >= qty:\n        stock[name] -= qty\n        revenue += qty * price[name]\n    else:\n        rejected += 1\nprint(f\"REVENUE: {revenue:.2f}\")\nprint(f\"REJECTED: {rejected}\")\nlow = sorted(name for name in stock if stock[name] <= reorder[name])\nfor name in low:\n    print(f\"RESTOCK {name}\")\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   },
+   {
+    "title": "Invoice with GST Slabs and Loyalty Discount",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 12,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "3\nRice 2 60.00 5\nSoap 3 40.00 18\nOil 1 150.00 5",
+      "expected": "Oil: 157.50\nRice: 126.00\nSoap: 141.60\nSUBTOTAL: 425.10\nDISCOUNT: 0.00\nPAYABLE: 425.10",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nTV 1 40000.00 18",
+      "expected": "TV: 47200.00\nSUBTOTAL: 47200.00\nDISCOUNT: 4720.00\nPAYABLE: 42480.00",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nA 10 100.00 0\nB 5 200.00 0",
+      "expected": "A: 1000.00\nB: 1000.00\nSUBTOTAL: 2000.00\nDISCOUNT: 100.00\nPAYABLE: 1900.00",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nPen 1 10.00 12",
+      "expected": "Pen: 11.20\nSUBTOTAL: 11.20\nDISCOUNT: 0.00\nPAYABLE: 11.20",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nMouse 2 500.00 18\nPad 1 300.00 18",
+      "expected": "Mouse: 1180.00\nPad: 354.00\nSUBTOTAL: 1534.00\nDISCOUNT: 0.00\nPAYABLE: 1534.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A retail store prints an itemised invoice. Every item has its own GST rate (different goods fall in different tax slabs). For each item the line amount is quantity x unit price, plus that item's GST. After all line amounts are added into a subtotal, a loyalty discount is applied to the whole invoice based on the subtotal:\n\n- Subtotal of Rs 5000 or more: 10% discount.\n- Subtotal from Rs 2000 up to (but not including) Rs 5000: 5% discount.\n- Subtotal below Rs 2000: no discount.\n\nWrite a program that reads the invoice items and prints the line amounts, the subtotal, the discount, and the final payable amount.\n\n## Input\n- The first line contains an integer `N`, the number of items.\n- Each of the next `N` lines contains an item name (single word), a quantity (int), a unit price (float) and a GST rate as a percentage (float), separated by spaces.\n\n## Output\n- For each item, print `name: amount` where `amount` is quantity x unit price x (1 + gst/100), to two decimal places, with the items listed in alphabetical order by name.\n- Then `SUBTOTAL: S` (the sum of all line amounts, two decimals).\n- Then `DISCOUNT: D` (the loyalty discount applied to the subtotal, two decimals).\n- Then `PAYABLE: P` (subtotal minus discount, two decimals).\n\n## Constraints\n- 1 <= N <= 1000\n- Item names are unique and contain no spaces.\n- 1 <= quantity <= 100000\n- 0.0 <= unit price <= 100000.0\n- 0.0 <= gst rate <= 50.0\n\n## Example\nInput:\n```\n3\nRice 2 60.00 5\nSoap 3 40.00 18\nOil 1 150.00 5\n```\nOutput:\n```\nOil: 157.50\nRice: 126.00\nSoap: 141.60\nSUBTOTAL: 425.10\nDISCOUNT: 0.00\nPAYABLE: 425.10\n```\nExplanation: Rice = 2x60x1.05 = 126.00, Soap = 3x40x1.18 = 141.60, Oil = 1x150x1.05 = 157.50. The subtotal is 425.10, which is below Rs 2000, so there is no discount and the payable amount equals the subtotal.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nRice 2 60.00 5\nSoap 3 40.00 18\nOil 1 150.00 5\n```\n\nOutput\n\n```\nOil: 157.50\nRice: 126.00\nSoap: 141.60\nSUBTOTAL: 425.10\nDISCOUNT: 0.00\nPAYABLE: 425.10\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nlines = {}\nfor _ in range(n):\n    parts = input().split()\n    name = parts[0]\n    qty = int(parts[1])\n    price = float(parts[2])\n    gst = float(parts[3])\n    lines[name] = qty * price * (1 + gst / 100)\nsubtotal = sum(lines.values())\nif subtotal >= 5000:\n    rate = 0.10\nelif subtotal >= 2000:\n    rate = 0.05\nelse:\n    rate = 0.0\ndiscount = subtotal * rate\npayable = subtotal - discount\nfor name in sorted(lines):\n    print(f\"{name}: {lines[name]:.2f}\")\nprint(f\"SUBTOTAL: {subtotal:.2f}\")\nprint(f\"DISCOUNT: {discount:.2f}\")\nprint(f\"PAYABLE: {payable:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Write your code here\n",
+    "input_labels": null
+   }
+  ]
+ },
+ {
+  "slug": "oppe-mock-3",
+  "title": "OPPE Mock 3",
+  "sort_order": 9,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Digit Span",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "5028",
+      "expected": "8",
+      "hidden": false
+     },
+     {
+      "stdin": "4444",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "0",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "-19",
+      "expected": "8",
+      "hidden": true
+     },
+     {
+      "stdin": "100",
+      "expected": "1",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `digit_span` that takes an integer `n` and returns the **span of its digits**: the largest digit minus the smallest digit. The sign of `n` is ignored (work with its absolute value).\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just complete the required function definition.\n\n### Example\n\n```\n>>> digit_span(5028)\n8\n>>> digit_span(4444)\n0\n```\n\nIn `5028` the largest digit is `8` and the smallest is `0`, so the span is `8 - 0 = 8`. In `4444` every digit is `4`, so the span is `0`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef digit_span(n: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n5028\n```\n\nOutput\n\n```\n8\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef digit_span(n: int) -> int:\n    digits = [int(c) for c in str(abs(n))]\n    return max(digits) - min(digits)\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = digit_span(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def digit_span(n: int) -> int:\n    '''Return the largest digit minus the smallest digit of abs(n).\n    Args:\n        n : int - the input integer\n    Returns:\n        int - max digit minus min digit\n    '''\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "Largest Digit",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "4071",
+      "expected": "7",
+      "hidden": false
+     },
+     {
+      "stdin": "0",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "9",
+      "expected": "9",
+      "hidden": true
+     },
+     {
+      "stdin": "111",
+      "expected": "1",
+      "hidden": true
+     },
+     {
+      "stdin": "52348",
+      "expected": "8",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a non-negative integer, return its **largest digit**.\n\nExample: for `4071` the largest digit is `7`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef largest_digit(n: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n4071\n```\n\nOutput\n\n```\n7\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef largest_digit(n: int) -> int:\n    return max(int(c) for c in str(n))\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = largest_digit(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def largest_digit(n: int) -> int:\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "Running Total",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[3, 1, 4, 1, 5]",
+      "expected": "[3, 4, 8, 9, 14]",
+      "hidden": false
+     },
+     {
+      "stdin": "[10, 20, 30]",
+      "expected": "[10, 30, 60]",
+      "hidden": false
+     },
+     {
+      "stdin": "[5]",
+      "expected": "[5]",
+      "hidden": true
+     },
+     {
+      "stdin": "[]",
+      "expected": "[]",
+      "hidden": true
+     },
+     {
+      "stdin": "[-2, 2, -2, 2]",
+      "expected": "[-2, 0, -2, 0]",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `running_total` that takes a list of numbers `l` and returns a new list of the same length whose element at position `i` is the sum of the elements of `l` from position `0` up to and including position `i` (the running, or cumulative, total). If `l` is empty, return an empty list.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just complete the required function definition.\n\n### Example\n\n```\n>>> running_total([3, 1, 4, 1, 5])\n[3, 4, 8, 9, 14]\n```\n\nThe results are `3`, `3+1=4`, `4+4=8`, `8+1=9` and `9+5=14`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef running_total(l: list) -> list:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`.\n\n## Example\n\nInput\n\n```\n[3, 1, 4, 1, 5]\n```\n\nOutput\n\n```\n[3, 4, 8, 9, 14]\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef running_total(l: list) -> list:\n    result = []\n    total = 0\n    for x in l:\n        total += x\n        result.append(total)\n    return result\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = running_total(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def running_total(l: list) -> list:\n    '''Return the list of running (cumulative) sums of l.\n    Args:\n        l : list - the input list of numbers\n    Returns:\n        list - the running totals\n    '''\n    ...\n",
+    "input_labels": [
+     "l"
+    ]
+   },
+   {
+    "title": "Second Smallest",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 4,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[4, 2, 7, 2, 9, 4]",
+      "expected": "4",
+      "hidden": false
+     },
+     {
+      "stdin": "[1, 2]",
+      "expected": "2",
+      "hidden": false
+     },
+     {
+      "stdin": "[5, 3, 5, 3, 8]",
+      "expected": "5",
+      "hidden": true
+     },
+     {
+      "stdin": "[-1, -5, -3]",
+      "expected": "-3",
+      "hidden": true
+     },
+     {
+      "stdin": "[100, 50, 75, 50]",
+      "expected": "75",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `second_smallest` that takes a list of numbers `l` and returns the second smallest **distinct** value in it. Repeated values count only once. You may assume the list has at least two distinct values.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just complete the required function definition.\n\n### Example\n\n```\n>>> second_smallest([4, 2, 7, 2, 9, 4])\n4\n>>> second_smallest([1, 2])\n2\n```\n\nThe distinct values of the first list, in order, are `2, 4, 7, 9`; the second smallest is `4`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef second_smallest(l: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`.\n\n## Example\n\nInput\n\n```\n[4, 2, 7, 2, 9, 4]\n```\n\nOutput\n\n```\n4\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef second_smallest(l: list) -> int:\n    distinct = sorted(set(l))\n    return distinct[1]\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = second_smallest(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def second_smallest(l: list) -> int:\n    '''Return the second smallest distinct value in l.\n    Args:\n        l : list - the input list, with at least two distinct values\n    Returns:\n        int - the second smallest distinct value\n    '''\n    ...\n",
+    "input_labels": [
+     "l"
+    ]
+   },
+   {
+    "title": "Alternating Sum",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 5,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[4, 1, 2]",
+      "expected": "5",
+      "hidden": false
+     },
+     {
+      "stdin": "[10]",
+      "expected": "10",
+      "hidden": false
+     },
+     {
+      "stdin": "[1, 2, 3, 4]",
+      "expected": "-2",
+      "hidden": true
+     },
+     {
+      "stdin": "[-5, -2, 7]",
+      "expected": "4",
+      "hidden": true
+     },
+     {
+      "stdin": "[0, 0, 0]",
+      "expected": "0",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a list of integers, return its **alternating sum**: the first element minus the second plus the third minus the fourth, and so on.\n\nExample: for `[4, 1, 2]` the result is `4 - 1 + 2 = 5`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef alternating_sum(nums: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `nums`.\n\n## Example\n\nInput\n\n```\n[4, 1, 2]\n```\n\nOutput\n\n```\n5\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef alternating_sum(nums: list) -> int:\n    total = 0\n    for i, v in enumerate(nums):\n        total += v if i % 2 == 0 else -v\n    return total\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = alternating_sum(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def alternating_sum(nums: list) -> int:\n    ...\n",
+    "input_labels": [
+     "nums"
+    ]
+   },
+   {
+    "title": "Simple Interest Certificate",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "10000\n7.5\n3",
+      "expected": "Interest: 2250.00\nAmount: 12250.00",
+      "hidden": false
+     },
+     {
+      "stdin": "5000\n10\n2",
+      "expected": "Interest: 1000.00\nAmount: 6000.00",
+      "hidden": false
+     },
+     {
+      "stdin": "25000\n6\n1",
+      "expected": "Interest: 1500.00\nAmount: 26500.00",
+      "hidden": true
+     },
+     {
+      "stdin": "100000\n8.25\n5",
+      "expected": "Interest: 41250.00\nAmount: 141250.00",
+      "hidden": true
+     },
+     {
+      "stdin": "1500\n12\n0.5",
+      "expected": "Interest: 90.00\nAmount: 1590.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A savings scheme at a bank pays **simple interest**. For a principal `P` deposited at an annual rate of `R` percent for `T` years, the interest earned is\n\n```\nInterest = P * R * T / 100\n```\n\nand the maturity amount is `P + Interest`.\n\nWrite a program that reads `P`, `R` and `T` and prints the interest and the maturity amount, each rounded to exactly two decimal places.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: the principal `P` (a number).\n- Line 2: the annual rate `R` in percent (a number).\n- Line 3: the time `T` in years (a number).\n\n### Output Format\n\nTwo lines, exactly:\n\n```\nInterest: <interest>\nAmount: <maturity amount>\n```\n\nwhere each money value is printed to two decimal places.\n\n### Constraints\n\n- `0 < P <= 10^9`, `0 <= R <= 100`, `0 <= T <= 50`.\n\n### Example\n\nInput:\n\n```\n10000\n7.5\n3\n```\n\nOutput:\n\n```\nInterest: 2250.00\nAmount: 12250.00\n```\n\n**Explanation:** `10000 * 7.5 * 3 / 100 = 2250.00`, and the amount is `10000 + 2250 = 12250.00`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n10000\n7.5\n3\n```\n\nOutput\n\n```\nInterest: 2250.00\nAmount: 12250.00\n```",
+    "solution_md": "## Reference solution\n\n```python\np = float(input())\nr = float(input())\nt = float(input())\nsi = p * r * t / 100\nprint(f\"Interest: {si:.2f}\")\nprint(f\"Amount: {p + si:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Apply A Day's Transactions",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "1000\n4\nD 500\nW 200\nW 2000\nD 100",
+      "expected": "Balance: 1400.00\nDeclined: 1",
+      "hidden": false
+     },
+     {
+      "stdin": "5000\n3\nW 1000\nW 1000\nW 1000",
+      "expected": "Balance: 2000.00\nDeclined: 0",
+      "hidden": false
+     },
+     {
+      "stdin": "0\n2\nW 50\nD 50",
+      "expected": "Balance: 50.00\nDeclined: 1",
+      "hidden": true
+     },
+     {
+      "stdin": "2500\n1\nD 2500",
+      "expected": "Balance: 5000.00\nDeclined: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "100\n3\nW 100\nW 1\nD 5",
+      "expected": "Balance: 5.00\nDeclined: 1",
+      "hidden": true
+     }
+    ],
+    "body_md": "An account starts a day with a known **opening balance**. A list of transactions is then applied one after another in the given order. Each transaction is either a **deposit** `D amount` (which adds to the balance) or a **withdrawal** `W amount` (which subtracts from the balance). A withdrawal is only allowed if the account has enough money: if the withdrawal amount is greater than the current balance, the withdrawal is **declined** and the balance is left unchanged.\n\nWrite a program that applies all the transactions and prints the final balance and the number of declined withdrawals.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: the opening balance (a number).\n- Line 2: an integer `N`, the number of transactions.\n- Each of the next `N` lines: a letter `D` or `W`, a space, and an amount.\n\n### Output Format\n\nTwo lines, exactly:\n\n```\nBalance: <final balance>\nDeclined: <count of declined withdrawals>\n```\n\nwhere the balance is printed to two decimal places.\n\n### Constraints\n\n- `0 <= opening balance`, `0 <= N <= 1000`, each amount is positive.\n\n### Example\n\nInput:\n\n```\n1000\n4\nD 500\nW 200\nW 2000\nD 100\n```\n\nOutput:\n\n```\nBalance: 1400.00\nDeclined: 1\n```\n\n**Explanation:** `1000 + 500 = 1500`, then `1500 - 200 = 1300`. The next withdrawal of `2000` exceeds `1300`, so it is declined. Finally `1300 + 100 = 1400`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1000\n4\nD 500\nW 200\nW 2000\nD 100\n```\n\nOutput\n\n```\nBalance: 1400.00\nDeclined: 1\n```",
+    "solution_md": "## Reference solution\n\n```python\nbalance = float(input())\nn = int(input())\ndeclined = 0\nfor _ in range(n):\n    parts = input().split()\n    typ = parts[0]\n    amt = float(parts[1])\n    if typ == 'D':\n        balance += amt\n    else:\n        if amt <= balance:\n            balance -= amt\n        else:\n            declined += 1\nprint(f\"Balance: {balance:.2f}\")\nprint(f\"Declined: {declined}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Compound Interest, Compounded Annually",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "10000\n8\n2",
+      "expected": "Amount: 11664.00\nInterest: 1664.00",
+      "hidden": false
+     },
+     {
+      "stdin": "5000\n10\n3",
+      "expected": "Amount: 6655.00\nInterest: 1655.00",
+      "hidden": false
+     },
+     {
+      "stdin": "20000\n5\n1",
+      "expected": "Amount: 21000.00\nInterest: 1000.00",
+      "hidden": true
+     },
+     {
+      "stdin": "100000\n7.5\n4",
+      "expected": "Amount: 133546.91\nInterest: 33546.91",
+      "hidden": true
+     },
+     {
+      "stdin": "1000\n100\n2",
+      "expected": "Amount: 4000.00\nInterest: 3000.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A fixed deposit pays **compound interest, compounded once a year**. For a principal `P` at an annual rate of `R` percent held for `T` whole years, the maturity amount is\n\n```\nAmount = P * (1 + R/100) ** T\n```\n\nand the interest earned is `Amount - P`.\n\nWrite a program that reads `P`, `R` and `T` and prints the maturity amount and the interest earned, each rounded to exactly two decimal places.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: the principal `P` (a number).\n- Line 2: the annual rate `R` in percent (a number).\n- Line 3: the time `T` in whole years (an integer).\n\n### Output Format\n\nTwo lines, exactly:\n\n```\nAmount: <maturity amount>\nInterest: <interest earned>\n```\n\neach printed to two decimal places.\n\n### Constraints\n\n- `0 < P <= 10^9`, `0 <= R <= 100`, `0 <= T <= 50`.\n\n### Example\n\nInput:\n\n```\n10000\n8\n2\n```\n\nOutput:\n\n```\nAmount: 11664.00\nInterest: 1664.00\n```\n\n**Explanation:** `10000 * (1.08)**2 = 10000 * 1.1664 = 11664.00`, so the interest is `1664.00`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n10000\n8\n2\n```\n\nOutput\n\n```\nAmount: 11664.00\nInterest: 1664.00\n```",
+    "solution_md": "## Reference solution\n\n```python\np = float(input())\nr = float(input())\nt = int(input())\na = p * (1 + r / 100) ** t\nprint(f\"Amount: {a:.2f}\")\nprint(f\"Interest: {a - p:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Loan EMI",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 9,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "100000\n12\n12",
+      "expected": "EMI: 8884.88\nTotal: 106618.55",
+      "hidden": false
+     },
+     {
+      "stdin": "50000\n0\n10",
+      "expected": "EMI: 5000.00\nTotal: 50000.00",
+      "hidden": false
+     },
+     {
+      "stdin": "200000\n9\n24",
+      "expected": "EMI: 9136.95\nTotal: 219286.76",
+      "hidden": true
+     },
+     {
+      "stdin": "500000\n10.5\n60",
+      "expected": "EMI: 10746.95\nTotal: 644817.01",
+      "hidden": true
+     },
+     {
+      "stdin": "12000\n15\n6",
+      "expected": "EMI: 2088.41\nTotal: 12530.43",
+      "hidden": true
+     }
+    ],
+    "body_md": "A bank sanctions a loan of principal `P` at an annual interest rate of `R` percent, to be repaid in `N` equal monthly instalments (EMIs). Let the monthly rate be `r = R / 12 / 100`. When `r > 0`, the EMI is\n\n```\nEMI = P * r * (1 + r) ** N / ((1 + r) ** N - 1)\n```\n\nWhen the rate is `0` (an interest-free loan), the EMI is simply `P / N`.\n\nWrite a program that reads `P`, `R` and `N` and prints the monthly EMI and the total amount repaid over the whole tenure (`EMI * N`), each rounded to exactly two decimal places.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: the principal `P` (a number).\n- Line 2: the annual rate `R` in percent (a number).\n- Line 3: the number of months `N` (a positive integer).\n\n### Output Format\n\nTwo lines, exactly:\n\n```\nEMI: <monthly instalment>\nTotal: <total repaid>\n```\n\neach printed to two decimal places.\n\n### Constraints\n\n- `0 < P <= 10^9`, `0 <= R <= 100`, `1 <= N <= 600`.\n\n### Example\n\nInput:\n\n```\n100000\n12\n12\n```\n\nOutput:\n\n```\nEMI: 8884.88\nTotal: 106618.55\n```\n\n**Explanation:** The monthly rate is `12/12/100 = 0.01`. Substituting `P = 100000`, `r = 0.01`, `N = 12` into the EMI formula gives `8884.88`, and `8884.88 * 12` rounds to `106618.55`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n100000\n12\n12\n```\n\nOutput\n\n```\nEMI: 8884.88\nTotal: 106618.55\n```",
+    "solution_md": "## Reference solution\n\n```python\np = float(input())\nr = float(input())\nn = int(input())\nmr = r / 12 / 100\nif mr == 0:\n    emi = p / n\nelse:\n    emi = p * mr * (1 + mr) ** n / ((1 + mr) ** n - 1)\nprint(f\"EMI: {emi:.2f}\")\nprint(f\"Total: {emi * n:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Monthly Statement Reconciliation",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 10,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "1000\n5\n2026-07-02 CREDIT 2000\n2026-07-05 DEBIT 1500\n2026-07-10 DEBIT 2000\n2026-07-15 CREDIT 500\n2026-07-20 DEBIT 300",
+      "expected": "Opening Balance: 1000.00\nTotal Credits: 2 2500.00\nTotal Debits: 2 1800.00\nDeclined: 1\nPeak Balance: 3000.00\nClosing Balance: 1700.00",
+      "hidden": false
+     },
+     {
+      "stdin": "500\n3\n2026-01-01 CREDIT 100\n2026-01-02 CREDIT 200\n2026-01-03 CREDIT 300",
+      "expected": "Opening Balance: 500.00\nTotal Credits: 3 600.00\nTotal Debits: 0 0.00\nDeclined: 0\nPeak Balance: 1100.00\nClosing Balance: 1100.00",
+      "hidden": false
+     },
+     {
+      "stdin": "100\n2\n2026-01-01 DEBIT 500\n2026-01-02 DEBIT 600",
+      "expected": "Opening Balance: 100.00\nTotal Credits: 0 0.00\nTotal Debits: 0 0.00\nDeclined: 2\nPeak Balance: 100.00\nClosing Balance: 100.00",
+      "hidden": true
+     },
+     {
+      "stdin": "0\n1\n2026-06-01 CREDIT 5000",
+      "expected": "Opening Balance: 0.00\nTotal Credits: 1 5000.00\nTotal Debits: 0 0.00\nDeclined: 0\nPeak Balance: 5000.00\nClosing Balance: 5000.00",
+      "hidden": true
+     },
+     {
+      "stdin": "2000\n4\n2026-03-01 DEBIT 500\n2026-03-02 DEBIT 500\n2026-03-03 CREDIT 1000\n2026-03-04 DEBIT 2500",
+      "expected": "Opening Balance: 2000.00\nTotal Credits: 1 1000.00\nTotal Debits: 2 1000.00\nDeclined: 1\nPeak Balance: 2000.00\nClosing Balance: 2000.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A branch of a bank wants to reconcile a customer's monthly account statement. The account begins the month with a known **opening balance**. During the month a sequence of transactions is posted. Each transaction has a date, a type that is either `CREDIT` (money paid in, added to the balance) or `DEBIT` (money paid out, subtracted from the balance), and an amount.\n\nThe bank's rule is that a `DEBIT` is only posted if the account currently holds at least that amount; a `DEBIT` for more than the current balance is **declined** and leaves the balance unchanged (the balance never goes negative). Transactions are processed strictly in the order given.\n\nThe branch needs a report showing: the opening balance; how many credits were posted and their total; how many debits were posted and their total; how many transactions were declined; the highest balance the account ever reached at any point during the month (the peak, which is at least the opening balance); and the closing balance.\n\nWrite a program that reads the statement and prints this report.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: the opening balance (a number).\n- Line 2: an integer `N`, the number of transactions.\n- Each of the next `N` lines: a date (text with no spaces, e.g. `2026-07-05`), the type `CREDIT` or `DEBIT`, and an amount, separated by single spaces.\n\n### Output Format\n\nExactly six lines:\n\n```\nOpening Balance: <opening>\nTotal Credits: <count> <sum>\nTotal Debits: <count> <sum>\nDeclined: <count>\nPeak Balance: <peak>\nClosing Balance: <closing>\n```\n\nAll money values are printed to two decimal places.\n\n### Constraints\n\n- `0 <= opening balance`, `0 <= N <= 1000`, every amount is positive.\n\n### Example\n\nInput:\n\n```\n1000\n5\n2026-07-02 CREDIT 2000\n2026-07-05 DEBIT 1500\n2026-07-10 DEBIT 2000\n2026-07-15 CREDIT 500\n2026-07-20 DEBIT 300\n```\n\nOutput:\n\n```\nOpening Balance: 1000.00\nTotal Credits: 2 2500.00\nTotal Debits: 2 1800.00\nDeclined: 1\nPeak Balance: 3000.00\nClosing Balance: 1700.00\n```\n\n**Explanation:** The balance goes `1000 -> 3000` (credit, a new peak) `-> 1500` (debit). The debit of `2000` exceeds `1500`, so it is declined. Then `1500 -> 2000` (credit) `-> 1700` (debit). Two credits total `2500`, two posted debits total `1800`, one debit was declined, the peak was `3000`, and the month closes at `1700`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1000\n5\n2026-07-02 CREDIT 2000\n2026-07-05 DEBIT 1500\n2026-07-10 DEBIT 2000\n2026-07-15 CREDIT 500\n2026-07-20 DEBIT 300\n```\n\nOutput\n\n```\nOpening Balance: 1000.00\nTotal Credits: 2 2500.00\nTotal Debits: 2 1800.00\nDeclined: 1\nPeak Balance: 3000.00\nClosing Balance: 1700.00\n```",
+    "solution_md": "## Reference solution\n\n```python\nopening = float(input())\nn = int(input())\nbalance = opening\npeak = opening\nn_cr = 0\nn_db = 0\nsum_cr = 0.0\nsum_db = 0.0\ndeclined = 0\nfor _ in range(n):\n    parts = input().split()\n    typ = parts[1]\n    amt = float(parts[2])\n    if typ == 'CREDIT':\n        balance += amt\n        n_cr += 1\n        sum_cr += amt\n    else:\n        if amt <= balance:\n            balance -= amt\n            n_db += 1\n            sum_db += amt\n        else:\n            declined += 1\n    if balance > peak:\n        peak = balance\nprint(f\"Opening Balance: {opening:.2f}\")\nprint(f\"Total Credits: {n_cr} {sum_cr:.2f}\")\nprint(f\"Total Debits: {n_db} {sum_db:.2f}\")\nprint(f\"Declined: {declined}\")\nprint(f\"Peak Balance: {peak:.2f}\")\nprint(f\"Closing Balance: {balance:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Suspicious Withdrawal Monitor",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 11,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "50000\n5\nACC101 30000\nACC205 60000\nACC101 25000\nACC307 10000\nACC888 5000",
+      "expected": "FLAGGED: 2\nACC101 55000.00\nACC205 60000.00",
+      "hidden": false
+     },
+     {
+      "stdin": "100000\n3\nACC1 20000\nACC2 30000\nACC1 40000",
+      "expected": "FLAGGED: 0",
+      "hidden": false
+     },
+     {
+      "stdin": "1000\n2\nZED 5000\nABE 2000",
+      "expected": "FLAGGED: 2\nABE 2000.00\nZED 5000.00",
+      "hidden": true
+     },
+     {
+      "stdin": "5000\n1\nACC9 5000",
+      "expected": "FLAGGED: 0",
+      "hidden": true
+     },
+     {
+      "stdin": "10000\n4\nACC5 4000\nACC5 4000\nACC5 4000\nACC6 20000",
+      "expected": "FLAGGED: 2\nACC5 12000.00\nACC6 20000.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A bank's fraud desk monitors withdrawals across all accounts for a single day. Regulation requires that any account whose **total withdrawals for the day** strictly exceed a fixed reporting threshold `L` be flagged for review. A given account may make several withdrawals during the day; it is the running total of all its withdrawals that matters, not any single one.\n\nWrite a program that reads the threshold and the day's withdrawals, then prints the flagged accounts. The report first states how many accounts are flagged, then lists each flagged account together with its total withdrawal, in ascending order of account identifier.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: the threshold `L` (a number).\n- Line 2: an integer `N`, the number of withdrawals recorded that day.\n- Each of the next `N` lines: an account identifier (text with no spaces) and a withdrawal amount, separated by a single space.\n\n### Output Format\n\n- First line: `FLAGGED: <k>` where `k` is the number of flagged accounts.\n- Then `k` lines, one per flagged account in ascending order of identifier, each of the form `<identifier> <total>` with the total printed to two decimal places.\n\n### Constraints\n\n- `L >= 0`, `0 <= N <= 5000`, every amount is positive. An account is flagged only when its total is **strictly greater** than `L`.\n\n### Example\n\nInput:\n\n```\n50000\n5\nACC101 30000\nACC205 60000\nACC101 25000\nACC307 10000\nACC888 5000\n```\n\nOutput:\n\n```\nFLAGGED: 2\nACC101 55000.00\nACC205 60000.00\n```\n\n**Explanation:** `ACC101` withdraws `30000 + 25000 = 55000`, which exceeds `50000`, and `ACC205` withdraws `60000`, which also exceeds it. `ACC307` and `ACC888` stay within the limit. The two flagged accounts are listed in ascending order of identifier.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n50000\n5\nACC101 30000\nACC205 60000\nACC101 25000\nACC307 10000\nACC888 5000\n```\n\nOutput\n\n```\nFLAGGED: 2\nACC101 55000.00\nACC205 60000.00\n```",
+    "solution_md": "## Reference solution\n\n```python\nlimit = float(input())\nn = int(input())\ntotals = {}\nfor _ in range(n):\n    parts = input().split()\n    acc = parts[0]\n    amt = float(parts[1])\n    totals[acc] = totals.get(acc, 0.0) + amt\nflagged = [(acc, t) for acc, t in totals.items() if t > limit]\nflagged.sort()\nprint(f\"FLAGGED: {len(flagged)}\")\nfor acc, t in flagged:\n    print(f\"{acc} {t:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Fixed Deposit Comparison",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 12,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "2\nALPHA 10000 10 2 1\nBETA 10000 10 1 2",
+      "expected": "ALPHA 12100.00\nBETA 11025.00\nBEST: ALPHA",
+      "hidden": false
+     },
+     {
+      "stdin": "3\nAXIS 100000 7 5 1\nSBI 100000 7.1 5 2\nHDFC 100000 6.9 5 4",
+      "expected": "SBI 141742.81\nHDFC 140784.22\nAXIS 140255.17\nBEST: SBI",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nSOLO 50000 8 3 1",
+      "expected": "SOLO 62985.60\nBEST: SOLO",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nZED 10000 10 1 1\nABE 10000 10 1 1",
+      "expected": "ABE 11000.00\nZED 11000.00\nBEST: ABE",
+      "hidden": true
+     },
+     {
+      "stdin": "3\nB 20000 5 2 1\nA 20000 5 2 1\nC 20000 6 2 1",
+      "expected": "C 22472.00\nA 22050.00\nB 22050.00\nBEST: C",
+      "hidden": true
+     }
+    ],
+    "body_md": "A financial adviser is comparing fixed deposit (FD) offers from several banks. Each offer is described by the bank's name, the principal to be invested, the annual interest rate in percent, the tenure in whole years, and the compounding frequency (the number of times interest is compounded per year: `1` for annual, `2` for half-yearly, `4` for quarterly, `12` for monthly).\n\nFor an offer with principal `P`, annual rate `R` percent, tenure `Y` years and frequency `m`, the maturity amount is\n\n```\nMaturity = P * (1 + (R/100)/m) ** (m * Y)\n```\n\nThe adviser wants every offer listed with its maturity amount, ranked from the highest maturity to the lowest so the best deal is on top. If two offers have the same maturity, the one whose name comes first alphabetically is listed first. Finally the name of the single best offer is stated.\n\nWrite a program that reads the offers and prints this ranked report.\n\n**NOTE:** This is an I/O type question, you must write the whole program that reads input and prints output.\n\n### Input Format\n\n- Line 1: an integer `N`, the number of FD offers.\n- Each of the next `N` lines: a bank name (text with no spaces), the principal, the annual rate in percent, the tenure in whole years, and the compounding frequency, separated by single spaces.\n\n### Output Format\n\n- `N` lines, one per offer in the ranked order described above, each of the form `<name> <maturity>` with the maturity printed to two decimal places.\n- A final line `BEST: <name>` naming the top-ranked offer.\n\n### Constraints\n\n- `1 <= N <= 1000`, `P > 0`, `0 <= R <= 100`, `1 <= Y <= 50`, `m` is one of `1, 2, 4, 12`.\n\n### Example\n\nInput:\n\n```\n2\nALPHA 10000 10 2 1\nBETA 10000 10 1 2\n```\n\nOutput:\n\n```\nALPHA 12100.00\nBETA 11025.00\nBEST: ALPHA\n```\n\n**Explanation:** `ALPHA` compounds annually for two years: `10000 * (1.10)**2 = 12100.00`. `BETA` compounds half-yearly for one year: `10000 * (1.05)**2 = 11025.00`. `ALPHA` has the higher maturity, so it is ranked first and named as the best.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\nALPHA 10000 10 2 1\nBETA 10000 10 1 2\n```\n\nOutput\n\n```\nALPHA 12100.00\nBETA 11025.00\nBEST: ALPHA\n```",
+    "solution_md": "## Reference solution\n\n```python\nn = int(input())\nresults = []\nfor _ in range(n):\n    parts = input().split()\n    name = parts[0]\n    p = float(parts[1])\n    r = float(parts[2])\n    years = int(parts[3])\n    freq = int(parts[4])\n    maturity = p * (1 + (r / 100) / freq) ** (freq * years)\n    results.append((name, maturity))\nresults.sort(key=lambda x: (-x[1], x[0]))\nfor name, m in results:\n    print(f\"{name} {m:.2f}\")\nprint(f\"BEST: {results[0][0]}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
+ },
+ {
+  "slug": "oppe-mock-4",
+  "title": "OPPE Mock 4",
+  "sort_order": 10,
+  "duration_seconds": 10800,
+  "questions": [
+   {
+    "title": "Digit Range",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 1,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "4726",
+      "expected": "5",
+      "hidden": false
+     },
+     {
+      "stdin": "5",
+      "expected": "0",
+      "hidden": false
+     },
+     {
+      "stdin": "0",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "-8080",
+      "expected": "8",
+      "hidden": true
+     },
+     {
+      "stdin": "1000000",
+      "expected": "1",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `digit_range` that takes an integer `n` and returns the difference between the largest digit and the smallest digit of `n`. The sign of `n` must be ignored, so work with the absolute value of `n`.\n\nFor a single-digit number the largest and smallest digit are the same, so the answer is `0`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> digit_range(4726)\n5\n>>> digit_range(5)\n0\n```\n\nIn `4726` the largest digit is `7` and the smallest is `2`, so the answer is `7 - 2 = 5`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef digit_range(n: int) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `n`.\n\n## Example\n\nInput\n\n```\n4726\n```\n\nOutput\n\n```\n5\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef digit_range(n: int) -> int:\n    ds = [int(c) for c in str(abs(n))]\n    return max(ds) - min(ds)\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = digit_range(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def digit_range(n: int) -> int:\n    '''Return the difference between the largest and smallest digit of abs(n).\n    Args:\n        n : int - the input integer (may be negative)\n    Returns:\n        int - largest digit minus smallest digit\n    '''\n    ...\n",
+    "input_labels": [
+     "n"
+    ]
+   },
+   {
+    "title": "Most Frequent Char",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 2,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "'banana'",
+      "expected": "'a'",
+      "hidden": false
+     },
+     {
+      "stdin": "'abcabc'",
+      "expected": "'a'",
+      "hidden": false
+     },
+     {
+      "stdin": "'x'",
+      "expected": "'x'",
+      "hidden": true
+     },
+     {
+      "stdin": "'mististippi'",
+      "expected": "'i'",
+      "hidden": true
+     },
+     {
+      "stdin": "'aabb'",
+      "expected": "'a'",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `most_frequent_char` that takes a non-empty string `s` and returns the character that occurs the most number of times in `s`. If two or more characters occur the same maximum number of times, return the one that appears **earliest** in the string.\n\nThe string may contain any characters, and they are compared exactly as they are (case matters).\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> most_frequent_char(\"banana\")\n'a'\n>>> most_frequent_char(\"abcabc\")\n'a'\n```\n\nIn `banana` the letter `a` occurs `3` times, more than any other, so the answer is `a`. In `abcabc` every letter occurs twice, so the earliest one, `a`, is returned.\n\n## Your task\n\nImplement this function:\n\n```python\ndef most_frequent_char(s: str) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `s`.\n\n## Example\n\nInput\n\n```\n'banana'\n```\n\nOutput\n\n```\n'a'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef most_frequent_char(s: str) -> str:\n    best = s[0]\n    for c in s:\n        if s.count(c) > s.count(best):\n            best = c\n    return best\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = most_frequent_char(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def most_frequent_char(s: str) -> str:\n    '''Return the most frequent character, ties broken by earliest occurrence.\n    Args:\n        s : str - a non-empty string\n    Returns:\n        str - the most frequent character\n    '''\n    ...\n",
+    "input_labels": [
+     "s"
+    ]
+   },
+   {
+    "title": "Sign Pattern",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 3,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[3, -1, 0, 5]",
+      "expected": "'+-0+'",
+      "hidden": false
+     },
+     {
+      "stdin": "[0]",
+      "expected": "'0'",
+      "hidden": false
+     },
+     {
+      "stdin": "[-2, -3]",
+      "expected": "'--'",
+      "hidden": true
+     },
+     {
+      "stdin": "[7]",
+      "expected": "'+'",
+      "hidden": true
+     },
+     {
+      "stdin": "[1, 0, -1, 2, -2]",
+      "expected": "'+0-+-'",
+      "hidden": true
+     }
+    ],
+    "body_md": "Given a list of integers, return a string with one character per element: `'+'` if it is positive, `'-'` if negative, and `'0'` if zero.\n\nExample: for `[3, -1, 0, 5]` the result is `\"+-0+\"`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef sign_pattern(nums: list) -> str:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `nums`.\n\n## Example\n\nInput\n\n```\n[3, -1, 0, 5]\n```\n\nOutput\n\n```\n'+-0+'\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef sign_pattern(nums: list) -> str:\n    out = \"\"\n    for v in nums:\n        out += \"+\" if v > 0 else \"-\" if v < 0 else \"0\"\n    return out\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = sign_pattern(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def sign_pattern(nums: list) -> str:\n    ...\n",
+    "input_labels": [
+     "nums"
+    ]
+   },
+   {
+    "title": "Pair Sums",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 4,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "(1, 2, 3, 4, 5, 6)",
+      "expected": "(3, 7, 11)",
+      "hidden": false
+     },
+     {
+      "stdin": "(10, 20)",
+      "expected": "(30,)",
+      "hidden": false
+     },
+     {
+      "stdin": "(0, 0, 0, 0)",
+      "expected": "(0, 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "(-1, 1, -2, 2)",
+      "expected": "(0, 0)",
+      "hidden": true
+     },
+     {
+      "stdin": "(7, 3, 8, 8, 1, 9)",
+      "expected": "(10, 16, 10)",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `pair_sums` that takes a tuple `t` with an even number of elements and returns a new tuple containing the sums of consecutive non-overlapping pairs: `t[0]+t[1]`, `t[2]+t[3]`, `t[4]+t[5]`, and so on.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> pair_sums((1, 2, 3, 4, 5, 6))\n(3, 7, 11)\n```\n\nThe pairs are `(1,2)`, `(3,4)` and `(5,6)`, whose sums are `3`, `7` and `11`.\n\n## Your task\n\nImplement this function:\n\n```python\ndef pair_sums(t: tuple) -> tuple:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `t`.\n\n## Example\n\nInput\n\n```\n(1, 2, 3, 4, 5, 6)\n```\n\nOutput\n\n```\n(3, 7, 11)\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef pair_sums(t: tuple) -> tuple:\n    return tuple(t[i] + t[i + 1] for i in range(0, len(t), 2))\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = pair_sums(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def pair_sums(t: tuple) -> tuple:\n    '''Return a tuple of the sums of consecutive non-overlapping pairs.\n    Args:\n        t : tuple - a tuple with an even number of elements\n    Returns:\n        tuple - the pair sums\n    '''\n    ...\n",
+    "input_labels": [
+     "t"
+    ]
+   },
+   {
+    "title": "Split Index",
+    "section": "Core Programming",
+    "marks": 6,
+    "sort_order": 5,
+    "difficulty": "easy",
+    "tests": [
+     {
+      "stdin": "[1, 2, 3, 4, 2]",
+      "expected": "3",
+      "hidden": false
+     },
+     {
+      "stdin": "[5, 5]",
+      "expected": "1",
+      "hidden": false
+     },
+     {
+      "stdin": "[1, 2, 3]",
+      "expected": "2",
+      "hidden": true
+     },
+     {
+      "stdin": "[0]",
+      "expected": "0",
+      "hidden": true
+     },
+     {
+      "stdin": "[2, 1, 1, 2, 2]",
+      "expected": "3",
+      "hidden": true
+     }
+    ],
+    "body_md": "Write a function `split_index` that takes a list `l` of numbers and returns the smallest index `i` (with `0 <= i <= len(l)`) such that the sum of the elements before position `i` equals the sum of the elements from position `i` onwards, i.e. `sum(l[:i]) == sum(l[i:])`.\n\nIf there is no such index, return `-1`.\n\n**NOTE:** This is a function type question, you don't have to take input or print the output, just have to complete the required function definition.\n\n### Example\n\n```\n>>> split_index([1, 2, 3, 4, 2])\n3\n>>> split_index([1, 2, 3])\n2\n```\n\nFor `[1, 2, 3, 4, 2]` the left part `[1, 2, 3]` sums to `6` and the right part `[4, 2]` also sums to `6`, and `i = 3` is the smallest index where this happens.\n\n## Your task\n\nImplement this function:\n\n```python\ndef split_index(l: list) -> int:\n```\n\nWrite the function only — the arguments are read for you and the return value is printed automatically.\n\n**Arguments** arrive as one Python literal per line, in this order: `l`.\n\n## Example\n\nInput\n\n```\n[1, 2, 3, 4, 2]\n```\n\nOutput\n\n```\n3\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef split_index(l: list) -> int:\n    total = sum(l)\n    left = 0\n    for i in range(len(l) + 1):\n        if left == total - left:\n            return i\n        if i < len(l):\n            left += l[i]\n    return -1\n```",
+    "harness": "# --- checker (hidden): reads the arguments and prints the return value ---\nimport contextlib as _ctx, io as _io, sys as _sys\n\n\ndef _oppe_fmt(_v):\n    if isinstance(_v, (set, frozenset)):\n        try:\n            _items = sorted(_v)\n        except TypeError:\n            _items = sorted(_v, key=repr)\n        return \"{\" + \", \".join(repr(_x) for _x in _items) + \"}\" if _items else \"set()\"\n    return repr(_v)\n\n\n_lines = [_l for _l in _sys.stdin.read().split(\"\\n\") if _l.strip() != \"\"]\n_args = [eval(_l) for _l in _lines[:1]]\n# Anything your solution prints is ignored -- only the result is graded.\nwith _ctx.redirect_stdout(_io.StringIO()):\n    _out = split_index(*_args)\nprint(_oppe_fmt(_out))\n",
+    "starter_code": "def split_index(l: list) -> int:\n    '''Return the smallest index where the list splits into two equal-sum parts.\n    Args:\n        l : list - a list of numbers\n    Returns:\n        int - the split index, or -1 if none exists\n    '''\n    ...\n",
+    "input_labels": [
+     "l"
+    ]
+   },
+   {
+    "title": "Electricity Slab Bill",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 6,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "1\n250",
+      "expected": "1525.00",
+      "hidden": false
+     },
+     {
+      "stdin": "3\n0\n100\n450",
+      "expected": "75.00\n525.00\n3225.00",
+      "hidden": false
+     },
+     {
+      "stdin": "2\n50\n200",
+      "expected": "300.00\n1125.00",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n1000",
+      "expected": "8725.00",
+      "hidden": true
+     },
+     {
+      "stdin": "4\n1\n99\n101\n400",
+      "expected": "79.50\n520.50\n531.00\n2725.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A power utility bills each domestic connection using a **telescoping slab tariff** on the units (kWh) consumed in a month:\n\n- the first `100` units are charged at `4.50` per unit,\n- the next `100` units (units `101` to `200`) at `6.00` per unit,\n- the next `200` units (units `201` to `400`) at `8.00` per unit,\n- every unit above `400` at `10.00` per unit.\n\nA fixed line charge of `75.00` is added to every bill, even when consumption is `0`.\n\nWrite a program that reads several meter readings and prints the bill for each one.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `M`, the number of meters.\n- Each of the next `M` lines contains a single non-negative integer `U`, the units consumed by that meter.\n\n### Output Format\n\n- For each meter, print its bill on a line of its own, rounded to exactly two decimal places, in the order the meters were given.\n\n### Constraints\n\n- `1 <= M <= 100`\n- `0 <= U <= 100000`\n\n### Example\n\nInput:\n\n```\n1\n250\n```\n\nOutput:\n\n```\n1525.00\n```\n\n**Explanation**\n\nFor `250` units: `100 * 4.50 = 450.00` for the first slab, `100 * 6.00 = 600.00` for the second, and the remaining `50 * 8.00 = 400.00` for the third. That is `1450.00`, plus the fixed charge `75.00`, giving `1525.00`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n1\n250\n```\n\nOutput\n\n```\n1525.00\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef bill(u):\n    charge = 75.0\n    for cap, rate in [(100, 4.5), (100, 6.0), (200, 8.0)]:\n        used = min(u, cap)\n        charge += used * rate\n        u -= used\n    if u > 0:\n        charge += u * 10.0\n    return charge\n\nm = int(input())\nfor _ in range(m):\n    u = int(input())\n    print(f\"{bill(u):.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Report Card Grade",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 7,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "5\n88 92 79 95 85",
+      "expected": "87.80\nB",
+      "hidden": false
+     },
+     {
+      "stdin": "3\n90 90 90",
+      "expected": "90.00\nA",
+      "hidden": false
+     },
+     {
+      "stdin": "4\n100 100 100 30",
+      "expected": "82.50\nF",
+      "hidden": true
+     },
+     {
+      "stdin": "2\n55 64",
+      "expected": "59.50\nF",
+      "hidden": true
+     },
+     {
+      "stdin": "1\n40",
+      "expected": "40.00\nF",
+      "hidden": true
+     }
+    ],
+    "body_md": "A school computes a student's final grade from the marks scored in several subjects, each out of `100`. The grade depends on the **average** of the marks:\n\n- average `>= 90` : grade `A`\n- average `>= 80` and `< 90` : grade `B`\n- average `>= 70` and `< 80` : grade `C`\n- average `>= 60` and `< 70` : grade `D`\n- average `< 60` : grade `F`\n\nThere is one extra rule: if the student scored **below 40 in any single subject**, the student has failed that subject and the final grade is `F`, no matter what the average is.\n\nWrite a program that reads a student's marks and prints the average and the final grade.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `K`, the number of subjects.\n- The second line contains `K` space-separated integers, the marks in each subject.\n\n### Output Format\n\n- The first line is the average of the marks, rounded to exactly two decimal places.\n- The second line is the final grade, a single uppercase letter.\n\n### Constraints\n\n- `1 <= K <= 20`\n- `0 <= each mark <= 100`\n\n### Example\n\nInput:\n\n```\n5\n88 92 79 95 85\n```\n\nOutput:\n\n```\n87.80\nB\n```\n\n**Explanation**\n\nThe marks sum to `439`, so the average is `439 / 5 = 87.80`. No subject is below `40`, and the average lies between `80` and `90`, so the grade is `B`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n5\n88 92 79 95 85\n```\n\nOutput\n\n```\n87.80\nB\n```",
+    "solution_md": "## Reference solution\n\n```python\nk = int(input())\nmarks = list(map(int, input().split()))\navg = sum(marks) / k\nif min(marks) < 40:\n    grade = \"F\"\nelif avg >= 90:\n    grade = \"A\"\nelif avg >= 80:\n    grade = \"B\"\nelif avg >= 70:\n    grade = \"C\"\nelif avg >= 60:\n    grade = \"D\"\nelse:\n    grade = \"F\"\nprint(f\"{avg:.2f}\")\nprint(grade)\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Library Overdue Fines",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 8,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "3\nGatsby 8\nDune 0\nHamlet 12",
+      "expected": "Gatsby 25.00\nDune 0.00\nHamlet 55.00\nTOTAL 80.00",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nMoby 5",
+      "expected": "Moby 10.00\nTOTAL 10.00",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nAlpha 3\nBeta 11",
+      "expected": "Alpha 6.00\nBeta 45.00\nTOTAL 51.00",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nOnTime 0",
+      "expected": "OnTime 0.00\nTOTAL 0.00",
+      "hidden": true
+     },
+     {
+      "stdin": "4\nW 1\nX 6\nY 10\nZ 20",
+      "expected": "W 2.00\nX 15.00\nY 35.00\nZ 135.00\nTOTAL 187.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A library charges an overdue fine on each book based on how many **days late** it was returned, using these tiers:\n\n- days `1` to `5` late: `2.00` per day,\n- days `6` to `10` late: `5.00` per day,\n- day `11` onwards: `10.00` per day.\n\nA book returned on time (`0` days late) has no fine.\n\nFor example, a book `8` days late is charged `5` days at `2.00` and `3` days at `5.00`, that is `10.00 + 15.00 = 25.00`.\n\nWrite a program that reads the returned books and prints the fine for each, followed by the grand total.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `N`, the number of books.\n- Each of the next `N` lines contains a title (a single word with no spaces) and an integer `d`, the number of days that book was late, separated by a space.\n\n### Output Format\n\n- For each book, in the order given, print the title and its fine (to exactly two decimal places), separated by a space.\n- After all books, print `TOTAL` and the grand total of all fines, to exactly two decimal places, separated by a space.\n\n### Constraints\n\n- `1 <= N <= 100`\n- `0 <= d <= 1000`\n\n### Example\n\nInput:\n\n```\n3\nGatsby 8\nDune 0\nHamlet 12\n```\n\nOutput:\n\n```\nGatsby 25.00\nDune 0.00\nHamlet 55.00\nTOTAL 80.00\n```\n\n**Explanation**\n\n`Gatsby` is `8` days late: `5*2 + 3*5 = 25.00`. `Dune` is on time: `0.00`. `Hamlet` is `12` days late: `5*2 + 5*5 + 2*10 = 55.00`. The total is `80.00`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nGatsby 8\nDune 0\nHamlet 12\n```\n\nOutput\n\n```\nGatsby 25.00\nDune 0.00\nHamlet 55.00\nTOTAL 80.00\n```",
+    "solution_md": "## Reference solution\n\n```python\ndef fine_for(d):\n    f = min(d, 5) * 2.0\n    if d > 5:\n        f += min(d - 5, 5) * 5.0\n    if d > 10:\n        f += (d - 10) * 10.0\n    return f\n\nn = int(input())\ntotal = 0.0\nfor _ in range(n):\n    parts = input().split()\n    title = parts[0]\n    d = int(parts[1])\n    f = fine_for(d)\n    total += f\n    print(f\"{title} {f:.2f}\")\nprint(f\"TOTAL {total:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Auto Rickshaw Fare",
+    "section": "Applied Problems",
+    "marks": 10,
+    "sort_order": 9,
+    "difficulty": "medium",
+    "tests": [
+     {
+      "stdin": "6 4 0",
+      "expected": "84.00",
+      "hidden": false
+     },
+     {
+      "stdin": "2 0 0",
+      "expected": "30.00",
+      "hidden": false
+     },
+     {
+      "stdin": "15 10 0",
+      "expected": "191.00",
+      "hidden": true
+     },
+     {
+      "stdin": "10 0 1",
+      "expected": "157.50",
+      "hidden": true
+     },
+     {
+      "stdin": "1.5 5 0",
+      "expected": "37.50",
+      "hidden": true
+     }
+    ],
+    "body_md": "A city fixes auto-rickshaw fares as follows:\n\n- a **base fare** of `30.00` covers the first `2` km,\n- distance from `2` km up to `10` km is charged at `12.00` per km,\n- distance beyond `10` km is charged at `10.00` per km,\n- a **waiting charge** of `1.50` per minute is added for time spent waiting.\n\nAfter the base fare, distance charge and waiting charge are added up, a **night surcharge** may apply: if the trip is a night trip, the whole fare is increased by `25%`.\n\nWrite a program that reads the details of one trip and prints the total fare.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- A single line with three values separated by spaces: the distance in km (a number, possibly with a decimal point), the waiting time in whole minutes (an integer), and a night flag (`1` for a night trip, `0` for a day trip).\n\n### Output Format\n\n- A single line with the total fare, rounded to exactly two decimal places.\n\n### Constraints\n\n- `0 < distance <= 100`\n- `0 <= waiting <= 300`\n- night flag is `0` or `1`\n\n### Example\n\nInput:\n\n```\n6 4 0\n```\n\nOutput:\n\n```\n84.00\n```\n\n**Explanation**\n\nBase fare `30.00`. Distance beyond the first `2` km is `6 - 2 = 4` km at `12.00` = `48.00`. Waiting is `4 * 1.50 = 6.00`. The sum is `84.00`, and as it is a day trip there is no surcharge.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n6 4 0\n```\n\nOutput\n\n```\n84.00\n```",
+    "solution_md": "## Reference solution\n\n```python\nline = input().split()\ndist = float(line[0])\nwait = int(line[1])\nnight = int(line[2])\nfare = 30.0\nif dist > 2:\n    fare += (min(dist, 10) - 2) * 12.0\nif dist > 10:\n    fare += (dist - 10) * 10.0\nfare += wait * 1.5\nif night == 1:\n    fare *= 1.25\nprint(f\"{fare:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Restaurant Table Billing",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 10,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "3\nPANEER 220\nNAAN 40\nLASSI 60\n4\n1 PANEER 2\n1 NAAN 4\n2 LASSI 3\n1 PANEER 1",
+      "expected": "Table 1\n  NAAN x4 = 160\n  PANEER x3 = 660\n  Subtotal: 820\n  Service: 82.00\n  GST: 45.10\n  Total: 947.10\nTable 2\n  LASSI x3 = 180\n  Subtotal: 180\n  Service: 18.00\n  GST: 9.90\n  Total: 207.90\nGrand total: 1155.00",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nTEA 15\n1\n5 TEA 2",
+      "expected": "Table 5\n  TEA x2 = 30\n  Subtotal: 30\n  Service: 3.00\n  GST: 1.65\n  Total: 34.65\nGrand total: 34.65",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nBURGER 120\nFRIES 80\n2\n3 BURGER 1\n3 FRIES 2",
+      "expected": "Table 3\n  BURGER x1 = 120\n  FRIES x2 = 160\n  Subtotal: 280\n  Service: 28.00\n  GST: 15.40\n  Total: 323.40\nGrand total: 323.40",
+      "hidden": true
+     },
+     {
+      "stdin": "2\nIDLI 30\nDOSA 50\n5\n1 IDLI 2\n2 DOSA 1\n1 IDLI 1\n2 DOSA 2\n1 DOSA 1",
+      "expected": "Table 1\n  DOSA x1 = 50\n  IDLI x3 = 90\n  Subtotal: 140\n  Service: 14.00\n  GST: 7.70\n  Total: 161.70\nTable 2\n  DOSA x3 = 150\n  Subtotal: 150\n  Service: 15.00\n  GST: 8.25\n  Total: 173.25\nGrand total: 334.95",
+      "hidden": true
+     },
+     {
+      "stdin": "3\nCOFFEE 90\nCAKE 150\nWATER 20\n3\n7 WATER 1\n2 CAKE 2\n2 COFFEE 1",
+      "expected": "Table 2\n  CAKE x2 = 300\n  COFFEE x1 = 90\n  Subtotal: 390\n  Service: 39.00\n  GST: 21.45\n  Total: 450.45\nTable 7\n  WATER x1 = 20\n  Subtotal: 20\n  Service: 2.00\n  GST: 1.10\n  Total: 23.10\nGrand total: 473.55",
+      "hidden": true
+     }
+    ],
+    "body_md": "A small restaurant runs a simple billing system. At the start of service it loads its menu, where every item has a short code and a price in whole rupees. During service, waiters enter order lines, each recording the table number, the item code ordered, and the quantity. The same item can be entered more than once for the same table; those quantities should be added together.\n\nAt the end, the system prints an itemised bill for every table. For each table, the items are listed in alphabetical order of their code. On the amount of the items (the **subtotal**), a **service charge of 10%** is applied, and then a **GST of 5%** is charged on the subtotal plus the service charge. The table's **total** is the subtotal plus service plus GST.\n\nWrite the program that produces this report.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `M`, the number of menu items.\n- Each of the next `M` lines contains an item code (a single word) and its price (an integer), separated by a space.\n- The next line contains an integer `N`, the number of order lines.\n- Each of the next `N` lines contains a table number (an integer), an item code, and a quantity (an integer), separated by spaces.\n\n### Output Format\n\nFor each table, in increasing order of table number, print:\n\n- a line `Table <t>`,\n- for each ordered item, in alphabetical order of its code, a line `  <code> x<qty> = <lineTotal>` (two leading spaces),\n- a line `  Subtotal: <subtotal>`,\n- a line `  Service: <service>` (to two decimals),\n- a line `  GST: <gst>` (to two decimals),\n- a line `  Total: <total>` (to two decimals).\n\nFinally print a line `Grand total: <sum of all table totals>` to two decimals.\n\n### Constraints\n\n- `1 <= M <= 100`, `1 <= N <= 500`\n- every order line uses a code that appears in the menu\n- prices and quantities are positive integers\n\n### Example\n\nInput:\n\n```\n3\nPANEER 220\nNAAN 40\nLASSI 60\n4\n1 PANEER 2\n1 NAAN 4\n2 LASSI 3\n1 PANEER 1\n```\n\nOutput:\n\n```\nTable 1\n  NAAN x4 = 160\n  PANEER x3 = 660\n  Subtotal: 820\n  Service: 82.00\n  GST: 45.10\n  Total: 947.10\nTable 2\n  LASSI x3 = 180\n  Subtotal: 180\n  Service: 18.00\n  GST: 9.90\n  Total: 207.90\nGrand total: 1155.00\n```\n\n**Explanation**\n\nAt table `1`, the two `PANEER` order lines add up to `3`, costing `660`, and `NAAN x4` costs `160`, so the subtotal is `820`. Service is `10%` = `82.00`, GST is `5%` of `820 + 82 = 902`, which is `45.10`, and the total is `947.10`. Table `2` is computed the same way, and the grand total is `947.10 + 207.90 = 1155.00`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3\nPANEER 220\nNAAN 40\nLASSI 60\n4\n1 PANEER 2\n1 NAAN 4\n2 LASSI 3\n1 PANEER 1\n```\n\nOutput\n\n```\nTable 1\n  NAAN x4 = 160\n  PANEER x3 = 660\n  Subtotal: 820\n  Service: 82.00\n  GST: 45.10\n  Total: 947.10\nTable 2\n  LASSI x3 = 180\n  Subtotal: 180\n  Service: 18.00\n  GST: 9.90\n  Total: 207.90\nGrand total: 1155.00\n```",
+    "solution_md": "## Reference solution\n\n```python\nm = int(input())\nprice = {}\nfor _ in range(m):\n    parts = input().split()\n    price[parts[0]] = int(parts[1])\n\nn = int(input())\ntables = {}\nfor _ in range(n):\n    parts = input().split()\n    t = int(parts[0])\n    code = parts[1]\n    qty = int(parts[2])\n    tables.setdefault(t, {})\n    tables[t][code] = tables[t].get(code, 0) + qty\n\ngrand = 0.0\nfor t in sorted(tables):\n    print(f\"Table {t}\")\n    subtotal = 0\n    for code in sorted(tables[t]):\n        qty = tables[t][code]\n        line_total = price[code] * qty\n        subtotal += line_total\n        print(f\"  {code} x{qty} = {line_total}\")\n    service = subtotal * 0.10\n    gst = (subtotal + service) * 0.05\n    total = subtotal + service + gst\n    grand += total\n    print(f\"  Subtotal: {subtotal}\")\n    print(f\"  Service: {service:.2f}\")\n    print(f\"  GST: {gst:.2f}\")\n    print(f\"  Total: {total:.2f}\")\nprint(f\"Grand total: {grand:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Attendance Eligibility Report",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 11,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "3 4\nR1 PPPP\nR2 PAPA\nR3 PPPA",
+      "expected": "R1 4/4 100.00% ELIGIBLE\nR3 3/4 75.00% ELIGIBLE\nR2 2/4 50.00% NOT ELIGIBLE\nEligible: 2/3",
+      "hidden": false
+     },
+     {
+      "stdin": "1 5\nX PPPPP",
+      "expected": "X 5/5 100.00% ELIGIBLE\nEligible: 1/1",
+      "hidden": false
+     },
+     {
+      "stdin": "2 4\nB PPPA\nA PPPA",
+      "expected": "A 3/4 75.00% ELIGIBLE\nB 3/4 75.00% ELIGIBLE\nEligible: 2/2",
+      "hidden": true
+     },
+     {
+      "stdin": "2 8\nS1 PPPPPPAA\nS2 AAAAAAAA",
+      "expected": "S1 6/8 75.00% ELIGIBLE\nS2 0/8 0.00% NOT ELIGIBLE\nEligible: 1/2",
+      "hidden": true
+     },
+     {
+      "stdin": "4 10\nA1 PPPPPPPPPP\nA2 PPPPPPPPAA\nA3 PPPPPPPAAA\nA4 AAPPPPPPPP",
+      "expected": "A1 10/10 100.00% ELIGIBLE\nA2 8/10 80.00% ELIGIBLE\nA4 8/10 80.00% ELIGIBLE\nA3 7/10 70.00% NOT ELIGIBLE\nEligible: 3/4",
+      "hidden": true
+     }
+    ],
+    "body_md": "A college keeps a daily attendance register for a class over a fixed number of teaching days. For each student, every day is recorded as either `P` (present) or `A` (absent). At the end of the term the office prepares a report: for each student it computes the number of days present and the attendance percentage, and marks the student `ELIGIBLE` to sit the final exam if the percentage is at least `75%`, otherwise `NOT ELIGIBLE`.\n\nThe report lists students in **decreasing order of attendance percentage**. When two students have the same percentage, they are listed in **increasing (alphabetical) order of roll number**. At the end, the report states how many students are eligible.\n\nWrite the program that produces this report.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains two integers `S` and `D`, the number of students and the number of days, separated by a space.\n- Each of the next `S` lines contains a roll number (a single word) and a string of exactly `D` characters, each `P` or `A`, separated by a space.\n\n### Output Format\n\n- For each student, in the required order, print a line `<roll> <present>/<D> <pct>% <status>`, where `<pct>` is the attendance percentage to exactly two decimals and `<status>` is `ELIGIBLE` or `NOT ELIGIBLE`.\n- Finally print a line `Eligible: <count>/<S>`.\n\n### Constraints\n\n- `1 <= S <= 200`, `1 <= D <= 200`\n- each record string has exactly `D` characters, all `P` or `A`\n\n### Example\n\nInput:\n\n```\n3 4\nR1 PPPP\nR2 PAPA\nR3 PPPA\n```\n\nOutput:\n\n```\nR1 4/4 100.00% ELIGIBLE\nR3 3/4 75.00% ELIGIBLE\nR2 2/4 50.00% NOT ELIGIBLE\nEligible: 2/3\n```\n\n**Explanation**\n\n`R1` is present all `4` days (`100%`), `R3` is present `3` of `4` days (`75%`, still eligible), and `R2` is present `2` of `4` days (`50%`, not eligible). They are listed from highest to lowest percentage, and `2` of the `3` students are eligible.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n3 4\nR1 PPPP\nR2 PAPA\nR3 PPPA\n```\n\nOutput\n\n```\nR1 4/4 100.00% ELIGIBLE\nR3 3/4 75.00% ELIGIBLE\nR2 2/4 50.00% NOT ELIGIBLE\nEligible: 2/3\n```",
+    "solution_md": "## Reference solution\n\n```python\nfirst = input().split()\ns = int(first[0])\nd = int(first[1])\nrows = []\nfor _ in range(s):\n    parts = input().split()\n    roll = parts[0]\n    record = parts[1]\n    present = record.count('P')\n    pct = present / d * 100\n    rows.append((roll, present, pct))\n\nrows.sort(key=lambda r: (-r[2], r[0]))\neligible = 0\nfor roll, present, pct in rows:\n    if pct >= 75:\n        status = \"ELIGIBLE\"\n        eligible += 1\n    else:\n        status = \"NOT ELIGIBLE\"\n    print(f\"{roll} {present}/{d} {pct:.2f}% {status}\")\nprint(f\"Eligible: {eligible}/{s}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   },
+   {
+    "title": "Courier Zone Summary",
+    "section": "Case Studies",
+    "marks": 10,
+    "sort_order": 12,
+    "difficulty": "hard",
+    "tests": [
+     {
+      "stdin": "2\nNORTH 50 8\nSOUTH 40 10\n3\nP1 NORTH 2.5\nP2 SOUTH 1.0\nP3 NORTH 5.0",
+      "expected": "NORTH: parcels=2 weight=7.50 cost=160.00\nSOUTH: parcels=1 weight=1.00 cost=50.00\nTotal parcels: 3\nTotal cost: 210.00",
+      "hidden": false
+     },
+     {
+      "stdin": "1\nEAST 100 5\n1\nA EAST 10.0",
+      "expected": "EAST: parcels=1 weight=10.00 cost=150.00\nTotal parcels: 1\nTotal cost: 150.00",
+      "hidden": false
+     },
+     {
+      "stdin": "2\nCITY 20 3\nRURAL 60 12\n2\nX CITY 4.0\nY CITY 0.5",
+      "expected": "CITY: parcels=2 weight=4.50 cost=53.50\nRURAL: parcels=0 weight=0.00 cost=0.00\nTotal parcels: 2\nTotal cost: 53.50",
+      "hidden": true
+     },
+     {
+      "stdin": "3\nA 10 2\nB 10 2\nC 10 2\n3\nP1 B 3.0\nP2 A 1.0\nP3 C 2.0",
+      "expected": "A: parcels=1 weight=1.00 cost=12.00\nB: parcels=1 weight=3.00 cost=16.00\nC: parcels=1 weight=2.00 cost=14.00\nTotal parcels: 3\nTotal cost: 42.00",
+      "hidden": true
+     },
+     {
+      "stdin": "1\nZ1 0 100\n2\nBIG Z1 12.5\nSML Z1 2.0",
+      "expected": "Z1: parcels=2 weight=14.50 cost=1450.00\nTotal parcels: 2\nTotal cost: 1450.00",
+      "hidden": true
+     }
+    ],
+    "body_md": "A courier company delivers parcels to several delivery zones. Every zone has its own pricing: a fixed **base charge** and a **per-kg rate**, both whole rupees. The cost of shipping one parcel to a zone is `base + rate * weight`, where `weight` is the parcel's weight in kilograms.\n\nEach day the company loads its zone price list and then a batch of parcels, each with an id, a destination zone and a weight. The system prints a **per-zone summary**: for every zone (including zones that received no parcels that day), the number of parcels, the total weight, and the total shipping cost. Zones are listed in alphabetical order of their name. At the end it prints the total number of parcels and the total cost across all zones.\n\nWrite the program that produces this summary.\n\n**NOTE:** This is an I/O type question, you need to write the whole code for taking input and printing the output.\n\n### Input Format\n\n- The first line contains an integer `Z`, the number of zones.\n- Each of the next `Z` lines contains a zone name (a single word), a base charge (an integer) and a per-kg rate (an integer), separated by spaces.\n- The next line contains an integer `P`, the number of parcels.\n- Each of the next `P` lines contains a parcel id (a single word), a zone name and a weight (a number, possibly with a decimal point), separated by spaces.\n\n### Output Format\n\n- For each zone, in alphabetical order of name, print a line `<zone>: parcels=<count> weight=<totalWeight> cost=<totalCost>`, where `<totalWeight>` and `<totalCost>` are each printed to exactly two decimals.\n- Then print a line `Total parcels: <P>`.\n- Then print a line `Total cost: <grandTotal>` to exactly two decimals.\n\n### Constraints\n\n- `1 <= Z <= 50`, `1 <= P <= 500`\n- every parcel's zone appears in the zone list\n- weights are positive numbers, base and rate are non-negative integers\n\n### Example\n\nInput:\n\n```\n2\nNORTH 50 8\nSOUTH 40 10\n3\nP1 NORTH 2.5\nP2 SOUTH 1.0\nP3 NORTH 5.0\n```\n\nOutput:\n\n```\nNORTH: parcels=2 weight=7.50 cost=160.00\nSOUTH: parcels=1 weight=1.00 cost=50.00\nTotal parcels: 3\nTotal cost: 210.00\n```\n\n**Explanation**\n\n`P1` to `NORTH` costs `50 + 8*2.5 = 70.00` and `P3` to `NORTH` costs `50 + 8*5.0 = 90.00`, so `NORTH` has `2` parcels, `7.50` kg and `160.00` cost. `SOUTH` has one parcel `P2` costing `40 + 10*1.0 = 50.00`. The grand total is `160.00 + 50.00 = 210.00`.\n\n## Your task\n\nWrite a complete program: read the input with `input()` and print the result with `print()`.\n\n## Example\n\nInput\n\n```\n2\nNORTH 50 8\nSOUTH 40 10\n3\nP1 NORTH 2.5\nP2 SOUTH 1.0\nP3 NORTH 5.0\n```\n\nOutput\n\n```\nNORTH: parcels=2 weight=7.50 cost=160.00\nSOUTH: parcels=1 weight=1.00 cost=50.00\nTotal parcels: 3\nTotal cost: 210.00\n```",
+    "solution_md": "## Reference solution\n\n```python\nz = int(input())\nbase = {}\nrate = {}\nfor _ in range(z):\n    parts = input().split()\n    name = parts[0]\n    base[name] = int(parts[1])\n    rate[name] = int(parts[2])\n\ncount = {name: 0 for name in base}\nweight = {name: 0.0 for name in base}\ncost = {name: 0.0 for name in base}\n\np = int(input())\ngrand = 0.0\nfor _ in range(p):\n    parts = input().split()\n    zone = parts[1]\n    w = float(parts[2])\n    c = base[zone] + rate[zone] * w\n    count[zone] += 1\n    weight[zone] += w\n    cost[zone] += c\n    grand += c\n\nfor name in sorted(base):\n    print(f\"{name}: parcels={count[name]} weight={weight[name]:.2f} cost={cost[name]:.2f}\")\nprint(f\"Total parcels: {p}\")\nprint(f\"Total cost: {grand:.2f}\")\n```",
+    "harness": null,
+    "starter_code": "# Read input with input(); print your answer.\n",
+    "input_labels": null
+   }
+  ]
+ }
+]
