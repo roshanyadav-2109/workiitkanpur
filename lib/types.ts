@@ -49,6 +49,14 @@ export interface TestCase {
    * varied between the public and private runs.
    */
   argv?: string[];
+  /**
+   * The database this case runs against, as SQL. A SQL question is checked by
+   * running the learner's query and the reference query over a dataset and
+   * comparing the rows — so a "test case" is a dataset, and a hidden one is a
+   * different dataset, the way an exam is marked against an instance the
+   * candidate never saw. Falls back to the question's own setup_sql.
+   */
+  setup?: string;
 }
 
 export interface McqOption {

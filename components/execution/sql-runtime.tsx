@@ -1,12 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { compareSqlResults } from "@/lib/grading";
-import type { RunSummary, RuntimeProps } from "@/components/execution/types";
+import type {
+  RunSummary,
+  RuntimeProps,
+  TestOutcome,
+} from "@/components/execution/types";
+import type { TestCase } from "@/lib/types";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 
 interface QueryResult {
@@ -14,6 +19,22 @@ interface QueryResult {
   rows: unknown[][];
   error?: string;
   affected?: number;
+}
+
+/** A result set as plain text, for the shared Test Cases panel. */
+function asText(r: QueryResult): string {
+  if (r.error) return r.error;
+  if (!r.columns.length) return "(no rows)";
+  const cell = (v: unknown) =>
+    v === null || v === undefined
+      ? "NULL"
+      : v instanceof Date
+        ? v.toISOString().slice(0, 10)
+        : String(v);
+  return [
+    r.columns.join(" | "),
+    ...r.rows.map((row) => row.map(cell).join(" | ")),
+  ].join("\n");
 }
 
 /**
@@ -49,9 +70,10 @@ export function SqlRuntime({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  // Run a statement against a fresh database seeded with the question's setup.
+  // Run a statement against a fresh database seeded with the given dataset,
+  // falling back to the question's own setup.
   const execFresh = useCallback(
-    async (sql: string): Promise<QueryResult> => {
+    async (sql: string, setup?: string): Promise<QueryResult> => {
       if (!pgModuleRef.current) {
         setLoading(true);
         // CDN import (self-contained WASM) — the bundled package's WASM does not
@@ -64,7 +86,8 @@ export function SqlRuntime({
       const { PGlite } = pgModuleRef.current;
       const db = new PGlite();
       try {
-        if (question.setup_sql) await db.exec(question.setup_sql);
+        const seed = setup ?? question.setup_sql;
+        if (seed) await db.exec(seed);
         // rowMode "array" keeps the columns positional. Reading a row back by
         // column name silently collapses duplicates: "select t.name, m.name"
         // returns two columns both called name, an object row carries only one
@@ -99,49 +122,120 @@ export function SqlRuntime({
     setRunning(false);
   }, [execFresh, query, onSqlOutcome]);
 
-  // Grade by comparing the learner's result to the reference query's result.
   const reference = question.reference_sql;
-  const grade = useCallback(async () => {
-    if (!reference) return;
-    setRunning(true);
-    setResult(null);
-    setGraded(null);
-    const got = await execFresh(query);
-    const expected = await execFresh(reference);
-    // Row order only counts when the reference query asks for one; column
-    // names never count. See compareSqlResults for why.
-    const passed = compareSqlResults(got, expected, reference);
-    if (onSqlOutcome)
-      onSqlOutcome({ mode: "submit", result: got, expected, passed });
-    else setGraded({ passed, expected, got });
-    onCodeSubmit?.(query);
 
-    // A paper grades every non-MCQ question from the summary its runtime
-    // reports, and records that it was answered when the runtime says so. SQL
-    // reported neither, so a correct query counted as unanswered and scored
-    // nothing. A query is one all-or-nothing check, so it reports as one test.
-    const summary: RunSummary = {
-      action: "submit",
-      publicPassed: passed ? 1 : 0,
-      publicTotal: 1,
-      privatePassed: null,
-      privateTotal: 0,
-      solved: passed,
-      results: [],
-    };
-    onOutcomes?.(summary);
-    onSubmit?.(summary);
+  /**
+   * The datasets this question is checked against. A question that declares
+   * none is still checked once, against its own setup — so a paper written
+   * before datasets existed behaves exactly as it did.
+   */
+  const datasets = useMemo(() => {
+    const declared = (question.tests ?? []).filter((t) => t.setup);
+    if (declared.length) return declared;
+    return [{ stdin: "", expected: "", hidden: false } as TestCase];
+  }, [question.tests]);
 
-    setRunning(false);
-  }, [
-    execFresh,
-    query,
-    reference,
-    onSqlOutcome,
-    onCodeSubmit,
-    onOutcomes,
-    onSubmit,
-  ]);
+  const publicCount = datasets.filter((t) => !t.hidden).length;
+  const hiddenCount = datasets.filter((t) => t.hidden).length;
+
+  /**
+   * Check the query the same way a coding question is checked: run it over each
+   * dataset, compare against the reference on that same dataset, and report
+   * public and hidden totals. "run" checks only the datasets the learner can
+   * see; "testrun" and "submit" check all of them.
+   */
+  const grade = useCallback(
+    async (action: "run" | "testrun" | "submit") => {
+      if (!reference) return;
+      setRunning(true);
+      setResult(null);
+      setGraded(null);
+
+      const runAll = action !== "run";
+      const indexed = datasets.map((t, index) => ({ t, index }));
+      const toRun = runAll ? indexed : indexed.filter((x) => !x.t.hidden);
+
+      const results: TestOutcome[] = [];
+      let firstShown: { got: QueryResult; expected: QueryResult } | null = null;
+
+      for (const { t, index } of toRun) {
+        const got = await execFresh(query, t.setup);
+        const expected = await execFresh(reference, t.setup);
+        // Row order only counts when the reference query asks for one; column
+        // names never count. See compareSqlResults for why.
+        const passed = compareSqlResults(got, expected, reference);
+        if (!t.hidden && !firstShown) firstShown = { got, expected };
+        results.push({
+          index,
+          hidden: !!t.hidden,
+          passed,
+          // The panel is written for programs, so the dataset and the rows are
+          // rendered as text: a hidden dataset must never show its contents,
+          // only that it was checked.
+          stdin: t.hidden ? "" : "the data shown in the question",
+          expected: t.hidden ? "" : asText(expected),
+          got: t.hidden ? "" : asText(got),
+          stderr: got.error ?? "",
+        });
+      }
+
+      const publicTotal = indexed.filter((x) => !x.t.hidden).length;
+      const privateTotal = indexed.filter((x) => x.t.hidden).length;
+      const publicPassed = results.filter((r) => !r.hidden && r.passed).length;
+      const privatePassed = runAll
+        ? results.filter((r) => r.hidden && r.passed).length
+        : null;
+      const solved =
+        runAll &&
+        publicPassed === publicTotal &&
+        (privatePassed ?? 0) === privateTotal;
+
+      const summary: RunSummary = {
+        action: action === "run" ? "run" : "submit",
+        publicPassed,
+        publicTotal,
+        privatePassed,
+        privateTotal,
+        solved,
+        results,
+      };
+      onOutcomes?.(summary);
+
+      // Keep showing the rows for the visible dataset — seeing what a query
+      // returned is most of how you debug one.
+      if (firstShown) {
+        if (onSqlOutcome)
+          onSqlOutcome({
+            mode: "submit",
+            result: firstShown.got,
+            expected: firstShown.expected,
+            passed: compareSqlResults(firstShown.got, firstShown.expected, reference),
+          });
+        else
+          setGraded({
+            passed: compareSqlResults(firstShown.got, firstShown.expected, reference),
+            expected: firstShown.expected,
+            got: firstShown.got,
+          });
+      }
+
+      if (action === "submit") {
+        onSubmit?.(summary);
+        onCodeSubmit?.(query);
+      }
+      setRunning(false);
+    },
+    [
+      execFresh,
+      query,
+      reference,
+      datasets,
+      onSqlOutcome,
+      onCodeSubmit,
+      onOutcomes,
+      onSubmit,
+    ],
+  );
 
   const queryTable = (qr: QueryResult) =>
     qr.error ? (
@@ -226,23 +320,42 @@ export function SqlRuntime({
     </div>
   );
 
+  // The same three actions, and the same words, a coding question uses:
+  // see your own output, check every case without submitting, then submit.
   const runButton = (
     <Button
-      variant="secondary"
+      variant="ghost"
       size="sm"
       onClick={() => gate.requirePhone(run)}
       disabled={running || !query.trim()}
+      title="Run your query against the data shown in the question"
     >
       <IconPlay size={15} />
       {running ? "Running…" : "Run query"}
+    </Button>
+  );
+  const testRunButton = reference && (
+    <Button
+      variant="secondary"
+      size="sm"
+      onClick={() => gate.requirePhone(() => grade(ide ? "testrun" : "run"))}
+      disabled={running || !query.trim()}
+      title={
+        ide
+          ? "Runs every case so you can check your query — nothing is submitted."
+          : `Runs the ${publicCount} sample ${publicCount === 1 ? "case" : "cases"} you can see.`
+      }
+    >
+      {running ? "Running…" : ide ? "Test run" : "Run code"}
     </Button>
   );
   const submitButton = reference && (
     <Button
       variant="primary"
       size="sm"
-      onClick={() => gate.requirePhone(grade)}
+      onClick={() => gate.requirePhone(() => grade("submit"))}
       disabled={running || !query.trim()}
+      title={`Runs all ${publicCount + hiddenCount} cases (including hidden ones) and records your attempt.`}
     >
       {running ? "Checking…" : "Submit"}
     </Button>
@@ -269,6 +382,7 @@ export function SqlRuntime({
         <div className="flex shrink-0 items-center justify-end gap-2">
           {loadingNote}
           {runButton}
+          {testRunButton}
           {submitButton}
         </div>
       </div>
@@ -287,6 +401,7 @@ export function SqlRuntime({
       />
       <div className="flex items-center gap-2">
         {runButton}
+        {testRunButton}
         {submitButton}
         {loadingNote}
       </div>
