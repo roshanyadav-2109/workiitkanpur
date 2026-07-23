@@ -36,6 +36,26 @@ export function ProgressLine({
   );
 }
 
+/**
+ * One cell, as Postgres would print it.
+ *
+ * The driver hands back real JavaScript values, so a date arrives as a Date and
+ * stringifies to "Sat Jul 05 1997 05:30:00 GMT+0530 (India Standard Time)" —
+ * which is not what any database shows, and makes a correct answer look wrong
+ * next to the expected output.
+ */
+function formatCell(cell: unknown): string {
+  if (cell === null || cell === undefined) return "NULL";
+  if (cell instanceof Date) {
+    const iso = cell.toISOString();
+    // Midnight UTC means it came from a date column, not a timestamp.
+    return iso.endsWith("T00:00:00.000Z") ? iso.slice(0, 10) : iso.replace("T", " ").slice(0, 19);
+  }
+  if (typeof cell === "boolean") return cell ? "true" : "false";
+  if (typeof cell === "object") return JSON.stringify(cell);
+  return String(cell);
+}
+
 /** A SQL result rendered as a table (or its error / empty note). */
 function SqlTable({ data }: { data: SqlResultData }) {
   if (data.error) {
@@ -59,9 +79,12 @@ function SqlTable({ data }: { data: SqlResultData }) {
       <table className="w-full text-left text-[13px]">
         <thead>
           <tr className="border-b border-hairline">
-            {data.columns.map((c) => (
+            {/* Keyed by position, not by name: a join can select the same
+                column name from several tables, and "select t.name, m.name"
+                would otherwise give two children the same key. */}
+            {data.columns.map((c, ci) => (
               <th
-                key={c}
+                key={ci}
                 className="whitespace-nowrap px-3 py-2 text-[12px] font-medium tracking-[0.02em] text-fg-muted"
               >
                 {c}
@@ -77,7 +100,7 @@ function SqlTable({ data }: { data: SqlResultData }) {
                   key={ci}
                   className="whitespace-nowrap px-3 py-2 font-mono text-[12px]"
                 >
-                  {cell === null ? "NULL" : String(cell)}
+                  {formatCell(cell)}
                 </td>
               ))}
             </tr>

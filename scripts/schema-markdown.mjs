@@ -38,8 +38,36 @@ function tableMarkdown(table) {
  * The full schema section for a database.
  * @param {{label: string, blurb: string, tables: Array}} db
  */
+/**
+ * The diagram spec, in a ```schema fence.
+ *
+ * components/markdown.tsx renders this fence as an interactive diagram: every
+ * table with its columns and types, and a line from each foreign key to the
+ * column it references. It sits in the question body so the picture and the
+ * database it describes can never drift apart, and it degrades to a readable
+ * code block anywhere the renderer isn't available.
+ */
+function diagramFence(db) {
+  const spec = {
+    label: db.label,
+    tables: db.tables.map((t) => ({
+      name: t.name,
+      columns: t.columns.map((c) => ({
+        name: c.name,
+        type: c.type,
+        ...(c.pk ? { pk: true } : {}),
+        ...(c.fk ? { fk: c.fk } : {}),
+      })),
+    })),
+  };
+  return "```schema\n" + JSON.stringify(spec) + "\n```";
+}
+
 export function schemaMarkdown(db) {
   const names = db.tables.map((t) => `\`${t.name}\``).join(" · ");
+  // The diagram carries every column, type and key, so listing each table again
+  // underneath only made the question longer to scroll past. The names stay as
+  // one line of real text, which the diagram can't be: it is what ctrl-F finds.
   return [
     "---",
     "",
@@ -47,9 +75,9 @@ export function schemaMarkdown(db) {
     "",
     db.blurb,
     "",
-    `**Tables** — ${names}`,
+    diagramFence(db),
     "",
-    db.tables.map(tableMarkdown).join("\n\n"),
+    `**Tables** — ${names}`,
   ].join("\n");
 }
 
