@@ -6,6 +6,7 @@ import {
   getSubjectBySlug,
   getTestSets,
 } from "@/lib/queries";
+import { extractSqlBlock } from "@/lib/sql";
 import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
 import { TestDeviceGuard } from "@/components/test/device-guard";
@@ -66,6 +67,12 @@ export default async function RunPage({
         starter_code: q.starter_code,
         language: q.language,
         harness: q.harness,
+        // SQL is graded in the browser by running this reference query and
+        // diffing its result against the learner's, so the paper has to carry
+        // it. Without it the SQL runtime renders no Submit button and every
+        // SQL question scores zero.
+        reference_sql:
+          q.kind === "sql" ? extractSqlBlock(q.solution_md) : null,
       })),
   }));
 

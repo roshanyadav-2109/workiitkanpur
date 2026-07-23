@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay } from "@/components/icons";
 import { cn } from "@/lib/utils";
+import { compareSqlResults } from "@/lib/grading";
 import type { RuntimeProps } from "@/components/execution/types";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 
@@ -101,11 +102,9 @@ export function SqlRuntime({
     setGraded(null);
     const got = await execFresh(query);
     const expected = await execFresh(reference);
-    const passed =
-      !got.error &&
-      !expected.error &&
-      JSON.stringify(got.columns) === JSON.stringify(expected.columns) &&
-      JSON.stringify(got.rows) === JSON.stringify(expected.rows);
+    // Row order only counts when the reference query asks for one; column
+    // names never count. See compareSqlResults for why.
+    const passed = compareSqlResults(got, expected, reference);
     if (onSqlOutcome)
       onSqlOutcome({ mode: "submit", result: got, expected, passed });
     else setGraded({ passed, expected, got });

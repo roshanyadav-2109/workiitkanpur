@@ -8,6 +8,7 @@ import {
   getUserAttempts,
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
+import { extractSqlBlock } from "@/lib/sql";
 import { createClient } from "@/lib/supabase/server";
 import { hasPhoneOnFile } from "@/lib/require-phone";
 import {
@@ -119,11 +120,4 @@ export default async function QuestionPage({
       initialBestSeconds={bestSeconds}
     />
   );
-}
-
-/** Pull the first ```sql fenced block out of a solution, for SQL grading. */
-function extractSqlBlock(md: string | null): string | null {
-  if (!md) return null;
-  const m = md.match(/```sql\s*([\s\S]*?)```/i);
-  return m ? m[1].trim() : null;
 }
