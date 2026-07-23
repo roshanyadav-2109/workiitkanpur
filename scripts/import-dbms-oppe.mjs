@@ -3,8 +3,10 @@
 //   node scripts/import-dbms-oppe.mjs            # dry run — shows exactly what it would write
 //   node scripts/import-dbms-oppe.mjs --commit   # apply
 //
-// Needs SUPABASE_ACCESS_TOKEN, NEXT_PUBLIC_SUPABASE_URL and
-// SUPABASE_SERVICE_ROLE_KEY in the environment.
+// Reads NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from the
+// environment, falling back to .env.local. It needs no management token: every
+// write goes through PostgREST, so the one credential it uses is the one the
+// app already has.
 //
 // Incremental on purpose: it removes and rebuilds only this one paper, so any
 // other subject's papers — and attempts against them — are untouched.
@@ -20,11 +22,25 @@ import { fileURLToPath } from "node:url";
 import { bodyWithSchema } from "./schema-markdown.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const REF = "hzlqdbmyvltvoqiaojjg";
-const MGMT = process.env.SUPABASE_ACCESS_TOKEN;
-const URL_ = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const COMMIT = process.argv.includes("--commit");
+
+/** Environment, with .env.local as the fallback so no exporting is needed. */
+function credentials() {
+  const out = { ...process.env };
+  try {
+    const raw = readFileSync(join(here, "..", ".env.local"), "utf8");
+    for (const line of raw.split("\n")) {
+      const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)$/.exec(line);
+      if (m && !out[m[1]]) out[m[1]] = m[2].trim();
+    }
+  } catch {
+    /* no .env.local — rely on the real environment */
+  }
+  return out;
+}
+const ENV = credentials();
+const URL_ = ENV.NEXT_PUBLIC_SUPABASE_URL;
+const SERVICE = ENV.SUPABASE_SERVICE_ROLE_KEY;
 
 const { databases } = JSON.parse(
   readFileSync(join(here, "dbms-databases.json"), "utf8"),
@@ -32,24 +48,7 @@ const { databases } = JSON.parse(
 const paper = JSON.parse(readFileSync(join(here, "dbms-oppe-paper.json"), "utf8"));
 const dbOf = new Map(databases.map((d) => [d.key, d]));
 
-async function sql(query) {
-  const r = await fetch(
-    `https://api.supabase.com/v1/projects/${REF}/database/query`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${MGMT}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query }),
-    },
-  );
-  const t = await r.text();
-  if (!r.ok) throw new Error(`SQL ${r.status}: ${t.slice(0, 400)}`);
-  return JSON.parse(t);
-}
-
-async function rest(path, method, body, headers = {}) {
+async function rest(path, method = "GET", body, headers = {}) {
   const r = await fetch(`${URL_}/rest/v1/${path}`, {
     method,
     headers: {
@@ -64,6 +63,28 @@ async function rest(path, method, body, headers = {}) {
   if (!r.ok)
     throw new Error(`REST ${method} ${path} ${r.status}: ${t.slice(0, 400)}`);
   return t ? JSON.parse(t) : null;
+}
+
+/** Does a table exist? PostgREST answers 404 with PGRST205 when it doesn't. */
+async function tableExists(name) {
+  const r = await fetch(`${URL_}/rest/v1/${name}?select=*&limit=1`, {
+    headers: { apikey: SERVICE, Authorization: `Bearer ${SERVICE}` },
+  });
+  return r.status !== 404;
+}
+
+/** How many rows match, without fetching them. */
+async function countOf(path) {
+  const r = await fetch(`${URL_}/rest/v1/${path}`, {
+    headers: {
+      apikey: SERVICE,
+      Authorization: `Bearer ${SERVICE}`,
+      Prefer: "count=exact",
+      Range: "0-0",
+    },
+  });
+  const range = r.headers.get("content-range") || "";
+  return Number(range.split("/")[1] ?? 0);
 }
 
 /** setup_sql is the whole database: schema first, then its rows. */
@@ -145,44 +166,45 @@ if (!COMMIT) {
   console.log("\nDRY RUN — re-run with --commit to apply.");
   process.exit(0);
 }
-if (!MGMT || !URL_ || !SERVICE)
+if (!URL_ || !SERVICE)
   throw new Error(
-    "Set SUPABASE_ACCESS_TOKEN, NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+    "Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (or put them in .env.local).",
   );
 
 // ---------------------------------------------------------------------------
 // Apply
 // ---------------------------------------------------------------------------
-const [{ exists: hasSections }] = await sql(`
-  select exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'test_set_sections'
-  ) as exists;
-`);
-if (!hasSections)
+if (!(await tableExists("test_set_sections")))
   throw new Error(
-    "test_set_sections is missing — apply supabase/migrations/0019_section_rules.sql first:\n" +
-      "  node scripts/run-sql.mjs supabase/migrations/0019_section_rules.sql",
+    'test_set_sections is missing — the paper\'s "Solve any one" rule has nowhere to live.\n' +
+      "Apply supabase/migrations/0019_section_rules.sql first (Supabase dashboard → SQL editor,\n" +
+      "or: SUPABASE_ACCESS_TOKEN=<sbp_...> node scripts/run-sql.mjs supabase/migrations/0019_section_rules.sql)",
   );
 
-const [subject] = await sql(
-  `select id, is_active from public.subjects where slug = '${paper.subjectSlug}';`,
+const [subject] = await rest(
+  `subjects?select=id,is_active&slug=eq.${paper.subjectSlug}`,
 );
-if (!subject)
-  throw new Error(`No subject with slug "${paper.subjectSlug}".`);
+if (!subject) throw new Error(`No subject with slug "${paper.subjectSlug}".`);
 if (!subject.is_active)
   console.log(
     `  NOTE: subject "${paper.subjectSlug}" is not active, so the paper won't be browsable until it is.`,
   );
 
-// Rebuild just this paper.
-await sql(`
-  delete from public.test_sets
-   where subject_id = '${subject.id}' and slug = '${paper.slug}';
-  delete from public.questions
-   where subject_id = '${subject.id}' and practice_only = false
-     and '${paper.slug}' = any(tags);
-`);
+// Rebuild just this paper: its own set row (questions cascade from it) and the
+// questions tagged with its slug. Everything else in the subject is untouched.
+await rest(
+  `test_sets?subject_id=eq.${subject.id}&slug=eq.${paper.slug}`,
+  "DELETE",
+  undefined,
+  { Prefer: "return=minimal" },
+);
+await rest(
+  `questions?subject_id=eq.${subject.id}&practice_only=is.false` +
+    `&tags=cs.%7B${encodeURIComponent(paper.slug)}%7D`,
+  "DELETE",
+  undefined,
+  { Prefer: "return=minimal" },
+);
 
 const [set] = await rest(
   "test_sets",
@@ -264,11 +286,12 @@ await rest(
   { Prefer: "return=minimal" },
 );
 
-const [after] = await sql(`
-  select
-    (select count(*) from public.test_set_questions where set_id = '${set.id}') as questions,
-    (select count(*) from public.test_set_sections  where set_id = '${set.id}') as sections;
-`);
+const loadedQuestions = await countOf(
+  `test_set_questions?select=id&set_id=eq.${set.id}`,
+);
+const loadedSections = await countOf(
+  `test_set_sections?select=id&set_id=eq.${set.id}`,
+);
 console.log(
-  `\nLoaded "${paper.title}": ${after.questions} questions, ${after.sections} section rules.`,
+  `\nLoaded "${paper.title}": ${loadedQuestions} questions, ${loadedSections} section rules.`,
 );
