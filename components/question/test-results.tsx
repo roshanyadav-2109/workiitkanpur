@@ -125,6 +125,19 @@ export function SqlResultPanel({ outcome }: { outcome: SqlOutcome | null }) {
   const { mode, result, expected, passed } = outcome;
   return (
     <div className="space-y-4">
+      {/* The same meter a coding question shows. A query is one check — its
+          result either matches the expected rows or it doesn't — so the bar
+          fills once, but it reads the same way across every kind of question. */}
+      {mode === "submit" && (
+        <div className="rounded-[3px] border border-hairline p-3">
+          <ProgressLine
+            label="Expected output"
+            passed={passed ? 1 : 0}
+            total={1}
+            ran
+          />
+        </div>
+      )}
       {mode === "submit" && (
         <div
           className={cn(
