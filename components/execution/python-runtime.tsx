@@ -211,7 +211,6 @@ export function PythonRuntime({
     setTesting(false);
   }
 
-  const loading = runner.status === "loading";
   const passedCount = outcomes?.filter((o) => o.passed).length ?? 0;
   const allPassed = outcomes && passedCount === outcomes.length;
 
@@ -230,12 +229,9 @@ export function PythonRuntime({
           />
         </div>
 
+        {/* Nothing is announced while Python loads: it happens while the
+            question is being read, and the buttons say "Running…" when pressed. */}
         <div className="flex shrink-0 items-center justify-end gap-2">
-          {loading && (
-            <span className="mr-auto text-[12px] text-fg-muted">
-              Setting up the editor…
-            </span>
-          )}
           {exam ? (
             <>
               <Button
@@ -325,11 +321,6 @@ export function PythonRuntime({
               ? "Running tests…"
               : `Run tests (${question.tests.length})`}
           </Button>
-        )}
-        {loading && (
-          <span className="text-[12px] text-fg-muted">
-            Setting up the editor…
-          </span>
         )}
       </div>
 

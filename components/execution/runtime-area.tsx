@@ -6,15 +6,12 @@ import { McqRuntime } from "@/components/execution/mcq-runtime";
 import { UnavailableRuntime } from "@/components/execution/unavailable-runtime";
 import type { RuntimeProps } from "@/components/execution/types";
 
-// SQL pulls in the Postgres WASM (PGlite), so load it only when needed.
+// SQL pulls in the Postgres WASM (PGlite), so load it only when needed. The
+// chunk arrives in a moment and the editor takes its place; announcing that is
+// noise on a question the learner is still reading.
 const SqlRuntime = dynamic(
   () => import("@/components/execution/sql-runtime").then((m) => m.SqlRuntime),
-  {
-    ssr: false,
-    loading: () => (
-      <p className="text-[13px] text-fg-muted">Setting up the editor…</p>
-    ),
-  },
+  { ssr: false, loading: () => null },
 );
 
 const RUNTIME_LABEL: Record<string, string> = {

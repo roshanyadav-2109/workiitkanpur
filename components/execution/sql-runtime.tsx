@@ -71,7 +71,6 @@ export function SqlRuntime({
     expected: QueryResult;
     got: QueryResult;
   } | null>(null);
-  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pgModuleRef = useRef<any>(null);
 
@@ -126,15 +125,16 @@ export function SqlRuntime({
     };
   }, []);
 
+  /**
+   * The reference result for a dataset never changes, so it is computed once
+   * and kept. Without this every check ran the reference query again alongside
+   * the learner's, doubling the work for an answer already known.
+   */
+  const expectedCache = useRef(new Map<string, QueryResult>());
+
   const execFresh = useCallback(
     async (sql: string, setup?: string): Promise<QueryResult> => {
-      setLoading(true);
-      let db: PGliteDb;
-      try {
-        db = await databaseFor(setup);
-      } finally {
-        setLoading(false);
-      }
+      const db = await databaseFor(setup);
       try {
         await db.exec("BEGIN");
         // rowMode "array" keeps the columns positional. Reading a row back by
@@ -182,6 +182,33 @@ export function SqlRuntime({
   const hiddenCount = datasets.filter((t) => t.hidden).length;
 
   /**
+   * Build the databases and work out the expected rows while the learner is
+   * still reading the question, so pressing a button doesn't wait for Postgres
+   * to start. Errors are ignored here — whatever fails is retried on the press,
+   * where it can be reported properly.
+   */
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      for (const t of datasets) {
+        if (cancelled) return;
+        try {
+          await databaseFor(t.setup);
+          if (cancelled || !reference) return;
+          const key = t.setup ?? "";
+          if (!expectedCache.current.has(key))
+            expectedCache.current.set(key, await execFresh(reference, t.setup));
+        } catch {
+          /* retried on press */
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [datasets, databaseFor, execFresh, reference]);
+
+  /**
    * Check the query the same way a coding question is checked: run it over each
    * dataset, compare against the reference on that same dataset, and report
    * public and hidden totals. "run" checks only the datasets the learner can
@@ -202,8 +229,13 @@ export function SqlRuntime({
       let firstShown: { got: QueryResult; expected: QueryResult } | null = null;
 
       for (const { t, index } of toRun) {
+        const key = t.setup ?? "";
+        let expected = expectedCache.current.get(key);
+        if (!expected) {
+          expected = await execFresh(reference, t.setup);
+          expectedCache.current.set(key, expected);
+        }
         const got = await execFresh(query, t.setup);
-        const expected = await execFresh(reference, t.setup);
         // Row order only counts when the reference query asks for one; column
         // names never count. See compareSqlResults for why.
         const passed = compareSqlResults(got, expected, reference);
@@ -392,9 +424,6 @@ export function SqlRuntime({
       {running ? "Checking…" : "Submit"}
     </Button>
   );
-  const loadingNote = loading && (
-    <span className="text-[12px] text-fg-muted">Setting up the editor…</span>
-  );
 
   // IDE layout — full-height editor + bottom action bar, matching the code
   // editor so the frame is identical across subjects.
@@ -412,7 +441,6 @@ export function SqlRuntime({
           />
         </div>
         <div className="flex shrink-0 items-center justify-end gap-2">
-          {loadingNote}
           {testRunButton}
           {submitButton}
         </div>
@@ -433,7 +461,6 @@ export function SqlRuntime({
       <div className="flex items-center gap-2">
         {testRunButton}
         {submitButton}
-        {loadingNote}
       </div>
       {gradedView}
       {resultView}
