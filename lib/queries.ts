@@ -264,10 +264,18 @@ export async function getQuestionsForRun(
 
 export interface QuestionContext {
   question: Question;
-  subject: Pick<Subject, "id" | "slug" | "name" | "short_code">;
+  subject: Pick<Subject, "id" | "slug" | "name" | "short_code" | "is_active">;
   topic: Pick<Topic, "id" | "name" | "week"> | null;
 }
 
+/**
+ * A question with the subject and topic it belongs to.
+ *
+ * Closing a subject has to close its questions too. They are reachable by
+ * direct link from the practice list, a bookmark, and the PDF export, so the
+ * check belongs here rather than on each page — a closed subject's question
+ * simply doesn't exist, and every caller gets that for free.
+ */
 export async function getQuestionById(
   id: string,
 ): Promise<QuestionContext | null> {
@@ -275,7 +283,7 @@ export async function getQuestionById(
   const { data } = await supabase
     .from("questions")
     .select(
-      "*, subject:subjects(id, slug, name, short_code), topic:topics(id, name, week)",
+      "*, subject:subjects(id, slug, name, short_code, is_active), topic:topics(id, name, week)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -285,6 +293,7 @@ export async function getQuestionById(
     subject: QuestionContext["subject"];
     topic: QuestionContext["topic"];
   };
+  if (!subject?.is_active) return null;
   return { question, subject, topic };
 }
 
