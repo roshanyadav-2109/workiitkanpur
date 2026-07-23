@@ -82,7 +82,9 @@ const run = async (pg, q) => {
 };
 
 let failures = 0;
-for (const q of paper.questions) {
+// Program questions are graded on their output, not on a result set, so they
+// are covered by app/runtime-check instead — there is no way to run Python here.
+for (const q of paper.questions.filter((x) => x.kind === "sql")) {
   // The grading key must survive the round trip through solution_md.
   const reference = extractSqlBlock(solutionFor(q));
   if (reference !== q.reference_sql.trim()) {
@@ -112,9 +114,14 @@ for (const q of paper.questions) {
   await pg.close();
 }
 
+const skipped = paper.questions.filter((q) => q.kind !== "sql").map((q) => q.id);
+if (skipped.length)
+  console.log(
+    `\n  (${skipped.join(", ")} are program questions — run /runtime-check in the browser for those)`,
+  );
 console.log(
   failures === 0
-    ? "\nEvery question grades a correct answer as correct and a wrong one as wrong."
+    ? "\nEvery SQL question grades a correct answer as correct and a wrong one as wrong."
     : `\n${failures} question(s) would grade incorrectly.`,
 );
 process.exit(failures ? 1 : 0);
