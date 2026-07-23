@@ -69,6 +69,33 @@ console.log(`${paper.title} — ${paper.questions.length} questions\n`);
 
 for (const q of paper.questions) {
   const pg = pool.get(q.db);
+
+  // Questions graded on program output rather than on a result set.
+  if (q.kind !== "sql") {
+    const tests = q.tests ?? [];
+    const pub = tests.filter((t) => !t.hidden).length;
+    const priv = tests.filter((t) => t.hidden).length;
+    if (!pub) fail(q.id, "no public test cases");
+    if (!priv) fail(q.id, "no private test cases — the answer could be hard-coded");
+    for (const [i, t] of tests.entries()) {
+      if (!String(t.expected ?? "").trim())
+        fail(q.id, `test ${i + 1} has no expected output`);
+      if (t.files && Object.keys(t.files).length === 0)
+        fail(q.id, `test ${i + 1} declares files but supplies none`);
+    }
+    // Different inputs must produce different answers, or the private cases
+    // are decoration and a hard-coded print would pass them all.
+    const distinct = new Set(tests.map((t) => t.expected)).size;
+    if (distinct < 2)
+      fail(q.id, "every test expects the same output — hard-coding would pass");
+    console.log(
+      `  ok   ${q.id} ${String(q.marks).padStart(3)} marks  ` +
+        `${pub} public + ${priv} private  ${distinct} distinct answers`,
+    );
+    continue;
+  }
+
+
   let res;
   try {
     res = await pg.query(q.reference_sql);

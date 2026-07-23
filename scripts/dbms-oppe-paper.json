@@ -134,33 +134,159 @@
       "body_md": "Write an SQL query to find the player name, data of birth, team name and manager name of each player whose jersey number is 59.",
       "reference_sql": "SELECT p.name AS player_name, p.dob, t.name AS team_name, m.name AS manager_name FROM players p JOIN teams t ON t.team_id = p.team_id JOIN managers m ON m.team_id = t.team_id WHERE p.jersey_no = 59",
       "ordered": false
+    },
+    {
+      "id": "Q8",
+      "code": "Q8bookca",
+      "db": "bookca",
+      "section": "OPE Python-PostgreSQL Questions",
+      "sortOrder": 8,
+      "marks": 20,
+      "kind": "coding",
+      "language": "python",
+      "difficulty": "medium",
+      "title": "ISBNs published in a computed year",
+      "body_md": "Write a Python program to print the ISBN numbers of books which are published in a given year.\nHere, the year is obtained as the value of function `L(x)` (given after the sample output) at `x`.\nYou have to read the value of `x` from the input file `number.txt`, and use it to find the value of `L(x)`.\nYour program must assume that `number.txt` resides in the same folder as your Python program.\n\nYou have to iterate through the list and print each value separately as shown in the output below:\n\n```\n9789352921171 9789351343202 9789353333380\n```\n\nThe line function is given below:\n\n```\nL4(x) = 2000 + 4*x + 4\n```\n\n**Note:** Do not hard code the database name in your program, because your\nprogram will be run against a different database instance for evaluation.\n\nFor the database connection, use the following connection string variables:\n\n```python\ndatabase = sys.argv[1]   # name of the database, from the command line\nuser     = os.environ.get('PGUSER')\npassword = os.environ.get('PGPASSWORD')\nhost     = os.environ.get('PGHOST')\nport     = os.environ.get('PGPORT')\n```",
+      "solution_md": "A reference solution:\n\n```python\nimport sys, os\nimport psycopg2\n\nwith open(\"number.txt\") as f:\n    x = int(f.read().strip())\n\nyear = 2000 + 4 * x + 4\n\nconn = psycopg2.connect(\n    database=sys.argv[1],\n    user=os.environ.get(\"PGUSER\"),\n    password=os.environ.get(\"PGPASSWORD\"),\n    host=os.environ.get(\"PGHOST\"),\n    port=os.environ.get(\"PGPORT\"),\n)\ncur = conn.cursor()\ncur.execute(\"SELECT isbn_no FROM book_catalogue WHERE year = %s\", (year,))\nprint(\" \".join(row[0] for row in cur.fetchall()))\nconn.close()\n```\n",
+      "tests": [
+        {
+          "stdin": "",
+          "expected": "9789352921171 9789351343202 9789353333380",
+          "hidden": false,
+          "files": {
+            "number.txt": "5"
+          },
+          "argv": [
+            "bookca"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "9789332501621 9788126538713 9789350232705 9780198072638",
+          "hidden": false,
+          "files": {
+            "number.txt": "2"
+          },
+          "argv": [
+            "bookca"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "9788120321410 9788177582932",
+          "hidden": true,
+          "files": {
+            "number.txt": "0"
+          },
+          "argv": [
+            "bookca"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "9788173717857 9788131721018 9788125918967",
+          "hidden": true,
+          "files": {
+            "number.txt": "1"
+          },
+          "argv": [
+            "bookca"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "9789385965203 9788126563708 9789339220709",
+          "hidden": true,
+          "files": {
+            "number.txt": "3"
+          },
+          "argv": [
+            "bookca"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "9788194401803 9789389949308 9789353946005",
+          "hidden": true,
+          "files": {
+            "number.txt": "4"
+          },
+          "argv": [
+            "bookca"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q9",
+      "code": "Q9flisdb",
+      "db": "flis",
+      "section": "OPE Python-PostgreSQL Questions",
+      "sortOrder": 9,
+      "marks": 20,
+      "kind": "coding",
+      "language": "python",
+      "difficulty": "hard",
+      "title": "Main referee for a match date",
+      "body_md": "In this question, you must write a Python program to output the name of the main referee for a given match date (in `yyyy-mm-dd` format).\nThe input to your program is a file named `date.txt` that has the match date as the first word of the file.\nYour program must assume that `date.txt` resides in the same folder as your Python program.\n\nThe output name has to be formatted as follows. The last name is displayed followed by the initials of the first name,\nthen a full stop, a space and then the initials of the middle name (if the middle name exists), followed by a full stop.\n\nFor example, if the name of the main referee is \"Kennedy Sapam\", the output must be `Sapam K.`\nIf the name of the main referee is \"Asit Kumar Sarkar\", the output must be `Sarkar A. K.`\n\n**Note:** Do not hard code the database name in your program, because your\nprogram will be run against a different database instance for evaluation.\n\nFor the database connection, use the following connection string variables:\n\n```python\ndatabase = sys.argv[1]   # name of the database, from the command line\nuser     = os.environ.get('PGUSER')\npassword = os.environ.get('PGPASSWORD')\nhost     = os.environ.get('PGHOST')\nport     = os.environ.get('PGPORT')\n```",
+      "solution_md": "A reference solution:\n\n```python\nimport sys, os\nimport psycopg2\n\nwith open(\"date.txt\") as f:\n    match_date = f.read().split()[0]\n\nconn = psycopg2.connect(\n    database=sys.argv[1],\n    user=os.environ.get(\"PGUSER\"),\n    password=os.environ.get(\"PGPASSWORD\"),\n    host=os.environ.get(\"PGHOST\"),\n    port=os.environ.get(\"PGPORT\"),\n)\ncur = conn.cursor()\ncur.execute(\n    \"\"\"\n    SELECT r.name\n      FROM matches m\n      JOIN match_referees mr ON mr.match_num = m.match_num\n      JOIN referees r ON r.referee_id = mr.referee\n     WHERE m.match_date = %s\n    \"\"\",\n    (match_date,),\n)\nname = cur.fetchone()[0]\nconn.close()\n\nparts = name.split()\nlast = parts[-1]\ninitials = \" \".join(p[0] + \".\" for p in parts[:-1])\nprint(last + \" \" + initials)\n```\n",
+      "tests": [
+        {
+          "stdin": "",
+          "expected": "Sapam K.",
+          "hidden": false,
+          "files": {
+            "date.txt": "2024-08-03"
+          },
+          "argv": [
+            "flisdb"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "Sarkar A. K.",
+          "hidden": false,
+          "files": {
+            "date.txt": "2024-08-10"
+          },
+          "argv": [
+            "flisdb"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "Gill H. S.",
+          "hidden": true,
+          "files": {
+            "date.txt": "2024-08-31"
+          },
+          "argv": [
+            "flisdb"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "Sapam K.",
+          "hidden": true,
+          "files": {
+            "date.txt": "2024-09-14"
+          },
+          "argv": [
+            "flisdb"
+          ]
+        },
+        {
+          "stdin": "",
+          "expected": "Baruah P.",
+          "hidden": true,
+          "files": {
+            "date.txt": "2024-10-05"
+          },
+          "argv": [
+            "flisdb"
+          ]
+        }
+      ]
     }
-  ],
-  "_pending": {
-    "_comment": [
-      "Q8 and Q9 are Python programs that connect to PostgreSQL. They need the",
-      "Python-to-Postgres bridge (Phase 5) before they can run, so they are held",
-      "here rather than imported half-working."
-    ],
-    "questions": [
-      {
-        "id": "Q8",
-        "db": "bookca",
-        "section": "OPE Python-PostgreSQL Questions",
-        "marks": 20,
-        "kind": "coding",
-        "title": "ISBNs published in a computed year",
-        "note": "Reads x from number.txt; year = L4(x) = 2000 + 4*x + 4; prints matching ISBNs space-separated."
-      },
-      {
-        "id": "Q9",
-        "db": "flis",
-        "section": "OPE Python-PostgreSQL Questions",
-        "marks": 20,
-        "kind": "coding",
-        "title": "Main referee for a match date",
-        "note": "Reads a date from date.txt; prints the main referee formatted as 'Sapam K.' / 'Sarkar A. K.'."
-      }
-    ]
-  }
+  ]
 }

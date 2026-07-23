@@ -73,8 +73,14 @@ const setupFor = (key) => {
   return `${d.ddl.trim()}\n\n${d.seed.trim()}\n`;
 };
 
-/** The ```sql fence lib/sql.ts extracts the grading key from. */
+/**
+ * SQL questions are graded against a reference query, which is stored inside
+ * solution_md as a ```sql block — that fence is where lib/sql.ts reads the
+ * grading key from. Python questions carry their own written solution and are
+ * graded on their output instead.
+ */
 const solutionFor = (q) =>
+  q.solution_md ??
   `A reference query:\n\n\`\`\`sql\n${q.reference_sql.trim()}\n\`\`\`\n`;
 
 /** The question, with its database's schema appended below the statement. */
@@ -114,15 +120,26 @@ if (pending.length)
     `\n  Held back (need the Python-to-Postgres runtime): ${pending.map((q) => q.id).join(", ")}`,
   );
 
-// Fail before touching anything if the grading key wouldn't be readable.
+// Fail before touching anything if a question could not be graded once loaded.
 for (const q of paper.questions) {
-  const md = solutionFor(q);
-  const m = md.match(/```sql\s*([\s\S]*?)```/i);
-  if (!m || m[1].trim() !== q.reference_sql.trim())
-    throw new Error(`${q.id}: reference query is not recoverable from solution_md`);
   setupFor(q.db);
+  if (q.kind === "sql") {
+    const m = solutionFor(q).match(/```sql\s*([\s\S]*?)```/i);
+    if (!m || m[1].trim() !== q.reference_sql.trim())
+      throw new Error(`${q.id}: reference query is not recoverable from solution_md`);
+  } else {
+    const tests = q.tests ?? [];
+    if (tests.length === 0)
+      throw new Error(`${q.id}: a ${q.kind} question with no test cases cannot be graded`);
+    if (tests.some((t) => !String(t.expected ?? "").trim()))
+      throw new Error(`${q.id}: a test case has no expected output`);
+    if (!tests.some((t) => t.hidden))
+      throw new Error(`${q.id}: no private test cases — the answer could be hard-coded`);
+    if (!tests.some((t) => !t.hidden))
+      throw new Error(`${q.id}: no public test cases — nothing to check against while solving`);
+  }
 }
-console.log("\n  Every reference query is recoverable from its solution_md.");
+console.log("\n  Every question carries what it needs to be graded.");
 
 if (!COMMIT) {
   console.log("\nDRY RUN — re-run with --commit to apply.");
@@ -198,17 +215,20 @@ const created = await rest(
     difficulty: q.difficulty,
     kind: q.kind,
     solution_md: solutionFor(q),
-    // db:<key> is how the runner finds which schema to show alongside the paper.
     tags: ["dbms", "pyq", "oppe", paper.slug, `db:${q.db}`],
     sort_order: q.sortOrder,
-    tests: [],
+    // Python questions are graded on their output; each case carries the files
+    // and command-line arguments that run drives the program with.
+    tests: q.tests ?? [],
     mcq_options: [],
     mcq_answer: null,
+    // Both kinds get the whole database: the SQL runtime queries it directly,
+    // the Python runtime hands it to psycopg2.
     setup_sql: setupFor(q.db),
     input_labels: null,
     exam: paper.exam,
-    starter_code: null,
-    language: "sql",
+    starter_code: q.starter_code ?? null,
+    language: q.language ?? (q.kind === "sql" ? "sql" : "python"),
     harness: null,
     practice_only: false,
   })),

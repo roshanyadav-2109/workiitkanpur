@@ -8,6 +8,8 @@
 
 import { useEffect, useState } from "react";
 import { usePythonRunner, type RunContext } from "@/lib/python-runner";
+import paper from "@/scripts/dbms-oppe-paper.json";
+import databases from "@/scripts/dbms-databases.json";
 
 interface Case {
   name: string;
@@ -201,6 +203,19 @@ const CASES: Case[] = [
   },
 ];
 
+/** The ```python block a reference solution is stored in. */
+function pythonBlock(md: string): string | null {
+  const m = md.match(/```python\s*([\s\S]*?)```/i);
+  return m ? m[1].trim() : null;
+}
+
+/** setup_sql for a database, exactly as the importer builds it. */
+function setupFor(key: string): string {
+  const d = databases.databases.find((x) => x.key === key);
+  if (!d) throw new Error(`unknown database ${key}`);
+  return `${d.ddl.trim()}\n\n${d.seed.trim()}\n`;
+}
+
 export function RuntimeCheckHarness() {
   const { run, status } = usePythonRunner(60000);
   const [lines, setLines] = useState<string[]>([]);
@@ -210,21 +225,62 @@ export function RuntimeCheckHarness() {
     let cancelled = false;
     (async () => {
       const out: string[] = [];
+      const push = (l: string) => {
+        out.push(l);
+        if (!cancelled) setLines([...out]);
+      };
+
+      push("— runtime —");
       for (const c of CASES) {
         const r = await run(c.code, c.stdin ?? "", c.ctx ?? {});
         const got = (c.expectStderr ? r.stderr : r.stdout).trim();
         const ok = c.expectStderr ? got.includes(c.expect) : got === c.expect;
-        out.push(
+        push(
           `${ok ? "PASS" : "FAIL"}  ${c.name}` +
             (ok ? "" : `\n        want: ${c.expect}\n        got:  ${got || "(empty)"}` +
               (r.stderr && !c.expectStderr ? `\n        err:  ${r.stderr.trim().slice(0, 2500)}` : "")),
         );
         if (cancelled) return;
-        setLines([...out]);
       }
+
+      // Every Python question on the paper, its own reference solution, run
+      // against every stored test case. This is what proves the expected
+      // outputs in the paper are what the program actually prints — they were
+      // computed from the database, not from running the program.
+      push("");
+      push("— paper: reference solutions against their own test cases —");
+      const coding = paper.questions.filter(
+        (q) => q.kind !== "sql" && Array.isArray(q.tests) && q.tests.length,
+      );
+      for (const q of coding) {
+        const code = pythonBlock(q.solution_md ?? "");
+        if (!code) {
+          push(`FAIL  ${q.id}: no python solution stored`);
+          continue;
+        }
+        for (const [i, t] of (q.tests ?? []).entries()) {
+          const r = await run(code, t.stdin ?? "", {
+            setupSql: setupFor(q.db),
+            files: t.files ?? {},
+            argv: t.argv ?? [],
+          });
+          const got = r.stdout.trim();
+          const ok = got === String(t.expected).trim();
+          push(
+            `${ok ? "PASS" : "FAIL"}  ${q.id} test ${i + 1}` +
+              `${t.hidden ? " (private)" : " (public) "}` +
+              (ok
+                ? `  -> ${got.slice(0, 60)}`
+                : `\n        want: ${t.expected}\n        got:  ${got || "(empty)"}` +
+                  (r.stderr ? `\n        err:  ${r.stderr.trim().slice(0, 1200)}` : "")),
+          );
+          if (cancelled) return;
+        }
+      }
+
       const failed = out.filter((l) => l.startsWith("FAIL")).length;
-      out.push(failed === 0 ? "ALL RUNTIME CHECKS PASSED" : `${failed} CHECK(S) FAILED`);
-      setLines([...out]);
+      push("");
+      push(failed === 0 ? "ALL RUNTIME CHECKS PASSED" : `${failed} CHECK(S) FAILED`);
       setDone(true);
     })();
     return () => {
