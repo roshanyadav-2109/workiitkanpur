@@ -6,7 +6,7 @@ import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { compareSqlResults } from "@/lib/grading";
-import type { RuntimeProps } from "@/components/execution/types";
+import type { RunSummary, RuntimeProps } from "@/components/execution/types";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 
 interface QueryResult {
@@ -28,6 +28,8 @@ export function SqlRuntime({
   ide,
   onSqlOutcome,
   onCodeSubmit,
+  onOutcomes,
+  onSubmit,
 }: RuntimeProps) {
   const gate = usePhoneGate();
   const [query, setQuery] = useState(initialAnswer ?? "");
@@ -113,8 +115,33 @@ export function SqlRuntime({
       onSqlOutcome({ mode: "submit", result: got, expected, passed });
     else setGraded({ passed, expected, got });
     onCodeSubmit?.(query);
+
+    // A paper grades every non-MCQ question from the summary its runtime
+    // reports, and records that it was answered when the runtime says so. SQL
+    // reported neither, so a correct query counted as unanswered and scored
+    // nothing. A query is one all-or-nothing check, so it reports as one test.
+    const summary: RunSummary = {
+      action: "submit",
+      publicPassed: passed ? 1 : 0,
+      publicTotal: 1,
+      privatePassed: null,
+      privateTotal: 0,
+      solved: passed,
+      results: [],
+    };
+    onOutcomes?.(summary);
+    onSubmit?.(summary);
+
     setRunning(false);
-  }, [execFresh, query, reference, onSqlOutcome, onCodeSubmit]);
+  }, [
+    execFresh,
+    query,
+    reference,
+    onSqlOutcome,
+    onCodeSubmit,
+    onOutcomes,
+    onSubmit,
+  ]);
 
   const queryTable = (qr: QueryResult) =>
     qr.error ? (
