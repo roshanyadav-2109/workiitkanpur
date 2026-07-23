@@ -12,10 +12,8 @@ import { cn, formatClock } from "@/lib/utils";
 import { submitTestAttempt } from "@/lib/test-actions";
 import { Markdown } from "@/components/markdown";
 import { RuntimeArea } from "@/components/execution/runtime-area";
-import {
-  SqlResultPanel,
-  TestCasesPanel,
-} from "@/components/question/test-results";
+import { TestCasesPanel } from "@/components/question/test-results";
+import type { TestCase } from "@/lib/types";
 import { EmptyState } from "@/components/ui/empty-state";
 import {
   IconChevron,
@@ -25,11 +23,7 @@ import {
   IconTimer,
 } from "@/components/icons";
 import { describeSectionRule } from "@/lib/scoring";
-import type {
-  RunSummary,
-  RuntimeQuestion,
-  SqlOutcome,
-} from "@/components/execution/types";
+import type { RunSummary, RuntimeQuestion } from "@/components/execution/types";
 
 interface RunnerQuestion extends RuntimeQuestion {
   title: string;
@@ -48,6 +42,17 @@ interface RunnerSection {
 }
 type QState = "none" | "answered" | "review";
 type Tab = "question" | "tests" | "solution";
+
+/**
+ * The cases a question is checked against. A SQL question with none declared is
+ * still checked once, against its own database, so the panel shows one case
+ * rather than claiming there are none.
+ */
+function datasetsOf(q: RunnerQuestion): TestCase[] {
+  if (q.tests?.length) return q.tests;
+  if (q.kind === "sql") return [{ stdin: "", expected: "", hidden: false }];
+  return [];
+}
 
 /** The paper's own wording for a section rule, else one derived from best_of. */
 function sectionRule(sec: RunnerSection): string | null {
@@ -89,9 +94,6 @@ export function TestRunner({
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [statusById, setStatusById] = useState<Record<string, QState>>({});
   const [summaryById, setSummaryById] = useState<Record<string, RunSummary>>({});
-  const [sqlOutcomeById, setSqlOutcomeById] = useState<
-    Record<string, SqlOutcome>
-  >({});
   const [submittedById, setSubmittedById] = useState<Record<string, number>>({});
   const [fontSize, setFontSize] = useState(13);
   const [resourcesOpen, setResourcesOpen] = useState(false);
@@ -350,11 +352,6 @@ export function TestRunner({
   function onOutcomes(qid: string, summary: RunSummary | null) {
     if (!summary) return;
     setSummaryById((m) => ({ ...m, [qid]: summary }));
-    setTab("tests");
-  }
-  function onSqlOutcome(qid: string, outcome: SqlOutcome | null) {
-    if (!outcome) return;
-    setSqlOutcomeById((m) => ({ ...m, [qid]: outcome }));
     setTab("tests");
   }
   function onSubmitQuestion(qid: string) {
@@ -666,19 +663,15 @@ export function TestRunner({
               {tab === "question" && question && (
                 <Markdown>{question.body_md}</Markdown>
               )}
-              {/* A SQL question has no stdin/expected cases — it is checked by
-                  running a reference query — so this tab shows the rows the
-                  query returned against the rows expected. */}
-              {tab === "tests" &&
-                question &&
-                (question.kind === "sql" ? (
-                  <SqlResultPanel outcome={sqlOutcomeById[qid] ?? null} />
-                ) : (
-                  <TestCasesPanel
-                    tests={question.tests}
-                    summary={summaryById[qid] ?? null}
-                  />
-                ))}
+              {/* Every question reports the same way — a SQL question's cases
+                  are datasets, a program's are inputs — so they share one
+                  panel and one pair of meters. */}
+              {tab === "tests" && question && (
+                <TestCasesPanel
+                  tests={datasetsOf(question)}
+                  summary={summaryById[qid] ?? null}
+                />
+              )}
               {tab === "solution" &&
                 question &&
                 (solutionUnlocked ? (
@@ -804,7 +797,6 @@ export function TestRunner({
                     setAnswers((a) => ({ ...a, [question.id]: code }))
                   }
                   onOutcomes={(s) => onOutcomes(question.id, s)}
-                  onSqlOutcome={(o) => onSqlOutcome(question.id, o)}
                   onSubmit={() => onSubmitQuestion(question.id)}
                   bare
                 />

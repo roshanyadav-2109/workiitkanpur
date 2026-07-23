@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePythonRunner } from "@/lib/python-runner";
+import { usePythonRunner, type RunContext } from "@/lib/python-runner";
 import { gradeOutput, normalizeOutput } from "@/lib/grading";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
 import { IconPlay, IconCheck, IconClose } from "@/components/icons";
 import type { RuntimeProps } from "@/components/execution/types";
+import type { TestCase } from "@/lib/types";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 
 interface Outcome {
@@ -100,11 +101,28 @@ export function PythonRuntime({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
+  /**
+   * What a run needs besides the code: the database the question is set on, the
+   * files the program reads, and its command-line arguments. Without this a
+   * program that opens "number.txt" or connects with psycopg2 fails on the
+   * first line — the runtime supports all three, but nothing was handing them
+   * over.
+   */
+  function contextFor(t?: TestCase): RunContext {
+    return {
+      setupSql: t?.setup ?? question.setup_sql ?? null,
+      files: t?.files ?? {},
+      argv: t?.argv ?? [],
+    };
+  }
+  /** A custom run still needs the question's input files, or it can't start. */
+  const sampleCase = question.tests?.find((t) => !t.hidden) ?? question.tests?.[0];
+
   async function onRun() {
     setRunning(true);
     setRunOut(null);
     onRunOutput?.(null);
-    const res = await runner.run(withHarness(code), stdin);
+    const res = await runner.run(withHarness(code), stdin, contextFor(sampleCase));
     const out = { stdout: res.stdout, stderr: res.stderr, timedOut: res.timedOut };
     setRunOut(out);
     onRunOutput?.(out);
@@ -117,7 +135,7 @@ export function PythonRuntime({
     const results: Outcome[] = [];
     for (let i = 0; i < question.tests.length; i++) {
       const t = question.tests[i];
-      const res = await runner.run(withHarness(code), t.stdin);
+      const res = await runner.run(withHarness(code), t.stdin, contextFor(t));
       const passed = res.ok && gradeOutput(t, res.stdout);
       results.push({
         index: i,
@@ -146,7 +164,7 @@ export function PythonRuntime({
     const toRun = runAll ? indexed : indexed.filter((x) => !x.t.hidden);
     const results: Outcome[] = [];
     for (const { t, index } of toRun) {
-      const res = await runner.run(withHarness(code), t.stdin);
+      const res = await runner.run(withHarness(code), t.stdin, contextFor(t));
       const passed = res.ok && gradeOutput(t, res.stdout);
       results.push({
         index,

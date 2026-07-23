@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
-import { IconPlay } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { compareSqlResults } from "@/lib/grading";
 import type {
@@ -19,6 +18,17 @@ interface QueryResult {
   rows: unknown[][];
   error?: string;
   affected?: number;
+}
+
+/** Just the bit of PGlite this file uses — the module is loaded at run time. */
+interface PGliteDb {
+  exec(sql: string): Promise<unknown>;
+  query(
+    sql: string,
+    params: unknown[],
+    options: { rowMode: "array" },
+  ): Promise<{ fields?: { name: string }[]; rows?: unknown[][]; affectedRows?: number }>;
+  close(): Promise<void>;
 }
 
 /** A result set as plain text, for the shared Test Cases panel. */
@@ -70,24 +80,63 @@ export function SqlRuntime({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  // Run a statement against a fresh database seeded with the given dataset,
-  // falling back to the question's own setup.
+  /**
+   * One database per dataset, kept for as long as the question is open.
+   *
+   * Starting Postgres and replaying a schema and its rows costs a second or
+   * more, and a check runs two queries over every dataset — so building a fresh
+   * database each time made a single press take minutes. Each dataset is built
+   * once and every query afterwards runs inside a transaction that is rolled
+   * back, so a query that writes cannot leave anything behind and the next
+   * check still sees the dataset exactly as authored.
+   */
+  const dbCache = useRef(new Map<string, Promise<PGliteDb>>());
+
+  const databaseFor = useCallback(
+    (setup?: string): Promise<PGliteDb> => {
+      const seed = setup ?? question.setup_sql ?? "";
+      const cached = dbCache.current.get(seed);
+      if (cached) return cached;
+      const opening = (async () => {
+        if (!pgModuleRef.current) {
+          // CDN import (self-contained WASM) — the bundled package's WASM does
+          // not instantiate under Turbopack. turbopackIgnore keeps this a
+          // runtime import.
+          const cdn =
+            "https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js";
+          pgModuleRef.current = await import(/* turbopackIgnore: true */ cdn);
+        }
+        const db = new pgModuleRef.current.PGlite() as PGliteDb;
+        if (seed) await db.exec(seed);
+        return db;
+      })();
+      dbCache.current.set(seed, opening);
+      return opening;
+    },
+    [question.setup_sql],
+  );
+
+  // Free the databases when the learner moves to another question.
+  useEffect(() => {
+    const cache = dbCache.current;
+    return () => {
+      for (const opening of cache.values())
+        void opening.then((db) => db.close()).catch(() => {});
+      cache.clear();
+    };
+  }, []);
+
   const execFresh = useCallback(
     async (sql: string, setup?: string): Promise<QueryResult> => {
-      if (!pgModuleRef.current) {
-        setLoading(true);
-        // CDN import (self-contained WASM) — the bundled package's WASM does not
-        // instantiate under Turbopack. turbopackIgnore keeps this a runtime import.
-        const cdn =
-          "https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js";
-        pgModuleRef.current = await import(/* turbopackIgnore: true */ cdn);
+      setLoading(true);
+      let db: PGliteDb;
+      try {
+        db = await databaseFor(setup);
+      } finally {
         setLoading(false);
       }
-      const { PGlite } = pgModuleRef.current;
-      const db = new PGlite();
       try {
-        const seed = setup ?? question.setup_sql;
-        if (seed) await db.exec(seed);
+        await db.exec("BEGIN");
         // rowMode "array" keeps the columns positional. Reading a row back by
         // column name silently collapses duplicates: "select t.name, m.name"
         // returns two columns both called name, an object row carries only one
@@ -105,22 +154,12 @@ export function SqlRuntime({
           error: err instanceof Error ? err.message : String(err),
         };
       } finally {
-        await db.close();
+        // Undo anything the statement wrote, including after an error.
+        await db.exec("ROLLBACK").catch(() => {});
       }
     },
-    [question.setup_sql],
+    [databaseFor],
   );
-
-  const run = useCallback(async () => {
-    setRunning(true);
-    setResult(null);
-    setGraded(null);
-    const r = await execFresh(query);
-    // In the IDE, results live in the host's Test Cases panel (like Python).
-    if (onSqlOutcome) onSqlOutcome({ mode: "run", result: r });
-    else setResult(r);
-    setRunning(false);
-  }, [execFresh, query, onSqlOutcome]);
 
   const reference = question.reference_sql;
 
@@ -130,7 +169,11 @@ export function SqlRuntime({
    * before datasets existed behaves exactly as it did.
    */
   const datasets = useMemo(() => {
-    const declared = (question.tests ?? []).filter((t) => t.setup);
+    // Every case is a dataset. The visible one usually carries no setup of its
+    // own and falls back to the question's database — filtering on setup here
+    // dropped it, leaving the question with nothing but its hidden case and no
+    // result to show.
+    const declared = question.tests ?? [];
     if (declared.length) return declared;
     return [{ stdin: "", expected: "", hidden: false } as TestCase];
   }, [question.tests]);
@@ -320,20 +363,9 @@ export function SqlRuntime({
     </div>
   );
 
-  // The same three actions, and the same words, a coding question uses:
-  // see your own output, check every case without submitting, then submit.
-  const runButton = (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => gate.requirePhone(run)}
-      disabled={running || !query.trim()}
-      title="Run your query against the data shown in the question"
-    >
-      <IconPlay size={15} />
-      {running ? "Running…" : "Run query"}
-    </Button>
-  );
+  // The same actions, and the same words, a coding question uses: check every
+  // case without submitting, then submit. There is no separate "run this
+  // query" — checking a case already runs it and shows what it returned.
   const testRunButton = reference && (
     <Button
       variant="secondary"
@@ -381,7 +413,6 @@ export function SqlRuntime({
         </div>
         <div className="flex shrink-0 items-center justify-end gap-2">
           {loadingNote}
-          {runButton}
           {testRunButton}
           {submitButton}
         </div>
@@ -400,7 +431,6 @@ export function SqlRuntime({
         placeholder="SELECT ..."
       />
       <div className="flex items-center gap-2">
-        {runButton}
         {testRunButton}
         {submitButton}
         {loadingNote}

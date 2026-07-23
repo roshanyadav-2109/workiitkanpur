@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from "react";
 import { usePythonRunner, type RunContext } from "@/lib/python-runner";
+import type { TestCase } from "@/lib/types";
 import paper from "@/scripts/dbms-oppe-paper.json";
 import databases from "@/scripts/dbms-databases.json";
 
@@ -258,9 +259,12 @@ export function RuntimeCheckHarness() {
           push(`FAIL  ${q.id}: no python solution stored`);
           continue;
         }
-        for (const [i, t] of (q.tests ?? []).entries()) {
+        // The JSON's cases differ in shape between SQL and program questions,
+        // so read them through the type the app itself uses.
+        for (const [i, raw] of (q.tests ?? []).entries()) {
+          const t = raw as TestCase;
           const r = await run(code, t.stdin ?? "", {
-            setupSql: setupFor(q.db),
+            setupSql: t.setup ?? setupFor(q.db),
             files: t.files ?? {},
             argv: t.argv ?? [],
           });

@@ -195,8 +195,14 @@ export function TestCasesPanel({
   const privateCount = tests.filter((t) => t.hidden).length;
 
   const byIndex = new Map((summary?.results ?? []).map((r) => [r.index, r]));
-  const failures = (summary?.results ?? []).filter((r) => !r.passed);
-  const hiddenFailures = failures.filter((r) => r.hidden);
+  // Only sample failures are named. A hidden test that fails moves its meter
+  // and says nothing else: naming it, or counting how many broke, tells the
+  // learner something about tests they are not meant to see.
+  const failures = (summary?.results ?? []).filter(
+    (r) => !r.passed && !r.hidden,
+  );
+  const allPassed =
+    !!summary && summary.results.every((r) => r.passed);
 
   return (
     <div className="space-y-4">
@@ -217,18 +223,15 @@ export function TestCasesPanel({
         </div>
       )}
 
-      {/* Name the failures up front, so which test broke is the first thing
-          read rather than something to hunt for. */}
+      {/* Name the sample failures up front, so which test broke is the first
+          thing read rather than something to hunt for. */}
       {summary && failures.length > 0 && (
         <div className="rounded-[3px] border border-err/40 bg-err-weak px-3 py-2.5 text-[13px] font-medium text-err">
           {failures.length === 1 ? "Test " : "Tests "}
-          {failures.map((r) => r.index + 1).join(", ")} failed
-          {hiddenFailures.length > 0 &&
-            ` (${hiddenFailures.length} hidden)`}
-          .
+          {failures.map((r) => r.index + 1).join(", ")} failed.
         </div>
       )}
-      {summary && failures.length === 0 && (
+      {summary && allPassed && (
         <div className="rounded-[3px] border border-ok/40 bg-ok-weak px-3 py-2.5 text-[13px] font-medium text-ok">
           {/* A Run only executes the sample tests, so it cannot claim the
               hidden ones passed. */}
@@ -315,25 +318,6 @@ export function TestCasesPanel({
         </div>
       )}
 
-      {/* Hidden tests never show their input, but a failure still needs to say
-          so — and report the error if the code crashed rather than mismatched. */}
-      {hiddenFailures.length > 0 && (
-        <div className="overflow-hidden rounded-[3px] border border-err/40 bg-err-weak">
-          <div className="border-b border-err/40 px-3 py-1.5 text-[12px] font-medium text-err">
-            Hidden {hiddenFailures.length === 1 ? "test" : "tests"}{" "}
-            {hiddenFailures.map((r) => r.index + 1).join(", ")} failed
-          </div>
-          <div className="px-3 py-2.5 text-[12px] text-fg-muted">
-            {hiddenFailures[0].stderr ? (
-              <pre className="max-h-40 overflow-auto whitespace-pre-wrap rounded border border-err/40 bg-canvas p-2 font-mono text-err">
-                {hiddenFailures[0].stderr}
-              </pre>
-            ) : (
-              "The input for hidden tests is not shown. Check the edge cases your code may not handle."
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
