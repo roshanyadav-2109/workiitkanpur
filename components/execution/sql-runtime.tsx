@@ -63,11 +63,15 @@ export function SqlRuntime({
       const db = new PGlite();
       try {
         if (question.setup_sql) await db.exec(question.setup_sql);
-        const res = await db.query(sql);
+        // rowMode "array" keeps the columns positional. Reading a row back by
+        // column name silently collapses duplicates: "select t.name, m.name"
+        // returns two columns both called name, an object row carries only one
+        // of them, and the second column would grade against the first one's
+        // value — failing a correct answer on any question that selects the
+        // same column name from two tables.
+        const res = await db.query(sql, [], { rowMode: "array" });
         const columns = (res.fields ?? []).map((f: { name: string }) => f.name);
-        const rows = (res.rows ?? []).map((r: Record<string, unknown>) =>
-          columns.map((c: string) => r[c]),
-        );
+        const rows = (res.rows ?? []) as unknown[][];
         return { columns, rows, affected: res.affectedRows };
       } catch (err) {
         return {
