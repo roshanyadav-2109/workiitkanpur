@@ -103,17 +103,27 @@ export async function getCurriculum(): Promise<Curriculum> {
  * The Test Series papers for a subject, newest first, each with its problems
  * grouped into the sections the original exam used.
  */
+const TEST_SET_COLUMNS =
+  "slug, title, category, duration_seconds, is_available, sort_order, " +
+  "questions:test_set_questions(question_id, section, marks, sort_order)";
+const TEST_SET_RULES = ", rules:test_set_sections(name, best_of, note, sort_order)";
+
 export async function getTestSets(subjectId: string): Promise<TestSet[]> {
   const supabase = await createClient();
-  const { data: sets } = await supabase
-    .from("test_sets")
-    .select(
-      "slug, title, category, duration_seconds, is_available, sort_order, " +
-        "questions:test_set_questions(question_id, section, marks, sort_order), " +
-        "rules:test_set_sections(name, best_of, note, sort_order)",
-    )
-    .eq("subject_id", subjectId)
-    .order("sort_order", { ascending: true });
+  const read = (columns: string) =>
+    supabase
+      .from("test_sets")
+      .select(columns)
+      .eq("subject_id", subjectId)
+      .order("sort_order", { ascending: true });
+
+  // Per-section rules live in their own table, which a deployment can reach
+  // before its migration has run. A paper without that table still has its
+  // sections and its questions, so read it again without the rules rather than
+  // failing — otherwise a missing table would take down every paper, not just
+  // the one relying on a rule.
+  let { data: sets, error } = await read(TEST_SET_COLUMNS + TEST_SET_RULES);
+  if (error) ({ data: sets } = await read(TEST_SET_COLUMNS));
 
   type Row = {
     slug: string;
@@ -127,7 +137,8 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
       marks: number | null;
       sort_order: number;
     }[] | null;
-    rules: {
+    /** Absent when the section-rules table isn't there yet. */
+    rules?: {
       name: string;
       best_of: number | null;
       note: string | null;
