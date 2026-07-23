@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface DiagramColumn {
@@ -132,7 +132,11 @@ function rowY(t: Placed, column?: string) {
  * each foreign key to the exact column it references. Drag to pan, scroll or
  * use the buttons to zoom.
  */
-export function SchemaDiagram({ spec }: { spec: DiagramSpec }) {
+export const SchemaDiagram = memo(function SchemaDiagram({
+  spec,
+}: {
+  spec: DiagramSpec;
+}) {
   const { placed, w, h } = useMemo(() => layout(spec.tables), [spec.tables]);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -373,4 +377,4 @@ export function SchemaDiagram({ spec }: { spec: DiagramSpec }) {
       </div>
     </div>
   );
-}
+});
