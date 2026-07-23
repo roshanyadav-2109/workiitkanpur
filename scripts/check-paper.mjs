@@ -70,6 +70,21 @@ console.log(`${paper.title} — ${paper.questions.length} questions\n`);
 for (const q of paper.questions) {
   const pg = pool.get(q.db);
 
+  if (q.kind === "sql") {
+    // A SQL question's cases are datasets: the one shown in the question, and
+    // a hidden one it is graded against. Without the hidden one, a query that
+    // simply prints the visible answer passes.
+    const cases = q.tests ?? [];
+    const pub = cases.filter((t) => !t.hidden).length;
+    const hidden = cases.filter((t) => t.hidden);
+    if (!pub) fail(q.id, "no visible dataset");
+    if (!hidden.length)
+      fail(q.id, "no hidden dataset — a hard-coded answer would pass");
+    for (const h of hidden)
+      if (!h.setup)
+        fail(q.id, "a hidden case carries no dataset of its own");
+  }
+
   // Questions graded on program output rather than on a result set.
   if (q.kind !== "sql") {
     const tests = q.tests ?? [];
@@ -138,9 +153,11 @@ for (const q of paper.questions) {
       fail(q.id, `a wrong variant returns the SAME result — seed doesn't discriminate:\n        ${d}`);
   }
 
+  const hiddenCount = (q.tests ?? []).filter((t) => t.hidden).length;
   console.log(
     `  ok   ${q.id} ${String(q.marks).padStart(3)} marks  ${String(n).padStart(2)} row(s)  ` +
-      `ordered=${q.ordered ? "yes" : "no "}  decoys=${decoysChecked}`,
+      `ordered=${q.ordered ? "yes" : "no "}  decoys=${decoysChecked}  ` +
+      `hidden=${hiddenCount}`,
   );
 }
 
