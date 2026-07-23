@@ -17,6 +17,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { bodyWithSchema } from "./schema-markdown.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const REF = "hzlqdbmyvltvoqiaojjg";
@@ -75,6 +76,13 @@ const setupFor = (key) => {
 /** The ```sql fence lib/sql.ts extracts the grading key from. */
 const solutionFor = (q) =>
   `A reference query:\n\n\`\`\`sql\n${q.reference_sql.trim()}\n\`\`\`\n`;
+
+/** The question, with its database's schema appended below the statement. */
+const bodyFor = (q) => {
+  const d = dbOf.get(q.db);
+  if (!d) throw new Error(`question references unknown database "${q.db}"`);
+  return bodyWithSchema(q.body_md, d);
+};
 
 // ---------------------------------------------------------------------------
 // Plan — printed in full on a dry run, so the write is never a surprise.
@@ -186,7 +194,7 @@ const created = await rest(
     subject_id: subject.id,
     topic_id: null,
     title: q.title,
-    body_md: q.body_md,
+    body_md: bodyFor(q),
     difficulty: q.difficulty,
     kind: q.kind,
     solution_md: solutionFor(q),

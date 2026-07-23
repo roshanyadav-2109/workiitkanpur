@@ -47,7 +47,7 @@
       "kind": "sql",
       "difficulty": "easy",
       "title": "Classrooms with a capacity over 50",
-      "body_md": "Write an SQL query to find the room number and building name of the classroom that has a capacity of more than 50 students.\n\n**Database:** University",
+      "body_md": "Write an SQL query to find the room number and building name of the classroom that has a capacity of more than 50 students.",
       "reference_sql": "SELECT room_number, building FROM classroom WHERE capacity > 50",
       "ordered": false
     },
@@ -61,7 +61,7 @@
       "kind": "sql",
       "difficulty": "easy",
       "title": "Players whose name ends with 'a'",
-      "body_md": "Write an SQL query to find the player IDs of the players whose name ends with 'a'.\n\n**Database:** FLIS",
+      "body_md": "Write an SQL query to find the player IDs of the players whose name ends with 'a'.",
       "reference_sql": "SELECT player_id FROM players WHERE name LIKE '%a'",
       "ordered": false
     },
@@ -75,7 +75,7 @@
       "kind": "sql",
       "difficulty": "easy",
       "title": "Match dates outside a host-score range",
-      "body_md": "Write an SQL query to find the match dates where the host team score is not between 3 and 5.\n\n**Database:** FLIS",
+      "body_md": "Write an SQL query to find the match dates where the host team score is not between 3 and 5.",
       "reference_sql": "SELECT match_date FROM matches WHERE host_team_score NOT BETWEEN 3 AND 5",
       "ordered": false
     },
@@ -89,7 +89,7 @@
       "kind": "sql",
       "difficulty": "easy",
       "title": "Manager of team 'Arawali'",
-      "body_md": "Write an SQL query to find the name of the manager of team 'Arawali'.\n\n**Database:** FLIS",
+      "body_md": "Write an SQL query to find the name of the manager of team 'Arawali'.",
       "reference_sql": "SELECT m.name FROM managers m JOIN teams t ON m.team_id = t.team_id WHERE t.name = 'Arawali'",
       "ordered": false
     },
@@ -103,7 +103,7 @@
       "kind": "sql",
       "difficulty": "medium",
       "title": "Members in each member type",
-      "body_md": "Write an SQL query to find the member type and the total number of members in each type. The output should be displayed in descending order of the number of members types.\n\n**Database:** LIS",
+      "body_md": "Write an SQL query to find the member type and the total number of members in each type. The output should be displayed in descending order of the number of members types.",
       "reference_sql": "SELECT member_type, COUNT(*) AS number_of_members FROM members GROUP BY member_type ORDER BY number_of_members DESC",
       "ordered": true
     },
@@ -117,7 +117,7 @@
       "kind": "sql",
       "difficulty": "medium",
       "title": "Teams whose manager is outside a set of IDs",
-      "body_md": "Write an SQL query to find the team name and manager name whose manager IDs are not 'M0001', 'M0003' or 'M0005'.\n\n**Database:** FLIS",
+      "body_md": "Write an SQL query to find the team name and manager name whose manager IDs are not 'M0001', 'M0003' or 'M0005'.",
       "reference_sql": "SELECT t.name AS team_name, m.name AS manager_name FROM managers m JOIN teams t ON t.team_id = m.team_id WHERE m.mgr_id NOT IN ('M0001','M0003','M0005')",
       "ordered": false
     },
@@ -131,7 +131,7 @@
       "kind": "sql",
       "difficulty": "hard",
       "title": "Players wearing jersey number 59",
-      "body_md": "Write an SQL query to find the player name, data of birth, team name and manager name of each player whose jersey number is 59.\n\n**Database:** FLIS",
+      "body_md": "Write an SQL query to find the player name, data of birth, team name and manager name of each player whose jersey number is 59.",
       "reference_sql": "SELECT p.name AS player_name, p.dob, t.name AS team_name, m.name AS manager_name FROM players p JOIN teams t ON t.team_id = p.team_id JOIN managers m ON m.team_id = t.team_id WHERE p.jersey_no = 59",
       "ordered": false
     }
