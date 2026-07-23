@@ -1,0 +1,166 @@
+{
+  "_comment": [
+    "The DBMS OPPE paper, transcribed from the IITM Seek portal (Jan 2026 - DBMS,",
+    "course BSCS2001). Question wording is verbatim from the portal, including its",
+    "own typos ('data of birth', 'number of members types') — a past paper should",
+    "read exactly as it did on the day.",
+    "",
+    "The portal's submission instructions ('select Zip in the Choose Language",
+    "dropdown', 'click Test Run') describe IITM's own UI and are deliberately not",
+    "carried over; they would be wrong here.",
+    "",
+    "durationSeconds, marks and bestOf are all editable data — nothing about this",
+    "paper's shape is compiled into the app."
+  ],
+  "subjectSlug": "dbms",
+  "slug": "dbms-oppe-2026-jan",
+  "title": "OPPE — January 2026",
+  "exam": "OPPE",
+  "year": 2026,
+  "source": "IITM BS Seek portal — BSCS2001 Jan 2026, OPE SQL + Python-PostgreSQL questions",
+  "category": "pyq",
+  "durationSeconds": 10800,
+  "sortOrder": 1,
+  "isAvailable": true,
+  "sections": [
+    {
+      "name": "OPE SQL Questions",
+      "sortOrder": 1,
+      "bestOf": null,
+      "note": null
+    },
+    {
+      "name": "OPE Python-PostgreSQL Questions",
+      "sortOrder": 2,
+      "bestOf": 1,
+      "note": "Solve any one"
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q1",
+      "code": "Q009university",
+      "db": "university",
+      "section": "OPE SQL Questions",
+      "sortOrder": 1,
+      "marks": 10,
+      "kind": "sql",
+      "difficulty": "easy",
+      "title": "Classrooms with a capacity over 50",
+      "body_md": "Write an SQL query to find the room number and building name of the classroom that has a capacity of more than 50 students.\n\n**Database:** University",
+      "reference_sql": "SELECT room_number, building FROM classroom WHERE capacity > 50",
+      "ordered": false
+    },
+    {
+      "id": "Q2",
+      "code": "Q002flisdb",
+      "db": "flis",
+      "section": "OPE SQL Questions",
+      "sortOrder": 2,
+      "marks": 10,
+      "kind": "sql",
+      "difficulty": "easy",
+      "title": "Players whose name ends with 'a'",
+      "body_md": "Write an SQL query to find the player IDs of the players whose name ends with 'a'.\n\n**Database:** FLIS",
+      "reference_sql": "SELECT player_id FROM players WHERE name LIKE '%a'",
+      "ordered": false
+    },
+    {
+      "id": "Q3",
+      "code": "Q002flisdb",
+      "db": "flis",
+      "section": "OPE SQL Questions",
+      "sortOrder": 3,
+      "marks": 10,
+      "kind": "sql",
+      "difficulty": "easy",
+      "title": "Match dates outside a host-score range",
+      "body_md": "Write an SQL query to find the match dates where the host team score is not between 3 and 5.\n\n**Database:** FLIS",
+      "reference_sql": "SELECT match_date FROM matches WHERE host_team_score NOT BETWEEN 3 AND 5",
+      "ordered": false
+    },
+    {
+      "id": "Q4",
+      "code": "Q001flisdb",
+      "db": "flis",
+      "section": "OPE SQL Questions",
+      "sortOrder": 4,
+      "marks": 10,
+      "kind": "sql",
+      "difficulty": "easy",
+      "title": "Manager of team 'Arawali'",
+      "body_md": "Write an SQL query to find the name of the manager of team 'Arawali'.\n\n**Database:** FLIS",
+      "reference_sql": "SELECT m.name FROM managers m JOIN teams t ON m.team_id = t.team_id WHERE t.name = 'Arawali'",
+      "ordered": false
+    },
+    {
+      "id": "Q5",
+      "code": "Q008lisdb",
+      "db": "lis",
+      "section": "OPE SQL Questions",
+      "sortOrder": 5,
+      "marks": 15,
+      "kind": "sql",
+      "difficulty": "medium",
+      "title": "Members in each member type",
+      "body_md": "Write an SQL query to find the member type and the total number of members in each type. The output should be displayed in descending order of the number of members types.\n\n**Database:** LIS",
+      "reference_sql": "SELECT member_type, COUNT(*) AS number_of_members FROM members GROUP BY member_type ORDER BY number_of_members DESC",
+      "ordered": true
+    },
+    {
+      "id": "Q6",
+      "code": "Q009flisdb",
+      "db": "flis",
+      "section": "OPE SQL Questions",
+      "sortOrder": 6,
+      "marks": 15,
+      "kind": "sql",
+      "difficulty": "medium",
+      "title": "Teams whose manager is outside a set of IDs",
+      "body_md": "Write an SQL query to find the team name and manager name whose manager IDs are not 'M0001', 'M0003' or 'M0005'.\n\n**Database:** FLIS",
+      "reference_sql": "SELECT t.name AS team_name, m.name AS manager_name FROM managers m JOIN teams t ON t.team_id = m.team_id WHERE m.mgr_id NOT IN ('M0001','M0003','M0005')",
+      "ordered": false
+    },
+    {
+      "id": "Q7",
+      "code": "Q001flisdb",
+      "db": "flis",
+      "section": "OPE SQL Questions",
+      "sortOrder": 7,
+      "marks": 20,
+      "kind": "sql",
+      "difficulty": "hard",
+      "title": "Players wearing jersey number 59",
+      "body_md": "Write an SQL query to find the player name, data of birth, team name and manager name of each player whose jersey number is 59.\n\n**Database:** FLIS",
+      "reference_sql": "SELECT p.name AS player_name, p.dob, t.name AS team_name, m.name AS manager_name FROM players p JOIN teams t ON t.team_id = p.team_id JOIN managers m ON m.team_id = t.team_id WHERE p.jersey_no = 59",
+      "ordered": false
+    }
+  ],
+  "_pending": {
+    "_comment": [
+      "Q8 and Q9 are Python programs that connect to PostgreSQL. They need the",
+      "Python-to-Postgres bridge (Phase 5) before they can run, so they are held",
+      "here rather than imported half-working."
+    ],
+    "questions": [
+      {
+        "id": "Q8",
+        "db": "bookca",
+        "section": "OPE Python-PostgreSQL Questions",
+        "marks": 20,
+        "kind": "coding",
+        "title": "ISBNs published in a computed year",
+        "note": "Reads x from number.txt; year = L4(x) = 2000 + 4*x + 4; prints matching ISBNs space-separated."
+      },
+      {
+        "id": "Q9",
+        "db": "flis",
+        "section": "OPE Python-PostgreSQL Questions",
+        "marks": 20,
+        "kind": "coding",
+        "title": "Main referee for a match date",
+        "note": "Reads a date from date.txt; prints the main referee formatted as 'Sapam K.' / 'Sarkar A. K.'."
+      }
+    ]
+  }
+}

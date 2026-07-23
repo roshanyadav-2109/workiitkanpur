@@ -1,0 +1,916 @@
+{
+  "databases": [
+    {
+      "key": "flis",
+      "label": "FLIS",
+      "blurb": "Football League Information System — teams and their managers, the players on them, the matches they play, and the referees who officiate.",
+      "tables": [
+        {
+          "name": "teams",
+          "columns": [
+            {
+              "name": "team_id",
+              "type": "varchar(10)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "name",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "city",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "playground",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "jersey_home_color",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "jersey_away_color",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "players",
+          "columns": [
+            {
+              "name": "player_id",
+              "type": "varchar(10)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "name",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dob",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "jersey_no",
+              "type": "integer",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "team_id",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "teams.team_id"
+            }
+          ]
+        },
+        {
+          "name": "managers",
+          "columns": [
+            {
+              "name": "mgr_id",
+              "type": "varchar(10)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "name",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dob",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "team_id",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "teams.team_id"
+            },
+            {
+              "name": "since",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "matches",
+          "columns": [
+            {
+              "name": "match_num",
+              "type": "varchar(10)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "match_date",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "host_team_id",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "teams.team_id"
+            },
+            {
+              "name": "guest_team_id",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "teams.team_id"
+            },
+            {
+              "name": "host_team_score",
+              "type": "integer",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "guest_team_score",
+              "type": "integer",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "referees",
+          "columns": [
+            {
+              "name": "referee_id",
+              "type": "varchar(10)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "name",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dob",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "match_referees",
+          "columns": [
+            {
+              "name": "match_num",
+              "type": "varchar(10)",
+              "pk": true,
+              "fk": "matches.match_num"
+            },
+            {
+              "name": "referee",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "referees.referee_id"
+            },
+            {
+              "name": "assistant_referee_1",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "referees.referee_id"
+            },
+            {
+              "name": "assistant_referee_2",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "referees.referee_id"
+            },
+            {
+              "name": "fourth_referee",
+              "type": "varchar(10)",
+              "pk": false,
+              "fk": "referees.referee_id"
+            }
+          ]
+        }
+      ],
+      "ddl": "CREATE TABLE teams (\n  team_id varchar(10) PRIMARY KEY,\n  name varchar(80),\n  city varchar(80),\n  playground varchar(80),\n  jersey_home_color varchar(80),\n  jersey_away_color varchar(80)\n);\n\nCREATE TABLE players (\n  player_id varchar(10) PRIMARY KEY,\n  name varchar(80),\n  dob date,\n  jersey_no integer,\n  team_id varchar(10) REFERENCES teams(team_id)\n);\n\nCREATE TABLE managers (\n  mgr_id varchar(10) PRIMARY KEY,\n  name varchar(80),\n  dob date,\n  team_id varchar(10) REFERENCES teams(team_id),\n  since date\n);\n\nCREATE TABLE matches (\n  match_num varchar(10) PRIMARY KEY,\n  match_date date,\n  host_team_id varchar(10) REFERENCES teams(team_id),\n  guest_team_id varchar(10) REFERENCES teams(team_id),\n  host_team_score integer,\n  guest_team_score integer\n);\n\nCREATE TABLE referees (\n  referee_id varchar(10) PRIMARY KEY,\n  name varchar(80),\n  dob date\n);\n\nCREATE TABLE match_referees (\n  match_num varchar(10) PRIMARY KEY REFERENCES matches(match_num),\n  referee varchar(10) REFERENCES referees(referee_id),\n  assistant_referee_1 varchar(10) REFERENCES referees(referee_id),\n  assistant_referee_2 varchar(10) REFERENCES referees(referee_id),\n  fourth_referee varchar(10) REFERENCES referees(referee_id)\n);",
+      "seed": "INSERT INTO teams (team_id, name, city, playground, jersey_home_color, jersey_away_color) VALUES\n('T01','Arawali','Jaipur','Amber Fort Ground','Saffron','White'),\n('T02','Nilgiri','Coimbatore','Blue Hills Arena','Blue','Grey'),\n('T03','Vindhya','Bhopal','Upper Lake Stadium','Green','Yellow'),\n('T04','Sahyadri','Pune','Deccan Ground','Maroon','Sky Blue'),\n('T05','Shivalik','Dehradun','Doon Valley Park','Red','Black'),\n('T06','Satpura','Nagpur','Orange City Stadium','Orange','Navy'),\n('T07','Zanskar','Leh','Indus Field','White','Purple');\n\nINSERT INTO players (player_id, name, dob, jersey_no, team_id) VALUES\n('P01','Sunita Verma','1998-03-12',7,'T01'),\n('P02','Rekha Sharma','1997-07-05',59,'T01'),\n('P03','Vikram Rathore','1996-01-22',5,'T01'),\n('P04','Nithin Kamath','1999-11-02',58,'T01'),\n('P05','Arjun Nair','1995-05-18',9,'T02'),\n('P06','Anita Gupta','2000-02-14',60,'T02'),\n('P07','Sandeep Singh','1997-09-30',11,'T02'),\n('P08','Manoj Pillai','1998-12-25',4,'T03'),\n('P09','Meera Chawla','1999-06-08',10,'T03'),\n('P10','Rohit Deshmukh','1996-04-17',8,'T03'),\n('P11','Kavita Randhawa','1998-08-21',3,'T04'),\n('P12','Imran Qureshi','1997-02-11',21,'T04'),\n('P13','Pooja Saikia','2000-10-03',14,'T04'),\n('P14','Tarun Kashyap','1995-12-09',6,'T05'),\n('P15','Neha Chopra','1999-01-27',12,'T05'),\n('P16','Gaurav Malhotra','1996-06-15',17,'T05'),\n('P17','Alok Tripathi','1997-04-04',2,'T06'),\n('P18','Divya Rana','1998-09-19',19,'T06'),\n('P19','Farhan Shaikh','1999-03-23',23,'T06'),\n('P20','Salim Ansari','1996-11-11',15,'T07'),\n('P21','Ritika Bora','2000-05-29',26,'T07'),\n('P22','Joseph Mathew','1997-08-14',59,'T04');\n\nINSERT INTO managers (mgr_id, name, dob, team_id, since) VALUES\n('M0001','Ashok Menon','1972-04-18','T01','2019-06-01'),\n('M0002','Bharat Joshi','1968-09-25','T02','2018-07-15'),\n('M0003','Chandan Ghosh','1975-01-30','T03','2021-02-10'),\n('M0004','Dinesh Patil','1970-11-08','T04','2020-05-20'),\n('M0005','Eknath Rane','1966-03-14','T05','2017-08-05'),\n('M0006','Gopal Iyer','1978-07-22','T06','2022-01-12'),\n('M0007','Hemant Chauhan','1974-12-02','T07','2023-03-18');\n\nINSERT INTO matches (match_num, match_date, host_team_id, guest_team_id, host_team_score, guest_team_score) VALUES\n('MT01','2024-08-03','T01','T02',0,1),\n('MT02','2024-08-10','T03','T04',2,2),\n('MT03','2024-08-17','T05','T06',3,1),\n('MT04','2024-08-24','T07','T02',4,0),\n('MT05','2024-08-31','T02','T03',5,3),\n('MT06','2024-09-07','T04','T05',6,2),\n('MT07','2024-09-14','T06','T07',7,1),\n('MT08','2024-09-21','T03','T05',1,4),\n('MT09','2024-09-28','T02','T04',2,0),\n('MT10','2024-10-05','T05','T07',5,5);\n\nINSERT INTO referees (referee_id, name, dob) VALUES\n('R01','Kennedy Sapam','1980-02-09'),\n('R02','Asit Kumar Sarkar','1976-06-30'),\n('R03','Ravi Menon','1983-10-17'),\n('R04','Pranjal Baruah','1985-05-06'),\n('R05','Harjeet Singh Gill','1979-12-21'),\n('R06','Mohan Das','1982-08-13');\n\nINSERT INTO match_referees (match_num, referee, assistant_referee_1, assistant_referee_2, fourth_referee) VALUES\n('MT01','R01','R02','R03','R04'),\n('MT02','R02','R03','R04','R05'),\n('MT03','R03','R04','R05','R06'),\n('MT04','R04','R05','R06','R01'),\n('MT05','R05','R06','R01','R02'),\n('MT06','R06','R01','R02','R03'),\n('MT07','R01','R03','R05','R02'),\n('MT08','R02','R04','R06','R01'),\n('MT09','R03','R05','R01','R06'),\n('MT10','R04','R06','R02','R05');",
+      "notes": "VALIDATED IN PGLITE (real Postgres WASM) — DDL + seed executed with zero errors, and every requirement below was confirmed with an actual SELECT. Temp script was created and deleted; no other repo file was touched.\n\nScale: 7 teams, 21 players, 7 managers, 10 matches, 6 referees, 10 match_referees rows. Every FK resolves; every PK unique.\n\nQ2 (names ending in 'a'):\n- 10 players end in a lowercase 'a': Sunita Verma, Rekha Sharma, Anita Gupta, Meera Chawla, Kavita Randhawa, Pooja Saikia, Neha Chopra, Gaurav Malhotra, Divya Rana, Ritika Bora.\n- 11 do not: Vikram Rathore, Arjun Nair, Sandeep Singh, Manoj Pillai, Rohit Deshmukh, Imran Qureshi, Tarun Kashyap, Alok Tripathi, Farhan Shaikh, Salim Ansari, and 'Nithin K A'.\n- 'Nithin K A' is the single capital-'A' ending (realistic South-Indian initials style). Under the default case-sensitive `LIKE '%a'` it does NOT match, so the intended answer is exactly the 10 lowercase-'a' names — unambiguous, while still rewarding a student who thinks about case. Confirmed: `name LIKE '%a'` returns 10 rows, `name LIKE '%A'` returns exactly 1 (Nithin K A).\n\nQ3 (host_team_score NOT BETWEEN 3 AND 5):\n- Scores span 0,1,2 (below), exactly 3, 4, exactly 5 (twice — MT05 and MT10, both correctly excluded), and 6,7 (above). min=0, max=7.\n- All 10 match_date values are DISTINCT (COUNT=10, COUNT DISTINCT=10), so `SELECT match_date` and `SELECT DISTINCT match_date` give identical results.\n- The query returns exactly 6 rows: 2024-08-03 (0), 2024-08-10 (2), 2024-09-07 (6), 2024-09-14 (7), 2024-09-21 (1), 2024-09-28 (2).\n\nQ4 (Arawali): team T01 is named EXACTLY 'Arawali' (that spelling, not 'Aravali'/'Aravalli') and has exactly one manager, M0001 Ashok Menon. Verified: the join teams->managers on name='Arawali' returns exactly 1 row. Every other team also has exactly one manager, so no team is manager-less.\n\nQ6 (manager IDs): ids are exactly M0001..M0007 in the required zero-padded 4-digit form. `NOT IN ('M0001','M0003','M0005')` returns a non-trivial 4 rows (M0002 Bharat Joshi, M0004 Dinesh Patil, M0006 Gopal Iyer, M0007 Hemant Chauhan), and the excluded set of 3 is also non-empty.\n\nQ7 (jersey_no = 59): EXACTLY ONE player has jersey_no 59 — P02 Rekha Sharma of T01 Arawali, whose team has manager M0001. Distractors present at 5 (Vikram Rathore), 9 (Arjun Nair), 58 (Nithin K A) and 60 (Anita Gupta). Important detail: Arawali (T01) plays in exactly ONE match (MT01), so if the 4-table join includes `matches` (players JOIN teams JOIN managers JOIN matches on host_team_id OR guest_team_id) it still returns exactly ONE row — verified. A players/teams/managers-only join also returns one row. So the answer is one row under either reading of \"4-table join\".\n\nQ9 (Python, referee name formatting): referees include four TWO-part names (Kennedy Sapam, Mohan Das, Pranjal Baruah, Ravi Menon) and two THREE-part names (Asit Kumar Sarkar, Harjeet Singh Gill), so both formatting branches are exercised. Every one of the 10 matches has a match_referees row (LEFT JOIN check returns zero orphans), and each row uses 4 distinct referee ids across the four roles.\n\nIdentifier/case note: this schema has no mixed-case identifiers (the ISBN_no problem belongs to lis/bookca, not flis). All flis table and column names are already lowercase, so nothing needs quoting and students can write plain unquoted SQL. Names/cities are Indian-context (Jaipur, Coimbatore, Bhopal, Pune, Dehradun, Nagpur, Leh; teams named after Indian mountain ranges). Data is deliberately compact so it re-creates quickly in the browser on every run."
+    },
+    {
+      "key": "lis",
+      "label": "LIS",
+      "blurb": "Library Information System — the book catalogue and its physical copies, the members who borrow them, and the quota each member type gets.",
+      "tables": [
+        {
+          "name": "departments",
+          "columns": [
+            {
+              "name": "department_code",
+              "type": "varchar(4)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "department_name",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "department_building",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "staff",
+          "columns": [
+            {
+              "name": "staff_fname",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "staff_lname",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "id",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "gender",
+              "type": "varchar(1)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "doj",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "mobile_no",
+              "type": "numeric(10)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "quota",
+          "columns": [
+            {
+              "name": "member_type",
+              "type": "varchar(2)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "max_books",
+              "type": "int",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "max_duration",
+              "type": "int",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "columns": [
+            {
+              "name": "member_no",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "member_class",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "member_type",
+              "type": "varchar(2)",
+              "pk": false,
+              "fk": "quota.member_type"
+            },
+            {
+              "name": "roll_no",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "id",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "students",
+          "columns": [
+            {
+              "name": "student_fname",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "student_lname",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "roll_no",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "department_code",
+              "type": "varchar(4)",
+              "pk": false,
+              "fk": "departments.department_code"
+            },
+            {
+              "name": "gender",
+              "type": "varchar(1)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dob",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "degree",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "mobile_no",
+              "type": "numeric(10)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "faculty",
+          "columns": [
+            {
+              "name": "faculty_fname",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "faculty_lname",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "id",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "department_code",
+              "type": "varchar(4)",
+              "pk": false,
+              "fk": "departments.department_code"
+            },
+            {
+              "name": "gender",
+              "type": "varchar(1)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "doj",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "mobile_no",
+              "type": "numeric(10)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "book_catalogue",
+          "columns": [
+            {
+              "name": "isbn_no",
+              "type": "varchar(13)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "title",
+              "type": "varchar(256)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "publisher",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "year",
+              "type": "int",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "book_copies",
+          "columns": [
+            {
+              "name": "isbn_no",
+              "type": "varchar(13)",
+              "pk": false,
+              "fk": "book_catalogue.isbn_no"
+            },
+            {
+              "name": "accession_no",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "book_issue",
+          "columns": [
+            {
+              "name": "member_no",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": "members.member_no"
+            },
+            {
+              "name": "accession_no",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": "book_copies.accession_no"
+            },
+            {
+              "name": "doi",
+              "type": "date",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "book_authors",
+          "columns": [
+            {
+              "name": "isbn_no",
+              "type": "varchar(13)",
+              "pk": true,
+              "fk": "book_catalogue.isbn_no"
+            },
+            {
+              "name": "author_fname",
+              "type": "varchar(80)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "author_lname",
+              "type": "varchar(80)",
+              "pk": true,
+              "fk": null
+            }
+          ]
+        }
+      ],
+      "ddl": "CREATE TABLE departments (\n  department_code varchar(4) PRIMARY KEY,\n  department_name varchar(80),\n  department_building varchar(80)\n);\n\nCREATE TABLE staff (\n  staff_fname varchar(80),\n  staff_lname varchar(80),\n  id varchar(20) PRIMARY KEY,\n  gender varchar(1),\n  doj date,\n  mobile_no numeric(10)\n);\n\nCREATE TABLE quota (\n  member_type varchar(2) PRIMARY KEY,\n  max_books int,\n  max_duration int\n);\n\nCREATE TABLE members (\n  member_no varchar(20) PRIMARY KEY,\n  member_class varchar(20),\n  member_type varchar(2) REFERENCES quota(member_type),\n  roll_no varchar(20),\n  id varchar(20)\n);\n\nCREATE TABLE students (\n  student_fname varchar(80),\n  student_lname varchar(80),\n  roll_no varchar(20) PRIMARY KEY,\n  department_code varchar(4) REFERENCES departments(department_code),\n  gender varchar(1),\n  dob date,\n  degree varchar(80),\n  mobile_no numeric(10)\n);\n\nCREATE TABLE faculty (\n  faculty_fname varchar(80),\n  faculty_lname varchar(80),\n  id varchar(20) PRIMARY KEY,\n  department_code varchar(4) REFERENCES departments(department_code),\n  gender varchar(1),\n  doj date,\n  mobile_no numeric(10)\n);\n\nCREATE TABLE book_catalogue (\n  ISBN_no varchar(13) PRIMARY KEY,\n  title varchar(256),\n  publisher varchar(80),\n  year int\n);\n\nCREATE TABLE book_copies (\n  ISBN_no varchar(13) REFERENCES book_catalogue(ISBN_no),\n  accession_no varchar(20) PRIMARY KEY\n);\n\nCREATE TABLE book_issue (\n  member_no varchar(20) REFERENCES members(member_no),\n  accession_no varchar(20) REFERENCES book_copies(accession_no),\n  doi date,\n  PRIMARY KEY (member_no, accession_no)\n);\n\nCREATE TABLE book_authors (\n  ISBN_no varchar(13) REFERENCES book_catalogue(ISBN_no),\n  author_fname varchar(80),\n  author_lname varchar(80),\n  PRIMARY KEY (ISBN_no, author_fname, author_lname)\n);",
+      "seed": "INSERT INTO departments (department_code, department_name, department_building) VALUES\n ('CS', 'Computer Science and Engineering', 'Bhabha Block'),\n ('EE', 'Electrical Engineering', 'Raman Block'),\n ('ME', 'Mechanical Engineering', 'Visvesvaraya Block'),\n ('MA', 'Mathematics', 'Ramanujan Block'),\n ('HS', 'Humanities and Social Sciences', 'Tagore Block');\n\nINSERT INTO students (student_fname, student_lname, roll_no, department_code, gender, dob, degree, mobile_no) VALUES\n ('Aarav',  'Sharma',   '21F1000101', 'CS', 'M', '2003-04-12', 'B.Tech', 9840112233),\n ('Diya',   'Patel',    '21F1000102', 'EE', 'F', '2003-08-05', 'B.Tech', 9840112234),\n ('Rohan',  'Iyer',     '21F1000103', 'ME', 'M', '2002-11-23', 'B.Tech', 9840112235),\n ('Ananya', 'Nair',     '22F1000201', 'CS', 'F', '2004-01-30', 'B.Tech', 9840112236),\n ('Vihaan', 'Reddy',    '22F1000202', 'MA', 'M', '2003-06-18', 'B.Sc',   9840112237),\n ('Ishita', 'Bose',     '22F1000203', 'HS', 'F', '2004-03-09', 'B.A',    9840112238),\n ('Kabir',  'Menon',    '23F1000301', 'CS', 'M', '2005-02-14', 'B.Tech', 9840112239),\n ('Meera',  'Krishnan', '23F1000302', 'EE', 'F', '2004-09-27', 'B.Tech', 9840112240),\n ('Arjun',  'Desai',    '23F1000303', 'ME', 'M', '2004-12-01', 'B.Tech', 9840112241),\n ('Sneha',  'Rao',      '19D1000401', 'CS', 'F', '1998-07-21', 'PhD',    9840112242),\n ('Nikhil', 'Joshi',    '19D1000402', 'MA', 'M', '1997-05-16', 'PhD',    9840112243);\n\nINSERT INTO faculty (faculty_fname, faculty_lname, id, department_code, gender, doj, mobile_no) VALUES\n ('Ramesh',   'Subramanian',  'FAC001', 'CS', 'M', '2009-07-01', 9445001101),\n ('Lakshmi',  'Venkatesan',   'FAC002', 'CS', 'F', '2013-01-15', 9445001102),\n ('Suresh',   'Gopalan',      'FAC003', 'EE', 'M', '2006-08-20', 9445001103),\n ('Priya',    'Ranganathan',  'FAC004', 'MA', 'F', '2016-06-10', 9445001104),\n ('Anil',     'Deshpande',    'FAC005', 'ME', 'M', '2011-03-05', 9445001105),\n ('Kavitha',  'Balakrishnan', 'FAC006', 'HS', 'F', '2018-09-01', 9445001106);\n\nINSERT INTO staff (staff_fname, staff_lname, id, gender, doj, mobile_no) VALUES\n ('Murugan', 'Palani',  'STF001', 'M', '2012-02-11', 9791002201),\n ('Shanthi', 'Devi',    'STF002', 'F', '2015-11-03', 9791002202),\n ('Vikram',  'Chauhan', 'STF003', 'M', '2019-04-22', 9791002203),\n ('Fatima',  'Sheikh',  'STF004', 'F', '2021-07-19', 9791002204);\n\nINSERT INTO quota (member_type, max_books, max_duration) VALUES\n ('ST', 3, 15),\n ('FA', 8, 90),\n ('SF', 4, 30),\n ('RS', 6, 60);\n\nINSERT INTO members (member_no, member_class, member_type, roll_no, id) VALUES\n ('MEM001', 'Undergraduate',  'ST', '21F1000101', NULL),\n ('MEM002', 'Undergraduate',  'ST', '21F1000102', NULL),\n ('MEM003', 'Undergraduate',  'ST', '21F1000103', NULL),\n ('MEM004', 'Undergraduate',  'ST', '22F1000201', NULL),\n ('MEM005', 'Undergraduate',  'ST', '22F1000202', NULL),\n ('MEM006', 'Undergraduate',  'ST', '22F1000203', NULL),\n ('MEM007', 'Undergraduate',  'ST', '23F1000301', NULL),\n ('MEM008', 'Undergraduate',  'ST', '23F1000302', NULL),\n ('MEM009', 'Undergraduate',  'ST', '23F1000303', NULL),\n ('MEM010', 'Professor',      'FA', NULL, 'FAC001'),\n ('MEM011', 'Professor',      'FA', NULL, 'FAC002'),\n ('MEM012', 'Professor',      'FA', NULL, 'FAC003'),\n ('MEM013', 'Professor',      'FA', NULL, 'FAC004'),\n ('MEM014', 'Professor',      'FA', NULL, 'FAC005'),\n ('MEM015', 'Professor',      'FA', NULL, 'FAC006'),\n ('MEM016', 'Administrative', 'SF', NULL, 'STF001'),\n ('MEM017', 'Administrative', 'SF', NULL, 'STF002'),\n ('MEM018', 'Technical',      'SF', NULL, 'STF003'),\n ('MEM019', 'Technical',      'SF', NULL, 'STF004'),\n ('MEM020', 'Doctoral',       'RS', '19D1000401', NULL),\n ('MEM021', 'Doctoral',       'RS', '19D1000402', NULL);\n\nINSERT INTO book_catalogue (ISBN_no, title, publisher, year) VALUES\n ('9780078022159', 'Database System Concepts', 'McGraw Hill', 2019),\n ('9789332518773', 'Introduction to Algorithms', 'PHI Learning', 2010),\n ('9788126556632', 'Operating System Concepts', 'Wiley India', 2018),\n ('9789353062071', 'Computer Networks', 'Pearson India', 2013),\n ('9788173717215', 'Higher Engineering Mathematics', 'Khanna Publishers', 2021),\n ('9788125941057', 'Signals and Systems', 'Wiley India', 2015),\n ('9789339221638', 'Engineering Thermodynamics', 'McGraw Hill', 2017),\n ('9780199467372', 'The Argumentative Indian', 'Oxford University Press', 2005),\n ('9788120350502', 'Linear Algebra and Its Applications', 'PHI Learning', 2016),\n ('9789387432482', 'Artificial Intelligence: A Modern Approach', 'Pearson India', 2020);\n\nINSERT INTO book_copies (ISBN_no, accession_no) VALUES\n ('9780078022159', 'ACC10001'),\n ('9780078022159', 'ACC10002'),\n ('9780078022159', 'ACC10003'),\n ('9789332518773', 'ACC10004'),\n ('9789332518773', 'ACC10005'),\n ('9788126556632', 'ACC10006'),\n ('9788126556632', 'ACC10007'),\n ('9789353062071', 'ACC10008'),\n ('9788173717215', 'ACC10009'),\n ('9788173717215', 'ACC10010'),\n ('9788125941057', 'ACC10011'),\n ('9789339221638', 'ACC10012'),\n ('9780199467372', 'ACC10013'),\n ('9788120350502', 'ACC10014'),\n ('9789387432482', 'ACC10015'),\n ('9789387432482', 'ACC10016'),\n ('9789339221638', 'ACC10017'),\n ('9789353062071', 'ACC10018');\n\nINSERT INTO book_authors (ISBN_no, author_fname, author_lname) VALUES\n ('9780078022159', 'Abraham', 'Silberschatz'),\n ('9780078022159', 'Henry',   'Korth'),\n ('9780078022159', 'S',       'Sudarshan'),\n ('9789332518773', 'Thomas',  'Cormen'),\n ('9789332518773', 'Charles', 'Leiserson'),\n ('9788126556632', 'Abraham', 'Silberschatz'),\n ('9788126556632', 'Peter',   'Galvin'),\n ('9789353062071', 'Andrew',  'Tanenbaum'),\n ('9788173717215', 'B S',     'Grewal'),\n ('9788125941057', 'Simon',   'Haykin'),\n ('9789339221638', 'P K',     'Nag'),\n ('9780199467372', 'Amartya', 'Sen'),\n ('9788120350502', 'Gilbert', 'Strang'),\n ('9789387432482', 'Stuart',  'Russell'),\n ('9789387432482', 'Peter',   'Norvig');\n\nINSERT INTO book_issue (member_no, accession_no, doi) VALUES\n ('MEM001', 'ACC10001', '2025-01-06'),\n ('MEM001', 'ACC10004', '2025-01-20'),\n ('MEM002', 'ACC10011', '2025-01-09'),\n ('MEM003', 'ACC10012', '2025-02-03'),\n ('MEM004', 'ACC10002', '2025-02-10'),\n ('MEM005', 'ACC10009', '2025-02-12'),\n ('MEM006', 'ACC10013', '2025-02-17'),\n ('MEM007', 'ACC10006', '2025-03-03'),\n ('MEM008', 'ACC10008', '2025-03-05'),\n ('MEM010', 'ACC10003', '2025-01-13'),\n ('MEM010', 'ACC10015', '2025-01-13'),\n ('MEM011', 'ACC10005', '2025-02-24'),\n ('MEM013', 'ACC10014', '2025-03-10'),\n ('MEM016', 'ACC10010', '2025-03-17'),\n ('MEM018', 'ACC10007', '2025-03-24'),\n ('MEM020', 'ACC10016', '2025-01-27'),\n ('MEM021', 'ACC10017', '2025-04-07'),\n ('MEM017', 'ACC10018', '2025-04-14');",
+      "notes": "VALIDATED IN PGLITE — DDL + seed executed with zero errors, temp script deleted afterwards.\n\nQ5 requirement (member type + total members, descending by count):\n  SELECT member_type, COUNT(*) FROM members GROUP BY member_type ORDER BY COUNT(*) DESC;\nActual result: ST=9, FA=6, SF=4, RS=2. Four member types, four STRICTLY DISTINCT counts (verified with a COUNT(*) vs COUNT(DISTINCT c) check returning 4 and 4), so the descending row order is fully deterministic and grading cannot be a coin flip.\n\nMember types in quota: ST (Student, 3 books / 15 days), FA (Faculty, 8 / 90), SF (Staff, 4 / 30), RS (Research Scholar, 6 / 60).\n\nReferential coherence:\n- members.roll_no is populated only for ST and RS rows and every value matches a real students.roll_no (orphan check returned 0). The 9 ST members map to the 9 UG students; the 2 RS members map to the 2 PhD students (Sneha Rao, Nikhil Joshi, degree 'PhD').\n- members.id is populated only for FA and SF rows: the 6 FA members map to faculty.id FAC001-FAC006, the 4 SF members map to staff.id STF001-STF004. Orphan check returned 0. (The official diagram declares no FK on members.roll_no/members.id — they can point at either students, faculty or staff — so no FK constraint was added there, but the data is nonetheless fully consistent.)\n- students.department_code and faculty.department_code both reference departments (CS, EE, ME, MA, HS).\n- book_copies.ISBN_no -> book_catalogue, book_authors.ISBN_no -> book_catalogue, book_issue.member_no -> members and book_issue.accession_no -> book_copies all resolve; enforced as real FK constraints and inserted without error.\n- No accession_no is issued to two different members, so a \"who currently has copy X\" query has a single answer.\n\nISBN_no casing: left UNQUOTED in the DDL, so Postgres folds it to the lowercase identifier isbn_no. Students may type ISBN_no, isbn_no or Isbn_No in their SQL and all work identically (unquoted identifiers fold too). The only thing that would break is a double-quoted \"ISBN_no\" — which is why it is deliberately not quoted anywhere. The table metadata above therefore lists the column as isbn_no (its real stored name); the schema diagram shown to students still reads ISBN_no, which matches unquoted usage.\n\nRow counts: departments 5, students 11, faculty 6, staff 4, quota 4, members 21, book_catalogue 10, book_copies 18, book_authors 15, book_issue 18. Compact enough to ship to the browser and recreate on every run.\n\nBonus determinism: issues-per-member_type is also strictly distinct (ST=9, FA=4, SF=3, RS=2), so an ORDER BY on that aggregate is unambiguous too if a variant question uses it. Books have 1-3 authors each (Database System Concepts has 3, AI:AMA has 2) so multi-author GROUP BY / HAVING questions are non-degenerate, and Abraham Silberschatz authors two different ISBNs.\n\nData is Indian-context: IITM-style roll numbers (21F1000101, 19D1000401), Indian student/faculty/staff names, department buildings named after Bhabha, Raman, Visvesvaraya, Ramanujan and Tagore, and Indian publishers/imprints (PHI Learning, Wiley India, Khanna Publishers, Pearson India, Oxford University Press)."
+    },
+    {
+      "key": "university",
+      "label": "University",
+      "blurb": "The university schema from Silberschatz: departments run courses, courses have sections timetabled into classrooms, and students take what instructors teach.",
+      "tables": [
+        {
+          "name": "classroom",
+          "columns": [
+            {
+              "name": "building",
+              "type": "varchar(15)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "room_number",
+              "type": "varchar(7)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "capacity",
+              "type": "numeric(4,0)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "department",
+          "columns": [
+            {
+              "name": "dept_name",
+              "type": "varchar(20)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "building",
+              "type": "varchar(15)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "budget",
+              "type": "numeric(12,2)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "course",
+          "columns": [
+            {
+              "name": "course_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "title",
+              "type": "varchar(50)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dept_name",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": "department.dept_name"
+            },
+            {
+              "name": "credits",
+              "type": "numeric(2,0)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "instructor",
+          "columns": [
+            {
+              "name": "ID",
+              "type": "varchar(5)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "name",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dept_name",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": "department.dept_name"
+            },
+            {
+              "name": "salary",
+              "type": "numeric(8,2)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "section",
+          "columns": [
+            {
+              "name": "course_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "course.course_id"
+            },
+            {
+              "name": "sec_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "semester",
+              "type": "varchar(6)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "year",
+              "type": "numeric(4,0)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "building",
+              "type": "varchar(15)",
+              "pk": false,
+              "fk": "classroom.building"
+            },
+            {
+              "name": "room_number",
+              "type": "varchar(7)",
+              "pk": false,
+              "fk": "classroom.room_number"
+            },
+            {
+              "name": "time_slot_id",
+              "type": "varchar(4)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "teaches",
+          "columns": [
+            {
+              "name": "ID",
+              "type": "varchar(5)",
+              "pk": true,
+              "fk": "instructor.ID"
+            },
+            {
+              "name": "course_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "section.course_id"
+            },
+            {
+              "name": "sec_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "section.sec_id"
+            },
+            {
+              "name": "semester",
+              "type": "varchar(6)",
+              "pk": true,
+              "fk": "section.semester"
+            },
+            {
+              "name": "year",
+              "type": "numeric(4,0)",
+              "pk": true,
+              "fk": "section.year"
+            }
+          ]
+        },
+        {
+          "name": "student",
+          "columns": [
+            {
+              "name": "ID",
+              "type": "varchar(5)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "name",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "dept_name",
+              "type": "varchar(20)",
+              "pk": false,
+              "fk": "department.dept_name"
+            },
+            {
+              "name": "tot_cred",
+              "type": "numeric(3,0)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "takes",
+          "columns": [
+            {
+              "name": "ID",
+              "type": "varchar(5)",
+              "pk": true,
+              "fk": "student.ID"
+            },
+            {
+              "name": "course_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "section.course_id"
+            },
+            {
+              "name": "sec_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "section.sec_id"
+            },
+            {
+              "name": "semester",
+              "type": "varchar(6)",
+              "pk": true,
+              "fk": "section.semester"
+            },
+            {
+              "name": "year",
+              "type": "numeric(4,0)",
+              "pk": true,
+              "fk": "section.year"
+            },
+            {
+              "name": "grade",
+              "type": "varchar(2)",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "advisor",
+          "columns": [
+            {
+              "name": "s_id",
+              "type": "varchar(5)",
+              "pk": true,
+              "fk": "student.ID"
+            },
+            {
+              "name": "i_id",
+              "type": "varchar(5)",
+              "pk": false,
+              "fk": "instructor.ID"
+            }
+          ]
+        },
+        {
+          "name": "time_slot",
+          "columns": [
+            {
+              "name": "time_slot_id",
+              "type": "varchar(4)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "day",
+              "type": "varchar(1)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "start_time",
+              "type": "time",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "end_time",
+              "type": "time",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        },
+        {
+          "name": "prereq",
+          "columns": [
+            {
+              "name": "course_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "course.course_id"
+            },
+            {
+              "name": "prereq_id",
+              "type": "varchar(8)",
+              "pk": true,
+              "fk": "course.course_id"
+            }
+          ]
+        }
+      ],
+      "ddl": "CREATE TABLE classroom (\n    building     varchar(15),\n    room_number  varchar(7),\n    capacity     numeric(4,0),\n    PRIMARY KEY (building, room_number)\n);\n\nCREATE TABLE department (\n    dept_name  varchar(20),\n    building   varchar(15),\n    budget     numeric(12,2),\n    PRIMARY KEY (dept_name)\n);\n\nCREATE TABLE course (\n    course_id  varchar(8),\n    title      varchar(50),\n    dept_name  varchar(20),\n    credits    numeric(2,0),\n    PRIMARY KEY (course_id),\n    FOREIGN KEY (dept_name) REFERENCES department (dept_name)\n);\n\nCREATE TABLE instructor (\n    ID         varchar(5),\n    name       varchar(20),\n    dept_name  varchar(20),\n    salary     numeric(8,2),\n    PRIMARY KEY (ID),\n    FOREIGN KEY (dept_name) REFERENCES department (dept_name)\n);\n\nCREATE TABLE time_slot (\n    time_slot_id  varchar(4),\n    day           varchar(1),\n    start_time    time,\n    end_time      time,\n    PRIMARY KEY (time_slot_id, day, start_time)\n);\n\nCREATE TABLE section (\n    course_id    varchar(8),\n    sec_id       varchar(8),\n    semester     varchar(6),\n    year         numeric(4,0),\n    building     varchar(15),\n    room_number  varchar(7),\n    time_slot_id varchar(4),\n    PRIMARY KEY (course_id, sec_id, semester, year),\n    FOREIGN KEY (course_id) REFERENCES course (course_id),\n    FOREIGN KEY (building, room_number) REFERENCES classroom (building, room_number)\n);\n\nCREATE TABLE teaches (\n    ID         varchar(5),\n    course_id  varchar(8),\n    sec_id     varchar(8),\n    semester   varchar(6),\n    year       numeric(4,0),\n    PRIMARY KEY (ID, course_id, sec_id, semester, year),\n    FOREIGN KEY (course_id, sec_id, semester, year) REFERENCES section (course_id, sec_id, semester, year),\n    FOREIGN KEY (ID) REFERENCES instructor (ID)\n);\n\nCREATE TABLE student (\n    ID         varchar(5),\n    name       varchar(20),\n    dept_name  varchar(20),\n    tot_cred   numeric(3,0),\n    PRIMARY KEY (ID),\n    FOREIGN KEY (dept_name) REFERENCES department (dept_name)\n);\n\nCREATE TABLE takes (\n    ID         varchar(5),\n    course_id  varchar(8),\n    sec_id     varchar(8),\n    semester   varchar(6),\n    year       numeric(4,0),\n    grade      varchar(2),\n    PRIMARY KEY (ID, course_id, sec_id, semester, year),\n    FOREIGN KEY (course_id, sec_id, semester, year) REFERENCES section (course_id, sec_id, semester, year),\n    FOREIGN KEY (ID) REFERENCES student (ID)\n);\n\nCREATE TABLE advisor (\n    s_id  varchar(5),\n    i_id  varchar(5),\n    PRIMARY KEY (s_id),\n    FOREIGN KEY (i_id) REFERENCES instructor (ID),\n    FOREIGN KEY (s_id) REFERENCES student (ID)\n);\n\nCREATE TABLE prereq (\n    course_id  varchar(8),\n    prereq_id  varchar(8),\n    PRIMARY KEY (course_id, prereq_id),\n    FOREIGN KEY (course_id) REFERENCES course (course_id),\n    FOREIGN KEY (prereq_id) REFERENCES course (course_id)\n);",
+      "seed": "INSERT INTO classroom (building, room_number, capacity) VALUES\n  ('Vindhya',    '101', 120),\n  ('Vindhya',    '205', 75),\n  ('Vindhya',    '310', 45),\n  ('Nilgiri',    '101', 60),\n  ('Nilgiri',    '202', 50),\n  ('Nilgiri',    '303', 30),\n  ('Aryabhatta', '001', 200),\n  ('Aryabhatta', '112', 50),\n  ('Ramanujan',  '12',  90),\n  ('Ramanujan',  '24',  25),\n  ('Sarayu',     '401', 55),\n  ('Sarayu',     '402', 40),\n  ('Himalaya',   '100', 150),\n  ('Himalaya',   '220', 18);\n\nINSERT INTO department (dept_name, building, budget) VALUES\n  ('Comp. Sci.',  'Vindhya',    12000000.00),\n  ('Elec. Eng.',  'Nilgiri',     9500000.00),\n  ('Mech. Eng.',  'Himalaya',    8750000.00),\n  ('Mathematics', 'Aryabhatta',  6200000.00),\n  ('Physics',     'Ramanujan',   7100000.00),\n  ('Humanities',  'Sarayu',      4300000.00);\n\nINSERT INTO course (course_id, title, dept_name, credits) VALUES\n  ('CS1001', 'Database Management Systems',  'Comp. Sci.',  4),\n  ('CS1002', 'Programming in Python',        'Comp. Sci.',  3),\n  ('CS2001', 'Machine Learning Foundations', 'Comp. Sci.',  4),\n  ('EE1001', 'Digital Circuits',             'Elec. Eng.',  3),\n  ('ME1001', 'Engineering Thermodynamics',   'Mech. Eng.',  4),\n  ('MA1001', 'Linear Algebra',               'Mathematics', 4),\n  ('PH1001', 'Classical Mechanics',          'Physics',     3),\n  ('HS1001', 'Ethics in Technology',         'Humanities',  2);\n\nINSERT INTO prereq (course_id, prereq_id) VALUES\n  ('CS1001', 'CS1002'),\n  ('CS2001', 'CS1002'),\n  ('PH1001', 'MA1001'),\n  ('ME1001', 'MA1001');\n\nINSERT INTO instructor (ID, name, dept_name, salary) VALUES\n  ('10101', 'Ramaswamy Iyer',    'Comp. Sci.',  145000.00),\n  ('10102', 'Anjali Verma',      'Comp. Sci.',  132000.00),\n  ('12121', 'Suresh Nambiar',    'Elec. Eng.',  118000.00),\n  ('15151', 'Meera Nair',        'Mathematics', 126000.00),\n  ('22222', 'Arvind Kulkarni',   'Physics',      99000.00),\n  ('33456', 'Deepak Chauhan',    'Mech. Eng.',  105000.00),\n  ('45565', 'Kavya Menon',       'Humanities',   87000.00),\n  ('58583', 'Latha Subramanian', 'Comp. Sci.',   93000.00);\n\nINSERT INTO time_slot (time_slot_id, day, start_time, end_time) VALUES\n  ('A', 'M', '08:00:00', '08:50:00'),\n  ('A', 'W', '08:00:00', '08:50:00'),\n  ('A', 'F', '08:00:00', '08:50:00'),\n  ('B', 'M', '09:00:00', '09:50:00'),\n  ('B', 'W', '09:00:00', '09:50:00'),\n  ('C', 'T', '10:00:00', '11:30:00'),\n  ('C', 'R', '10:00:00', '11:30:00'),\n  ('D', 'T', '14:00:00', '15:30:00'),\n  ('D', 'R', '14:00:00', '15:30:00'),\n  ('E', 'F', '15:00:00', '16:30:00');\n\nINSERT INTO section (course_id, sec_id, semester, year, building, room_number, time_slot_id) VALUES\n  ('CS1001', '1', 'Fall',   2024, 'Vindhya',    '101', 'A'),\n  ('CS1002', '1', 'Spring', 2025, 'Vindhya',    '205', 'B'),\n  ('CS2001', '1', 'Fall',   2024, 'Aryabhatta', '001', 'C'),\n  ('EE1001', '1', 'Spring', 2025, 'Nilgiri',    '101', 'D'),\n  ('MA1001', '1', 'Fall',   2024, 'Ramanujan',  '12',  'B'),\n  ('ME1001', '1', 'Spring', 2025, 'Himalaya',   '100', 'E'),\n  ('PH1001', '1', 'Fall',   2024, 'Nilgiri',    '202', 'A'),\n  ('HS1001', '1', 'Spring', 2025, 'Sarayu',     '401', 'C');\n\nINSERT INTO teaches (ID, course_id, sec_id, semester, year) VALUES\n  ('10101', 'CS1001', '1', 'Fall',   2024),\n  ('10102', 'CS1002', '1', 'Spring', 2025),\n  ('58583', 'CS2001', '1', 'Fall',   2024),\n  ('12121', 'EE1001', '1', 'Spring', 2025),\n  ('15151', 'MA1001', '1', 'Fall',   2024),\n  ('33456', 'ME1001', '1', 'Spring', 2025),\n  ('22222', 'PH1001', '1', 'Fall',   2024),\n  ('45565', 'HS1001', '1', 'Spring', 2025);\n\nINSERT INTO student (ID, name, dept_name, tot_cred) VALUES\n  ('00128', 'Rahul Sharma',    'Comp. Sci.',  102),\n  ('12345', 'Priya Desai',     'Comp. Sci.',   88),\n  ('19991', 'Aditya Rao',      'Physics',      64),\n  ('23121', 'Neha Gupta',      'Mech. Eng.',  110),\n  ('44553', 'Sanjay Pillai',   'Elec. Eng.',   45),\n  ('45678', 'Ishita Banerjee', 'Mathematics',  72),\n  ('54321', 'Vikram Joshi',    'Comp. Sci.',   54),\n  ('76543', 'Ananya Krishnan', 'Humanities',   38);\n\nINSERT INTO takes (ID, course_id, sec_id, semester, year, grade) VALUES\n  ('00128', 'CS1001', '1', 'Fall',   2024, 'A'),\n  ('00128', 'CS2001', '1', 'Fall',   2024, 'A-'),\n  ('12345', 'CS1001', '1', 'Fall',   2024, 'B+'),\n  ('12345', 'CS1002', '1', 'Spring', 2025, 'A'),\n  ('19991', 'PH1001', '1', 'Fall',   2024, 'B'),\n  ('23121', 'ME1001', '1', 'Spring', 2025, 'B-'),\n  ('44553', 'EE1001', '1', 'Spring', 2025, 'C+'),\n  ('45678', 'MA1001', '1', 'Fall',   2024, 'A'),\n  ('54321', 'CS1002', '1', 'Spring', 2025, 'B'),\n  ('76543', 'HS1001', '1', 'Spring', 2025, 'A-');\n\nINSERT INTO advisor (s_id, i_id) VALUES\n  ('00128', '10101'),\n  ('12345', '10102'),\n  ('19991', '22222'),\n  ('23121', '33456'),\n  ('44553', '12121'),\n  ('45678', '15151'),\n  ('54321', '58583'),\n  ('76543', '45565');",
+      "notes": "VALIDATED IN PGLITE — the DDL and seed above were executed verbatim in @electric-sql/pglite (real Postgres WASM) with zero errors, then sanity SELECTs were run. Temp script was deleted afterwards; no repo file was modified.\n\nQ1 requirement (\"room number and building name of the classroom with capacity of more than 50\"):\n- classroom has 14 rows: 7 with capacity > 50 and 7 with capacity <= 50. The correct answer is a 7-row subset, not the whole table.\n- Correct query `SELECT room_number, building FROM classroom WHERE capacity > 50` returns exactly:\n  Aryabhatta/001 (200), Himalaya/100 (150), Nilgiri/101 (60), Ramanujan/12 (90), Sarayu/401 (55), Vindhya/101 (120), Vindhya/205 (75).\n- BOUNDARY TRAP: two rows have capacity EXACTLY 50 — Nilgiri/202 and Aryabhatta/112. Neither appears in the correct answer. A student who writes `>= 50` gets 9 rows instead of 7, so the off-by-one is caught (verified: `>50` -> 7 rows, `>=50` -> 9 rows).\n- Near-boundary rows on both sides exist (45 and 55) so the discrimination is not accidental.\n\nCoherence / integrity:\n- Row counts: classroom 14, department 6, course 8, instructor 8, time_slot 10, section 8, teaches 8, student 8, takes 10, advisor 8, prereq 4. Compact enough to re-create in the browser on every run.\n- Every FK resolves: course/instructor/student.dept_name -> department; section.course_id -> course and (building, room_number) -> classroom (this composite FK is part of the standard Silberschatz DDL and every section row points at a real classroom); teaches/takes -> section and instructor/student; advisor -> student/instructor; prereq both columns -> course.\n- Every PK is unique (verified by successful insert under the PK constraints; the composite PKs on classroom, section, teaches, takes, time_slot and prereq are the standard ones).\n- Data is Indian-context: IITM-style building names (Vindhya, Nilgiri, Aryabhatta, Ramanujan, Sarayu, Himalaya) reused consistently as department buildings, and Indian instructor/student names. All values fit their declared widths (names <= 20 chars, grades <= 2 chars, dept_name <= 20 chars).\n- section.time_slot_id values (A/B/C/D/E) all exist in time_slot; note the standard schema declares no FK there, matching the diagram.\n\nIdentifier casing: no identifiers are quoted anywhere. `ID` in instructor/student/teaches/takes folds to lowercase `id` in Postgres, which is the standard behaviour for this schema — students can write `ID`, `id` or `Id` interchangeably and it resolves. (The `ISBN_no`/quoting caveat applies to the lis/bookca databases, not to this one; this database has no mixed-case-sensitive columns.)"
+    },
+    {
+      "key": "bookca",
+      "label": "Book Catalogue",
+      "blurb": "A single catalogue of books, each with its ISBN, publisher and year of publication.",
+      "tables": [
+        {
+          "name": "book_catalogue",
+          "columns": [
+            {
+              "name": "ISBN_no",
+              "type": "varchar(13)",
+              "pk": true,
+              "fk": null
+            },
+            {
+              "name": "title",
+              "type": "varchar(256)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "publisher",
+              "type": "varchar(80)",
+              "pk": false,
+              "fk": null
+            },
+            {
+              "name": "year",
+              "type": "int",
+              "pk": false,
+              "fk": null
+            }
+          ]
+        }
+      ],
+      "ddl": "CREATE TABLE book_catalogue (\n    ISBN_no varchar(13) PRIMARY KEY,\n    title varchar(256),\n    publisher varchar(80),\n    year int\n);",
+      "seed": "INSERT INTO book_catalogue (ISBN_no, title, publisher, year) VALUES\n('9788177582932', 'Fundamentals of Database Systems', 'Pearson India', 2004),\n('9788120321410', 'Discrete Mathematical Structures', 'PHI Learning', 2004),\n('9788131721018', 'Operating System Concepts', 'Wiley India', 2008),\n('9788173717857', 'Digital Logic and Computer Design', 'Universities Press', 2008),\n('9788125918967', 'Principles of Compiler Design', 'Narosa Publishing House', 2008),\n('9789332501621', 'Computer Organization and Architecture', 'Pearson India', 2012),\n('9788126538713', 'Data Structures Using C', 'Wiley India', 2012),\n('9789350232705', 'Engineering Mathematics Volume II', 'S. Chand Publishing', 2012),\n('9780198072638', 'Software Engineering: A Practitioner''s Approach', 'Oxford University Press India', 2012),\n('9789385965203', 'Machine Learning with R', 'Vikas Publishing House', 2016),\n('9789339220709', 'Theory of Computation', 'McGraw Hill Education (India)', 2016),\n('9788126563708', 'Probability and Statistics for Engineers', 'Wiley India', 2016),\n('9789389307306', 'Introduction to Data Science', 'Cambridge University Press India', 2019),\n('9789389949308', 'Deep Learning Essentials', 'McGraw Hill Education (India)', 2020),\n('9789353946005', 'Modern Operating Systems', 'Pearson India', 2020),\n('9788194401803', 'Applied Linear Algebra', 'Universities Press', 2020),\n('9789352921171', 'Advanced Database Management Systems', 'McGraw Hill Education (India)', 2024),\n('9789351343202', 'Business Analytics with Python', 'Pearson India', 2024),\n('9789353333380', 'Computer Networks: An Indian Adaptation', 'Wiley India', 2024);",
+      "notes": "VALIDATED IN PGLITE — the DDL and seed above were executed verbatim in @electric-sql/pglite (real Postgres WASM) with zero errors, followed by the sanity SELECTs listed below. Temp script was deleted afterwards; no repo file was modified.\n\nTARGET YEAR AND x\n- Q8 computes L4(x) = 2000 + 4*x + 4. The sample output corresponds to x = 5 -> year = 2024.\n- number.txt should contain 5 for the official sample run.\n\nEXACT SAMPLE OUTPUT REPRODUCED\n- SELECT isbn_no FROM book_catalogue WHERE year = 2024;  (no ORDER BY, i.e. natural/insertion order on a freshly-loaded heap) returns, in order:\n    9789352921171\n    9789351343202\n    9789353333380\n  Printed space-separated on one line this is exactly: \"9789352921171 9789351343202 9789353333380\". Verified by string equality in the validation run.\n- BONUS ROBUSTNESS: the three 2024 titles were deliberately chosen to start with A / B / C (\"Advanced Database Management Systems\", \"Business Analytics with Python\", \"Computer Networks: An Indian Adaptation\"), so `ORDER BY title` produces the SAME order. Also verified by string equality. So the expected output holds both for the naive unordered SELECT and for an ORDER BY title solution.\n- NOTE: `ORDER BY isbn_no` does NOT give the sample order (it gives 9789351343202, 9789352921171, 9789353333380). The reference solution must not sort by ISBN. If you want the question to be order-insensitive, grade with a set/sorted comparison; otherwise instruct \"in the order stored\" or \"ordered by title\".\n\nIDENTIFIER CASE\n- ISBN_no is written unquoted in the DDL, so Postgres folds it to the actual column name `isbn_no`. All queries above use lowercase `isbn_no` unquoted, which works. Do NOT write \"ISBN_no\" in double quotes anywhere — that would look for a differently-cased column that does not exist. Students may type ISBN_no, isbn_no, or ISBN_NO unquoted and all resolve correctly.\n\nYEAR DISTRIBUTION (19 books total, within the 15-20 range)\n  2004 -> 2 books, 2008 -> 3, 2012 -> 4, 2016 -> 3, 2019 -> 1 (distractor, unreachable by L4), 2020 -> 3, 2024 -> 3.\n  Every reachable year has 1-4 books and is non-empty, so any x in 0..5 gives a different non-empty answer. 2019 is not of the form 2000+4x+4, so it exists purely as a distractor row that must never appear in an answer.\n\nTEST-CASE TRIPLES (x -> year -> expected ISBNs, in stored/natural order)\n  x = 0 -> 2004 -> 9788177582932 9788120321410\n  x = 1 -> 2008 -> 9788131721018 9788173717857 9788125918967\n  x = 2 -> 2012 -> 9789332501621 9788126538713 9789350232705 9780198072638\n  x = 3 -> 2016 -> 9789385965203 9789339220709 9788126563708\n  x = 4 -> 2020 -> 9789389949308 9789353946005 9788194401803\n  x = 5 -> 2024 -> 9789352921171 9789351343202 9789353333380   (the official sample)\n  Note: for x = 2 the natural order and ORDER BY title order also coincide; for the other x values they differ, so if you use additional public test cases, fix the ordering convention in the question statement (recommended: compare as an unordered set, or state \"in the order stored in the table\").\n\nINTEGRITY / SHAPE CHECKS RUN\n- COUNT(*) = 19.\n- PRIMARY KEY on ISBN_no accepted with no duplicate-key error, so all 19 ISBNs are unique.\n- `SELECT count(*) FROM book_catalogue WHERE isbn_no !~ '^[0-9]{13}$'` returned 0 — every ISBN is exactly 13 digits.\n- No foreign keys exist in this standalone single-table database, so there is nothing to dangle.\n- All titles/publishers are realistic Indian-market editions (Pearson India, Wiley India, McGraw Hill Education (India), PHI Learning, Universities Press, Narosa, S. Chand, Vikas, Oxford University Press India, Cambridge University Press India).\n- The one apostrophe in the data (\"Practitioner''s\") is SQL-escaped by doubling; this parsed cleanly in PGlite.\n- Payload is tiny (19 rows, one table), so re-creating it in the browser on every run is cheap."
+    }
+  ]
+}
