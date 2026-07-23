@@ -38,7 +38,7 @@ export function TestSeriesList({
             <h3 className="text-[15.5px] font-semibold text-fg">{s.name}</h3>
             <p className="mt-1 text-[13px] text-fg-muted">
               {s.sectionCount} sections · {s.questionCount} questions ·{" "}
-              {formatDurationMin(s.durationSeconds)}
+              {formatDurationMin(s.durationSeconds)} · {s.totalMarks} marks
             </p>
           </div>
           <button

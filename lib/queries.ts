@@ -109,7 +109,8 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
     .from("test_sets")
     .select(
       "slug, title, category, duration_seconds, is_available, sort_order, " +
-        "questions:test_set_questions(question_id, section, marks, sort_order)",
+        "questions:test_set_questions(question_id, section, marks, sort_order), " +
+        "rules:test_set_sections(name, best_of, note, sort_order)",
     )
     .eq("subject_id", subjectId)
     .order("sort_order", { ascending: true });
@@ -123,6 +124,13 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
     questions: {
       question_id: string;
       section: string | null;
+      marks: number | null;
+      sort_order: number;
+    }[] | null;
+    rules: {
+      name: string;
+      best_of: number | null;
+      note: string | null;
       sort_order: number;
     }[] | null;
   };
@@ -131,16 +139,27 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
     const items = [...(s.questions ?? [])].sort(
       (a, b) => a.sort_order - b.sort_order,
     );
+    const ruleOf = new Map((s.rules ?? []).map((r) => [r.name, r]));
     // Preserve the paper's own section order rather than sorting by name.
     const sections: TestSection[] = [];
     for (const item of items) {
       const name = item.section ?? "Questions";
       let section = sections.find((x) => x.name === name);
       if (!section) {
-        section = { name, week: null, questionIds: [] };
+        const rule = ruleOf.get(name);
+        section = {
+          name,
+          week: null,
+          questionIds: [],
+          marks: {},
+          bestOf: rule?.best_of ?? null,
+          note: rule?.note ?? null,
+        };
         sections.push(section);
       }
       section.questionIds.push(item.question_id);
+      // A question with no explicit marks is worth 1.
+      section.marks![item.question_id] = item.marks ?? 1;
     }
     return {
       id: s.slug,

@@ -51,12 +51,15 @@ export default async function RunPage({
   const byId = new Map(questions.map((q) => [q.id, q]));
   const sections = set.sections.map((s) => ({
     name: s.name,
+    bestOf: s.bestOf ?? null,
+    note: s.note ?? null,
     questions: s.questionIds
       .map((id) => byId.get(id))
       .filter((q): q is NonNullable<typeof q> => !!q)
       .map((q) => ({
         id: q.id,
         title: q.title,
+        marks: s.marks?.[q.id] ?? null,
         body_md: q.body_md,
         solution_md: q.solution_md,
         kind: q.kind,

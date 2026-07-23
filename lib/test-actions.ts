@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import { getSubjectBySlug, getTestSets } from "@/lib/queries";
+import { scorePaper, type ScoredSection } from "@/lib/scoring";
 import { logEvent } from "@/lib/activity";
 
 export type TestActionResult =
@@ -131,7 +132,7 @@ export async function submitTestAttempt(input: {
   );
 
   const answerMap = new Map(input.answers.map((a) => [a.questionId, a]));
-  let score = 0;
+  const correctById = new Map<string, boolean>();
   const rows = questionIds.map((qid) => {
     const a = answerMap.get(qid);
     const q = qmap.get(qid);
@@ -139,7 +140,7 @@ export async function submitTestAttempt(input: {
       q?.kind === "mcq"
         ? !!a && a.answer != null && a.answer === q.mcq_answer
         : !!a && a.isCorrect === true;
-    if (isCorrect) score++;
+    correctById.set(qid, isCorrect);
     return {
       attempt_id: input.attemptId,
       user_id: user.id,
@@ -158,12 +159,23 @@ export async function submitTestAttempt(input: {
     if (aErr) return { ok: false, error: aErr.message };
   }
 
+  // Score from the paper's own rules: each question's marks, and each section's
+  // best-of. Falls back to one point per question if the paper can't be read,
+  // which is what every paper without explicit marks scores anyway.
+  const paper = await scorePaperForAttempt({
+    subjectSlug: attempt.subject_slug as string,
+    setSlug: attempt.set_id as string,
+    questionIds,
+    correctById,
+  });
+  const { score, total } = paper;
+
   const { error: tErr } = await supabase
     .from("test_attempts")
     .update({
       status: "submitted",
       score,
-      total: questionIds.length,
+      total,
       time_seconds: Math.max(0, Math.round(input.timeSeconds)),
       leave_count: Math.max(0, Math.round(input.leaveCount)),
       submitted_at: new Date().toISOString(),
@@ -176,7 +188,7 @@ export async function submitTestAttempt(input: {
     setSlug: attempt.set_id as string,
     meta: {
       score,
-      total: questionIds.length,
+      total,
       timeSeconds: Math.max(0, Math.round(input.timeSeconds)),
       leaveCount: Math.max(0, Math.round(input.leaveCount)),
     },
@@ -184,5 +196,48 @@ export async function submitTestAttempt(input: {
 
   revalidatePath(`/app/subjects/${attempt.subject_slug}`);
   revalidatePath("/app/progress");
-  return { ok: true, score, total: questionIds.length };
+  return { ok: true, score, total };
+}
+
+/**
+ * Turn a set of right/wrong answers into a marked paper, using the paper's own
+ * marks and per-section best-of rules.
+ *
+ * If the paper can't be read the fallback is one mark per question, which is
+ * exactly what a paper with no marks configured scores — so a lookup failure
+ * costs the learner nothing.
+ */
+async function scorePaperForAttempt(input: {
+  subjectSlug: string;
+  setSlug: string;
+  questionIds: string[];
+  correctById: Map<string, boolean>;
+}): Promise<{ score: number; total: number }> {
+  const flat = () => ({
+    score: input.questionIds.filter((id) => input.correctById.get(id)).length,
+    total: input.questionIds.length,
+  });
+
+  try {
+    const subject = await getSubjectBySlug(input.subjectSlug);
+    if (!subject) return flat();
+    const set = (await getTestSets(subject.id)).find(
+      (s) => s.id === input.setSlug,
+    );
+    if (!set || set.sections.length === 0) return flat();
+
+    const sections: ScoredSection[] = set.sections.map((s) => ({
+      name: s.name,
+      bestOf: s.bestOf ?? null,
+      questions: s.questionIds.map((qid) => ({
+        questionId: qid,
+        correct: input.correctById.get(qid) === true,
+        marks: s.marks?.[qid] ?? 1,
+      })),
+    }));
+    const result = scorePaper(sections);
+    return { score: result.score, total: result.total };
+  } catch {
+    return flat();
+  }
 }

@@ -21,19 +21,32 @@ import {
   IconSubjects,
   IconTimer,
 } from "@/components/icons";
+import { describeSectionRule } from "@/lib/scoring";
 import type { RunSummary, RuntimeQuestion } from "@/components/execution/types";
 
 interface RunnerQuestion extends RuntimeQuestion {
   title: string;
   body_md: string;
   solution_md: string | null;
+  /** What this question is worth on the paper. */
+  marks?: number | null;
 }
 interface RunnerSection {
   name: string;
   questions: RunnerQuestion[];
+  /** How many of this section's questions count. null = all of them. */
+  bestOf?: number | null;
+  /** The paper's own note for the section, e.g. "Solve any one". */
+  note?: string | null;
 }
 type QState = "none" | "answered" | "review";
 type Tab = "question" | "tests" | "solution";
+
+/** The paper's own wording for a section rule, else one derived from best_of. */
+function sectionRule(sec: RunnerSection): string | null {
+  if (sec.note) return sec.note;
+  return describeSectionRule(sec.bestOf ?? null, sec.questions.length);
+}
 
 const KIND_LABEL: Record<string, string> = {
   coding: "Python 3",
@@ -458,15 +471,24 @@ export function TestRunner({
               <div key={si} className="border-b border-hairline">
                 <button
                   onClick={() => toggleSection(si)}
-                  className="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-[13px] font-semibold text-fg transition-colors hover:bg-surface"
+                  className="flex w-full items-start justify-between gap-2 px-4 py-2.5 text-left transition-colors hover:bg-surface"
                 >
-                  <span className="truncate">
-                    Section {si + 1} · {sec.name}
+                  <span className="min-w-0">
+                    <span className="block truncate text-[13px] font-semibold text-fg">
+                      Section {si + 1} · {sec.name}
+                    </span>
+                    {/* The marking rule is part of the question paper: a student
+                        who doesn't know only one of two counts wastes time. */}
+                    {sectionRule(sec) && (
+                      <span className="mt-0.5 block text-[11.5px] font-medium text-accent">
+                        {sectionRule(sec)}
+                      </span>
+                    )}
                   </span>
                   <IconChevron
                     size={14}
                     className={cn(
-                      "shrink-0 text-fg-muted transition-transform duration-200",
+                      "mt-0.5 shrink-0 text-fg-muted transition-transform duration-200",
                       open ? "rotate-90" : "",
                     )}
                   />
@@ -501,7 +523,14 @@ export function TestRunner({
                                     : "bg-hairline-strong",
                               )}
                             />
-                            <span className="truncate">{q.title}</span>
+                            <span className="min-w-0 flex-1 truncate">
+                              {q.title}
+                            </span>
+                            {q.marks != null && (
+                              <span className="shrink-0 text-[11.5px] tabular-nums text-fg-muted">
+                                {q.marks}
+                              </span>
+                            )}
                           </button>
                         </li>
                       );
