@@ -58,9 +58,10 @@ function formatCell(cell: unknown): string {
 
 /** A SQL result rendered as a table (or its error / empty note). */
 function SqlTable({ data }: { data: SqlResultData }) {
+  // The border marks it as an error; the message itself stays readable text.
   if (data.error) {
     return (
-      <pre className="max-h-52 overflow-auto whitespace-pre-wrap rounded-[3px] border border-err/40 bg-err-weak p-3 font-mono text-[12px] text-err">
+      <pre className="max-h-52 overflow-auto whitespace-pre-wrap rounded-[3px] border border-err/40 bg-canvas p-3 font-mono text-[12px] text-fg">
         {data.error}
       </pre>
     );
@@ -287,12 +288,10 @@ export function TestCasesPanel({
                     <div className="mb-1 text-[11px] text-fg-muted">
                       {outcome.stderr ? "Error" : "Your output"}
                     </div>
-                    <pre
-                      className={cn(
-                        "max-h-40 overflow-auto whitespace-pre-wrap rounded border border-err/40 bg-canvas p-2 font-mono text-[12px]",
-                        outcome.stderr ? "text-err" : "text-fg",
-                      )}
-                    >
+                    {/* The error text reads as text. The red border already
+                        says this failed; colouring the message too makes a
+                        stack trace harder to read, not easier. */}
+                    <pre className="max-h-40 overflow-auto whitespace-pre-wrap rounded border border-err/40 bg-canvas p-2 font-mono text-[12px] text-fg">
                       {outcome.stderr || outcome.got || "(no output)"}
                     </pre>
                   </div>
