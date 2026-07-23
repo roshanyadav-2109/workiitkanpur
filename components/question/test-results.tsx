@@ -195,14 +195,10 @@ export function TestCasesPanel({
   const privateCount = tests.filter((t) => t.hidden).length;
 
   const byIndex = new Map((summary?.results ?? []).map((r) => [r.index, r]));
-  // Only sample failures are named. A hidden test that fails moves its meter
-  // and says nothing else: naming it, or counting how many broke, tells the
-  // learner something about tests they are not meant to see.
-  const failures = (summary?.results ?? []).filter(
-    (r) => !r.passed && !r.hidden,
-  );
-  const allPassed =
-    !!summary && summary.results.every((r) => r.passed);
+  // A hidden test that fails moves its meter and says nothing else: naming it,
+  // counting them, or showing its error tells the learner about tests they are
+  // not meant to see.
+  const allPassed = !!summary && summary.results.every((r) => r.passed);
 
   return (
     <div className="space-y-4">
@@ -223,14 +219,9 @@ export function TestCasesPanel({
         </div>
       )}
 
-      {/* Name the sample failures up front, so which test broke is the first
-          thing read rather than something to hunt for. */}
-      {summary && failures.length > 0 && (
-        <div className="rounded-[3px] border border-err/40 bg-err-weak px-3 py-2.5 text-[13px] font-medium text-err">
-          {failures.length === 1 ? "Test " : "Tests "}
-          {failures.map((r) => r.index + 1).join(", ")} failed.
-        </div>
-      )}
+      {/* No banner naming what failed: the meter has already moved and the test
+          itself is marked failed in red below. Saying it a third time is noise
+          on the one screen a learner is reading under time pressure. */}
       {summary && allPassed && (
         <div className="rounded-[3px] border border-ok/40 bg-ok-weak px-3 py-2.5 text-[13px] font-medium text-ok">
           {/* A Run only executes the sample tests, so it cannot claim the
