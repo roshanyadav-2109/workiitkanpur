@@ -87,6 +87,33 @@ export function IconDashboard({ size = 18, ...props }: IconProps) {
     </svg>
   );
 }
+/**
+ * A spinner for a button that is working. Drawn rather than borrowed so its
+ * weight matches the rest of the set: a full ring at low opacity with one bright
+ * quarter turning over it, which reads as motion without flashing.
+ */
+export function IconSpinner({ size = 18, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.4}
+      strokeLinecap="round"
+      className="animate-spin"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="8.5" opacity="0.28" />
+      <path d="M20.5 12a8.5 8.5 0 0 0-8.5-8.5" />
+    </svg>
+  );
+}
+
 export const IconFilePdf = icon(FilePdf);
 export const IconResources = icon(PlayCircle);
 export const IconSubjects = icon(Books);

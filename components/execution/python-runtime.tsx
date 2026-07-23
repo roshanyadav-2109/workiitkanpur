@@ -6,7 +6,7 @@ import { gradeOutput, normalizeOutput } from "@/lib/grading";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
-import { IconPlay, IconCheck, IconClose } from "@/components/icons";
+import { IconPlay, IconCheck, IconClose, IconSpinner } from "@/components/icons";
 import type { RuntimeProps } from "@/components/execution/types";
 import type { TestCase } from "@/lib/types";
 import { usePhoneGate } from "@/components/phone/phone-gate";
@@ -242,7 +242,7 @@ export function PythonRuntime({
                 title="Runs every test so you can check your code — nothing is submitted."
               >
                 <IconPlay size={15} />
-                {testing ? "Running…" : "Test run"}
+                {testing && <IconSpinner size={14} />}{testing ? "Running…" : "Test run"}
               </Button>
               <Button
                 variant="primary"
@@ -250,7 +250,7 @@ export function PythonRuntime({
                 onClick={() => runGraded("submit")}
                 disabled={running || testing}
               >
-                {testing ? "Submitting…" : "Submit"}
+                {testing && <IconSpinner size={14} />}{testing ? "Submitting…" : "Submit"}
               </Button>
             </>
           ) : (
@@ -263,7 +263,7 @@ export function PythonRuntime({
                 title="Run your code against the custom input you typed"
               >
                 <IconPlay size={15} />
-                {running ? "Running…" : "Run custom test"}
+                {running ? <IconSpinner size={14} /> : <IconPlay size={15} />}{running ? "Running…" : "Run custom test"}
               </Button>
               <Button
                 variant="secondary"
@@ -272,7 +272,7 @@ export function PythonRuntime({
                 disabled={running || testing || visibleCount === 0}
                 title={`Runs the ${visibleCount} sample tests you can see.`}
               >
-                {testing ? "Running…" : "Run code"}
+                {testing && <IconSpinner size={14} />}{testing ? "Running…" : "Run code"}
               </Button>
               <Button
                 variant="primary"
@@ -281,7 +281,7 @@ export function PythonRuntime({
                 disabled={running || testing}
                 title={`Runs all ${visibleCount + hiddenCount} tests (including hidden ones) and records your attempt.`}
               >
-                {testing ? "Checking…" : "Submit"}
+                {testing && <IconSpinner size={14} />}{testing ? "Checking…" : "Submit"}
               </Button>
             </>
           )}

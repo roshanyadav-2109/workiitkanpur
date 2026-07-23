@@ -224,7 +224,7 @@ export function TestCasesPanel({
           itself is marked failed in red below. Saying it a third time is noise
           on the one screen a learner is reading under time pressure. */}
       {summary && allPassed && (
-        <div className="rounded-[3px] border border-ok/40 bg-ok-weak px-3 py-2.5 text-[13px] font-medium text-ok">
+        <div className="rounded-[3px] border border-hairline px-3 py-2.5 text-[13px] font-medium text-fg">
           {/* A Run only executes the sample tests, so it cannot claim the
               hidden ones passed. */}
           {summary.action === "run"
@@ -240,16 +240,15 @@ export function TestCasesPanel({
           {publicTests.map(({ t, index }) => {
             const outcome = byIndex.get(index);
             const failed = outcome ? !outcome.passed : false;
+            // Only a failure is coloured. A test that passed needs no
+            // celebrating — colour on every card leaves nothing standing out,
+            // and the one thing worth finding is what broke.
             return (
               <div
                 key={index}
                 className={cn(
                   "overflow-hidden rounded-[3px] border",
-                  failed
-                    ? "border-err/40 bg-err-weak"
-                    : outcome
-                      ? "border-ok/40"
-                      : "border-hairline",
+                  failed ? "border-err/40" : "border-hairline",
                 )}
               >
                 <div
@@ -257,13 +256,15 @@ export function TestCasesPanel({
                     "flex items-center justify-between gap-3 border-b px-3 py-1.5 text-[12px] font-medium",
                     failed
                       ? "border-err/40 text-err"
-                      : outcome
-                        ? "border-ok/40 text-ok"
-                        : "border-hairline text-fg",
+                      : "border-hairline text-fg",
                   )}
                 >
                   <span>Test {index + 1}</span>
-                  {outcome && <span>{failed ? "Failed" : "Passed"}</span>}
+                  {outcome && (
+                    <span className={failed ? undefined : "text-fg-muted"}>
+                      {failed ? "Failed" : "Passed"}
+                    </span>
+                  )}
                 </div>
                 <div className="grid gap-3 p-3 sm:grid-cols-2">
                   <div>

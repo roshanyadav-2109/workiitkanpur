@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CodeEditor } from "@/components/execution/code-editor";
+import { IconSpinner } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { compareSqlResults } from "@/lib/grading";
 import type {
@@ -410,6 +411,10 @@ export function SqlRuntime({
           : `Runs the ${publicCount} sample ${publicCount === 1 ? "case" : "cases"} you can see.`
       }
     >
+      {/* A spinner on the button that was pressed, so the click is visibly
+          registered while the check runs. Both buttons grey out, so it is also
+          clear that nothing else can be pressed meanwhile. */}
+      {running && <IconSpinner size={14} />}
       {running ? "Running…" : ide ? "Test run" : "Run code"}
     </Button>
   );
@@ -421,6 +426,7 @@ export function SqlRuntime({
       disabled={running || !query.trim()}
       title={`Runs all ${publicCount + hiddenCount} cases (including hidden ones) and records your attempt.`}
     >
+      {running && <IconSpinner size={14} />}
       {running ? "Checking…" : "Submit"}
     </Button>
   );
