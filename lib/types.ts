@@ -36,6 +36,19 @@ export interface TestCase {
   stdin: string;
   expected: string;
   hidden?: boolean;
+  /**
+   * Files placed in the program's working directory before it runs, as
+   * { "number.txt": "3" }. Questions that read input from a file rather than
+   * stdin use this; the runtime writes them into the sandbox filesystem.
+   */
+  files?: Record<string, string>;
+  /**
+   * Arguments after the program name, so `sys.argv[1]` is `argv[0]` here.
+   * A question whose program takes the database name on the command line
+   * supplies it per test case, which is also how the grading dataset gets
+   * varied between the public and private runs.
+   */
+  argv?: string[];
 }
 
 export interface McqOption {
