@@ -12,7 +12,7 @@ export default function ContactPage() {
       </p>
       <p>
         Email us at{" "}
-        <a href="mailto:officeneuralai@gmail.com">officeneuralai@gmail.com</a> and
+        <a href="mailto:iitmbsdegreestudent@gmail.com">iitmbsdegreestudent@gmail.com</a> and
         we&apos;ll get back to you.
       </p>
       <p>

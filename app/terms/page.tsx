@@ -264,10 +264,10 @@ const SECTIONS: LegalSection[] = [
         <p>
           If you have any questions about these Terms, please contact us at{" "}
           <a
-            href="mailto:officeneuralai@gmail.com"
+            href="mailto:iitmbsdegreestudent@gmail.com"
             className="font-medium text-accent hover:underline"
           >
-            officeneuralai@gmail.com
+            iitmbsdegreestudent@gmail.com
           </a>
           .
         </p>

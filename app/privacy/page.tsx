@@ -200,10 +200,10 @@ const SECTIONS: LegalSection[] = [
           If you have any questions or requests regarding this Policy or your
           information, please contact us at{" "}
           <a
-            href="mailto:officeneuralai@gmail.com"
+            href="mailto:iitmbsdegreestudent@gmail.com"
             className="font-medium text-accent hover:underline"
           >
-            officeneuralai@gmail.com
+            iitmbsdegreestudent@gmail.com
           </a>
           .
         </p>
