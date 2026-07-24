@@ -86,8 +86,6 @@ export function ArticleView({
 }) {
   return (
     <article>
-      {/* Hero image frame — violet placeholder (no cover image yet). */}
-      <div className="mb-7 h-[180px] w-full rounded-[3px] bg-gradient-to-br from-[#6d5ce2] via-[#5a48d6] to-[#4a39c0] sm:h-[300px]" />
       <h1 className="text-[27px] font-bold leading-[1.12] tracking-[-0.02em] text-fg sm:text-[36px]">
         {article.title}
       </h1>
@@ -100,6 +98,8 @@ export function ArticleView({
           </>
         )}
       </div>
+      {/* Hero image frame — violet placeholder (no cover image yet), after the title. */}
+      <div className="mt-6 h-[180px] w-full rounded-[3px] bg-gradient-to-br from-[#6d5ce2] via-[#5a48d6] to-[#4a39c0] sm:h-[300px]" />
       <div className="mt-7">
         <Markdown className="prose-article">{article.body}</Markdown>
       </div>
