@@ -280,15 +280,6 @@ export default async function LeaderboardPage() {
                     >
                       Sign in →
                     </Link>
-                    <Link
-                      href="/signup"
-                      className={cn(
-                        buttonVariants({ variant: "ghost", size: "md" }),
-                        "w-full",
-                      )}
-                    >
-                      Create a free account
-                    </Link>
                   </div>
                 </div>
               </div>

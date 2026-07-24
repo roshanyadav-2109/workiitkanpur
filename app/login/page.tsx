@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { AuthForm } from "@/components/auth/auth-form";
@@ -20,13 +19,8 @@ export default async function LoginPage({
     <AuthShell
       footer={
         <>
-          New here?{" "}
-          <Link
-            href="/signup"
-            className="text-accent underline underline-offset-2"
-          >
-            Create an account
-          </Link>
+          New here? Continuing with Google creates your account automatically —
+          no separate sign-up needed.
         </>
       }
     >

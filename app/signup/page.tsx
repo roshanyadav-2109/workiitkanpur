@@ -1,36 +1,20 @@
-import Link from "next/link";
-import type { Metadata } from "next";
-import { AuthShell } from "@/components/auth/auth-shell";
-import { AuthForm } from "@/components/auth/auth-form";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Create account" };
-
+/**
+ * Sign-up is not a separate flow: "Continue with Google" on the login page
+ * creates the account if there isn't one. This route only exists so old links
+ * and bookmarks still land somewhere sensible — it forwards to /login, carrying
+ * any `next` along.
+ */
 export default async function SignupPage({
   searchParams,
 }: {
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
-  const target =
+  const q =
     next && next.startsWith("/") && !next.startsWith("//")
-      ? next
-      : "/app/subjects";
-
-  return (
-    <AuthShell
-      footer={
-        <>
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="text-accent underline underline-offset-2"
-          >
-            Sign in
-          </Link>
-        </>
-      }
-    >
-      <AuthForm mode="signup" next={target} />
-    </AuthShell>
-  );
+      ? `?next=${encodeURIComponent(next)}`
+      : "";
+  redirect(`/login${q}`);
 }

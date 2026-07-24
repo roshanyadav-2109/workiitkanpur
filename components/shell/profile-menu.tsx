@@ -73,21 +73,15 @@ export function ProfileMenu() {
   if (loading) return <span className="block h-8 w-8" aria-hidden />;
 
   if (!me) {
+    // One entry point: signing in and creating an account happen from the same
+    // place (Continue with Google creates the account if there isn't one).
     return (
-      <div className="flex items-center gap-2">
-        <Link
-          href="/login"
-          className={buttonVariants({ variant: "ghost", size: "sm" })}
-        >
-          Sign in
-        </Link>
-        <Link
-          href="/signup"
-          className={buttonVariants({ variant: "primary", size: "sm" })}
-        >
-          Sign up
-        </Link>
-      </div>
+      <Link
+        href="/login"
+        className={buttonVariants({ variant: "primary", size: "sm" })}
+      >
+        Sign in
+      </Link>
     );
   }
 

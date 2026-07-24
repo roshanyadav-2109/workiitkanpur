@@ -29,21 +29,14 @@ export function AccountMenu({
   }, [open]);
 
   if (!email) {
+    // Single entry point — sign in and account creation share one page.
     return (
-      <div className="flex items-center gap-2">
-        <Link
-          href="/login"
-          className={buttonVariants({ variant: "ghost", size: "sm" })}
-        >
-          Sign in
-        </Link>
-        <Link
-          href="/signup"
-          className={buttonVariants({ variant: "primary", size: "sm" })}
-        >
-          Sign up
-        </Link>
-      </div>
+      <Link
+        href="/login"
+        className={buttonVariants({ variant: "primary", size: "sm" })}
+      >
+        Sign in
+      </Link>
     );
   }
 
