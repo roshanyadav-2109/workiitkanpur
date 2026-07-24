@@ -119,10 +119,9 @@ export default async function LandingPage() {
               </p>
             </div>
 
-            <h1 className="mt-4 text-[27px] font-semibold leading-[1.08] tracking-[-0.02em] sm:text-[40px]">
-              OPPE Practice — practise the{" "}
-              <span className="highlight-word">OPPE Exams</span>{" "}
-              of the Online IIT&nbsp;Madras BS Degree
+            <h1 className="mt-4 text-[32px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[46px]">
+              Practice for your{" "}
+              <span className="highlight-word">OPPE Exams</span>
             </h1>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
