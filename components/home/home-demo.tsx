@@ -62,7 +62,7 @@ function SubjectCard({
   exams: string[];
 }) {
   return (
-    <div className="flex flex-col rounded-[12px] border-2 border-[#3d3d3d] bg-white p-4">
+    <div className="flex flex-col rounded-[12px] border border-[#3d3d3d] bg-white p-4">
       <div className="flex items-center gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] bg-surface">
           <SubjectLogo slug={slug} size={22} />
@@ -110,7 +110,7 @@ function ScreenSubjects() {
     },
   ];
   return (
-    <div className="grid grid-cols-2 gap-3 p-4 sm:gap-4 sm:p-6">
+    <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 sm:gap-4 sm:p-6">
       {cards.map((c, idx) => (
         <div
           key={c.slug}
@@ -125,14 +125,16 @@ function ScreenSubjects() {
 }
 
 function ScreenAttempt() {
-  // A rendered mock of the coding interface (question left, editor right) — no
-  // image asset, so nothing can fail to load.
+  // A rendered mock of the coding interface (question left, editor right). The
+  // editor mirrors the real CodeEditor exactly: a light box on canvas, ink text
+  // with the same quiet four-colour syntax (green keywords, violet builtins),
+  // and no line-number gutter — not a dark neon editor.
   const codeLines = [
-    <><span className="text-[#c792ea]">def</span> <span className="text-[#82aaff]">solve</span>():</>,
-    <>{"    "}n <span className="text-[#89ddff]">=</span> <span className="text-[#f78c6c]">int</span>(input())</>,
-    <>{"    "}xs <span className="text-[#89ddff]">=</span> <span className="text-[#f78c6c]">list</span>(<span className="text-[#f78c6c]">map</span>(<span className="text-[#f78c6c]">int</span>, input().split()))</>,
-    <>{"    "}<span className="text-[#f78c6c]">print</span>(<span className="text-[#f78c6c]">sum</span>(x <span className="text-[#c792ea]">for</span> x <span className="text-[#c792ea]">in</span> xs <span className="text-[#c792ea]">if</span> x <span className="text-[#89ddff]">%</span> <span className="text-[#f78c6c]">2</span>))</>,
-    <><span className="text-[#82aaff]">solve</span>()</>,
+    <><span className="text-[#2f8f5b]">def</span> solve():</>,
+    <>{"    "}n = <span className="text-[#5a48d6]">int</span>(<span className="text-[#5a48d6]">input</span>())</>,
+    <>{"    "}xs = <span className="text-[#5a48d6]">list</span>(<span className="text-[#5a48d6]">map</span>(<span className="text-[#5a48d6]">int</span>, <span className="text-[#5a48d6]">input</span>().split()))</>,
+    <>{"    "}<span className="text-[#5a48d6]">print</span>(<span className="text-[#5a48d6]">sum</span>(x <span className="text-[#2f8f5b]">for</span> x <span className="text-[#2f8f5b]">in</span> xs <span className="text-[#2f8f5b]">if</span> x % 2))</>,
+    <>solve()</>,
   ];
   return (
     <div className="flex h-full flex-col text-[12.5px] sm:flex-row">
@@ -143,6 +145,7 @@ function ScreenAttempt() {
             Question
           </span>
           <span className="text-fg-muted">Test Cases</span>
+          <span className="hidden text-fg-muted sm:inline">Custom Input</span>
           <span className="text-fg-muted">Solution</span>
         </div>
         <div className="flex-1 overflow-hidden p-4 sm:p-5">
@@ -158,27 +161,31 @@ function ScreenAttempt() {
         </div>
       </div>
 
-      {/* right — editor */}
+      {/* right — editor (light, exactly like the real CodeEditor) */}
       <div className="flex flex-1 flex-col sm:w-1/2">
         <div className="flex items-center justify-between border-b border-hairline px-4 py-2.5 text-[11.5px]">
-          <span className="uppercase tracking-[0.04em] text-fg-faint">Python 3</span>
-          <span className="hidden text-fg-faint sm:inline">runs in your browser</span>
+          <span className="font-medium text-fg">Python 3</span>
+          <span className="text-[12px] font-medium text-warn">Unsolved</span>
         </div>
-        <div className="flex-1 overflow-hidden bg-[#0f0b1e] p-4 font-mono text-[12px] leading-relaxed">
-          {codeLines.map((ln, k) => (
-            <div
-              key={k}
-              className="demo-rise text-white/90"
-              style={{ animationDelay: `${0.15 + k * 0.16}s` }}
-            >
-              <span className="mr-3 select-none text-white/25">{k + 1}</span>
-              {ln}
-            </div>
-          ))}
+        <div className="flex-1 overflow-auto p-3">
+          <div className="h-full overflow-auto rounded-md border border-hairline bg-surface p-3 font-mono text-[12px] leading-relaxed text-fg">
+            {codeLines.map((ln, k) => (
+              <div
+                key={k}
+                className="demo-rise whitespace-pre"
+                style={{ animationDelay: `${0.15 + k * 0.16}s` }}
+              >
+                {ln}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex items-center justify-end gap-2 border-t border-hairline px-4 py-2.5">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-hairline px-4 py-2.5">
+          <span className="flex h-8 items-center rounded-[6px] px-3 text-[12px] font-medium text-fg-muted">
+            Run custom test
+          </span>
           <span className="flex h-8 items-center rounded-[6px] border border-hairline px-3 text-[12px] font-medium text-fg">
-            Run sample tests
+            Run code
           </span>
           <span className="flex h-8 items-center rounded-[6px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3 text-[12px] font-semibold text-white">
             Submit
@@ -228,24 +235,25 @@ function ScreenGrading() {
         <span className="border-b-2 border-accent pb-2 font-semibold text-accent">
           Test Cases
         </span>
+        <span className="hidden text-fg-muted sm:inline">Custom Input</span>
         <span className="text-fg-muted">Solution</span>
       </div>
 
-      {/* pass/fail summary — the real ProgressLine block */}
+      {/* pass/fail meters — the real ProgressLine block */}
       <div className="space-y-2.5 rounded-[3px] border border-hairline p-3">
-        <DemoProgressLine label="Public tests" passed={1} total={1} delay="0.1s" />
-        <DemoProgressLine label="Private tests" passed={4} total={4} delay="0.28s" />
+        <DemoProgressLine label="Sample tests" passed={1} total={1} delay="0.1s" />
+        <DemoProgressLine label="Hidden tests" passed={4} total={4} delay="0.28s" />
       </div>
 
-      {/* submit verdict */}
+      {/* all-passed note — neutral, exactly like the real Test Cases panel */}
       <div
-        className="demo-rise mt-3 rounded-[3px] border border-ok/40 bg-ok-weak px-3 py-2.5 text-[13px] font-medium text-ok"
+        className="demo-rise mt-3 rounded-[3px] border border-hairline px-3 py-2.5 text-[13px] font-medium text-fg"
         style={{ animationDelay: "0.5s" }}
       >
-        Correct — your result matches the expected output.
+        All 5 tests passed.
       </div>
 
-      {/* public test cases with Input / Expected */}
+      {/* sample test cases with Input / Expected */}
       <div className="mt-3 space-y-3">
         {publicTests.map((t, i) => (
           <div
@@ -253,19 +261,20 @@ function ScreenGrading() {
             className="demo-rise overflow-hidden rounded-[3px] border border-hairline"
             style={{ animationDelay: `${0.58 + i * 0.12}s` }}
           >
-            <div className="border-b border-hairline px-3 py-1.5 text-[12px] font-medium text-fg">
-              Test {i + 1}
+            <div className="flex items-center justify-between border-b border-hairline px-3 py-1.5 text-[12px] font-medium text-fg">
+              <span>Test {i + 1}</span>
+              <span className="text-fg-muted">Passed</span>
             </div>
-            <div className="grid grid-cols-2 gap-3 p-3">
+            <div className="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2">
               <div>
                 <div className="mb-1 text-[11px] text-fg-muted">Input</div>
-                <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
+                <pre className="whitespace-pre-wrap rounded border border-hairline bg-canvas p-2 font-mono text-[12px] text-fg">
                   {t.stdin}
                 </pre>
               </div>
               <div>
                 <div className="mb-1 text-[11px] text-fg-muted">Expected</div>
-                <pre className="whitespace-pre-wrap rounded border border-hairline bg-surface p-2 font-mono text-[12px] text-fg">
+                <pre className="whitespace-pre-wrap rounded border border-hairline bg-canvas p-2 font-mono text-[12px] text-fg">
                   {t.expected}
                 </pre>
               </div>
@@ -273,7 +282,7 @@ function ScreenGrading() {
           </div>
         ))}
         <p className="text-[13px] text-fg-muted">
-          + 4 private tests run on Test Run and Submit.
+          Plus 4 hidden tests that run when you test or submit.
         </p>
       </div>
     </div>
@@ -300,15 +309,15 @@ function ScreenMock() {
           <p className="mt-2 text-[12.5px] leading-relaxed text-fg-muted">
             Read n integers and print the sum of the even ones.
           </p>
-          <div className="mt-3 h-20 overflow-hidden rounded-[6px] border border-hairline bg-[#0f0b1e] p-2.5 font-mono text-[11px] leading-relaxed">
+          <div className="mt-3 h-20 overflow-hidden rounded-[6px] border border-hairline bg-surface p-2.5 font-mono text-[11px] leading-relaxed text-fg">
             {[
-              <><span className="text-[#c792ea]">n</span> <span className="text-[#89ddff]">=</span> <span className="text-[#f78c6c]">int</span>(input())</>,
-              <><span className="text-[#c792ea]">xs</span> <span className="text-[#89ddff]">=</span> [<span className="text-[#f78c6c]">int</span>(x) …]</>,
-              <><span className="text-[#f78c6c]">print</span>(<span className="text-[#f78c6c]">sum</span>(x <span className="text-[#89ddff]">for</span> x …))</>,
+              <>n = <span className="text-[#5a48d6]">int</span>(<span className="text-[#5a48d6]">input</span>())</>,
+              <>xs = [<span className="text-[#5a48d6]">int</span>(x) …]</>,
+              <><span className="text-[#5a48d6]">print</span>(<span className="text-[#5a48d6]">sum</span>(x <span className="text-[#2f8f5b]">for</span> x …))</>,
             ].map((ln, k) => (
               <div
                 key={k}
-                className="demo-rise text-white/90"
+                className="demo-rise whitespace-pre"
                 style={{ animationDelay: `${0.2 + k * 0.18}s` }}
               >
                 {ln}
@@ -317,7 +326,7 @@ function ScreenMock() {
           </div>
           <div className="mt-3 flex gap-2">
             <span className="flex h-8 items-center rounded-[6px] border border-accent-border bg-white px-3 text-[12px] font-medium text-accent">
-              Test Run
+              Test run
             </span>
             <span className="flex h-8 items-center rounded-[6px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3 text-[12px] font-semibold text-white">
               Submit
@@ -550,7 +559,7 @@ const STEPS = [
   },
   {
     title: "Run & get graded",
-    desc: "Run against the public and private test cases and see what passes.",
+    desc: "Run against the sample and hidden test cases and see what passes.",
     cx: 40,
     cy: 60,
     screen: () => <ScreenGrading />,
