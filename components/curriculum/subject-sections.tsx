@@ -104,7 +104,7 @@ export function SubjectSections({
                   "flex w-full items-center justify-between gap-2 border-b border-hairline px-4 py-3 text-left transition-colors last:border-b-0",
                   on
                     ? "bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] text-[15px] font-semibold text-white ring-1 ring-inset ring-white/20"
-                    : "text-[14px] font-normal text-fg-muted hover:text-fg",
+                    : "text-[14px] font-normal text-fg hover:bg-surface",
                 )}
               >
                 <span>{s.label}</span>
@@ -135,7 +135,7 @@ export function SubjectSections({
                   chip,
                   on
                     ? "border-transparent bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] text-white ring-1 ring-inset ring-white/20"
-                    : "border-hairline text-fg-muted hover:border-[#3d3d3d] hover:text-fg",
+                    : "border-hairline text-fg hover:border-[#3d3d3d]",
                 )}
               >
                 <span>{s.label}</span>

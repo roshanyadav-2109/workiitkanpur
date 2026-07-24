@@ -21,7 +21,22 @@ function formatDate(iso: string): string {
   return `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}`;
 }
 
-/** The Articles section — a list of post cards (a blog index for the subject). */
+/** A violet placeholder frame shown when an article has no cover image. */
+function ArticleFrame() {
+  return (
+    <div className="grid h-[86px] w-[124px] shrink-0 place-items-center overflow-hidden rounded-[8px] bg-gradient-to-br from-[#6d5ce2] via-[#5a48d6] to-[#4a39c0] sm:h-[92px] sm:w-[140px]">
+      {/* Simple "article" glyph — a few text lines on a card. */}
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect x="4" y="3.5" width="16" height="17" rx="2" stroke="#fff" strokeOpacity="0.85" strokeWidth="1.4" />
+        <path d="M7.5 8 H16.5 M7.5 11 H16.5 M7.5 14 H13" stroke="#fff" strokeOpacity="0.85" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+/** The Articles section — a blog index. Each row: a violet frame + date on the
+ *  left, the title & description on the right, and a Read-article button in the
+ *  bottom-right corner. No boxed cards. */
 export function ArticlesList({ articles }: { articles: ArticleMeta[] }) {
   if (articles.length === 0) {
     return (
@@ -31,29 +46,37 @@ export function ArticlesList({ articles }: { articles: ArticleMeta[] }) {
     );
   }
   return (
-    <div className="space-y-3">
+    <div className="divide-y divide-hairline">
       {articles.map((a) => (
         <Link
           key={a.slug}
           href={`/app/subjects/${a.subject}/articles/${a.slug}`}
-          className="block rounded-[8px] border border-hairline p-4 transition-colors hover:border-[#3d3d3d] hover:bg-surface"
+          className="group flex gap-4 py-5 sm:gap-5"
         >
-          {a.date && (
-            <div className="mb-1 text-[12px] text-fg-faint">
-              {formatDate(a.date)}
+          {/* Left — frame + publish date beside it */}
+          <div className="flex shrink-0 flex-col items-center gap-2">
+            <ArticleFrame />
+            {a.date && (
+              <span className="text-[12px] text-fg-faint">{formatDate(a.date)}</span>
+            )}
+          </div>
+
+          {/* Right — title, description, and the read button at the bottom */}
+          <div className="flex min-w-0 flex-1 flex-col">
+            <h3 className="text-[16px] font-semibold leading-snug text-fg transition-colors group-hover:text-accent sm:text-[17px]">
+              {a.title}
+            </h3>
+            {a.description && (
+              <p className="mt-1.5 line-clamp-2 text-[13.5px] leading-relaxed text-fg-muted">
+                {a.description}
+              </p>
+            )}
+            <div className="mt-auto flex justify-end pt-3">
+              <span className="inline-flex items-center gap-1 rounded-[6px] border border-accent-border/50 px-3 py-1.5 text-[12.5px] font-medium text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+                Read article →
+              </span>
             </div>
-          )}
-          <h3 className="text-[16px] font-semibold leading-snug text-fg">
-            {a.title}
-          </h3>
-          {a.description && (
-            <p className="mt-1 text-[13.5px] leading-relaxed text-fg-muted">
-              {a.description}
-            </p>
-          )}
-          <span className="mt-2 inline-block text-[13px] font-medium text-accent">
-            Read article →
-          </span>
+          </div>
         </Link>
       ))}
     </div>
