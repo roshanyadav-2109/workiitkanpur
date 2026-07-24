@@ -21,14 +21,7 @@ export default async function LoginPage({
       : "/app/subjects";
 
   return (
-    <AuthShell
-      footer={
-        <>
-          New here? Continuing with Google creates your account automatically —
-          no separate sign-up needed.
-        </>
-      }
-    >
+    <AuthShell>
       <AuthForm next={target} />
     </AuthShell>
   );

@@ -192,7 +192,7 @@ export default async function LandingPage() {
                 </h2>
                 <p className="mt-1 text-[14px] text-fg-muted">
                   Found a bug, want a subject added, or have a suggestion? Tell
-                  us — no login needed.
+                  us.
                 </p>
                 <div className="mt-6">
                   <FeedbackForm defaults={feedbackDefaults} />

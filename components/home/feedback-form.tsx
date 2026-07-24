@@ -102,11 +102,10 @@ export function FeedbackForm({ defaults }: { defaults: FeedbackDefaults }) {
           rows={4}
         />
       </Field>
-      <div className="flex items-center gap-3">
+      <div>
         <Button type="submit" variant="primary" size="md" disabled={sending}>
           {sending ? "Sending…" : "Send feedback"}
         </Button>
-        <span className="text-[12.5px] text-fg-muted">No account needed.</span>
       </div>
     </form>
   );
