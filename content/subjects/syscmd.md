@@ -1,5 +1,3 @@
-System Commands (**BSSE2001**, 3 credits, Diploma in Programming, taught by Prof. Gandham Phanikumar) is assessed by a remote-proctored **OPPE** taken in a real Linux/Bash environment. Questions are almost entirely hands-on: you're given files or data and must write **shell commands and short scripts** — heavy use of `grep`, `sed`, `awk`, `cut`, `tr`, pipes and redirection, `find`, file permissions, and Bash scripting (loops, conditionals, arguments). The terminal and its `man` pages are available, so looking up options quickly matters. The course also has weekly assignments, in-person quizzes and an end-term; exact weightages vary by term.
-
 | Week | Topic | What it covers |
 |------|-------|----------------|
 | 1 | Linux fundamentals & the shell | Linux basics, the command line, hardware/OS info, I/O redirection |

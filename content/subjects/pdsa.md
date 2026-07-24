@@ -1,5 +1,3 @@
-PDSA (**BSCS2002**, Diploma level) is assessed by a live, webcam-proctored **OPPE** of **Python programming problems** graded on hidden test cases (not MCQ), taken in a restricted browser editor with only the standard library — `heapq`, `collections`, `math`, `functools` are available; there is no open internet, and `help()` works. Most terms run **two attempts (OPPE1 and OPPE2)** and reward your better score, so the OPPEs together carry roughly **40%** of the grade (exact weights vary by term — check the official grading document). You generally need a minimum on the early-week programming assignments to be eligible.
-
 | Week | Topic | What it covers |
 |------|-------|----------------|
 | 1 | Python refresher | Variables, control flow, functions, lists/tuples/dicts |

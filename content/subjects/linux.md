@@ -1,5 +1,3 @@
-Introduction to Linux and Programming (**CS1102**, publicly *Introduction to the Linux Shell*, a 4-credit Foundation course in the Electronic Systems branch, paired with the Linux Systems Laboratory CS1902) assesses its practical skills through an **OPPE** taken on a browser-based Linux **virtual machine**, where you type real commands and shell scripts and are graded on the output. It is remote-proctored (webcam + screen share), with only the exam VM and its man-pages available — no external internet or notes. The "programming" in the title is **bash shell scripting**, not C. Exact weightage, duration and question count are set per term; confirm them on your portal.
-
 | Week | Topic | What it covers |
 |------|-------|----------------|
 | 1 | Getting started with Linux & the shell | Filesystem hierarchy, `pwd`, `ls`, `cd`, absolute vs relative paths |

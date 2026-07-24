@@ -1,5 +1,3 @@
-Programming in Python (**BSCS1002**, a Foundation-level course) has **two OPPEs — OPPE 1 and OPPE 2**, both live, webcam-proctored coding exams (not MCQ) taken in a browser-based Python editor. **OPPE 1 is compulsory and OPPE 2 is optional** — you only need one of the two to score **≥ 40/100** to stay eligible. A paper typically has **5 questions, of which you solve any 4**, in roughly **2 hours**, graded automatically against **hidden test cases**. Only the **Python standard library** is available (no internet, no pip); `math` and `random` are enough for exam questions, and `help(name)` works inside the editor. OPPE 1 (around Week 7) covers the earlier weeks; OPPE 2 covers the fuller syllabus.
-
 ### OPPE 1 — approx. Weeks 1–7
 
 | Week | Topic | What it covers |

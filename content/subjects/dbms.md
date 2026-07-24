@@ -1,5 +1,3 @@
-Database Management Systems (**BSCS2001**, Diploma level, 4 credits) has **one OPPE** (not a separate OPPE 1 and OPPE 2), worth **20% of the course grade**, conducted in remote-proctored online mode with a single conditional re-attempt if the first is failed. It is a live coding paper that mixes **SQL query questions** against pre-loaded relational schemas with a **Python-to-PostgreSQL connectivity question** (using `psycopg2`). Per the official grading rules you must score **at least 35% on the OPPE and answer the Python-database-connectivity question correctly** to receive a final grade. SQL content comes from Weeks 2–3 and the connectivity question from Week 7.
-
 | Week | Topic | What it covers |
 |------|-------|----------------|
 | 1 | Course overview | What a DBMS is, databases vs file systems, data models, three-schema architecture |

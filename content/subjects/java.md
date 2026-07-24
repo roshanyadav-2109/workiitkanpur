@@ -1,5 +1,3 @@
-Programming Concepts using Java (**BSCS2005**, Diploma level, 4 credits, taught by Prof. Madhavan Mukund) is an OPPE course assessed through two Online Proctored Programming Exams — **OPPE 1 (PE1) and OPPE 2 (PE2)**. Each is a live, browser-based, proctored coding exam of roughly **2 hours** with about **4–5 Java questions** testing practical OOP (classes, inheritance, polymorphism, interfaces/abstract classes, collections, exceptions); you generally need **≥ 40/100** to be safe. The commonly-reported grading formula weights your better and worse programming exams, making the two OPPEs worth about **45%** of the course (confirm the exact split on your term's grading document).
-
 | Week | Topic | What it covers |
 |------|-------|----------------|
 | 1 | Classes & objects | Classes, fields, methods, constructors; organising a class hierarchy |
