@@ -124,6 +124,12 @@ export default async function LandingPage() {
               <span className="highlight-word">OPPE Exams</span>
             </h1>
 
+            <p className="mt-5 max-w-[52ch] text-[15px] leading-relaxed text-fg-muted sm:text-[17px]">
+              Real exam-style questions, full-length timed mocks, and instant
+              in-browser grading — everything you need to walk into the OPPE
+              ready.
+            </p>
+
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               {shownSubjects.map((s) => (
                 <SubjectBlock key={s.slug} subject={s} />
