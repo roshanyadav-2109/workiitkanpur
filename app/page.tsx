@@ -182,18 +182,21 @@ export default async function LandingPage() {
               ))}
             </div>
           </section>
-          {/* Feedback — real backend, login optional, prefilled when signed in */}
-          <section className="mx-auto w-full max-w-[1500px] px-3 pb-20 sm:w-[90%] sm:px-5">
-            <div className="mx-auto max-w-[760px] rounded-[12px] border border-hairline bg-white p-6 sm:p-8">
-              <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
-                Share your feedback
-              </h2>
-              <p className="mt-1 text-[14px] text-fg-muted">
-                Found a bug, want a subject added, or have a suggestion? Tell us
-                — no login needed.
-              </p>
-              <div className="mt-6">
-                <FeedbackForm defaults={feedbackDefaults} />
+          {/* Feedback — a wide greyish band (no boxed card); backend, login
+              optional, prefilled when signed in */}
+          <section className="mx-auto w-full px-3 pb-20 sm:w-[95%] sm:px-0">
+            <div className="rounded-[3px] bg-surface px-5 py-10 sm:px-12 sm:py-14">
+              <div className="mx-auto max-w-[820px]">
+                <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
+                  Share your feedback
+                </h2>
+                <p className="mt-1 text-[14px] text-fg-muted">
+                  Found a bug, want a subject added, or have a suggestion? Tell
+                  us — no login needed.
+                </p>
+                <div className="mt-6">
+                  <FeedbackForm defaults={feedbackDefaults} />
+                </div>
               </div>
             </div>
           </section>
