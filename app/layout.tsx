@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 
 // Google Analytics 4 (gtag.js) measurement ID.
 const GA_ID = "G-JK1FNY0TB5";
+// Google Tag Manager container ID.
+const GTM_ID = "GTM-56MDXL9N";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -97,9 +99,31 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} h-full`}
     >
       <body className="min-h-full">
+        {/* Google Tag Manager (noscript) — Google requires this immediately
+            after the opening <body> tag, for visitors without JavaScript. */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
+
         {/* Accent bar across the very top, above every page's navbar. */}
         <div className="h-1.5 w-full bg-accent" />
         <ThemeProvider>{children}</ThemeProvider>
+
+        {/* Google Tag Manager loader. beforeInteractive so it lands in the
+            server-rendered head, as high up as possible. */}
+        <Script id="gtm" strategy="beforeInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
 
         {/* Google tag (gtag.js). beforeInteractive so it is injected into the
             server-rendered HTML head — this is what Google's "verify tag"
