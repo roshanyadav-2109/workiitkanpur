@@ -29,7 +29,6 @@ import {
   jsonLdGraph,
   breadcrumbNode,
   courseNode,
-  INDEXED_SOON_SLUGS,
 } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -39,13 +38,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const subject = await getSubjectBySlug(slug);
-  // Only live subjects and the ones we're pre-indexing belong in search; every
-  // other inactive subject renders "not found", so keep it out of the index.
-  const indexable =
-    !!subject && (subject.is_active || INDEXED_SOON_SLUGS.includes(slug));
-  if (!subject || !indexable) {
+  // Only a slug that isn't a real subject stays out of search. Every real
+  // subject is indexed with the same normal, keyword-rich snippet — whether or
+  // not practice is live yet — so search results never reveal "coming soon".
+  if (!subject) {
     return pageMetadata({
-      title: subject?.name ?? "Subject",
+      title: "Subject",
       description: "Practice subject for the IIT Madras BS Degree OPPE.",
       path: `/app/subjects/${slug}`,
       index: false,
@@ -76,12 +74,10 @@ export default async function SubjectDetailPage({
   const { exam } = await searchParams;
   const subject = await getSubjectBySlug(slug);
   if (!subject) notFound();
-  // is_active is the release switch. Inactive subjects 404 — EXCEPT the ones we
-  // want crawlable ahead of launch, which render a "coming soon" landing.
-  const indexedSoon = !subject.is_active && INDEXED_SOON_SLUGS.includes(slug);
-  if (!subject.is_active && !indexedSoon) notFound();
-
-  if (indexedSoon) {
+  // is_active is the release switch. A subject that isn't live yet still has a
+  // real, crawlable page — it just shows a "coming soon" landing instead of the
+  // practice UI. Only a non-existent subject 404s.
+  if (!subject.is_active) {
     return <ComingSoonSubject slug={slug} name={subject.name} />;
   }
 
