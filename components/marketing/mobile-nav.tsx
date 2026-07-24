@@ -132,15 +132,15 @@ export function MobileNav() {
             onClick={close}
             className="fixed inset-0 top-14 z-40 bg-transparent"
           />
-          {/* dropdown panel, dropped straight below the bar — slightly rounded bottom */}
-          <div className="fixed inset-x-0 top-14 z-50 flex max-h-[calc(100dvh-3.5rem)] flex-col overflow-hidden rounded-b-[14px] border-b-2 border-x border-b-[#3d3d3d] border-x-[#3d3d3d] bg-canvas py-2">
+          {/* full-screen menu panel — fills the whole viewport below the bar */}
+          <div className="fixed inset-x-0 top-14 z-50 flex h-[calc(100dvh-3.5rem)] flex-col overflow-hidden bg-canvas">
             {activeTab ? (
               /* ── Sub-screen: back + the tab's inner options ── */
-              <div className="flex flex-col">
+              <div className="flex min-h-0 flex-1 flex-col">
                 <button
                   type="button"
                   onClick={() => setSub(null)}
-                  className="flex w-full items-center gap-2 px-4 py-3.5 text-[19px] font-semibold text-fg"
+                  className="flex w-full shrink-0 items-center gap-2 px-4 py-3.5 text-[19px] font-semibold text-fg"
                 >
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
                     <path
@@ -153,7 +153,7 @@ export function MobileNav() {
                   </svg>
                   {activeTab.label}
                 </button>
-                <div>
+                <div className="min-h-0 flex-1 overflow-y-auto">
                   {activeTab.children!.map((it) => (
                     <Link
                       key={it.label}
@@ -165,12 +165,15 @@ export function MobileNav() {
                     </Link>
                   ))}
                 </div>
-                {accountButton}
+                {/* Login / account — pinned to the very bottom of the screen */}
+                <div className="shrink-0 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                  {accountButton}
+                </div>
               </div>
             ) : (
               /* ── Root screen: tabs (table-like) + violet login / profile ── */
-              <div className="flex flex-col">
-                <div>
+              <div className="flex min-h-0 flex-1 flex-col">
+                <div className="min-h-0 flex-1 overflow-y-auto">
                   {TABS.map((t) =>
                     t.children ? (
                       <button
@@ -195,7 +198,10 @@ export function MobileNav() {
                   )}
                 </div>
 
-                {accountButton}
+                {/* Login / account — pinned to the very bottom of the screen */}
+                <div className="shrink-0 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                  {accountButton}
+                </div>
               </div>
             )}
           </div>
