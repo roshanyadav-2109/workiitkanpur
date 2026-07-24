@@ -16,12 +16,7 @@ export function SubjectBlock({ subject }: { subject: SubjectLite }) {
       onClick={() =>
         subject.is_active ? goToSubject(subject.slug) : router.push("/app/subjects")
       }
-      className={cn(
-        "group inline-flex h-14 items-center gap-3 rounded-[10px] border-2 px-5 text-[15px] font-semibold transition-colors",
-        subject.is_active
-          ? "border-accent/30 bg-accent-weak hover:bg-accent/10"
-          : "border-[#3d3d3d] hover:bg-surface",
-      )}
+      className="group inline-flex h-14 items-center gap-3 rounded-[10px] border-2 border-[#3d3d3d] px-5 text-[15px] font-semibold transition-colors hover:bg-surface"
     >
       <SubjectLogo
         slug={subject.slug}
