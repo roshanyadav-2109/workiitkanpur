@@ -25,7 +25,7 @@ export function AuthShell({
         <header className="flex h-14 items-center px-6 sm:px-10">
           <Link href="/" className="flex items-center lg:hidden">
             <span className="text-[15px] font-medium tracking-[-0.01em]">
-              IITM BS Community
+              OPPE Practice
             </span>
           </Link>
         </header>

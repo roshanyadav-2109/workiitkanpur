@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 /** Web app manifest — installability + richer mobile/search presentation. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "IITM BS Community — OPPE Practice",
-    short_name: "IITM BS Community",
+    name: "OPPE Practice — IIT Madras BS Degree OPPE",
+    short_name: "OPPE Practice",
     description:
       "OPPE practice for the IIT Madras BS Degree — previous-year questions and timed mocks with in-browser grading.",
     start_url: "/",

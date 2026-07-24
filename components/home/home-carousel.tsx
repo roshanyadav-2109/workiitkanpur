@@ -213,7 +213,7 @@ const sheen = (a: string, b: string) =>
 const SLIDES: Slide[] = [
   {
     title: "Unlimited practice",
-    subtitle: "Solve as many exam-style problems as you like — completely free.",
+    subtitle: "Solve exam-style problems, timed and graded like the real OPPE.",
     cta: "Start practising",
     href: "/app/subjects",
     bg: sheen("#3a2d7a", "#241a4d"),

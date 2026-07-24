@@ -42,9 +42,9 @@ const POSTERS: Poster[] = [
     glyph: "◷",
   },
   {
-    kicker: "Free forever",
+    kicker: "Practise more",
     title: "No limits.",
-    sub: "Unlimited questions and mock tests, at zero cost.",
+    sub: "Unlimited questions and full mock tests, whenever you want to practise.",
     cta: "Explore",
     href: "/app/subjects",
     bg: "linear-gradient(160deg,#15468c,#0b2450)",

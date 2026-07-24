@@ -14,7 +14,7 @@ export function TopNav({ right }: { right?: React.ReactNode }) {
         <MobileNav />
         <Link href="/" className="flex items-center text-fg">
           <span className="text-[15px] font-medium tracking-[-0.01em]">
-            IITM BS Community
+            OPPE Practice
           </span>
         </Link>
         <MarketingNav />

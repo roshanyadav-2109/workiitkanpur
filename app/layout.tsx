@@ -34,12 +34,12 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "IITM BS Community — OPPE Practice for the IIT Madras BS Degree",
-    template: "%s — IITM BS Community",
+    default: "OPPE Practice — OPPE Prep for the IIT Madras BS Degree",
+    template: "%s — OPPE Practice",
   },
   description:
-    "Free OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code in the browser, get instant grading, and track your progress.",
-  applicationName: "IITM BS Community",
+    "OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code in the browser, get instant grading, and track your progress.",
+  applicationName: "OPPE Practice",
   keywords: [
     "IIT Madras BS Degree",
     "IITM BS",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   category: "education",
   openGraph: {
     type: "website",
-    siteName: "IITM BS Community",
+    siteName: "OPPE Practice",
     title: "OPPE Practice for the IIT Madras BS Degree",
     description:
       "Solve previous-year OPPE questions and full timed mocks in Python, DBMS and more — write code in the browser with instant grading.",

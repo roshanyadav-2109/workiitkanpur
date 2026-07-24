@@ -7,8 +7,9 @@ import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks
 import { HomeCarousel } from "@/components/home/home-carousel";
 import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
-import { getCurriculum } from "@/lib/queries";
+import { getCurriculum, getCurrentUser, getProfilePhone } from "@/lib/queries";
 import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
+import { FeedbackForm } from "@/components/home/feedback-form";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   jsonLdGraph,
@@ -46,9 +47,9 @@ const FAQS = [
       "Yes. You can practise previous-year OPPE questions for OPPE 1 and OPPE 2, alongside fresh mock test series set at a similar or higher difficulty.",
   },
   {
-    question: "Is IITM BS Community free to use?",
+    question: "Do I need an account to practise?",
     answer:
-      "Yes — you can browse subjects and start practising for free. Sign in with Google to save your progress, download solutions and appear on the leaderboard.",
+      "Browse the subjects and syllabus openly. Sign in with Google to practise questions, save your progress, download solutions and appear on the leaderboard.",
   },
   {
     question: "Which subjects can I practise?",
@@ -63,6 +64,15 @@ const jsonLd = jsonLdGraph([websiteNode(), organizationNode(), faqNode(FAQS)]);
 export default async function LandingPage() {
   const supabase = await createClient();
   const curriculum = await getCurriculum();
+
+  // Pre-fill the feedback form for a signed-in visitor (still fully editable).
+  const user = await getCurrentUser();
+  const meta = (user?.user_metadata ?? {}) as Record<string, string>;
+  const feedbackDefaults = {
+    name: meta.full_name || meta.name || "",
+    email: user?.email || "",
+    phone: user ? ((await getProfilePhone(user.id)) ?? "") : "",
+  };
   const { data: subjects } = await supabase
     .from("subjects")
     .select("slug, name, short_code, is_active")
@@ -171,6 +181,21 @@ export default async function LandingPage() {
                   </p>
                 </div>
               ))}
+            </div>
+          </section>
+          {/* Feedback — real backend, login optional, prefilled when signed in */}
+          <section className="mx-auto w-full max-w-[1500px] px-3 pb-20 sm:w-[90%] sm:px-5">
+            <div className="mx-auto max-w-[760px] rounded-[12px] border border-hairline bg-white p-6 sm:p-8">
+              <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
+                Share your feedback
+              </h2>
+              <p className="mt-1 text-[14px] text-fg-muted">
+                Found a bug, want a subject added, or have a suggestion? Tell us
+                — no login needed.
+              </p>
+              <div className="mt-6">
+                <FeedbackForm defaults={feedbackDefaults} />
+              </div>
             </div>
           </section>
         </main>
