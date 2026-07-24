@@ -30,6 +30,11 @@ import {
   breadcrumbNode,
   courseNode,
 } from "@/lib/seo";
+import { getSubjectContent, type SubjectContent } from "@/lib/subject-content";
+import {
+  SyllabusPanel,
+  ArticlePanel,
+} from "@/components/curriculum/subject-content";
 
 export async function generateMetadata({
   params,
@@ -78,8 +83,16 @@ export default async function SubjectDetailPage({
   // real, crawlable page — it just shows a "coming soon" landing instead of the
   // practice UI. Only a non-existent subject 404s.
   if (!subject.is_active) {
-    return <ComingSoonSubject slug={slug} name={subject.name} />;
+    return (
+      <ComingSoonSubject
+        slug={slug}
+        name={subject.name}
+        content={getSubjectContent(slug)}
+      />
+    );
   }
+
+  const content = getSubjectContent(slug);
 
   const [topics, questions, banners, curriculum, allSets, user] =
     await Promise.all([
@@ -166,6 +179,8 @@ export default async function SubjectDetailPage({
           <TestSeriesList slug={slug} sets={mockSets} past={pastTests} />
         }
         pyqs={<TestSeriesList slug={slug} sets={pyqSets} past={pastTests} />}
+        syllabus={content ? <SyllabusPanel content={content} /> : undefined}
+        articles={content ? <ArticlePanel content={content} /> : undefined}
       >
         <QuestionTable
           curriculum={curriculum}
@@ -183,7 +198,15 @@ export default async function SubjectDetailPage({
  * Real keyword content so it can rank, a clear "coming soon" state, and a path
  * to the subject that IS live — never an empty practice table.
  */
-function ComingSoonSubject({ slug, name }: { slug: string; name: string }) {
+function ComingSoonSubject({
+  slug,
+  name,
+  content,
+}: {
+  slug: string;
+  name: string;
+  content: SubjectContent | null;
+}) {
   const jsonLd = jsonLdGraph([
     breadcrumbNode([
       { name: "Home", path: "/" },
@@ -211,15 +234,16 @@ function ComingSoonSubject({ slug, name }: { slug: string; name: string }) {
 
       <div className="max-w-[72ch] space-y-4 text-[15px] leading-relaxed text-fg">
         <p>
-          Practise <strong>{name}</strong> for the IIT Madras BS Degree OPPE.
-          We&apos;re building a full practice bank for this subject — previous-year
-          questions (PYQs) and timed mock tests, graded instantly in your
-          browser, just like the real OPPE.
+          Practise <strong>{name}</strong>{" "}
+          for the IIT Madras BS Degree OPPE. We&apos;re building a full practice
+          bank for this subject — previous-year questions (PYQs) and timed mock
+          tests, graded instantly in your browser, just like the real OPPE.
         </p>
         <p className="text-fg-muted">
-          {name} practice isn&apos;t open yet. It will include topic-wise
-          questions, OPPE&nbsp;1 and OPPE&nbsp;2 previous-year papers, full mock
-          test series, and progress tracking against the leaderboard.
+          {name}{" "}
+          practice isn&apos;t open yet. It will include topic-wise questions,
+          OPPE&nbsp;1 and OPPE&nbsp;2 previous-year papers, full mock test
+          series, and progress tracking against the leaderboard.
         </p>
       </div>
 
@@ -237,6 +261,24 @@ function ComingSoonSubject({ slug, name }: { slug: string; name: string }) {
           Browse all subjects
         </Link>
       </div>
+
+      {/* Real content — syllabus + guide — so this pre-launch page is worth
+          ranking, not a thin placeholder. */}
+      {content && (
+        <div className="mt-14 space-y-14 border-t border-hairline pt-10">
+          <section>
+            <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
+              {name} OPPE syllabus
+            </h2>
+            <div className="mt-4">
+              <SyllabusPanel content={content} />
+            </div>
+          </section>
+          <section>
+            <ArticlePanel content={content} />
+          </section>
+        </div>
+      )}
     </>
   );
 }

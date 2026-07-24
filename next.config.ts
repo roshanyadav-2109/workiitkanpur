@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(),
   },
+  // The subject pages read their syllabus/article markdown from content/ at
+  // runtime; make sure those files are bundled into the route's function.
+  outputFileTracingIncludes: {
+    "/app/subjects/[slug]": ["./content/subjects/**/*"],
+  },
 };
 
 export default nextConfig;

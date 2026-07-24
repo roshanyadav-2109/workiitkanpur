@@ -58,12 +58,23 @@ export function SubjectSections({
   children,
   testSeries,
   pyqs,
+  syllabus,
+  articles,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
   pyqs?: React.ReactNode;
+  syllabus?: React.ReactNode;
+  articles?: React.ReactNode;
 }) {
   const [active, setActive] = useState("practice");
+  // Syllabus / Articles light up only when the page actually carries that
+  // content; otherwise they stay "soon" like Resources.
+  const availableById: Record<string, boolean | undefined> = {
+    syllabus: !!syllabus,
+    articles: !!articles,
+  };
+  const isAvailable = (s: Section) => availableById[s.id] ?? s.available;
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
 
   const chip =
@@ -97,7 +108,7 @@ export function SubjectSections({
                 )}
               >
                 <span>{s.label}</span>
-                {!s.available && (
+                {!isAvailable(s) && (
                   <span className="rounded-full bg-canvas px-1.5 py-0.5 text-[10px] font-normal text-fg-faint">
                     soon
                   </span>
@@ -128,7 +139,7 @@ export function SubjectSections({
                 )}
               >
                 <span>{s.label}</span>
-                {!s.available && (
+                {!isAvailable(s) && (
                   <span
                     className={cn(
                       "rounded-full px-1.5 py-0.5 text-[10px] font-normal",
@@ -156,6 +167,10 @@ export function SubjectSections({
             testSeries
           ) : active === "pyqs" ? (
             pyqs
+          ) : active === "syllabus" && syllabus ? (
+            syllabus
+          ) : active === "articles" && articles ? (
+            articles
           ) : (
             <div className="py-12 text-center">
               <p className="text-[15px] font-medium">
