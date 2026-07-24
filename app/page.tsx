@@ -166,9 +166,6 @@ export default async function LandingPage() {
             <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
               Frequently asked questions
             </h2>
-            <p className="mt-1 text-[14px] text-fg-muted">
-              Practising for the IIT Madras BS Degree OPPE exams.
-            </p>
             <div className="mt-6 grid gap-x-10 gap-y-6 md:grid-cols-2">
               {FAQS.map((f) => (
                 <div key={f.question}>
