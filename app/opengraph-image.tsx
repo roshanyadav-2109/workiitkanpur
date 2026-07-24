@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "OPPE Practice — OPPE prep for the IIT Madras BS Degree";
+export const alt =
+  "IITM BS Community — OPPE Practice for the IIT Madras BS Degree";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

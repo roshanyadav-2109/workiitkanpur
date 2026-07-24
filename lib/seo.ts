@@ -11,10 +11,7 @@ import type { Metadata } from "next";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
-/** The site/product name (shown in the browser tab, top bar, social cards). */
-export const SITE_NAME = "OPPE Practice";
-/** The student community behind the site — used for attribution/organisation. */
-export const COMMUNITY_NAME = "IITM BS Community";
+export const SITE_NAME = "IITM BS Community";
 export const SITE_TAGLINE = "OPPE Practice for the IIT Madras BS Degree";
 export const SITE_LOCALE = "en_IN";
 
@@ -118,7 +115,7 @@ export function organizationNode() {
   return {
     "@type": "EducationalOrganization",
     "@id": `${SITE_URL}/#organization`,
-    name: COMMUNITY_NAME,
+    name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/iitm-logo-color.svg`,
     description:
