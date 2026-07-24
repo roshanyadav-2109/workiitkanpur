@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+
+// Google Analytics 4 (gtag.js) measurement ID.
+const GA_ID = "G-JK1FNY0TB5";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,6 +47,19 @@ export default function RootLayout({
         {/* Accent bar across the very top, above every page's navbar. */}
         <div className="h-1.5 w-full bg-accent" />
         <ThemeProvider>{children}</ThemeProvider>
+
+        {/* Google tag (gtag.js) — loads after hydration, the strategy Next
+            recommends for analytics/tag managers. */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
       </body>
     </html>
   );
