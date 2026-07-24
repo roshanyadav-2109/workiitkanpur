@@ -25,13 +25,66 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+// Public origin — used as the base for canonical URLs, sitemap and OG tags.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "IITM BS Community",
+    default: "IITM BS Community — OPPE Practice for the IIT Madras BS Degree",
     template: "%s — IITM BS Community",
   },
   description:
-    "Focused practice for the IIT Madras BS Degree OPPE. Browse curated questions, time your attempts, and watch your progress grow.",
+    "Free OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code in the browser, get instant grading, and track your progress.",
+  applicationName: "IITM BS Community",
+  keywords: [
+    "IIT Madras BS Degree",
+    "IITM BS",
+    "IITM BS Degree",
+    "OPPE",
+    "OPPE practice",
+    "OPPE 1",
+    "OPPE 2",
+    "IITM OPPE questions",
+    "OPPE previous year questions",
+    "PYQ",
+    "IIT Madras online degree",
+    "Programming in Python OPPE",
+    "DBMS OPPE",
+    "IITM BS data science",
+    "OPPE mock test",
+  ],
+  authors: [{ name: "IITM BS Community" }],
+  creator: "IITM BS Community",
+  publisher: "IITM BS Community",
+  category: "education",
+  openGraph: {
+    type: "website",
+    siteName: "IITM BS Community",
+    title: "OPPE Practice for the IIT Madras BS Degree",
+    description:
+      "Solve previous-year OPPE questions and full timed mocks in Python, DBMS and more — write code in the browser with instant grading.",
+    url: SITE_URL,
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OPPE Practice for the IIT Madras BS Degree",
+    description:
+      "Previous-year OPPE questions and timed mocks with in-browser grading. Python, DBMS and more.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({

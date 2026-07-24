@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { ProfileMenu } from "@/components/shell/profile-menu";
 import { SiteFooter } from "@/components/marketing/site-footer";
@@ -8,6 +9,44 @@ import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
 import { getCurriculum } from "@/lib/queries";
 import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
+
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      "OPPE Practice for the IIT Madras BS Degree — PYQs & Timed Mocks",
+  },
+  description:
+    "Prepare for the IIT Madras BS Degree OPPE with previous-year questions and full timed mock tests in Programming in Python, DBMS and more. Write and run code in your browser, get graded instantly, and climb the leaderboard.",
+  alternates: { canonical: "/" },
+};
+
+// Structured data so search engines understand the site and organisation.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "IITM BS Community",
+      description:
+        "OPPE practice for the IIT Madras BS Degree — previous-year questions and timed mocks with in-browser grading.",
+      inLanguage: "en-IN",
+    },
+    {
+      "@type": "EducationalOrganization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "IITM BS Community",
+      url: SITE_URL,
+      logo: `${SITE_URL}/iitm-logo-color.svg`,
+      description:
+        "A practice platform for the IIT Madras Online BS Degree OPPE exams.",
+    },
+  ],
+};
 
 export default async function LandingPage() {
   const supabase = await createClient();
@@ -38,6 +77,10 @@ export default async function LandingPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <TopNav right={<ProfileMenu />} />
 
       <CoursePickerProvider subjects={allSubjects} curriculum={curriculum}>
