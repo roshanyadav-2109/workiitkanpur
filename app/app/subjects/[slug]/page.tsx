@@ -286,7 +286,8 @@ function ComingSoonSubject({
           {articles.length > 0 && (
             <section>
               <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
-                {name} articles &amp; guides
+                {name}
+                {" articles & guides"}
               </h2>
               <div className="mt-4">
                 <ArticlesList articles={articles} />
