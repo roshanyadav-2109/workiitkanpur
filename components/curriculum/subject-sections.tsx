@@ -35,6 +35,18 @@ const SECTIONS: Section[] = [
     note: "Notes, cheat-sheets, and references for the subject.",
     available: false,
   },
+  {
+    id: "syllabus",
+    label: "Syllabus",
+    note: "The full OPPE syllabus and week-by-week topic breakdown for this subject.",
+    available: false,
+  },
+  {
+    id: "articles",
+    label: "Articles",
+    note: "Guides, tips and walkthroughs for cracking the OPPE.",
+    available: false,
+  },
 ];
 
 /** Section switcher for a subject.
