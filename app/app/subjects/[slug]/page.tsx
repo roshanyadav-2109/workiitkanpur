@@ -22,6 +22,13 @@ import { SubjectSections } from "@/components/curriculum/subject-sections";
 import { TestSeriesList } from "@/components/curriculum/test-series-list";
 import { BannerCarousel } from "@/components/curriculum/banner-carousel";
 import { setMeta } from "@/lib/test-series";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  pageMetadata,
+  jsonLdGraph,
+  breadcrumbNode,
+  courseNode,
+} from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -30,7 +37,26 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const subject = await getSubjectBySlug(slug);
-  return { title: subject?.name ?? "Subject" };
+  if (!subject) {
+    return pageMetadata({
+      title: "Subject",
+      description: "Practice subject for the IIT Madras BS Degree OPPE.",
+      path: `/app/subjects/${slug}`,
+      index: false,
+    });
+  }
+  return pageMetadata({
+    title: `${subject.name} — OPPE Practice`,
+    description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE. Solve previous-year questions (PYQs) and full timed mock tests, write code in your browser, and get graded instantly.`,
+    path: `/app/subjects/${slug}`,
+    keywords: [
+      `${subject.name} OPPE`,
+      `${subject.name} OPPE practice`,
+      `${subject.name} previous year questions`,
+      `${subject.name} quiz`,
+      `${subject.name} mock test`,
+    ],
+  });
 }
 
 export default async function SubjectDetailPage({
@@ -90,8 +116,22 @@ export default async function SubjectDetailPage({
   const mockSets = allSets.filter((s) => s.category === "mock").map(setMeta);
   const pyqSets = allSets.filter((s) => s.category === "pyq").map(setMeta);
 
+  const jsonLd = jsonLdGraph([
+    breadcrumbNode([
+      { name: "Home", path: "/" },
+      { name: "Subjects", path: "/app/subjects" },
+      { name: subject.name, path: `/app/subjects/${slug}` },
+    ]),
+    courseNode({
+      name: `${subject.name} — OPPE Practice`,
+      description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE with previous-year questions and timed mock tests.`,
+      path: `/app/subjects/${slug}`,
+    }),
+  ]);
+
   return (
     <>
+      <JsonLd data={jsonLd} />
       {/* Image banner carousel (DB-managed) — breaks out of the page container
           to ~95vw. Slides & their links live in the carousel_banners table. */}
       {banners.length > 0 && (
@@ -105,6 +145,11 @@ export default async function SubjectDetailPage({
         <h1 className="text-[26px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[30px]">
           {subject.name}
         </h1>
+        <p className="mt-1.5 max-w-[70ch] text-[14px] leading-relaxed text-fg-muted">
+          Practise {subject.name} for the IIT Madras BS Degree OPPE — solve
+          previous-year questions and timed mock tests with instant in-browser
+          grading.
+        </p>
       </header>
 
       <SubjectSections

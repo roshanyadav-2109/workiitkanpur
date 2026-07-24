@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
@@ -15,8 +14,20 @@ import { SkillBars } from "@/components/progress/skill-bars";
 import { RankMedal } from "@/components/progress/rank-medal";
 import { buttonVariants } from "@/components/ui/button";
 import { formatClock, formatDurationHuman, cn } from "@/lib/utils";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Leaderboard" };
+export const metadata = pageMetadata({
+  title: "Leaderboard",
+  description:
+    "See the fastest solvers on IITM BS Community. Race the clock on OPPE practice questions and climb the IIT Madras BS Degree leaderboard.",
+  path: "/leaderboard",
+  keywords: [
+    "OPPE leaderboard",
+    "IITM BS leaderboard",
+    "fastest solvers",
+    "IIT Madras BS ranking",
+  ],
+});
 
 export default async function LeaderboardPage() {
   const user = await getCurrentUser();

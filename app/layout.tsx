@@ -101,13 +101,15 @@ export default function RootLayout({
         <div className="h-1.5 w-full bg-accent" />
         <ThemeProvider>{children}</ThemeProvider>
 
-        {/* Google tag (gtag.js) — loads after hydration, the strategy Next
-            recommends for analytics/tag managers. */}
+        {/* Google tag (gtag.js). beforeInteractive so it is injected into the
+            server-rendered HTML head — this is what Google's "verify tag"
+            checker (and Tag Assistant) fetches, so the tag is detectable, not
+            just present after client hydration. */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
-        <Script id="gtag-init" strategy="afterInteractive">
+        <Script id="gtag-init" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());

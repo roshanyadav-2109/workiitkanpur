@@ -1,7 +1,12 @@
-import type { Metadata } from "next";
 import { PageFrame } from "@/components/marketing/page-frame";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Contact us" };
+export const metadata = pageMetadata({
+  title: "Contact us",
+  description:
+    "Questions, bugs, or a subject request for IITM BS Community? Get in touch — we read every message.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

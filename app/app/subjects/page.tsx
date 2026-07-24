@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import {
   getAllQuestionsMinimal,
   getCurrentUser,
@@ -14,8 +13,26 @@ import {
 import { offeringsFor } from "@/lib/curriculum";
 import { getCurriculum } from "@/lib/queries";
 import type { QuestionStatus } from "@/components/ui/status";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  pageMetadata,
+  jsonLdGraph,
+  breadcrumbNode,
+  itemListNode,
+} from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Subjects" };
+export const metadata = pageMetadata({
+  title: "Practice Subjects",
+  description:
+    "Browse every subject you can practise for the IIT Madras BS Degree OPPE — Programming in Python, DBMS and more. Solve questions and take timed mock tests with instant in-browser grading.",
+  path: "/app/subjects",
+  keywords: [
+    "OPPE subjects",
+    "IITM BS subjects",
+    "Python OPPE practice",
+    "DBMS OPPE practice",
+  ],
+});
 
 export default async function SubjectsPage() {
   const user = await getCurrentUser();
@@ -63,8 +80,23 @@ export default async function SubjectsPage() {
     };
   });
 
+  const activeCards = cards.filter((c) => c.active);
+  const jsonLd = jsonLdGraph([
+    breadcrumbNode([
+      { name: "Home", path: "/" },
+      { name: "Subjects", path: "/app/subjects" },
+    ]),
+    itemListNode(
+      activeCards.map((c) => ({
+        name: c.name,
+        path: `/app/subjects/${c.slug}`,
+      })),
+    ),
+  ]);
+
   return (
     <>
+      <JsonLd data={jsonLd} />
       {cards.length === 0 ? (
         <EmptyState
           title="No subjects yet"

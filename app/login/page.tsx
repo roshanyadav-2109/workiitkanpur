@@ -1,8 +1,13 @@
-import type { Metadata } from "next";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { AuthForm } from "@/components/auth/auth-form";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Sign in" };
+export const metadata = pageMetadata({
+  title: "Sign in",
+  description:
+    "Sign in to IITM BS Community to practise for the IIT Madras BS Degree OPPE — save your progress, download solutions and join the leaderboard.",
+  path: "/login",
+});
 
 export default async function LoginPage({
   searchParams,

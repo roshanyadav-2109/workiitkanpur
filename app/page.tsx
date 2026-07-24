@@ -9,9 +9,13 @@ import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
 import { getCurriculum } from "@/lib/queries";
 import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  jsonLdGraph,
+  websiteNode,
+  organizationNode,
+  faqNode,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
@@ -23,30 +27,38 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-// Structured data so search engines understand the site and organisation.
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: "IITM BS Community",
-      description:
-        "OPPE practice for the IIT Madras BS Degree — previous-year questions and timed mocks with in-browser grading.",
-      inLanguage: "en-IN",
-    },
-    {
-      "@type": "EducationalOrganization",
-      "@id": `${SITE_URL}/#organization`,
-      name: "IITM BS Community",
-      url: SITE_URL,
-      logo: `${SITE_URL}/iitm-logo-color.svg`,
-      description:
-        "A practice platform for the IIT Madras Online BS Degree OPPE exams.",
-    },
-  ],
-};
+// Real, on-page answers to the questions people actually search — doubles as
+// FAQ structured data (rendered below and mirrored into JSON-LD).
+const FAQS = [
+  {
+    question: "What is the IIT Madras BS Degree OPPE?",
+    answer:
+      "The OPPE (Online Proctored Programming Exam) is the practical, proctored exam in IIT Madras BS Degree programming courses such as Programming in Python and DBMS. IITM BS Community lets you practise for it with real question types, a timer and instant grading.",
+  },
+  {
+    question: "How can I practise for the OPPE?",
+    answer:
+      "Pick a subject, solve practice questions in the in-browser editor, and take full timed mock tests that mirror the real OPPE. Your code is graded instantly against sample and hidden test cases, and your accuracy, speed and coverage are tracked over time.",
+  },
+  {
+    question: "Are previous-year OPPE questions (PYQs) available?",
+    answer:
+      "Yes. You can practise previous-year OPPE questions for OPPE 1 and OPPE 2, alongside fresh mock test series set at a similar or higher difficulty.",
+  },
+  {
+    question: "Is IITM BS Community free to use?",
+    answer:
+      "Yes — you can browse subjects and start practising for free. Sign in with Google to save your progress, download solutions and appear on the leaderboard.",
+  },
+  {
+    question: "Which subjects can I practise?",
+    answer:
+      "Programming in Python is live now, with Database Management (DBMS) and more subjects across the Data Science and Electronic Systems branches on the way.",
+  },
+];
+
+// Structured data: the site, the organisation, and the FAQ above.
+const jsonLd = jsonLdGraph([websiteNode(), organizationNode(), faqNode(FAQS)]);
 
 export default async function LandingPage() {
   const supabase = await createClient();
@@ -77,10 +89,7 @@ export default async function LandingPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
       <TopNav right={<ProfileMenu />} />
 
       <CoursePickerProvider subjects={allSubjects} curriculum={curriculum}>
@@ -138,8 +147,30 @@ export default async function LandingPage() {
           </section>
 
           {/* How it works — animated product demo */}
-          <section className="mx-auto w-full max-w-[1500px] px-3 pb-20 sm:w-[90%] sm:px-5">
+          <section className="mx-auto w-full max-w-[1500px] px-3 pb-12 sm:w-[90%] sm:px-5">
             <HomeDemo />
+          </section>
+
+          {/* FAQ — genuine on-page content for search, mirrored as FAQ schema */}
+          <section className="mx-auto w-full max-w-[1500px] px-3 pb-20 sm:w-[90%] sm:px-5">
+            <h2 className="text-[22px] font-bold tracking-[-0.01em] text-fg">
+              Frequently asked questions
+            </h2>
+            <p className="mt-1 text-[14px] text-fg-muted">
+              Practising for the IIT Madras BS Degree OPPE exams.
+            </p>
+            <div className="mt-6 grid gap-x-10 gap-y-6 md:grid-cols-2">
+              {FAQS.map((f) => (
+                <div key={f.question}>
+                  <h3 className="text-[16px] font-semibold text-fg">
+                    {f.question}
+                  </h3>
+                  <p className="mt-1.5 text-[14px] leading-relaxed text-fg-muted">
+                    {f.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
           </section>
         </main>
       </CoursePickerProvider>

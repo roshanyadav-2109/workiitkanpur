@@ -1,7 +1,12 @@
-import type { Metadata } from "next";
 import { LegalFrame, type LegalSection } from "@/components/marketing/legal-frame";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Terms & Conditions" };
+export const metadata = pageMetadata({
+  title: "Terms & Conditions",
+  description:
+    "The terms of use for IITM BS Community, the OPPE practice platform for the IIT Madras BS Degree.",
+  path: "/terms",
+});
 
 const SECTIONS: LegalSection[] = [
   {
