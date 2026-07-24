@@ -45,6 +45,8 @@ export function ArticlesList({ articles }: { articles: ArticleMeta[] }) {
         <Link
           key={a.slug}
           href={`/app/subjects/${a.subject}/articles/${a.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="group flex gap-4 py-5 sm:gap-5"
         >
           <ArticleFrame />
@@ -74,21 +76,66 @@ export function ArticlesList({ articles }: { articles: ArticleMeta[] }) {
   );
 }
 
-/** A full article, rendered on its own page. */
-export function ArticleView({ article }: { article: Article }) {
+/** A full article, rendered on its own page — newspaper style. */
+export function ArticleView({
+  article,
+  subjectName,
+}: {
+  article: Article;
+  subjectName: string;
+}) {
   return (
     <article>
-      <h1 className="text-[24px] font-semibold leading-tight tracking-[-0.02em] text-fg sm:text-[30px]">
+      {/* Hero image frame — violet placeholder (no cover image yet). */}
+      <div className="mb-7 h-[180px] w-full rounded-[3px] bg-gradient-to-br from-[#6d5ce2] via-[#5a48d6] to-[#4a39c0] sm:h-[300px]" />
+      <h1 className="text-[27px] font-bold leading-[1.12] tracking-[-0.02em] text-fg sm:text-[36px]">
         {article.title}
       </h1>
-      {article.date && (
-        <div className="mt-2 text-[13px] text-fg-muted">
-          {formatDate(article.date)}
-        </div>
-      )}
-      <div className="mt-6">
-        <Markdown>{article.body}</Markdown>
+      <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-fg-muted">
+        <span className="font-medium text-accent">{subjectName}</span>
+        {article.date && (
+          <>
+            <span aria-hidden>·</span>
+            <span>{formatDate(article.date)}</span>
+          </>
+        )}
+      </div>
+      <div className="mt-7">
+        <Markdown className="prose-article">{article.body}</Markdown>
       </div>
     </article>
+  );
+}
+
+/** Right-rail block of more articles (from this and other subjects). */
+export function SuggestedArticles({ articles }: { articles: ArticleMeta[] }) {
+  if (articles.length === 0) return null;
+  return (
+    <div className="rounded-[3px] border border-hairline bg-surface p-5">
+      <h2 className="text-[15px] font-bold text-fg">More OPPE guides</h2>
+      <div className="mt-4 space-y-4">
+        {articles.map((a) => (
+          <Link
+            key={`${a.subject}/${a.slug}`}
+            href={`/app/subjects/${a.subject}/articles/${a.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex gap-3"
+          >
+            <div className="h-12 w-16 shrink-0 rounded-[3px] bg-gradient-to-br from-[#6d5ce2] to-[#5a48d6]" />
+            <div className="min-w-0">
+              <h3 className="line-clamp-2 text-[13.5px] font-medium leading-snug text-fg transition-colors group-hover:text-accent">
+                {a.title}
+              </h3>
+              {a.date && (
+                <div className="mt-1 text-[11.5px] text-fg-faint">
+                  {formatDate(a.date)}
+                </div>
+              )}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }

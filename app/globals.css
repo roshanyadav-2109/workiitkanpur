@@ -266,6 +266,24 @@
   max-width: 100%;
 }
 
+/* Long-form article body — newspaper feel: larger regular body, bold headings. */
+.prose-oppe.prose-article {
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.prose-oppe.prose-article h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 2rem;
+}
+.prose-oppe.prose-article h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-top: 1.5rem;
+}
+
 /* Animated highlighter marker behind a headline word (accent). */
 .highlight-word {
   position: relative;

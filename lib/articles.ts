@@ -81,6 +81,21 @@ export const listArticles = cache(function listArticles(
   return metas;
 });
 
+/** Every article across all subjects, newest first — for related/suggested lists. */
+export const listAllArticles = cache(function listAllArticles(): ArticleMeta[] {
+  let subjects: string[];
+  try {
+    subjects = readdirSync(ARTICLES_DIR, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name);
+  } catch {
+    return [];
+  }
+  const all = subjects.flatMap((s) => listArticles(s));
+  all.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  return all;
+});
+
 /** One full article, or null if it doesn't exist. */
 export const getArticle = cache(function getArticle(
   subject: string,

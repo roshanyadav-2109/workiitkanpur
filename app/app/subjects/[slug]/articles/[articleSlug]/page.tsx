@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getSubjectBySlug } from "@/lib/queries";
-import { getArticle } from "@/lib/articles";
-import { ArticleView } from "@/components/curriculum/subject-content";
+import { getArticle, listAllArticles } from "@/lib/articles";
+import {
+  ArticleView,
+  SuggestedArticles,
+} from "@/components/curriculum/subject-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   pageMetadata,
@@ -47,6 +49,12 @@ export default async function ArticlePage({ params }: Params) {
   const subjectName = subject?.name ?? slug;
   const path = `/app/subjects/${slug}/articles/${articleSlug}`;
 
+  // Suggested reading — every other article, same subject first, then the rest.
+  const suggested = listAllArticles()
+    .filter((a) => !(a.subject === slug && a.slug === articleSlug))
+    .sort((a, b) => (a.subject === slug ? 0 : 1) - (b.subject === slug ? 0 : 1))
+    .slice(0, 6);
+
   const jsonLd = jsonLdGraph([
     breadcrumbNode([
       { name: "Home", path: "/" },
@@ -70,17 +78,18 @@ export default async function ArticlePage({ params }: Params) {
   ]);
 
   return (
-    <div className="mx-auto max-w-[860px]">
+    <div className="mx-auto max-w-[1120px]">
       <JsonLd data={jsonLd} />
-      <nav className="mb-6 text-[13px]">
-        <Link
-          href={`/app/subjects/${slug}`}
-          className="text-fg-muted transition-colors hover:text-fg"
-        >
-          ← {subjectName}
-        </Link>
-      </nav>
-      <ArticleView article={article} />
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <div className="min-w-0">
+          <ArticleView article={article} subjectName={subjectName} />
+        </div>
+        <aside className="min-w-0">
+          <div className="lg:sticky lg:top-[72px]">
+            <SuggestedArticles articles={suggested} />
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
