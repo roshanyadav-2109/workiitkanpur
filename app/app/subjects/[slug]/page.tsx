@@ -22,12 +22,14 @@ import { SubjectSections } from "@/components/curriculum/subject-sections";
 import { TestSeriesList } from "@/components/curriculum/test-series-list";
 import { BannerCarousel } from "@/components/curriculum/banner-carousel";
 import { setMeta } from "@/lib/test-series";
+import Link from "next/link";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   pageMetadata,
   jsonLdGraph,
   breadcrumbNode,
   courseNode,
+  INDEXED_SOON_SLUGS,
 } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -37,9 +39,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const subject = await getSubjectBySlug(slug);
-  if (!subject) {
+  // Only live subjects and the ones we're pre-indexing belong in search; every
+  // other inactive subject renders "not found", so keep it out of the index.
+  const indexable =
+    !!subject && (subject.is_active || INDEXED_SOON_SLUGS.includes(slug));
+  if (!subject || !indexable) {
     return pageMetadata({
-      title: "Subject",
+      title: subject?.name ?? "Subject",
       description: "Practice subject for the IIT Madras BS Degree OPPE.",
       path: `/app/subjects/${slug}`,
       index: false,
@@ -69,8 +75,15 @@ export default async function SubjectDetailPage({
   const { slug } = await params;
   const { exam } = await searchParams;
   const subject = await getSubjectBySlug(slug);
-  // is_active is the release switch — inactive subjects are not browsable.
-  if (!subject || !subject.is_active) notFound();
+  if (!subject) notFound();
+  // is_active is the release switch. Inactive subjects 404 — EXCEPT the ones we
+  // want crawlable ahead of launch, which render a "coming soon" landing.
+  const indexedSoon = !subject.is_active && INDEXED_SOON_SLUGS.includes(slug);
+  if (!subject.is_active && !indexedSoon) notFound();
+
+  if (indexedSoon) {
+    return <ComingSoonSubject slug={slug} name={subject.name} />;
+  }
 
   const [topics, questions, banners, curriculum, allSets, user] =
     await Promise.all([
@@ -165,6 +178,69 @@ export default async function SubjectDetailPage({
           initialExam={exam}
         />
       </SubjectSections>
+    </>
+  );
+}
+
+/**
+ * Crawlable landing for a subject that isn't open for practice yet (DBMS, PDSA).
+ * Real keyword content so it can rank, a clear "coming soon" state, and a path
+ * to the subject that IS live — never an empty practice table.
+ */
+function ComingSoonSubject({ slug, name }: { slug: string; name: string }) {
+  const jsonLd = jsonLdGraph([
+    breadcrumbNode([
+      { name: "Home", path: "/" },
+      { name: "Subjects", path: "/app/subjects" },
+      { name, path: `/app/subjects/${slug}` },
+    ]),
+    courseNode({
+      name: `${name} — OPPE Practice`,
+      description: `Practise ${name} for the IIT Madras BS Degree OPPE with previous-year questions and timed mock tests.`,
+      path: `/app/subjects/${slug}`,
+    }),
+  ]);
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <header className="mb-4">
+        <span className="inline-flex items-center gap-1.5 rounded-[3px] border border-accent-border/50 bg-accent-weak px-2.5 py-1 text-[12px] font-medium text-accent">
+          Coming soon
+        </span>
+        <h1 className="mt-3 text-[26px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[32px]">
+          {name} — OPPE Practice
+        </h1>
+      </header>
+
+      <div className="max-w-[72ch] space-y-4 text-[15px] leading-relaxed text-fg">
+        <p>
+          Practise <strong>{name}</strong> for the IIT Madras BS Degree OPPE.
+          We&apos;re building a full practice bank for this subject — previous-year
+          questions (PYQs) and timed mock tests, graded instantly in your
+          browser, just like the real OPPE.
+        </p>
+        <p className="text-fg-muted">
+          {name} practice isn&apos;t open yet. It will include topic-wise
+          questions, OPPE&nbsp;1 and OPPE&nbsp;2 previous-year papers, full mock
+          test series, and progress tracking against the leaderboard.
+        </p>
+      </div>
+
+      <div className="mt-7 flex flex-wrap gap-3">
+        <Link
+          href="/app/subjects/python"
+          className="inline-flex h-10 items-center justify-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-semibold text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
+        >
+          Start with Programming in Python →
+        </Link>
+        <Link
+          href="/app/subjects"
+          className="inline-flex h-10 items-center justify-center rounded-[8px] border border-hairline-strong px-5 text-[13px] font-medium text-fg transition-colors hover:bg-surface"
+        >
+          Browse all subjects
+        </Link>
+      </div>
     </>
   );
 }

@@ -20,10 +20,10 @@ import {
 export const metadata: Metadata = {
   title: {
     absolute:
-      "OPPE Practice for the IIT Madras BS Degree — PYQs & Timed Mocks",
+      "OPPE Practice — Practise OPPE Exams of the Online IIT Madras BS Degree",
   },
   description:
-    "Prepare for the IIT Madras BS Degree OPPE with previous-year questions and full timed mock tests in Programming in Python, DBMS and more. Write and run code in your browser, get graded instantly, and climb the leaderboard.",
+    "OPPE practice for the Online IIT Madras BS Degree. Practise OPPE exams with previous-year questions (PYQs) and full timed mock tests in Programming in Python, DBMS and more — write and run code in your browser, get graded instantly, and climb the leaderboard.",
   alternates: { canonical: "/" },
 };
 
@@ -109,9 +109,10 @@ export default async function LandingPage() {
               </p>
             </div>
 
-            <h1 className="mt-4 text-[32px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[46px]">
-              Practice for your{" "}
-              <span className="highlight-word">OPPE Exams</span>
+            <h1 className="mt-4 text-[27px] font-semibold leading-[1.08] tracking-[-0.02em] sm:text-[40px]">
+              OPPE Practice — practise the{" "}
+              <span className="highlight-word">OPPE Exams</span>{" "}
+              of the Online IIT&nbsp;Madras BS Degree
             </h1>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

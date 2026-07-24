@@ -15,6 +15,14 @@ export const SITE_NAME = "IITM BS Community";
 export const SITE_TAGLINE = "OPPE Practice for the IIT Madras BS Degree";
 export const SITE_LOCALE = "en_IN";
 
+/**
+ * Subjects that are not live for practice yet, but whose landing page should
+ * still be crawlable and indexed (so searches like "DBMS OPPE practice" find
+ * us). Their pages render a "coming soon" landing instead of the practice UI,
+ * and they are included in the sitemap. Python etc. stay driven by is_active.
+ */
+export const INDEXED_SOON_SLUGS = ["dbms", "pdsa"];
+
 /** Absolute URL for a path, with a clean canonical for the root. */
 export function absoluteUrl(path = "/"): string {
   if (!path || path === "/") return SITE_URL;

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
+import { INDEXED_SOON_SLUGS } from "@/lib/seo";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
@@ -30,24 +31,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: r.priority,
   }));
 
-  // Add a URL for every live subject. Guarded so a build without DB access
-  // still ships the static routes.
+  // A URL for every live subject, plus the pre-launch subjects we want indexed
+  // (their pages render a crawlable "coming soon" landing). Guarded so a build
+  // without DB access still ships the static routes.
+  const subjectSlugs = new Set<string>(INDEXED_SOON_SLUGS);
   try {
     const supabase = await createClient();
     const { data } = await supabase
       .from("subjects")
       .select("slug")
       .eq("is_active", true);
-    for (const s of data ?? []) {
-      entries.push({
-        url: `${SITE_URL}/app/subjects/${s.slug}`,
-        lastModified: now,
-        changeFrequency: "weekly",
-        priority: 0.8,
-      });
-    }
+    for (const s of data ?? []) subjectSlugs.add(s.slug);
   } catch {
-    /* subjects unavailable — static routes are enough for a valid sitemap */
+    /* subjects unavailable — static routes + soon slugs are still a valid sitemap */
+  }
+  for (const slug of subjectSlugs) {
+    entries.push({
+      url: `${SITE_URL}/app/subjects/${slug}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    });
   }
 
   return entries;
