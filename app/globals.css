@@ -261,6 +261,10 @@
 .prose-oppe th {
   font-weight: 500;
 }
+/* Syllabus tables want the full column width, not the 68ch reading measure. */
+.prose-oppe.prose-wide {
+  max-width: 100%;
+}
 
 /* Animated highlighter marker behind a headline word (accent). */
 .highlight-word {

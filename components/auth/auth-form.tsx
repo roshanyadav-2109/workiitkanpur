@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import { lastRoute } from "@/lib/last-route";
-import { Button } from "@/components/ui/button";
 
 /** Multi-colour Google "G". */
 function GoogleG() {
@@ -34,15 +31,7 @@ function GoogleG() {
 /** Matches the default the login page applies when no `next` is given. */
 const DEFAULT_NEXT = "/app/subjects";
 
-export function AuthForm({
-  mode,
-  next,
-}: {
-  mode: "login" | "signup";
-  next: string;
-}) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+export function AuthForm({ next }: { next: string }) {
   const [error, setError] = useState<string | null>(null);
 
   /**
@@ -55,37 +44,11 @@ export function AuthForm({
     return lastRoute() ?? next ?? DEFAULT_NEXT;
   }
 
-  const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
-  const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
-  const showDemo = mode === "login" && !!demoEmail && !!demoPassword;
-
   function onGoogle() {
     setError(null);
     // The whole Google handshake runs on our own domain; Supabase only ever
     // sees the resulting id_token, server side. Just hand off to our route.
     window.location.href = `/auth/google/start?next=${encodeURIComponent(destination())}`;
-  }
-
-  async function onDemo() {
-    setError(null);
-    setLoading(true);
-    const supabase = createClient();
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: demoEmail!,
-        password: demoPassword!,
-      });
-      if (error) throw error;
-      router.replace(destination());
-      router.refresh();
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Could not open the demo account. Please try again.",
-      );
-      setLoading(false);
-    }
   }
 
   return (
@@ -94,8 +57,7 @@ export function AuthForm({
       <button
         type="button"
         onClick={onGoogle}
-        disabled={loading}
-        className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-hairline-strong bg-[#f3f3f6] text-[14.5px] font-medium text-fg transition-colors hover:bg-[#eceaf1] disabled:opacity-50"
+        className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-hairline-strong bg-[#f3f3f6] text-[14.5px] font-medium text-fg transition-colors hover:bg-[#eceaf1]"
       >
         <GoogleG />
         Continue with Google
@@ -120,25 +82,6 @@ export function AuthForm({
         </div>
       )}
 
-      {showDemo && (
-        <>
-          <div className="flex items-center gap-3 py-1">
-            <span className="h-px flex-1 bg-hairline" />
-            <span className="text-[12px] text-fg-faint">or</span>
-            <span className="h-px flex-1 bg-hairline" />
-          </div>
-          <Button
-            type="button"
-            variant="secondary"
-            size="lg"
-            className="w-full"
-            onClick={onDemo}
-            disabled={loading}
-          >
-            Explore the demo account
-          </Button>
-        </>
-      )}
     </div>
   );
 }

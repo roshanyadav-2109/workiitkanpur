@@ -31,9 +31,10 @@ import {
   courseNode,
 } from "@/lib/seo";
 import { getSubjectContent, type SubjectContent } from "@/lib/subject-content";
+import { listArticles, type ArticleMeta } from "@/lib/articles";
 import {
   SyllabusPanel,
-  ArticlePanel,
+  ArticlesList,
 } from "@/components/curriculum/subject-content";
 
 export async function generateMetadata({
@@ -88,11 +89,13 @@ export default async function SubjectDetailPage({
         slug={slug}
         name={subject.name}
         content={getSubjectContent(slug)}
+        articles={listArticles(slug)}
       />
     );
   }
 
   const content = getSubjectContent(slug);
+  const articles = listArticles(slug);
 
   const [topics, questions, banners, curriculum, allSets, user] =
     await Promise.all([
@@ -180,7 +183,9 @@ export default async function SubjectDetailPage({
         }
         pyqs={<TestSeriesList slug={slug} sets={pyqSets} past={pastTests} />}
         syllabus={content ? <SyllabusPanel content={content} /> : undefined}
-        articles={content ? <ArticlePanel content={content} /> : undefined}
+        articles={
+          articles.length ? <ArticlesList articles={articles} /> : undefined
+        }
       >
         <QuestionTable
           curriculum={curriculum}
@@ -202,10 +207,12 @@ function ComingSoonSubject({
   slug,
   name,
   content,
+  articles,
 }: {
   slug: string;
   name: string;
   content: SubjectContent | null;
+  articles: ArticleMeta[];
 }) {
   const jsonLd = jsonLdGraph([
     breadcrumbNode([
@@ -262,21 +269,30 @@ function ComingSoonSubject({
         </Link>
       </div>
 
-      {/* Real content — syllabus + guide — so this pre-launch page is worth
+      {/* Real content — syllabus + articles — so this pre-launch page is worth
           ranking, not a thin placeholder. */}
-      {content && (
+      {(content || articles.length > 0) && (
         <div className="mt-14 space-y-14 border-t border-hairline pt-10">
-          <section>
-            <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
-              {name} OPPE syllabus
-            </h2>
-            <div className="mt-4">
-              <SyllabusPanel content={content} />
-            </div>
-          </section>
-          <section>
-            <ArticlePanel content={content} />
-          </section>
+          {content && (
+            <section>
+              <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
+                {name} OPPE syllabus
+              </h2>
+              <div className="mt-4">
+                <SyllabusPanel content={content} />
+              </div>
+            </section>
+          )}
+          {articles.length > 0 && (
+            <section>
+              <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
+                {name} articles &amp; guides
+              </h2>
+              <div className="mt-4">
+                <ArticlesList articles={articles} />
+              </div>
+            </section>
+          )}
         </div>
       )}
     </>

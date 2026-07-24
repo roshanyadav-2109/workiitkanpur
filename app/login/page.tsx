@@ -29,7 +29,7 @@ export default async function LoginPage({
         </>
       }
     >
-      <AuthForm mode="login" next={target} />
+      <AuthForm next={target} />
     </AuthShell>
   );
 }
