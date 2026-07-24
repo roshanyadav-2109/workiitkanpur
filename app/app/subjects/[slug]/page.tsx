@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
@@ -22,7 +23,6 @@ import { SubjectSections } from "@/components/curriculum/subject-sections";
 import { TestSeriesList } from "@/components/curriculum/test-series-list";
 import { BannerCarousel } from "@/components/curriculum/banner-carousel";
 import { setMeta } from "@/lib/test-series";
-import Link from "next/link";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   pageMetadata,
@@ -30,8 +30,8 @@ import {
   breadcrumbNode,
   courseNode,
 } from "@/lib/seo";
-import { getSubjectContent, type SubjectContent } from "@/lib/subject-content";
-import { listArticles, type ArticleMeta } from "@/lib/articles";
+import { getSubjectContent } from "@/lib/subject-content";
+import { listArticles } from "@/lib/articles";
 import {
   SyllabusPanel,
   ArticlesList,
@@ -80,66 +80,13 @@ export default async function SubjectDetailPage({
   const { exam } = await searchParams;
   const subject = await getSubjectBySlug(slug);
   if (!subject) notFound();
-  // is_active is the release switch. A subject that isn't live yet still has a
-  // real, crawlable page — it just shows a "coming soon" landing instead of the
-  // practice UI. Only a non-existent subject 404s.
-  if (!subject.is_active) {
-    return (
-      <ComingSoonSubject
-        slug={slug}
-        name={subject.name}
-        content={getSubjectContent(slug)}
-        articles={listArticles(slug)}
-      />
-    );
-  }
 
+  // is_active is the release switch. A subject that isn't live yet uses the very
+  // same page framework — its Practice / Test Series / PYQs tabs just show a
+  // "coming soon" state, while Syllabus and Articles carry real content.
+  const live = subject.is_active;
   const content = getSubjectContent(slug);
   const articles = listArticles(slug);
-
-  const [topics, questions, banners, curriculum, allSets, user] =
-    await Promise.all([
-      getTopicsForSubject(subject.id),
-      getSubjectQuestionList(subject.id),
-      getCarouselBanners(),
-      getCurriculum(),
-      getTestSets(subject.id),
-      getCurrentUser(),
-    ]);
-  let status = new Map<string, QuestionStatus>();
-  let best = new Map<string, number>();
-  let pastTests: TestAttemptRow[] = [];
-  if (user) {
-    const [attempts, tests] = await Promise.all([
-      getUserAttempts(user.id),
-      getTestAttempts(user.id, slug),
-    ]);
-    status = statusByQuestion(attempts);
-    best = bestTimeByQuestion(attempts);
-    pastTests = tests;
-  }
-
-  // The Practice tab lists the practice bank. Questions that belong to a Test
-  // Series paper are that paper's, and are reached by sitting it — the query
-  // already excludes them.
-  const rows: QuestionRow[] = questions.map((q) => ({
-    id: q.id,
-    title: q.title,
-    topicId: q.topic?.id ?? q.topic_id,
-    topicName: q.topic?.name ?? null,
-    week: q.topic?.week ?? null,
-    kind: q.kind,
-    exam: q.exam,
-    difficulty: q.difficulty,
-    tags: q.tags ?? [],
-    status: status.get(q.id) ?? "unsolved",
-    bestTimeSeconds: best.get(q.id) ?? null,
-  }));
-
-  // Previous-year papers and mocks are sat identically but answer different
-  // questions for a learner, so each gets its own section.
-  const mockSets = allSets.filter((s) => s.category === "mock").map(setMeta);
-  const pyqSets = allSets.filter((s) => s.category === "pyq").map(setMeta);
 
   const jsonLd = jsonLdGraph([
     breadcrumbNode([
@@ -154,19 +101,85 @@ export default async function SubjectDetailPage({
     }),
   ]);
 
-  return (
-    <>
-      <JsonLd data={jsonLd} />
-      {/* Image banner carousel (DB-managed) — breaks out of the page container
-          to ~95vw. Slides & their links live in the carousel_banners table. */}
-      {banners.length > 0 && (
+  // The practice bank, test series and banners only exist for a live subject.
+  let bannerNode: ReactNode = null;
+  let practiceNode: ReactNode = null;
+  let testSeriesNode: ReactNode = undefined;
+  let pyqNode: ReactNode = undefined;
+
+  if (live) {
+    const [topics, questions, banners, curriculum, allSets, user] =
+      await Promise.all([
+        getTopicsForSubject(subject.id),
+        getSubjectQuestionList(subject.id),
+        getCarouselBanners(),
+        getCurriculum(),
+        getTestSets(subject.id),
+        getCurrentUser(),
+      ]);
+    let status = new Map<string, QuestionStatus>();
+    let best = new Map<string, number>();
+    let pastTests: TestAttemptRow[] = [];
+    if (user) {
+      const [attempts, tests] = await Promise.all([
+        getUserAttempts(user.id),
+        getTestAttempts(user.id, slug),
+      ]);
+      status = statusByQuestion(attempts);
+      best = bestTimeByQuestion(attempts);
+      pastTests = tests;
+    }
+
+    const rows: QuestionRow[] = questions.map((q) => ({
+      id: q.id,
+      title: q.title,
+      topicId: q.topic?.id ?? q.topic_id,
+      topicName: q.topic?.name ?? null,
+      week: q.topic?.week ?? null,
+      kind: q.kind,
+      exam: q.exam,
+      difficulty: q.difficulty,
+      tags: q.tags ?? [],
+      status: status.get(q.id) ?? "unsolved",
+      bestTimeSeconds: best.get(q.id) ?? null,
+    }));
+    const mockSets = allSets.filter((s) => s.category === "mock").map(setMeta);
+    const pyqSets = allSets.filter((s) => s.category === "pyq").map(setMeta);
+
+    bannerNode =
+      banners.length > 0 ? (
         <div className="relative left-1/2 mb-8 hidden w-[95vw] max-w-[1820px] -translate-x-1/2 md:block">
           <BannerCarousel banners={banners} />
         </div>
-      )}
+      ) : null;
+    testSeriesNode = (
+      <TestSeriesList slug={slug} sets={mockSets} past={pastTests} />
+    );
+    pyqNode = <TestSeriesList slug={slug} sets={pyqSets} past={pastTests} />;
+    practiceNode = (
+      <QuestionTable
+        curriculum={curriculum}
+        rows={rows}
+        topics={topics.map((t) => ({ id: t.id, name: t.name, week: t.week }))}
+        initialExam={exam}
+      />
+    );
+  }
 
-      {/* Masthead — subject name. */}
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      {bannerNode}
+
+      {/* Masthead — subject name, with a "coming soon" tag before launch. */}
       <header className="mb-5">
+        {!live && (
+          <div className="mb-3">
+            <span className="inline-flex items-center gap-1.5 rounded-[3px] border border-accent-border/50 bg-accent-weak px-2.5 py-1 text-[12px] font-medium text-accent">
+              Coming soon
+            </span>
+          </div>
+        )}
         <h1 className="text-[26px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[30px]">
           {subject.name}
         </h1>
@@ -178,124 +191,16 @@ export default async function SubjectDetailPage({
       </header>
 
       <SubjectSections
-        testSeries={
-          <TestSeriesList slug={slug} sets={mockSets} past={pastTests} />
-        }
-        pyqs={<TestSeriesList slug={slug} sets={pyqSets} past={pastTests} />}
+        live={live}
+        testSeries={testSeriesNode}
+        pyqs={pyqNode}
         syllabus={content ? <SyllabusPanel content={content} /> : undefined}
         articles={
           articles.length ? <ArticlesList articles={articles} /> : undefined
         }
       >
-        <QuestionTable
-          curriculum={curriculum}
-          rows={rows}
-          topics={topics.map((t) => ({ id: t.id, name: t.name, week: t.week }))}
-          initialExam={exam}
-        />
+        {practiceNode}
       </SubjectSections>
-    </>
-  );
-}
-
-/**
- * Crawlable landing for a subject that isn't open for practice yet (DBMS, PDSA).
- * Real keyword content so it can rank, a clear "coming soon" state, and a path
- * to the subject that IS live — never an empty practice table.
- */
-function ComingSoonSubject({
-  slug,
-  name,
-  content,
-  articles,
-}: {
-  slug: string;
-  name: string;
-  content: SubjectContent | null;
-  articles: ArticleMeta[];
-}) {
-  const jsonLd = jsonLdGraph([
-    breadcrumbNode([
-      { name: "Home", path: "/" },
-      { name: "Subjects", path: "/app/subjects" },
-      { name, path: `/app/subjects/${slug}` },
-    ]),
-    courseNode({
-      name: `${name} — OPPE Practice`,
-      description: `Practise ${name} for the IIT Madras BS Degree OPPE with previous-year questions and timed mock tests.`,
-      path: `/app/subjects/${slug}`,
-    }),
-  ]);
-
-  return (
-    <>
-      <JsonLd data={jsonLd} />
-      <header className="mb-4">
-        <span className="inline-flex items-center gap-1.5 rounded-[3px] border border-accent-border/50 bg-accent-weak px-2.5 py-1 text-[12px] font-medium text-accent">
-          Coming soon
-        </span>
-        <h1 className="mt-3 text-[26px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[32px]">
-          {name} — OPPE Practice
-        </h1>
-      </header>
-
-      <div className="max-w-[72ch] space-y-4 text-[15px] leading-relaxed text-fg">
-        <p>
-          Practise <strong>{name}</strong>{" "}
-          for the IIT Madras BS Degree OPPE. We&apos;re building a full practice
-          bank for this subject — previous-year questions (PYQs) and timed mock
-          tests, graded instantly in your browser, just like the real OPPE.
-        </p>
-        <p className="text-fg-muted">
-          {name}{" "}
-          practice isn&apos;t open yet. It will include topic-wise questions,
-          OPPE&nbsp;1 and OPPE&nbsp;2 previous-year papers, full mock test
-          series, and progress tracking against the leaderboard.
-        </p>
-      </div>
-
-      <div className="mt-7 flex flex-wrap gap-3">
-        <Link
-          href="/app/subjects/python"
-          className="inline-flex h-10 items-center justify-center rounded-[8px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-semibold text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
-        >
-          Start with Programming in Python →
-        </Link>
-        <Link
-          href="/app/subjects"
-          className="inline-flex h-10 items-center justify-center rounded-[8px] border border-hairline-strong px-5 text-[13px] font-medium text-fg transition-colors hover:bg-surface"
-        >
-          Browse all subjects
-        </Link>
-      </div>
-
-      {/* Real content — syllabus + articles — so this pre-launch page is worth
-          ranking, not a thin placeholder. */}
-      {(content || articles.length > 0) && (
-        <div className="mt-14 space-y-14 border-t border-hairline pt-10">
-          {content && (
-            <section>
-              <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
-                {name} OPPE syllabus
-              </h2>
-              <div className="mt-4">
-                <SyllabusPanel content={content} />
-              </div>
-            </section>
-          )}
-          {articles.length > 0 && (
-            <section>
-              <h2 className="text-[20px] font-semibold tracking-[-0.01em] text-fg sm:text-[24px]">
-                {name}
-                {" articles & guides"}
-              </h2>
-              <div className="mt-4">
-                <ArticlesList articles={articles} />
-              </div>
-            </section>
-          )}
-        </div>
-      )}
     </>
   );
 }

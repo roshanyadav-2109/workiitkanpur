@@ -60,21 +60,28 @@ export function SubjectSections({
   pyqs,
   syllabus,
   articles,
+  live = true,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
   pyqs?: React.ReactNode;
   syllabus?: React.ReactNode;
   articles?: React.ReactNode;
+  /** When false the subject isn't open yet: Practice / Test Series / PYQs show
+   *  a "coming soon" placeholder, while Syllabus / Articles still show content. */
+  live?: boolean;
 }) {
-  const [active, setActive] = useState("practice");
-  // Syllabus / Articles light up only when the page actually carries that
-  // content; otherwise they stay "soon" like Resources.
-  const availableById: Record<string, boolean | undefined> = {
-    syllabus: !!syllabus,
-    articles: !!articles,
+  const [active, setActive] = useState(
+    live ? "practice" : syllabus ? "syllabus" : articles ? "articles" : "practice",
+  );
+  // Practice / Test Series / PYQs are live only when the subject is live.
+  // Syllabus / Articles light up when the page carries that content.
+  const isAvailable = (s: Section) => {
+    if (s.id === "syllabus") return !!syllabus;
+    if (s.id === "articles") return !!articles;
+    if (s.id === "resources") return false;
+    return live;
   };
-  const isAvailable = (s: Section) => availableById[s.id] ?? s.available;
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
 
   const chip =
@@ -161,11 +168,11 @@ export function SubjectSections({
               {current.label}
             </h2>
           </header>
-          {active === "practice" ? (
+          {active === "practice" && live ? (
             children
-          ) : active === "test-series" ? (
+          ) : active === "test-series" && live ? (
             testSeries
-          ) : active === "pyqs" ? (
+          ) : active === "pyqs" && live ? (
             pyqs
           ) : active === "syllabus" && syllabus ? (
             syllabus
