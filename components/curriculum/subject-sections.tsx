@@ -60,6 +60,7 @@ export function SubjectSections({
   pyqs,
   syllabus,
   articles,
+  resources,
   live = true,
 }: {
   children: React.ReactNode;
@@ -67,6 +68,7 @@ export function SubjectSections({
   pyqs?: React.ReactNode;
   syllabus?: React.ReactNode;
   articles?: React.ReactNode;
+  resources?: React.ReactNode;
   /** When false the subject isn't open yet: Practice / Test Series / PYQs show
    *  a "coming soon" placeholder, while Syllabus / Articles still show content. */
   live?: boolean;
@@ -79,7 +81,7 @@ export function SubjectSections({
   const isAvailable = (s: Section) => {
     if (s.id === "syllabus") return !!syllabus;
     if (s.id === "articles") return !!articles;
-    if (s.id === "resources") return false;
+    if (s.id === "resources") return !!resources;
     return live;
   };
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
@@ -178,6 +180,8 @@ export function SubjectSections({
             syllabus
           ) : active === "articles" && articles ? (
             articles
+          ) : active === "resources" && resources ? (
+            resources
           ) : (
             <div className="py-12 text-center">
               <p className="text-[15px] font-medium">

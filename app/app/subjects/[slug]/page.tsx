@@ -30,11 +30,12 @@ import {
   breadcrumbNode,
   courseNode,
 } from "@/lib/seo";
-import { getSubjectContent } from "@/lib/subject-content";
+import { getSubjectContent, getSubjectResources } from "@/lib/subject-content";
 import { listArticles } from "@/lib/articles";
 import {
   SyllabusPanel,
   ArticlesList,
+  ResourcesPanel,
 } from "@/components/curriculum/subject-content";
 
 export async function generateMetadata({
@@ -87,6 +88,7 @@ export default async function SubjectDetailPage({
   const live = subject.is_active;
   const content = getSubjectContent(slug);
   const articles = listArticles(slug);
+  const resourcesMd = getSubjectResources(slug);
 
   const jsonLd = jsonLdGraph([
     breadcrumbNode([
@@ -192,6 +194,9 @@ export default async function SubjectDetailPage({
         syllabus={content ? <SyllabusPanel content={content} /> : undefined}
         articles={
           articles.length ? <ArticlesList articles={articles} /> : undefined
+        }
+        resources={
+          resourcesMd ? <ResourcesPanel markdown={resourcesMd} /> : undefined
         }
       >
         {practiceNode}

@@ -9,6 +9,11 @@ export function SyllabusPanel({ content }: { content: SubjectContent }) {
   return <Markdown className="prose-wide">{content.syllabus}</Markdown>;
 }
 
+/** The Resources section — course info, faculty and links, from markdown. */
+export function ResourcesPanel({ markdown }: { markdown: string }) {
+  return <Markdown className="prose-wide">{markdown}</Markdown>;
+}
+
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",

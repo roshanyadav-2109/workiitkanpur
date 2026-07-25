@@ -180,6 +180,7 @@ function OutputBox({ title, body }: { title: string; body: string }) {
 
 export function QuestionIDE({
   subject,
+  resourcesMd,
   current,
   groups,
   isAuthed,
@@ -188,6 +189,7 @@ export function QuestionIDE({
   initialBestSeconds,
 }: {
   subject: { name: string; slug: string };
+  resourcesMd?: string | null;
   current: IDECurrentQuestion;
   groups: IDETopicGroup[];
   isAuthed: boolean;
@@ -671,10 +673,14 @@ export function QuestionIDE({
                 </button>
               </div>
               <div className="flex-1 overflow-auto p-5">
-                <EmptyState
-                  title="Resources for this subject"
-                  description="Notes, cheat-sheets, formula lists, and reference links will appear here. Content is being added."
-                />
+                {resourcesMd ? (
+                  <Markdown>{resourcesMd}</Markdown>
+                ) : (
+                  <EmptyState
+                    title="Resources for this subject"
+                    description="Notes, cheat-sheets, formula lists, and reference links will appear here. Content is being added."
+                  />
+                )}
               </div>
             </>
           ) : rightView === "progress" ? (

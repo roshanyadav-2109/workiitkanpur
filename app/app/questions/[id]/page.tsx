@@ -9,6 +9,7 @@ import {
 } from "@/lib/queries";
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
 import { extractSqlBlock } from "@/lib/sql";
+import { getSubjectResources } from "@/lib/subject-content";
 import { createClient } from "@/lib/supabase/server";
 import { hasPhoneOnFile } from "@/lib/require-phone";
 import {
@@ -91,6 +92,7 @@ export default async function QuestionPage({
   return (
     <QuestionIDE
       subject={{ name: subject.name, slug: subject.slug }}
+      resourcesMd={getSubjectResources(subject.slug)}
       current={{
         id: question.id,
         title: question.title,

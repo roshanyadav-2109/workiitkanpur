@@ -15,6 +15,7 @@ export interface SubjectContent {
 }
 
 const CONTENT_DIR = join(process.cwd(), "content", "subjects");
+const RESOURCES_DIR = join(process.cwd(), "content", "resources");
 
 export const getSubjectContent = cache(function getSubjectContent(
   slug: string,
@@ -22,6 +23,18 @@ export const getSubjectContent = cache(function getSubjectContent(
   try {
     const raw = readFileSync(join(CONTENT_DIR, `${slug}.md`), "utf8").trim();
     return raw ? { syllabus: raw } : null;
+  } catch {
+    return null;
+  }
+});
+
+/** A subject's Resources markdown (course info, faculty, links), or null. */
+export const getSubjectResources = cache(function getSubjectResources(
+  slug: string,
+): string | null {
+  try {
+    const raw = readFileSync(join(RESOURCES_DIR, `${slug}.md`), "utf8").trim();
+    return raw || null;
   } catch {
     return null;
   }

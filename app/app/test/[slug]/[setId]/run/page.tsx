@@ -7,6 +7,7 @@ import {
   getTestSets,
 } from "@/lib/queries";
 import { extractSqlBlock } from "@/lib/sql";
+import { getSubjectResources } from "@/lib/subject-content";
 import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
 import { TestDeviceGuard } from "@/components/test/device-guard";
@@ -83,6 +84,7 @@ export default async function RunPage({
     <TestDeviceGuard enforce={environment === "exam"}>
       <TestRunner
         slug={slug}
+        resourcesMd={getSubjectResources(slug)}
         attemptId={started.attemptId}
         setName={set.name}
         durationSeconds={set.durationSeconds}

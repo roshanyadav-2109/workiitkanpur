@@ -78,6 +78,7 @@ export function TestRunner({
   durationSeconds,
   sections,
   environment,
+  resourcesMd,
 }: {
   slug: string;
   attemptId: string;
@@ -85,6 +86,7 @@ export function TestRunner({
   durationSeconds: number;
   sections: RunnerSection[];
   environment: "learning" | "exam";
+  resourcesMd?: string | null;
 }) {
   const isExam = environment === "exam";
   const [curSec, setCurSec] = useState(0);
@@ -572,10 +574,14 @@ export function TestRunner({
             </button>
           </div>
           <div className="flex-1 overflow-auto p-6">
-            <EmptyState
-              title="Resources"
-              description="Notes, cheat-sheets, formula lists, and reference links live here — available in practice and during every test."
-            />
+            {resourcesMd ? (
+              <Markdown>{resourcesMd}</Markdown>
+            ) : (
+              <EmptyState
+                title="Resources"
+                description="Notes, cheat-sheets, formula lists, and reference links live here — available in practice and during every test."
+              />
+            )}
           </div>
         </section>
       ) : (

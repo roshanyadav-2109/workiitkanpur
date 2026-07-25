@@ -12,8 +12,11 @@ const nextConfig: NextConfig = {
     "/app/subjects/[slug]": [
       "./content/subjects/**/*",
       "./content/articles/**/*",
+      "./content/resources/**/*",
     ],
     "/app/subjects/[slug]/articles/[articleSlug]": ["./content/articles/**/*"],
+    "/app/questions/[id]": ["./content/resources/**/*"],
+    "/app/test/[slug]/[setId]/run": ["./content/resources/**/*"],
     "/sitemap.xml": ["./content/articles/**/*"],
   },
 };
