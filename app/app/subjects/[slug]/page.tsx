@@ -183,11 +183,6 @@ export default async function SubjectDetailPage({
         <h1 className="text-[26px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[30px]">
           {subject.name}
         </h1>
-        <p className="mt-1.5 max-w-[70ch] text-[14px] leading-relaxed text-fg-muted">
-          Practise {subject.name} for the IIT Madras BS Degree OPPE — solve
-          previous-year questions and timed mock tests with instant in-browser
-          grading.
-        </p>
       </header>
 
       <SubjectSections
