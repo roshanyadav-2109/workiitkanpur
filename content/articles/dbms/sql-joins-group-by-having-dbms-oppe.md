@@ -2,6 +2,7 @@
 title: SQL Joins, GROUP BY and HAVING: The Queries That Actually Decide Your DBMS OPPE
 description: A senior-student walkthrough of the SQL joins, subqueries and aggregation traps that trip up IITM BS students in the DBMS OPPE, with copy-ready examples.
 date: 2026-07-24
+theme: sql
 ---
 
 If you fail a question in the DBMS OPPE, it is almost never because you did not know a join existed. It is because you picked the wrong one, or you put a condition in the wrong clause, and the grader returned rows you did not expect. The SQL half of the exam (roughly seven query questions across the University, Library and EShop schemas) rewards people who are precise, not people who have memorised syntax. So let us be precise.

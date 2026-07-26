@@ -2,6 +2,7 @@
 title: DBMS OPPE: Syllabus, SQL Preparation & Common Doubts
 description: Clear the IITM BS Database Management Systems OPPE — exam pattern, the SQL that's actually tested, the psycopg2/PostgreSQL question, and exam-day strategy.
 date: 2026-07-17
+theme: database
 ---
 
 The DBMS OPPE is very clearable once you know its shape: a set of **SQL queries plus one Python-PostgreSQL question**, graded on exact output. Here's what's actually tested and how to prepare.

@@ -2,6 +2,7 @@
 title: Programming in Python OPPE: Syllabus, Preparation & Common Doubts
 description: A practical guide to the IITM BS Programming in Python OPPE 1 and OPPE 2 — syllabus, allowed modules, grading with hidden test cases, and exam-day strategy.
 date: 2026-07-18
+theme: python
 ---
 
 The **Programming in Python OPPE** trips up more students than the coding itself is hard — a proctored, hidden-test-case exam punishes small habits that never mattered in weekly assignments. Here's exactly what to know.

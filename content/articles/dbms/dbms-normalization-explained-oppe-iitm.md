@@ -2,6 +2,7 @@
 title: Normalization Without the Panic: 1NF to BCNF for the IITM BS DBMS Exam
 description: A calm, practical explainer of functional dependencies and normal forms for IITM BS DBMS students, built for the weeks that scare everyone.
 date: 2026-07-23
+theme: database
 ---
 
 Every batch has the same story. The SQL weeks feel fine, then weeks five and six arrive with functional dependencies and normal forms, and the group chat fills with people quietly panicking. Normalization has a reputation for being abstract and mean. It is not. It is a checklist for spotting bad table design, and once the vocabulary clicks, most of the fear goes away. Here is the version I wish someone had given me before my exam.

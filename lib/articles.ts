@@ -21,6 +21,10 @@ export interface ArticleMeta {
   description: string;
   /** ISO date (YYYY-MM-DD); used for ordering and display. */
   date: string;
+  /** Optional cover image path/URL; when set it replaces the illustrated frame. */
+  image?: string;
+  /** Optional illustration theme key (python | sql | database | exam | …). */
+  theme?: string;
 }
 
 export interface Article extends ArticleMeta {
@@ -74,6 +78,8 @@ export const listArticles = cache(function listArticles(
       title: data.title ?? slug,
       description: data.description ?? "",
       date: data.date ?? "",
+      image: data.image || undefined,
+      theme: data.theme || undefined,
     };
   });
   // Newest first; undated posts sort last.
@@ -114,6 +120,8 @@ export const getArticle = cache(function getArticle(
     title: data.title ?? slug,
     description: data.description ?? "",
     date: data.date ?? "",
+    image: data.image || undefined,
+    theme: data.theme || undefined,
     body: body.trim(),
   };
 });

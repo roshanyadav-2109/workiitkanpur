@@ -2,6 +2,7 @@
 title: Python OPPE Exam-Day Setup: SCT, Dual Camera, and the Rules That Get People Marked Absent
 description: A practical walkthrough of the IITM Python OPPE proctoring setup, from the SCT to mobile camera placement, so your exam actually gets evaluated.
 date: 2026-07-23
+theme: exam
 ---
 
 Here is the quiet truth about the Python OPPE: plenty of students lose marks not because of their code, but because of their setup. They write good solutions, hit submit, and later find out the exam was never evaluated because a camera dropped off or the desk was not cleared. The proctoring rules are strict and a little unforgiving, so treat the setup as part of the exam, not an afterthought.

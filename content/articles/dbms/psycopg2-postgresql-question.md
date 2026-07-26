@@ -2,6 +2,7 @@
 title: The DBMS OPPE psycopg2 Question: Nailing the Python–PostgreSQL Task
 description: The DBMS OPPE has one question you must answer correctly to pass — connecting to PostgreSQL from Python with psycopg2. Here's the exact pattern and the mistakes to avoid.
 date: 2026-07-21
+theme: sql
 ---
 
 The DBMS OPPE has a rule that catches people out: alongside scoring at least ~35% overall, **you must answer the Python-to-PostgreSQL connectivity question correctly to receive a final grade**. It comes from Week 7, it uses `psycopg2`, and it is very learnable once you've written the pattern a few times.

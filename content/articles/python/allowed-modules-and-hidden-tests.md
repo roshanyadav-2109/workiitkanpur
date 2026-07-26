@@ -2,6 +2,7 @@
 title: Python OPPE: Allowed Modules & How Hidden Test Cases Grade You
 description: The two things that quietly fail correct-looking Python OPPE code — which modules you can import, and how hidden test cases actually score your output.
 date: 2026-07-22
+theme: python
 ---
 
 Two things fail more Python OPPE submissions than any algorithm: not knowing **which modules are allowed**, and misunderstanding **how hidden test cases grade you**. Get both right and a lot of "it worked for me" zeros disappear.

@@ -2,6 +2,7 @@
 title: Is the Python OPPE Actually Hard? An Honest Answer, and Why the Jump Catches People
 description: A straight take on whether the IITM BS Python OPPE is difficult, why it feels harder than the weekly assignments, and how to close the gap.
 date: 2026-07-24
+theme: python
 ---
 
 Every term, the same question floods the group chats a few weeks out: is the Python OPPE going to wreck me? Fair worry. Here is the honest answer. The OPPE is not built to fail you, but it is a very different animal from the weekly assignments you have been breezing through. Once you understand where the real gap sits, you can prepare for that instead of for a monster that mostly lives in your head.
