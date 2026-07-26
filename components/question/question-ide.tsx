@@ -668,7 +668,7 @@ export function QuestionIDE({
             "lg:static lg:inset-auto lg:z-auto lg:h-auto lg:flex-1 lg:overflow-visible lg:rounded-none lg:border-t-0 lg:shadow-none",
             rightView === "editor"
               ? cn(
-                  "fixed inset-x-2 bottom-0 z-40 overflow-hidden rounded-t-[8px] bg-canvas shadow-[0_-10px_30px_rgba(20,16,60,0.18)] transition-[height] duration-200",
+                  "fixed inset-x-2 bottom-0 z-40 overflow-hidden rounded-t-[3px] bg-canvas transition-[height] duration-200",
                   mobileEditorOpen ? "h-[82dvh]" : "h-[52px]",
                 )
               : "flex-1",
