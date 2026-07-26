@@ -57,27 +57,37 @@ export default async function RunPage({
     questions: s.questionIds
       .map((id) => byId.get(id))
       .filter((q): q is NonNullable<typeof q> => !!q)
-      .map((q) => ({
-        id: q.id,
-        title: q.title,
-        marks: s.marks?.[q.id] ?? null,
-        body_md: q.body_md,
-        solution_md: q.solution_md,
-        kind: q.kind,
-        tests: q.tests,
-        mcq_options: q.mcq_options,
-        mcq_answer: q.mcq_answer,
-        setup_sql: q.setup_sql,
-        starter_code: q.starter_code,
-        language: q.language,
-        harness: q.harness,
+      .map((q) => {
         // SQL is graded in the browser by running this reference query and
         // diffing its result against the learner's, so the paper has to carry
-        // it. Without it the SQL runtime renders no Submit button and every
-        // SQL question scores zero.
-        reference_sql:
-          q.kind === "sql" ? extractSqlBlock(q.solution_md) : null,
-      })),
+        // it (computed before we strip the solution below). Without it the SQL
+        // runtime renders no Submit button and every SQL question scores zero.
+        const referenceSql =
+          q.kind === "sql" ? extractSqlBlock(q.solution_md) : null;
+        // In a timed exam, don't ship the written solution or the MCQ answer
+        // key to the browser — they'd be readable in DevTools mid-exam. MCQs
+        // are re-graded server-side against the stored key on submit, so the
+        // client never needs the answer. Learning mode keeps both so solutions
+        // stay available. (Coding hidden-test outputs and the SQL reference
+        // still reach the client because grading runs in the browser.)
+        const isExam = environment === "exam";
+        return {
+          id: q.id,
+          title: q.title,
+          marks: s.marks?.[q.id] ?? null,
+          body_md: q.body_md,
+          solution_md: isExam ? null : q.solution_md,
+          kind: q.kind,
+          tests: q.tests,
+          mcq_options: q.mcq_options,
+          mcq_answer: isExam ? null : q.mcq_answer,
+          setup_sql: q.setup_sql,
+          starter_code: q.starter_code,
+          language: q.language,
+          harness: q.harness,
+          reference_sql: referenceSql,
+        };
+      }),
   }));
 
   return (

@@ -7,6 +7,19 @@ import { formatDurationMin, type TestSetMeta } from "@/lib/test-series";
 import type { TestAttemptRow } from "@/lib/queries";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+// Format straight from the ISO string's date parts so the server (UTC) and the
+// browser (its own timezone) render the same text — a Date + toLocaleDateString
+// would differ between them and trip a hydration mismatch.
+function fmtDate(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!m) return "—";
+  return `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}`;
+}
+
 export function TestSeriesList({
   slug,
   sets,
@@ -73,13 +86,7 @@ export function TestSeriesList({
                   </div>
                   <div className="mt-0.5 text-[12.5px] text-fg-muted">
                     {a.environment === "exam" ? "Exam" : "Learning"} ·{" "}
-                    {a.submitted_at
-                      ? new Date(a.submitted_at).toLocaleDateString(undefined, {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })
-                      : "—"}
+                    {a.submitted_at ? fmtDate(a.submitted_at) : "—"}
                     {a.time_seconds != null && (
                       <> · {formatClock(a.time_seconds)}</>
                     )}
