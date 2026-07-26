@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
       "./content/resources/**/*",
     ],
     "/app/subjects/[slug]/articles/[articleSlug]": ["./content/articles/**/*"],
+    "/llms.txt": ["./content/articles/**/*"],
     "/app/questions/[id]": ["./content/resources/**/*"],
     "/app/test/[slug]/[setId]/run": ["./content/resources/**/*"],
   },
