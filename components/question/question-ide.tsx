@@ -665,10 +665,10 @@ export function QuestionIDE({
         <section
           className={cn(
             "flex min-h-0 min-w-0 flex-col",
-            "lg:static lg:inset-auto lg:z-auto lg:h-auto lg:flex-1 lg:border-t-0 lg:shadow-none",
+            "lg:static lg:inset-auto lg:z-auto lg:h-auto lg:flex-1 lg:overflow-visible lg:rounded-none lg:border-t-0 lg:shadow-none",
             rightView === "editor"
               ? cn(
-                  "fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-canvas shadow-[0_-10px_30px_rgba(20,16,60,0.12)] transition-[height] duration-200",
+                  "fixed inset-x-2 bottom-0 z-40 overflow-hidden rounded-t-[8px] bg-canvas shadow-[0_-10px_30px_rgba(20,16,60,0.18)] transition-[height] duration-200",
                   mobileEditorOpen ? "h-[82dvh]" : "h-[52px]",
                 )
               : "flex-1",
@@ -772,13 +772,13 @@ export function QuestionIDE({
             type="button"
             onClick={() => setMobileEditorOpen((v) => !v)}
             aria-expanded={mobileEditorOpen}
-            className="flex h-[52px] w-full shrink-0 items-center justify-between border-b border-hairline px-4 lg:hidden"
+            className="flex h-[52px] w-full shrink-0 items-center justify-between bg-accent px-4 text-white lg:hidden"
           >
             <span className="text-[14px] font-medium">Code Editor</span>
             <IconChevron
               size={18}
               className={cn(
-                "text-fg-muted transition-transform duration-200",
+                "text-white transition-transform duration-200",
                 mobileEditorOpen ? "rotate-90" : "-rotate-90",
               )}
             />
