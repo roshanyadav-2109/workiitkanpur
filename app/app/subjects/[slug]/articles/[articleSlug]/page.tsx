@@ -37,6 +37,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     description: article.description,
     path,
     keywords: [`${slug} OPPE`, "OPPE guide", "OPPE preparation"],
+    // Crawl and follow, but keep articles out of Google's index — the main
+    // subject pages carry the index; articles stay crawlable so search engines
+    // and AI crawlers can still read and surface them.
+    index: false,
   });
 }
 
