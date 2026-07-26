@@ -262,7 +262,6 @@ export function PythonRuntime({
                 disabled={running || testing}
                 title="Run your code against the custom input you typed"
               >
-                <IconPlay size={15} />
                 {running ? <IconSpinner size={14} /> : <IconPlay size={15} />}{running ? "Running…" : "Run custom test"}
               </Button>
               <Button

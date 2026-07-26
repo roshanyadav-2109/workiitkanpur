@@ -487,13 +487,15 @@ export function QuestionIDE({
                 <IconChevron size={16} className="rotate-180" />
               </Link>
               <div className="min-w-0">
-                <h1 className="truncate text-[15px] font-medium leading-tight">
+                <h1 className="line-clamp-2 text-[15px] font-medium leading-tight">
                   {current.title}
                 </h1>
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              <Difficulty level={current.difficulty} showLabel={false} />
+              <div className="hidden sm:block">
+                <Difficulty level={current.difficulty} showLabel={false} />
+              </div>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-hairline px-2 py-1 text-[13px] tnum">
                 <IconTimer
                   size={15}
@@ -535,13 +537,13 @@ export function QuestionIDE({
             </div>
           </div>
 
-          <div className="flex items-center gap-1 border-b border-hairline px-3">
+          <div className="no-scrollbar flex items-center gap-1 overflow-x-auto border-b border-hairline px-3">
             {tabs.map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
                 className={cn(
-                  "-mb-px h-10 border-b-2 px-3 text-[13px] transition-colors",
+                  "-mb-px h-10 shrink-0 whitespace-nowrap border-b-2 px-3 text-[13px] transition-colors",
                   tab === t
                     ? "border-accent font-medium text-fg"
                     : "border-transparent text-fg-muted hover:text-fg",

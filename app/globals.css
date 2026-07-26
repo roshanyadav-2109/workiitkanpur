@@ -151,6 +151,15 @@
   }
 }
 
+/* A scroll container with no visible scrollbar — used for the horizontally
+   scrollable tab strips on mobile so tabs slide instead of wrapping. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Long-form question/solution prose: comfortable measure, quiet code. */
 .prose-oppe {
   max-width: 68ch;
