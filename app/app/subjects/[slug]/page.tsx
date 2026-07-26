@@ -57,7 +57,7 @@ export async function generateMetadata({
     });
   }
   return pageMetadata({
-    title: `${subject.name} — OPPE Practice`,
+    title: subject.name,
     description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE. Solve previous-year questions (PYQs) and full timed mock tests, write code in your browser, and get graded instantly.`,
     path: `/app/subjects/${slug}`,
     keywords: [
@@ -97,7 +97,7 @@ export default async function SubjectDetailPage({
       { name: subject.name, path: `/app/subjects/${slug}` },
     ]),
     courseNode({
-      name: `${subject.name} — OPPE Practice`,
+      name: subject.name,
       description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE with previous-year questions and timed mock tests.`,
       path: `/app/subjects/${slug}`,
     }),
