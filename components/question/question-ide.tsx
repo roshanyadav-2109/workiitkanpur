@@ -210,6 +210,9 @@ export function QuestionIDE({
     "editor" | "resources" | "progress"
   >("editor");
   const [notesOpen, setNotesOpen] = useState(false);
+  // On phones/short screens the editor is a pull-up sheet so the question can
+  // use the full height; it's closed by default and expands on tap.
+  const [mobileEditorOpen, setMobileEditorOpen] = useState(false);
   // Custom input is a guided form: the example's lines become locked labels and
   // the learner edits only the values. Seeded from the first public test.
   const exampleStdin =
@@ -549,7 +552,7 @@ export function QuestionIDE({
             ))}
           </div>
 
-          <div className="flex-1 overflow-auto p-5">
+          <div className="flex-1 overflow-auto p-5 pb-[68px] lg:pb-5">
             {tab === "question" && <Markdown>{current.body_md}</Markdown>}
 
             {tab === "tests" && current.kind === "sql" && (
@@ -654,9 +657,20 @@ export function QuestionIDE({
         </section>
         )}
 
-        {/* RIGHT — code editor / runtime (spans full width in Resources view) */}
+        {/* RIGHT — code editor / runtime (spans full width in Resources view).
+            On phones the editor view becomes a pull-up sheet pinned to the
+            bottom, so the question keeps the full screen while solving. */}
         <section
-          className="flex min-h-0 min-w-0 flex-1 flex-col"
+          className={cn(
+            "flex min-h-0 min-w-0 flex-col",
+            "lg:static lg:inset-auto lg:z-auto lg:h-auto lg:flex-1 lg:border-t-0 lg:shadow-none",
+            rightView === "editor"
+              ? cn(
+                  "fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-canvas shadow-[0_-10px_30px_rgba(20,16,60,0.12)] transition-[height] duration-200",
+                  mobileEditorOpen ? "h-[82dvh]" : "h-[52px]",
+                )
+              : "flex-1",
+          )}
           style={{ ["--code-font" as string]: `${fontSize}px` } as CSSProperties}
         >
           {rightView === "resources" ? (
@@ -751,6 +765,31 @@ export function QuestionIDE({
             </>
           ) : (
             <>
+          {/* Pull-up handle — phones only. Tap to slide the editor up/down. */}
+          <button
+            type="button"
+            onClick={() => setMobileEditorOpen((v) => !v)}
+            aria-expanded={mobileEditorOpen}
+            className="flex h-[52px] w-full shrink-0 items-center justify-between border-b border-hairline px-4 lg:hidden"
+          >
+            <span className="text-[14px] font-medium">Code Editor</span>
+            <IconChevron
+              size={18}
+              className={cn(
+                "text-fg-muted transition-transform duration-200",
+                mobileEditorOpen ? "rotate-90" : "-rotate-90",
+              )}
+            />
+          </button>
+
+          {/* Editor body — hidden on phones until the sheet is opened, always
+              shown from lg up where it's a side panel. */}
+          <div
+            className={cn(
+              "flex min-h-0 flex-1 flex-col",
+              !mobileEditorOpen && "hidden lg:flex",
+            )}
+          >
           <div className="flex h-12 shrink-0 items-center justify-between gap-2 border-b border-hairline px-3">
             <span className="text-[13px] font-medium">
               {current.language
@@ -811,6 +850,7 @@ export function QuestionIDE({
               {error}
             </div>
           )}
+          </div>
             </>
           )}
         </section>
