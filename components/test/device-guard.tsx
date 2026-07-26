@@ -45,20 +45,53 @@ export function TestDeviceGuard({
 
   return (
     <div className="grid min-h-[calc(100dvh-3.5rem)] place-items-center px-6 py-16 text-center">
-      <div className="max-w-md">
-        <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-[16px] bg-accent-weak text-accent">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <rect x="3" y="4.5" width="18" height="12" rx="1.6" stroke="currentColor" strokeWidth="1.8" />
-            <path d="M1.5 20h21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-        </div>
-        <h1 className="text-[22px] font-semibold tracking-[-0.01em]">
-          Open the exam on a laptop
+      <div className="max-w-xs">
+        <svg
+          width="128"
+          height="128"
+          viewBox="0 0 128 128"
+          fill="none"
+          aria-hidden
+          className="mx-auto"
+        >
+          <circle cx="64" cy="64" r="60" fill="#efecfb" />
+          {/* laptop screen */}
+          <rect
+            x="30"
+            y="40"
+            width="55"
+            height="38"
+            rx="4.5"
+            fill="#fff"
+            stroke="#5a48d6"
+            strokeWidth="3.5"
+          />
+          {/* lines of the exam on screen */}
+          <path
+            d="M39 52h29M39 60h29M39 68h17"
+            stroke="#5a48d6"
+            strokeOpacity="0.4"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          {/* laptop base */}
+          <rect x="22" y="82" width="71" height="8" rx="4" fill="#5a48d6" />
+          {/* a timer badge — it's a timed paper */}
+          <circle cx="90" cy="46" r="14" fill="#fff" stroke="#5a48d6" strokeWidth="3.5" />
+          <path
+            d="M90 38.5V46l5 3.5"
+            stroke="#5a48d6"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <h1 className="mt-6 text-[20px] font-semibold tracking-[-0.01em]">
+          Open on a laptop
         </h1>
-        <p className="mx-auto mt-2.5 max-w-[34ch] text-[14.5px] leading-relaxed text-fg-muted">
-          The exam environment needs a laptop or desktop with a keyboard and
-          mouse. Open it on a computer to begin — or attempt this paper in
-          Learning mode, which works on any device.
+        <p className="mx-auto mt-2 max-w-[26ch] text-[14px] leading-relaxed text-fg-muted">
+          This timed exam needs a computer with a keyboard. Switch to a laptop
+          or desktop to begin.
         </p>
       </div>
     </div>
