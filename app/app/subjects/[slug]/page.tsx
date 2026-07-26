@@ -75,10 +75,10 @@ export default async function SubjectDetailPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ exam?: string }>;
+  searchParams: Promise<{ exam?: string; tab?: string }>;
 }) {
   const { slug } = await params;
-  const { exam } = await searchParams;
+  const { exam, tab } = await searchParams;
   const subject = await getSubjectBySlug(slug);
   if (!subject) notFound();
 
@@ -188,7 +188,9 @@ export default async function SubjectDetailPage({
       </header>
 
       <SubjectSections
+        key={`${slug}:${tab ?? ""}`}
         live={live}
+        initialSection={tab}
         testSeries={testSeriesNode}
         pyqs={pyqNode}
         syllabus={content ? <SyllabusPanel content={content} /> : undefined}

@@ -62,6 +62,7 @@ export function SubjectSections({
   articles,
   resources,
   live = true,
+  initialSection,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
@@ -72,10 +73,22 @@ export function SubjectSections({
   /** When false the subject isn't open yet: Practice / Test Series / PYQs show
    *  a "coming soon" placeholder, while Syllabus / Articles still show content. */
   live?: boolean;
+  /** Section to open on load (from a `?tab=` link in the navbar). */
+  initialSection?: string;
 }) {
-  const [active, setActive] = useState(
-    live ? "practice" : syllabus ? "syllabus" : articles ? "articles" : "practice",
-  );
+  const defaultSection = live
+    ? "practice"
+    : syllabus
+      ? "syllabus"
+      : articles
+        ? "articles"
+        : "practice";
+  // Honour a ?tab= link only if that section actually exists.
+  const validInitial =
+    initialSection && SECTIONS.some((s) => s.id === initialSection)
+      ? initialSection
+      : defaultSection;
+  const [active, setActive] = useState(validInitial);
   // Practice / Test Series / PYQs are live only when the subject is live.
   // Syllabus / Articles light up when the page carries that content.
   const isAvailable = (s: Section) => {

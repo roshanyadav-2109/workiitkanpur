@@ -15,19 +15,27 @@ interface Tab {
   children?: Item[];
 }
 
+// The subjects, listed under each of Practice / PYQs / Test Series.
+const SUBJECTS: { label: string; slug: string }[] = [
+  { label: "Programming in Python", slug: "python" },
+  { label: "Database Management Systems", slug: "dbms" },
+  { label: "Programming, DS & Algorithms", slug: "pdsa" },
+  { label: "Programming in Java", slug: "java" },
+  { label: "Programming in C", slug: "c" },
+  { label: "System Commands", slug: "syscmd" },
+];
+const subjectItems = (tab?: string): Item[] =>
+  SUBJECTS.map((s) => ({
+    label: s.label,
+    href: `/app/subjects/${s.slug}${tab ? `?tab=${tab}` : ""}`,
+  }));
+
 /** Top-level mobile tabs. A tab with `children` opens its own sub-screen. */
 const TABS: Tab[] = [
   { label: "Home", href: "/" },
-  {
-    label: "Practice",
-    children: [
-      { label: "All subjects", href: "/app/subjects" },
-      { label: "Programming in Python", href: "/app/subjects/python" },
-      { label: "Database Management", href: "/app/subjects/dbms" },
-      { label: "PYQ · OPPE 1", href: "/app/subjects/python?exam=OPPE%201" },
-      { label: "PYQ · OPPE 2", href: "/app/subjects/python?exam=OPPE%202" },
-    ],
-  },
+  { label: "Practice", children: subjectItems() },
+  { label: "PYQs", children: subjectItems("pyqs") },
+  { label: "Test Series", children: subjectItems("test-series") },
   { label: "Leaderboard", href: "/leaderboard" },
   { label: "Contact us", href: "/contact" },
   { label: "Privacy", href: "/privacy" },
