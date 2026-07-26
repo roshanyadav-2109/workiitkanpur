@@ -393,7 +393,7 @@ export function TestRunner({
     const notAttempted = allQuestions.length - answeredCount - reviewCount;
     return (
       <div className="grid h-full place-items-center p-6">
-        <div className="w-full max-w-md rounded-[3px] border border-hairline p-6 text-center">
+        <div className="w-full max-w-md text-center">
           <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-ok-weak text-ok">
             ✓
           </div>
