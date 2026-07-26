@@ -34,8 +34,8 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "IITM BS Community — OPPE Practice for the IIT Madras BS Degree",
-    template: "%s — IITM BS Community",
+    default: "OPPE Practice — Practise OPPE Exams of the Online IIT Madras BS Degree",
+    template: "%s",
   },
   description:
     "OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code in the browser, get instant grading, and track your progress.",
