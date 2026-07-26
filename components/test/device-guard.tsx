@@ -54,7 +54,6 @@ export function TestDeviceGuard({
           aria-hidden
           className="mx-auto"
         >
-          <circle cx="64" cy="64" r="60" fill="#efecfb" />
           {/* laptop screen */}
           <rect
             x="30"
