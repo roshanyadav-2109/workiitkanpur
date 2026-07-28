@@ -21,6 +21,26 @@ import {
  * profiles row), and sets the session cookie — all without the browser ever
  * touching supabase.co.
  */
+/** Read the email claim from a Google id_token (payload only — the signature is
+ *  verified by Supabase downstream and the token came directly from Google). */
+function emailFromIdToken(token: string): string | null {
+  try {
+    const payload = token.split(".")[1];
+    const json = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+    const email = json?.email;
+    if (typeof email !== "string" || json.email_verified === false) return null;
+    return email.toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
+/** True only for iitm.ac.in and its sub-domains (all IITM BS student domains). */
+function isIitmEmail(email: string): boolean {
+  const domain = email.split("@")[1] ?? "";
+  return domain === "iitm.ac.in" || domain.endsWith(".iitm.ac.in");
+}
+
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
   const origin = siteOrigin(request);
@@ -72,6 +92,13 @@ export async function GET(request: NextRequest) {
     return fail("token");
   }
   if (!idToken) return fail("token");
+
+  // Access is restricted to IIT Madras accounts: the sign-in email must be on
+  // iitm.ac.in (or one of its sub-domains, e.g. ds.study.iitm.ac.in). The token
+  // came straight from Google over TLS using our secret, so its email claim is
+  // trustworthy; Supabase re-verifies the signature right after.
+  const email = emailFromIdToken(idToken);
+  if (!email || !isIitmEmail(email)) return fail("domain");
 
   // Supabase is the mediator: it verifies the Google id_token and mints our
   // session. This is the only point Supabase is involved, and it's server side.

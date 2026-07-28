@@ -31,8 +31,14 @@ function GoogleG() {
 /** Matches the default the login page applies when no `next` is given. */
 const DEFAULT_NEXT = "/app/subjects";
 
-export function AuthForm({ next }: { next: string }) {
-  const [error, setError] = useState<string | null>(null);
+export function AuthForm({
+  next,
+  initialError = null,
+}: {
+  next: string;
+  initialError?: string | null;
+}) {
+  const [error, setError] = useState<string | null>(initialError);
 
   /**
    * Where to land after signing in. An explicit `next` (the gate sent them
@@ -62,6 +68,11 @@ export function AuthForm({ next }: { next: string }) {
         <GoogleG />
         Continue with Google
       </button>
+
+      {/* Access is limited to IIT Madras accounts. */}
+      <p className="text-center text-[12.5px] font-medium text-fg-muted">
+        Only IITM domain (@iitm.ac.in) login emails allowed
+      </p>
 
       {/* agreement line — purple links */}
       <p className="text-center text-[12.5px] leading-relaxed text-fg-muted">

@@ -9,20 +9,30 @@ export const metadata = pageMetadata({
   path: "/login",
 });
 
+const ERROR_MESSAGES: Record<string, string> = {
+  domain:
+    "Only IIT Madras emails can sign in. Please use your iitm.ac.in email.",
+  google: "Sign-in was cancelled or failed. Please try again.",
+  token: "Sign-in failed. Please try again.",
+  session: "Sign-in failed. Please try again.",
+  state: "Sign-in session expired. Please try again.",
+};
+
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
-  const { next } = await searchParams;
+  const { next, error } = await searchParams;
   const target =
     next && next.startsWith("/") && !next.startsWith("//")
       ? next
       : "/app/subjects";
+  const initialError = error ? (ERROR_MESSAGES[error] ?? null) : null;
 
   return (
     <AuthShell>
-      <AuthForm next={target} />
+      <AuthForm next={target} initialError={initialError} />
     </AuthShell>
   );
 }
