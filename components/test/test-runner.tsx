@@ -920,8 +920,7 @@ function ExamInstructions({
       use it to end the examination at any time after that.
     </>,
     <>
-      Your code runs locally in your browser. Ensure a stable device before you
-      begin.
+      Ensure a stable device and internet connection before you begin.
     </>,
   ];
 

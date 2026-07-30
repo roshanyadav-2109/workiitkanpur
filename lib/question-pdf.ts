@@ -120,7 +120,7 @@ export function buildQuestionPdf(q: QuestionPdfInput): ArrayBuffer {
     doc.setFontSize(9);
     doc.setTextColor(MUTED);
     doc.text(
-      "The in-browser editor: question on the left, your code on the right, test cases on submit.",
+      "The editor: question on the left, your code on the right, test cases on submit.",
       MARGIN,
       y,
     );

@@ -58,7 +58,7 @@ export async function generateMetadata({
   }
   return pageMetadata({
     title: subject.name,
-    description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE. Solve previous-year questions (PYQs) and full timed mock tests, write code in your browser, and get graded instantly.`,
+    description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE. Solve previous-year questions (PYQs) and full timed mock tests, write code, and get graded instantly.`,
     path: `/app/subjects/${slug}`,
     keywords: [
       `${subject.name} OPPE`,

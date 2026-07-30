@@ -22,14 +22,14 @@ export async function GET() {
   L.push(
     "> Free practice for the OPPE (Online Proctored Programming Exam) of the " +
       "Online IIT Madras BS Degree. Previous-year questions (PYQs) and full " +
-      "timed mock tests with instant in-browser grading, in Programming in " +
+      "timed mock tests with instant grading, in Programming in " +
       "Python, DBMS and more. Built and run by the student community; not " +
       "officially affiliated with IIT Madras.",
   );
   L.push("");
   L.push(
     "OPPE Practice helps IITM BS students rehearse the exact exam interface: " +
-      "write code in the browser, run it against hidden test cases, and get " +
+      "write code, run it against hidden test cases, and get " +
       "graded instantly, just like the real proctored OPPE. Everything here is " +
       "free and requires no account to browse.",
   );

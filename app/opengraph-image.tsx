@@ -52,7 +52,7 @@ export default function OpengraphImage() {
             OPPE Exams
           </div>
           <div style={{ marginTop: 28, fontSize: 34, fontWeight: 400, color: "rgba(255,255,255,0.9)" }}>
-            Previous-year questions & timed mocks · in-browser grading
+            Previous-year questions & timed mocks · instant grading
           </div>
         </div>
 

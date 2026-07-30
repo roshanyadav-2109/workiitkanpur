@@ -24,7 +24,7 @@ export const metadata: Metadata = {
       "OPPE Practice — Practise OPPE Exams of the Online IIT Madras BS Degree",
   },
   description:
-    "OPPE practice for the Online IIT Madras BS Degree. Practise OPPE exams with previous-year questions (PYQs) and full timed mock tests in Programming in Python, DBMS and more — write and run code in your browser, get graded instantly, and climb the leaderboard.",
+    "OPPE practice for the Online IIT Madras BS Degree. Practise OPPE exams with previous-year questions (PYQs) and full timed mock tests in Programming in Python, DBMS and more — write and run code, get graded instantly, and climb the leaderboard.",
   alternates: { canonical: "/" },
 };
 
@@ -39,7 +39,7 @@ const FAQS = [
   {
     question: "How can I practise for the OPPE?",
     answer:
-      "Pick a subject, solve practice questions in the in-browser editor, and take full timed mock tests that mirror the real OPPE. Your code is graded instantly against sample and hidden test cases, and your accuracy, speed and coverage are tracked over time.",
+      "Pick a subject, solve practice questions in the editor, and take full timed mock tests that mirror the real OPPE. Your code is graded instantly against sample and hidden test cases, and your accuracy, speed and coverage are tracked over time.",
   },
   {
     question: "Are previous-year OPPE questions (PYQs) available?",

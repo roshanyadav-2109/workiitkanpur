@@ -105,7 +105,7 @@ export function websiteNode() {
     "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
     name: SITE_NAME,
-    description: `${SITE_TAGLINE} — previous-year questions and timed mocks with in-browser grading.`,
+    description: `${SITE_TAGLINE} — previous-year questions and timed mocks with instant grading.`,
     inLanguage: "en-IN",
     publisher: { "@id": `${SITE_URL}/#organization` },
   };

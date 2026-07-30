@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description:
-    "OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code in the browser, get instant grading, and track your progress.",
+    "OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code, get instant grading, and track your progress.",
   applicationName: "IITM BS Community",
   keywords: [
     "IIT Madras BS Degree",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     siteName: "IITM BS Community",
     title: "OPPE Practice for the IIT Madras BS Degree",
     description:
-      "Solve previous-year OPPE questions and full timed mocks in Python, DBMS and more — write code in the browser with instant grading.",
+      "Solve previous-year OPPE questions and full timed mocks in Python, DBMS and more — write code and get instant grading.",
     url: SITE_URL,
     locale: "en_IN",
   },
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OPPE Practice for the IIT Madras BS Degree",
     description:
-      "Previous-year OPPE questions and timed mocks with in-browser grading. Python, DBMS and more.",
+      "Previous-year OPPE questions and timed mocks with instant grading. Python, DBMS and more.",
   },
   robots: {
     index: true,

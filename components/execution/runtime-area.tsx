@@ -50,7 +50,7 @@ export function RuntimeArea({
           {kind === "mcq" ? "Answer" : "Code runner"}
         </span>
         <span className="text-[11px] uppercase tracking-[0.04em] text-fg-faint">
-          {RUNTIME_LABEL[kind] ?? kind} · runs in your browser
+          {RUNTIME_LABEL[kind] ?? kind}
         </span>
       </div>
       <div className="p-3">{body}</div>

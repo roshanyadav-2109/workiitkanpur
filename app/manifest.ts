@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "IITM BS Community — OPPE Practice",
     short_name: "IITM BS Community",
     description:
-      "OPPE practice for the IIT Madras BS Degree — previous-year questions and timed mocks with in-browser grading.",
+      "OPPE practice for the IIT Madras BS Degree — previous-year questions and timed mocks with instant grading.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
