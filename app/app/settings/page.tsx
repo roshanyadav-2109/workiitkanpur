@@ -113,6 +113,11 @@ export default async function SettingsPage() {
             >
               {shownName}
             </div>
+            {user.email && (
+              <div className="mt-1 max-w-full truncate text-[13px] text-fg-muted">
+                {user.email}
+              </div>
+            )}
             {isGoogle && (
               <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-hairline-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-fg">
                 <GoogleG /> Google

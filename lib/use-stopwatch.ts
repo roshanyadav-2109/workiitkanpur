@@ -28,14 +28,45 @@ export function useStopwatch(
       anchorRef.current = null;
       return;
     }
-    anchorRef.current = { at: Date.now(), base: secondsRef.current };
+    // Count only while the tab is actually visible. The anchor holds the start
+    // instant plus the seconds already banked; it's null while the tab is
+    // hidden, so background time (leaving the tab open overnight, switching
+    // away for a day) is never added. A refresh restores the banked value via
+    // the storage effect below, so it resumes rather than resets.
+    const anchorNow = () => {
+      anchorRef.current = { at: Date.now(), base: secondsRef.current };
+    };
+    const hidden = typeof document !== "undefined" && document.hidden;
+    if (hidden) anchorRef.current = null;
+    else anchorNow();
+
     const tick = () => {
       const anchor = anchorRef.current;
-      if (!anchor) return;
+      if (!anchor) return; // paused while hidden
       setSeconds(anchor.base + Math.floor((Date.now() - anchor.at) / 1000));
     };
+    const onVisibility = () => {
+      if (document.hidden) {
+        // Bank the elapsed seconds and stop the clock while away.
+        const anchor = anchorRef.current;
+        if (anchor) {
+          const banked =
+            anchor.base + Math.floor((Date.now() - anchor.at) / 1000);
+          secondsRef.current = banked;
+          setSeconds(banked);
+          anchorRef.current = null;
+        }
+      } else {
+        // Resume from the banked value, not from where we left the clock.
+        anchorNow();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
     const id = window.setInterval(tick, 250);
-    return () => window.clearInterval(id);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, [running]);
 
   // Restore on mount, and again whenever the key changes (moving to another
