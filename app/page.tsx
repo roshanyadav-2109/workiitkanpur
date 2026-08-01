@@ -8,6 +8,7 @@ import { HomeCarousel } from "@/components/home/home-carousel";
 import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
 import { getCurriculum, getCurrentUser, getProfilePhone } from "@/lib/queries";
+import { displayName } from "@/lib/utils";
 import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
 import { FeedbackForm } from "@/components/home/feedback-form";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -69,7 +70,7 @@ export default async function LandingPage() {
   const user = await getCurrentUser();
   const meta = (user?.user_metadata ?? {}) as Record<string, string>;
   const feedbackDefaults = {
-    name: meta.full_name || meta.name || "",
+    name: displayName(meta.full_name || meta.name || ""),
     email: user?.email || "",
     phone: user ? ((await getProfilePhone(user.id)) ?? "") : "",
   };

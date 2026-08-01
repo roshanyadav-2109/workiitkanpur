@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
+import { displayName } from "@/lib/utils";
 import type {
   Attempt,
   Difficulty,
@@ -389,7 +390,10 @@ export async function getLeaderboard(limit = 50): Promise<LeaderboardRow[]> {
     .order("solved", { ascending: false })
     .order("total_seconds", { ascending: true })
     .limit(limit);
-  return (data as LeaderboardRow[]) ?? [];
+  return ((data as LeaderboardRow[]) ?? []).map((r) => ({
+    ...r,
+    name: displayName(r.name),
+  }));
 }
 
 export interface MockRow {
@@ -412,7 +416,10 @@ export async function getMockBoard(): Promise<MockRow[]> {
     .order("set_id", { ascending: true })
     .order("score", { ascending: false })
     .order("time_seconds", { ascending: true });
-  return (data as MockRow[]) ?? [];
+  return ((data as MockRow[]) ?? []).map((r) => ({
+    ...r,
+    name: displayName(r.name),
+  }));
 }
 
 export interface TestAttemptRow {

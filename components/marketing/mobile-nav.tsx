@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { displayName } from "@/lib/utils";
 
 interface Item {
   label: string;
@@ -74,7 +75,7 @@ export function MobileNav() {
       if (!u) return setUser(null);
       const m = u.user_metadata ?? {};
       setUser({
-        name: m.full_name || m.name || u.email?.split("@")[0] || "Account",
+        name: displayName(m.full_name || m.name || u.email?.split("@")[0] || "Account"),
         photo: m.avatar_url ?? m.picture ?? null,
       });
     });

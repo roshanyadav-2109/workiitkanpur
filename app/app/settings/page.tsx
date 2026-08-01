@@ -7,7 +7,7 @@ import {
   getLeaderboard,
 } from "@/lib/queries";
 import { computeProgress } from "@/lib/metrics";
-import { pluralize } from "@/lib/utils";
+import { pluralize, displayName } from "@/lib/utils";
 import { ProfileForm } from "@/components/settings/profile-form";
 import { CountryFlag } from "@/components/settings/phone-input";
 import { IconDoorOpen } from "@/components/icons";
@@ -45,8 +45,9 @@ export default async function SettingsPage() {
   ]);
 
   const meta = user.user_metadata ?? {};
-  const displayName =
-    profile?.display_name || meta.full_name || meta.name || user.email?.split("@")[0] || "Student";
+  const shownName = displayName(
+    profile?.display_name || meta.full_name || meta.name || user.email?.split("@")[0] || "Student",
+  );
   const phone: string = profile?.phone ?? "";
   const avatarUrl: string | null = meta.avatar_url ?? meta.picture ?? null;
   const isGoogle = (user.app_metadata?.provider as string | undefined) === "google";
@@ -110,7 +111,7 @@ export default async function SettingsPage() {
               className="mt-3.5 text-[18px] font-semibold text-fg"
               style={{ fontFamily: "var(--font-fraunces)" }}
             >
-              {displayName}
+              {shownName}
             </div>
             {isGoogle && (
               <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-hairline-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-fg">
@@ -145,7 +146,7 @@ export default async function SettingsPage() {
           <h2 className="text-[16px] font-semibold text-fg">Profile details</h2>
           <div className="mt-5">
             <ProfileForm
-              initialName={displayName}
+              initialName={shownName}
               email={user.email ?? ""}
               initialPhone={phone}
             />

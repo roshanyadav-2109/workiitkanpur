@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { buttonVariants } from "@/components/ui/button";
 import { IconDoorOpen } from "@/components/icons";
+import { displayName } from "@/lib/utils";
 
 interface Me {
   name: string;
@@ -48,7 +49,7 @@ export function ProfileMenu() {
       if (u) {
         const m = u.user_metadata ?? {};
         setMe({
-          name: m.full_name || m.name || u.email?.split("@")[0] || "Account",
+          name: displayName(m.full_name || m.name || u.email?.split("@")[0] || "Account"),
           email: u.email ?? "",
           photo: m.avatar_url ?? m.picture ?? null,
         });

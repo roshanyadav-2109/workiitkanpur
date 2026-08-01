@@ -72,3 +72,21 @@ export function dayKey(d: Date): string {
 export function pluralize(n: number, singular: string, plural?: string): string {
   return n === 1 ? singular : (plural ?? `${singular}s`);
 }
+
+/**
+ * IITM BS logins often prefix the roll number to the Google name, e.g.
+ * "24F2004906 AMAN SHARMA" (case varies). For display we show only the human
+ * name by dropping leading whitespace-separated tokens that contain a digit —
+ * a real name has none. Names with no roll number are returned unchanged, and
+ * if only a roll number is present it's kept as a fallback. This is display
+ * only; the full stored name is never modified.
+ */
+export function displayName(raw: string | null | undefined): string {
+  const name = (raw ?? "").trim();
+  if (!name) return "";
+  const tokens = name.split(/\s+/);
+  let i = 0;
+  while (i < tokens.length && /\d/.test(tokens[i])) i++;
+  const rest = tokens.slice(i).join(" ").trim();
+  return rest || name;
+}
