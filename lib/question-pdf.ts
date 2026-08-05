@@ -79,7 +79,7 @@ export function buildQuestionPdf(q: QuestionPdfInput): ArrayBuffer {
   y += 22;
 
   /* ---- Body ------------------------------------------------------------ */
-  y = renderMarkdown(doc, q.bodyMd, y, need, newPage);
+  y = renderMarkdown(doc, q.bodyMd, y);
 
   if (q.solutionMd && q.solutionMd.trim()) {
     y += 10;
@@ -95,7 +95,7 @@ export function buildQuestionPdf(q: QuestionPdfInput): ArrayBuffer {
     doc.text("Solution", MARGIN, y);
     y += 20;
 
-    y = renderMarkdown(doc, q.solutionMd, y, need, newPage);
+    y = renderMarkdown(doc, q.solutionMd, y);
   }
 
   /* ---- Where you solve it (same shot on every handout) ----------------- */
@@ -245,7 +245,6 @@ function renderSchema(
   doc: jsPDF,
   specText: string,
   startY: number,
-  need: (h: number) => void,
 ): number | null {
   let spec: { tables?: SchemaTable[] };
   try {
@@ -257,6 +256,13 @@ function renderSchema(
   if (!Array.isArray(tables) || tables.length === 0) return null;
 
   let y = startY;
+  const newPage = () => {
+    doc.addPage();
+    y = MARGIN;
+  };
+  const need = (h: number) => {
+    if (y + h > PAGE_H - MARGIN - 20) newPage();
+  };
   for (const table of tables) {
     need(30);
     doc.setFont("helvetica", "bold");
@@ -295,14 +301,17 @@ function renderSchema(
  * Minimal markdown renderer: headings, paragraphs, bullet/numbered lists and
  * fenced code blocks. Enough for question bodies without pulling in a parser.
  */
-function renderMarkdown(
-  doc: jsPDF,
-  md: string,
-  startY: number,
-  need: (h: number) => void,
-  newPage: () => void,
-): number {
+function renderMarkdown(doc: jsPDF, md: string, startY: number): number {
   let y = startY;
+  // Self-managed pagination: these operate on THIS function's `y` so a long
+  // body actually breaks to a new page instead of overrunning the footer.
+  const newPage = () => {
+    doc.addPage();
+    y = MARGIN;
+  };
+  const need = (h: number) => {
+    if (y + h > PAGE_H - MARGIN - 20) newPage();
+  };
   const lines = md.replace(/\r\n/g, "\n").split("\n");
 
   const para = (text: string, indent = 0) => {
@@ -336,7 +345,7 @@ function renderMarkdown(
       // A ```schema fence holds the database tables as JSON — render it as a
       // readable table/column listing instead of dumping the raw JSON.
       if (lang === "schema") {
-        const after = renderSchema(doc, code.join("\n"), y, need);
+        const after = renderSchema(doc, code.join("\n"), y);
         if (after !== null) {
           y = after;
           continue;
@@ -345,29 +354,44 @@ function renderMarkdown(
       }
       const boxPad = 8;
       const lineH = 12.5;
-      const boxH = code.length * lineH + boxPad * 2;
-      if (y + boxH > PAGE_H - MARGIN - 24) newPage();
-
-      doc.setFillColor(248, 248, 248);
-      doc.setDrawColor(210, 210, 210);
-      doc.setLineWidth(0.5);
-      doc.rect(MARGIN, y - 2, CONTENT_W, boxH, "FD");
-
+      // Flatten to wrapped monospace rows, then draw them a page at a time so a
+      // long code block spills onto the next page instead of over the footer.
       doc.setFont("courier", "normal");
       doc.setFontSize(9.5);
-      doc.setTextColor(INK);
-      let cy = y + boxPad + 6;
+      const rows: string[] = [];
       for (const c of code) {
         const wrapped = doc.splitTextToSize(
           latin1(c) || " ",
           CONTENT_W - boxPad * 2,
         ) as string[];
-        for (const w of wrapped) {
-          doc.text(w, MARGIN + boxPad, cy);
+        for (const w of wrapped) rows.push(w);
+      }
+      let idx = 0;
+      while (idx < rows.length) {
+        const bottom = PAGE_H - MARGIN - 20;
+        const fit = Math.max(1, Math.floor((bottom - (y + boxPad + 6)) / lineH));
+        if (fit < 1 || y + boxPad * 2 + lineH > bottom) {
+          newPage();
+          continue;
+        }
+        const take = Math.min(rows.length - idx, fit);
+        const boxH = take * lineH + boxPad * 2;
+        doc.setFillColor(248, 248, 248);
+        doc.setDrawColor(210, 210, 210);
+        doc.setLineWidth(0.5);
+        doc.rect(MARGIN, y - 2, CONTENT_W, boxH, "FD");
+        doc.setFont("courier", "normal");
+        doc.setFontSize(9.5);
+        doc.setTextColor(INK);
+        let cy = y + boxPad + 6;
+        for (let k = 0; k < take; k++) {
+          doc.text(rows[idx + k], MARGIN + boxPad, cy);
           cy += lineH;
         }
+        y += boxH + 12;
+        idx += take;
+        if (idx < rows.length) newPage();
       }
-      y += boxH + 12;
       continue;
     }
 
