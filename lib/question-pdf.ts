@@ -225,6 +225,72 @@ function plain(s: string): string {
   );
 }
 
+interface SchemaCol {
+  name: string;
+  type?: string;
+  pk?: boolean;
+  fk?: string;
+}
+interface SchemaTable {
+  name: string;
+  columns: SchemaCol[];
+}
+
+/**
+ * Render a ```schema spec (the same JSON the web app draws as a diagram) as a
+ * clean table/column listing. Returns the new y, or null if the JSON can't be
+ * parsed (so the caller can fall back to a plain code box).
+ */
+function renderSchema(
+  doc: jsPDF,
+  specText: string,
+  startY: number,
+  need: (h: number) => void,
+): number | null {
+  let spec: { tables?: SchemaTable[] };
+  try {
+    spec = JSON.parse(specText);
+  } catch {
+    return null;
+  }
+  const tables = spec.tables;
+  if (!Array.isArray(tables) || tables.length === 0) return null;
+
+  let y = startY;
+  for (const table of tables) {
+    need(30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10.5);
+    doc.setTextColor(INK);
+    doc.text(latin1(String(table.name)), MARGIN, y);
+    y += 14;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    doc.setTextColor(INK);
+    for (const col of table.columns ?? []) {
+      const marks = [
+        col.pk ? "PK" : null,
+        col.fk ? `FK -> ${col.fk}` : null,
+      ]
+        .filter(Boolean)
+        .join(", ");
+      const txt = `- ${col.name}${col.type ? ` : ${col.type}` : ""}${marks ? `   (${marks})` : ""}`;
+      const wrapped = doc.splitTextToSize(
+        latin1(txt),
+        CONTENT_W - 14,
+      ) as string[];
+      for (const w of wrapped) {
+        need(13);
+        doc.text(w, MARGIN + 12, y);
+        y += 12.5;
+      }
+    }
+    y += 9;
+  }
+  return y + 2;
+}
+
 /**
  * Minimal markdown renderer: headings, paragraphs, bullet/numbered lists and
  * fenced code blocks. Enough for question bodies without pulling in a parser.
@@ -260,11 +326,22 @@ function renderMarkdown(
 
     // fenced code block
     if (line.trimStart().startsWith("```")) {
+      const lang = line.trimStart().slice(3).trim().toLowerCase();
       const code: string[] = [];
       i++;
       while (i < lines.length && !lines[i].trimStart().startsWith("```")) {
         code.push(lines[i]);
         i++;
+      }
+      // A ```schema fence holds the database tables as JSON — render it as a
+      // readable table/column listing instead of dumping the raw JSON.
+      if (lang === "schema") {
+        const after = renderSchema(doc, code.join("\n"), y, need);
+        if (after !== null) {
+          y = after;
+          continue;
+        }
+        // fall through to the code box if the spec couldn't be parsed
       }
       const boxPad = 8;
       const lineH = 12.5;
