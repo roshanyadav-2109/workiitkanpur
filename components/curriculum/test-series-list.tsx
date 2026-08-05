@@ -37,9 +37,9 @@ export function TestSeriesList({
   const [picking, setPicking] = useState<TestSetMeta | null>(null);
   const [exam, setExam] = useState<string>("all");
 
-  // Exam filter (OPPE 1 / OPPE 2 / …) — only offered when the available papers
-  // actually span more than one exam, so it never shows a pointless one-option
-  // dropdown.
+  // Exam filter (OPPE 1 / OPPE 2 / …) — shown whenever the available papers
+  // carry an exam, so it's a consistent control in every subject's Test Series
+  // and PYQ tabs.
   const exams = useMemo(
     () =>
       Array.from(
@@ -57,7 +57,7 @@ export function TestSeriesList({
 
   return (
     <div className="space-y-3">
-      {exams.length > 1 && (
+      {exams.length > 0 && (
         <div className="mb-1 w-full sm:w-[12rem]">
           <Select
             value={exam}
