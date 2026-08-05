@@ -133,7 +133,7 @@ export const getCurriculum = cached(async function getCurriculum(): Promise<Curr
  * grouped into the sections the original exam used.
  */
 const TEST_SET_COLUMNS =
-  "slug, title, category, duration_seconds, is_available, sort_order, " +
+  "slug, title, exam, category, duration_seconds, is_available, sort_order, " +
   "questions:test_set_questions(question_id, section, marks, sort_order)";
 const TEST_SET_RULES = ", rules:test_set_sections(name, best_of, note, sort_order)";
 
@@ -151,12 +151,14 @@ export const getTestSets = cached(async function getTestSets(subjectId: string):
   // sections and its questions, so read it again without the rules rather than
   // failing — otherwise a missing table would take down every paper, not just
   // the one relying on a rule.
-  let { data: sets, error } = await read(TEST_SET_COLUMNS + TEST_SET_RULES);
-  if (error) ({ data: sets } = await read(TEST_SET_COLUMNS));
+  const withRules = await read(TEST_SET_COLUMNS + TEST_SET_RULES);
+  let sets = withRules.data;
+  if (withRules.error) ({ data: sets } = await read(TEST_SET_COLUMNS));
 
   type Row = {
     slug: string;
     title: string;
+    exam: string | null;
     category: "pyq" | "mock";
     duration_seconds: number;
     is_available: boolean;
@@ -204,6 +206,7 @@ export const getTestSets = cached(async function getTestSets(subjectId: string):
     return {
       id: s.slug,
       name: s.title,
+      exam: s.exam ?? null,
       category: s.category ?? "mock",
       durationSeconds: s.duration_seconds,
       available: s.is_available && items.length > 0,

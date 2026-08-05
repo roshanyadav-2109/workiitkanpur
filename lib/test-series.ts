@@ -17,6 +17,8 @@ export type TestSetCategory = "pyq" | "mock";
 export interface TestSet {
   id: string;
   name: string;
+  /** The exam this paper belongs to (e.g. "OPPE 1", "OPPE 2"), for filtering. */
+  exam: string | null;
   /** Previous-year paper, or a mock — they live under different sections. */
   category: TestSetCategory;
   durationSeconds: number;
@@ -27,6 +29,7 @@ export interface TestSet {
 export interface TestSetMeta {
   id: string;
   name: string;
+  exam: string | null;
   available: boolean;
   sectionCount: number;
   questionCount: number;
@@ -62,6 +65,7 @@ export function setMeta(set: TestSet): TestSetMeta {
   return {
     id: set.id,
     name: set.name,
+    exam: set.exam,
     available: set.available,
     sectionCount: set.sections.length,
     questionCount: set.sections.reduce((n, s) => n + s.questionIds.length, 0),

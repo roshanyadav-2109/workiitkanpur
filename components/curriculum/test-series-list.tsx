@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatClock } from "@/lib/utils";
 import { formatDurationMin, type TestSetMeta } from "@/lib/test-series";
 import type { TestAttemptRow } from "@/lib/queries";
 import { usePhoneGate } from "@/components/phone/phone-gate";
+import { Select } from "@/components/ui/input";
 
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -31,9 +32,23 @@ export function TestSeriesList({
 }) {
   const router = useRouter();
   const gate = usePhoneGate();
-  const live = sets.filter((s) => s.available);
+  const available = sets.filter((s) => s.available);
   const submittedPast = past.filter((a) => a.status === "submitted");
   const [picking, setPicking] = useState<TestSetMeta | null>(null);
+  const [exam, setExam] = useState<string>("all");
+
+  // Exam filter (OPPE 1 / OPPE 2 / …) — only offered when the available papers
+  // actually span more than one exam, so it never shows a pointless one-option
+  // dropdown.
+  const exams = useMemo(
+    () =>
+      Array.from(
+        new Set(available.map((s) => s.exam).filter((e): e is string => !!e)),
+      ).sort(),
+    [available],
+  );
+  const live =
+    exam === "all" ? available : available.filter((s) => s.exam === exam);
 
   function enter(env: "learning" | "exam") {
     if (!picking) return;
@@ -42,6 +57,23 @@ export function TestSeriesList({
 
   return (
     <div className="space-y-3">
+      {exams.length > 1 && (
+        <div className="mb-1 w-full sm:w-[12rem]">
+          <Select
+            value={exam}
+            onChange={(e) => setExam(e.target.value)}
+            aria-label="Filter by exam"
+            className="h-10 rounded-[8px] border-[#3d3d3d]! text-[13.5px] focus-visible:border-[#3d3d3d]! sm:h-11 sm:text-[15px]"
+          >
+            <option value="all">All exams</option>
+            {exams.map((ex) => (
+              <option key={ex} value={ex}>
+                {ex}
+              </option>
+            ))}
+          </Select>
+        </div>
+      )}
       {live.map((s) => (
         <div
           key={s.id}
