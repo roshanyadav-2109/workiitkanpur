@@ -1,6 +1,30 @@
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { displayName } from "@/lib/utils";
+
+/**
+ * Shared cache settings for public, cross-user content. These queries carry no
+ * per-user data, so their results are cached in Next's Data Cache and reused
+ * for every visitor — Supabase is hit at most once per revalidate window
+ * instead of once per request. Tags allow on-demand invalidation.
+ */
+const CONTENT = { revalidate: 3600, tags: ["content"] } as const; // subjects/questions/sets — 1h
+const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
+
+/** unstable_cache wrapper that preserves the wrapped function's exact type
+ *  (its own single-type-param signature otherwise widens results to `any`). */
+function cached<A extends unknown[], R>(
+  fn: (...args: A) => Promise<R>,
+  keyParts: string[],
+  opts: { revalidate: number; tags: readonly string[] },
+): (...args: A) => Promise<R> {
+  return unstable_cache(fn, keyParts, {
+    revalidate: opts.revalidate,
+    tags: [...opts.tags],
+  }) as (...args: A) => Promise<R>;
+}
 import type {
   Attempt,
   Difficulty,
@@ -49,22 +73,26 @@ export const getProfilePhone = cache(async function getProfilePhone(
   return data?.phone ?? null;
 });
 
-export async function getSubjects(): Promise<Subject[]> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("subjects")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("name", { ascending: true });
-  return data ?? [];
-}
+export const getSubjects = cached(
+  async function getSubjects(): Promise<Subject[]> {
+    const supabase = createPublicClient();
+    const { data } = await supabase
+      .from("subjects")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("name", { ascending: true });
+    return data ?? [];
+  },
+  ["subjects"],
+  CONTENT,
+);
 
 /**
  * The degree / level / subject map. Small reference data, read once per page
  * and then passed down — client components never query it themselves.
  */
-export async function getCurriculum(): Promise<Curriculum> {
-  const supabase = await createClient();
+export const getCurriculum = cached(async function getCurriculum(): Promise<Curriculum> {
+  const supabase = createPublicClient();
   const [{ data: degrees }, { data: offerings }] = await Promise.all([
     supabase
       .from("degrees")
@@ -98,7 +126,7 @@ export async function getCurriculum(): Promise<Curriculum> {
         level: o.level,
       })),
   };
-}
+}, ["curriculum"], CONTENT);
 
 /**
  * The Test Series papers for a subject, newest first, each with its problems
@@ -109,8 +137,8 @@ const TEST_SET_COLUMNS =
   "questions:test_set_questions(question_id, section, marks, sort_order)";
 const TEST_SET_RULES = ", rules:test_set_sections(name, best_of, note, sort_order)";
 
-export async function getTestSets(subjectId: string): Promise<TestSet[]> {
-  const supabase = await createClient();
+export const getTestSets = cached(async function getTestSets(subjectId: string): Promise<TestSet[]> {
+  const supabase = createPublicClient();
   const read = (columns: string) =>
     supabase
       .from("test_sets")
@@ -182,20 +210,20 @@ export async function getTestSets(subjectId: string): Promise<TestSet[]> {
       sections,
     };
   });
-}
+}, ["test-sets"], CONTENT);
 
-export async function getSubjectBySlug(slug: string): Promise<Subject | null> {
-  const supabase = await createClient();
+export const getSubjectBySlug = cached(async function getSubjectBySlug(slug: string): Promise<Subject | null> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("subjects")
     .select("*")
     .eq("slug", slug)
     .maybeSingle();
   return data ?? null;
-}
+}, ["subject-by-slug"], CONTENT);
 
-export async function getTopicsForSubject(subjectId: string): Promise<Topic[]> {
-  const supabase = await createClient();
+export const getTopicsForSubject = cached(async function getTopicsForSubject(subjectId: string): Promise<Topic[]> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("topics")
     .select("*")
@@ -203,7 +231,7 @@ export async function getTopicsForSubject(subjectId: string): Promise<Topic[]> {
     .order("sort_order", { ascending: true })
     .order("week", { ascending: true });
   return data ?? [];
-}
+}, ["topics"], CONTENT);
 
 /** One row of the practice list / IDE side-nav. List columns only. */
 export interface QuestionListItem {
@@ -227,10 +255,10 @@ export interface QuestionListItem {
  * render rows that use nine short fields (~27 kB). Test Series questions are
  * filtered out in SQL rather than in JS for the same reason.
  */
-export const getSubjectQuestionList = cache(async function getSubjectQuestionList(
+export const getSubjectQuestionList = cached(async function getSubjectQuestionList(
   subjectId: string,
 ): Promise<QuestionListItem[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("questions")
     .select(
@@ -241,7 +269,7 @@ export const getSubjectQuestionList = cache(async function getSubjectQuestionLis
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
   return (data as unknown as QuestionListItem[]) ?? [];
-});
+}, ["subject-question-list"], CONTENT);
 
 /**
  * Full question payloads for the handful of questions in one paper.
@@ -249,11 +277,11 @@ export const getSubjectQuestionList = cache(async function getSubjectQuestionLis
  * The exam runner used to load every question in the subject and keep the
  * eight it needed; this fetches only those eight.
  */
-export async function getQuestionsForRun(
+export const getQuestionsForRun = cached(async function getQuestionsForRun(
   ids: string[],
 ): Promise<QuestionWithTopic[]> {
   if (ids.length === 0) return [];
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("questions")
     .select(
@@ -261,7 +289,7 @@ export async function getQuestionsForRun(
     )
     .in("id", ids);
   return (data as unknown as QuestionWithTopic[]) ?? [];
-}
+}, ["questions-for-run"], CONTENT);
 
 export interface QuestionContext {
   question: Question;
@@ -277,10 +305,10 @@ export interface QuestionContext {
  * check belongs here rather than on each page — a closed subject's question
  * simply doesn't exist, and every caller gets that for free.
  */
-export async function getQuestionById(
+export const getQuestionById = cached(async function getQuestionById(
   id: string,
 ): Promise<QuestionContext | null> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("questions")
     .select(
@@ -296,7 +324,7 @@ export async function getQuestionById(
   };
   if (!subject?.is_active) return null;
   return { question, subject, topic };
-}
+}, ["question-by-id"], CONTENT);
 
 /** All of a user's attempts, newest first. */
 export async function getUserAttempts(userId: string): Promise<Attempt[]> {
@@ -357,13 +385,13 @@ export async function getNote(
 }
 
 /** Total question count (across all subjects). */
-export async function getQuestionCount(): Promise<number> {
-  const supabase = await createClient();
+export const getQuestionCount = cached(async function getQuestionCount(): Promise<number> {
+  const supabase = createPublicClient();
   const { count } = await supabase
     .from("questions")
     .select("id", { count: "exact", head: true });
   return count ?? 0;
-}
+}, ["question-count"], CONTENT);
 
 /** Lightweight question rows for cross-subject aggregation. */
 export async function getAllQuestionsMinimal(): Promise<QuestionMinimal[]> {
@@ -382,8 +410,8 @@ export interface LeaderboardRow {
 }
 
 /** Cross-user leaderboard (reads the aggregated, RLS-bypassing view). */
-export async function getLeaderboard(limit = 50): Promise<LeaderboardRow[]> {
-  const supabase = await createClient();
+export const getLeaderboard = cached(async function getLeaderboard(limit: number = 50): Promise<LeaderboardRow[]> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("leaderboard_overall")
     .select("user_id, name, solved, total_seconds")
@@ -394,7 +422,7 @@ export async function getLeaderboard(limit = 50): Promise<LeaderboardRow[]> {
     ...r,
     name: displayName(r.name),
   }));
-}
+}, ["leaderboard-overall"], BOARD);
 
 export interface MockRow {
   set_id: string;
@@ -408,8 +436,8 @@ export interface MockRow {
 }
 
 /** All mock/exam best-attempts across users (RLS-bypassing view), per set. */
-export async function getMockBoard(): Promise<MockRow[]> {
-  const supabase = await createClient();
+export const getMockBoard = cached(async function getMockBoard(): Promise<MockRow[]> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("mock_leaderboard")
     .select("set_id, set_name, user_id, name, score, total, time_seconds, submitted_at")
@@ -420,7 +448,7 @@ export async function getMockBoard(): Promise<MockRow[]> {
     ...r,
     name: displayName(r.name),
   }));
-}
+}, ["mock-board"], BOARD);
 
 export interface TestAttemptRow {
   id: string;
@@ -600,8 +628,8 @@ export interface Banner {
 
 /** Active image banners for the subject-page carousel, in display order.
  *  Rows without an actual image are skipped so nothing empty ever renders. */
-export async function getCarouselBanners(): Promise<Banner[]> {
-  const supabase = await createClient();
+export const getCarouselBanners = cached(async function getCarouselBanners(): Promise<Banner[]> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("carousel_banners")
     .select("id, image_url, href, alt")
@@ -610,14 +638,14 @@ export async function getCarouselBanners(): Promise<Banner[]> {
   return ((data as Banner[]) ?? []).filter(
     (b) => typeof b.image_url === "string" && b.image_url.trim() !== "",
   );
-}
+}, ["carousel-banners"], CONTENT);
 
 /** All topics (for progress grouping). */
-export async function getAllTopics(): Promise<Topic[]> {
-  const supabase = await createClient();
+export const getAllTopics = cached(async function getAllTopics(): Promise<Topic[]> {
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("topics")
     .select("*")
     .order("sort_order", { ascending: true });
   return data ?? [];
-}
+}, ["all-topics"], CONTENT);

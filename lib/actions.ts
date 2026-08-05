@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import type { AttemptStatus } from "@/lib/types";
@@ -53,6 +53,7 @@ export async function recordAttempt(input: {
   revalidatePath("/app");
   revalidatePath("/app/progress");
   revalidatePath(`/app/questions/${input.questionId}`);
+  revalidateTag("leaderboard", "max"); // a solve changes the standings
   return { ok: true };
 }
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import { getSubjectBySlug, getTestSets } from "@/lib/queries";
@@ -196,6 +196,7 @@ export async function submitTestAttempt(input: {
 
   revalidatePath(`/app/subjects/${attempt.subject_slug}`);
   revalidatePath("/app/progress");
+  revalidateTag("leaderboard", "max"); // a submitted paper updates the mock board
   return { ok: true, score, total };
 }
 
