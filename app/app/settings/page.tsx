@@ -39,7 +39,7 @@ export default async function SettingsPage() {
   const [{ data: profile }, attempts, totalQuestions, board] = await Promise.all([
     supabase
       .from("profiles")
-      .select("display_name, phone")
+      .select("display_name, phone, public_id")
       .eq("id", user.id)
       .maybeSingle(),
     getUserAttempts(user.id),
@@ -56,7 +56,7 @@ export default async function SettingsPage() {
   const isGoogle = (user.app_metadata?.provider as string | undefined) === "google";
 
   const summary = computeProgress(attempts, totalQuestions);
-  const rankIdx = board.findIndex((r) => r.user_id === user.id);
+  const rankIdx = board.findIndex((r) => r.public_id === profile?.public_id);
   const rank = rankIdx >= 0 ? rankIdx + 1 : null;
   const phoneIso = phone.trim() ? parsePhone(phone).iso : null;
 

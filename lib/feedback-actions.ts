@@ -15,6 +15,8 @@ export async function submitFeedback(input: {
   phone?: string;
   message: string;
 }): Promise<FeedbackResult> {
+  if (!input || typeof input.message !== "string")
+    return { ok: false, error: "Invalid feedback." };
   const message = (input.message ?? "").trim();
   if (message.length === 0) {
     return { ok: false, error: "Please write your feedback before sending." };
@@ -22,6 +24,13 @@ export async function submitFeedback(input: {
   if (message.length > 5000) {
     return { ok: false, error: "Please keep your feedback under 5000 characters." };
   }
+  const name = typeof input.name === "string" ? input.name.trim() : "";
+  const email = typeof input.email === "string" ? input.email.trim() : "";
+  const phone = typeof input.phone === "string" ? input.phone.trim() : "";
+  if (name.length > 100 || email.length > 320 || phone.length > 32)
+    return { ok: false, error: "One of the contact fields is too long." };
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return { ok: false, error: "Enter a valid email address." };
 
   const supabase = await createClient();
   const {
@@ -30,9 +39,9 @@ export async function submitFeedback(input: {
 
   const { error } = await supabase.from("feedback").insert({
     user_id: user?.id ?? null,
-    name: input.name?.trim() || null,
-    email: input.email?.trim() || null,
-    phone: input.phone?.trim() || null,
+    name: name || null,
+    email: email || null,
+    phone: phone || null,
     message,
   });
   if (error) {

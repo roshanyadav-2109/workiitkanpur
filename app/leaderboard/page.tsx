@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   getCurrentUser,
   getLeaderboard,
+  getProfilePublicId,
   getQuestionCount,
   getUserAttempts,
 } from "@/lib/queries";
@@ -31,10 +32,11 @@ export const metadata = pageMetadata({
 
 export default async function LeaderboardPage() {
   const user = await getCurrentUser();
-  const [rows, attempts, totalQuestions] = await Promise.all([
+  const [rows, attempts, totalQuestions, publicId] = await Promise.all([
     getLeaderboard(100),
     user ? getUserAttempts(user.id) : Promise.resolve([]),
     getQuestionCount(),
+    user ? getProfilePublicId(user.id) : Promise.resolve(null),
   ]);
 
   const summary = user ? computeProgress(attempts, totalQuestions) : null;
@@ -42,7 +44,9 @@ export default async function LeaderboardPage() {
     summary && totalQuestions
       ? Math.round((summary.solvedCount / totalQuestions) * 100)
       : 0;
-  const rankIdx = user ? rows.findIndex((r) => r.user_id === user.id) : -1;
+  const rankIdx = publicId
+    ? rows.findIndex((r) => r.public_id === publicId)
+    : -1;
   const rank = rankIdx >= 0 ? rankIdx + 1 : null;
   const percentileTop =
     rank && rows.length > 1
@@ -79,10 +83,10 @@ export default async function LeaderboardPage() {
             ) : (
               <div className="space-y-2">
                 {rows.map((r, i) => {
-                  const me = user?.id === r.user_id;
+                  const me = publicId === r.public_id;
                   return (
                     <div
-                      key={r.user_id}
+                      key={r.public_id}
                       className={cn(
                         "flex items-center gap-4 rounded-[4px] border-2 border-[#3d3d3d] px-4 py-3 text-[14px]",
                         me ? "bg-accent-weak" : "bg-canvas",

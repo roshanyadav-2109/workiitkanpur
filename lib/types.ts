@@ -9,6 +9,7 @@ export type AttemptStatus = "attempted" | "solved";
 
 export interface Profile {
   id: string;
+  public_id: string;
   display_name: string | null;
   created_at: string;
 }
@@ -168,7 +169,7 @@ export interface Database {
     Tables: {
       profiles: {
         Row: Row<Profile>;
-        Insert: Insert<Profile, "display_name" | "created_at">;
+        Insert: Insert<Profile, "public_id" | "display_name" | "created_at">;
         Update: Update<Profile>;
       };
       subjects: {

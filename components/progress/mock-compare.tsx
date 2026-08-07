@@ -4,8 +4,6 @@ import { useMemo, useState } from "react";
 import { Markdown } from "@/components/markdown";
 import { IconChevron } from "@/components/icons";
 import { Select } from "@/components/ui/input";
-import { RankMedal } from "@/components/progress/rank-medal";
-import { cn } from "@/lib/utils";
 
 export interface CompareItem {
   questionId: string;
@@ -15,7 +13,6 @@ export interface CompareItem {
   body: string;
   samples: { stdin: string; expected: string }[];
   myCode: string | null;
-  tops: { name: string; code: string | null }[];
   solution: string | null;
 }
 
@@ -81,11 +78,9 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
 
   const [section, setSection] = useState(sections[0] ?? "");
   const [idx, setIdx] = useState(0);
-  const [topRank, setTopRank] = useState(0);
 
   const inSection = items.filter((i) => i.section === section);
   const active = inSection[Math.min(idx, inSection.length - 1)] ?? null;
-  const top = active?.tops[Math.min(topRank, (active?.tops.length ?? 1) - 1)];
 
   if (items.length === 0 || !active) return null;
 
@@ -94,7 +89,6 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
       const n = inSection.length;
       return ((i + delta) % n + n) % n;
     });
-    setTopRank(0);
   }
 
   return (
@@ -103,7 +97,7 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
         <div>
           <h3 className="text-[15px] font-semibold text-fg">Compare solutions</h3>
           <p className="text-[12.5px] text-fg-muted">
-            Your code, the top solvers&apos;, and the model solution.
+            Your private submission beside the model solution.
           </p>
         </div>
         <div className="flex w-full items-center gap-2 sm:w-auto">
@@ -114,7 +108,6 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
               onChange={(e) => {
                 setSection(e.target.value);
                 setIdx(0);
-                setTopRank(0);
               }}
               aria-label="Filter by section"
               className="h-10 rounded-[8px] border-[#3d3d3d]! text-[13.5px] focus-visible:border-[#3d3d3d]!"
@@ -190,7 +183,7 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
       </div>
 
       {/* answers — clear the floated leaderboard, full width below it */}
-      <div className="mt-4 grid gap-3 lg:clear-right lg:grid-cols-3">
+      <div className="mt-4 grid gap-3 lg:clear-right lg:grid-cols-2">
         <AnswerCol
           title="You solved"
           accent
@@ -198,45 +191,11 @@ export function MockCompare({ items }: { items: CompareItem[] }) {
           empty="You haven't submitted this question."
         />
         <AnswerCol
-          title="Top solver"
-          header={
-            active.tops.length > 0 ? (
-              <div className="flex items-center gap-1">
-                {active.tops.map((t, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setTopRank(i)}
-                    aria-label={`Rank ${i + 1}: ${t.name}`}
-                    title={t.name}
-                    className={cn(
-                      "grid h-7 w-7 place-items-center rounded-full transition-colors",
-                      i === Math.min(topRank, active.tops.length - 1)
-                        ? "bg-accent-weak"
-                        : "opacity-55 hover:opacity-100",
-                    )}
-                  >
-                    <RankMedal rank={i + 1} className="h-5 w-auto" />
-                  </button>
-                ))}
-              </div>
-            ) : undefined
-          }
-          code={top?.code}
-          empty="No shared solutions yet."
-        />
-        <AnswerCol
           title="Model solution"
           solution={active.solution}
           empty="A model solution is coming soon."
         />
       </div>
-      {top && (
-        <p className="mt-1.5 text-[11.5px] text-fg-muted">
-          Showing <span className="font-medium text-fg">{top.name}</span>&apos;s
-          solution (rank #{Math.min(topRank, active.tops.length - 1) + 1}).
-        </p>
-      )}
     </div>
   );
 }

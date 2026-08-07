@@ -4,6 +4,7 @@ import {
   getCurrentUser,
   getNote,
   getQuestionById,
+  getQuestionSolutions,
   getSubjectQuestionList,
   getUserAttempts,
 } from "@/lib/queries";
@@ -99,12 +100,17 @@ export default async function QuestionPage({
   let status = new Map<string, QuestionStatus>();
   let bestSeconds: number | null = null;
   let note = "";
+  let solutionMd: string | null = null;
   if (user) {
-    const attempts = await getUserAttempts(user.id);
+    const [attempts, existing, solutions] = await Promise.all([
+      getUserAttempts(user.id),
+      getNote(user.id, id),
+      getQuestionSolutions([id]),
+    ]);
     status = statusByQuestion(attempts);
     bestSeconds = bestTimeByQuestion(attempts).get(id) ?? null;
-    const existing = await getNote(user.id, id);
     note = existing?.content_md ?? "";
+    solutionMd = solutions.get(id) ?? null;
   }
 
   // Group the subject's questions by topic (week) for the left navigation.
@@ -168,7 +174,7 @@ export default async function QuestionPage({
           kind: question.kind,
           difficulty: question.difficulty,
           body_md: question.body_md,
-          solution_md: question.solution_md,
+          solution_md: solutionMd,
           input_labels: question.input_labels,
           tests: question.tests,
           mcq_options: question.mcq_options,
@@ -179,7 +185,7 @@ export default async function QuestionPage({
           harness: question.harness,
           reference_sql:
             question.kind === "sql"
-              ? extractSqlBlock(question.solution_md)
+              ? extractSqlBlock(solutionMd)
               : null,
           topicName: topic?.name ?? null,
           week: topic?.week ?? null,

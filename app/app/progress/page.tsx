@@ -7,10 +7,10 @@ import {
   getCurrentUser,
   getLeaderboard,
   getMockBoard,
+  getProfilePublicId,
   getQuestionCount,
   getQuestionsByIds,
   getRecentActivity,
-  getTopSolutionsMap,
   getUserAttempts,
   getUserSubmissions,
   type MockRow,
@@ -42,7 +42,7 @@ export default async function Dashboard({
   const { tab } = await searchParams;
   const isMock = tab === "mock";
 
-  const [attempts, totalQuestions, leaderboard, questions, topics, recent, mockBoard] =
+  const [attempts, totalQuestions, leaderboard, questions, topics, recent, mockBoard, publicId] =
     await Promise.all([
       getUserAttempts(user.id),
       getQuestionCount(),
@@ -51,6 +51,7 @@ export default async function Dashboard({
       getAllTopics(),
       getRecentActivity(user.id, 12),
       getMockBoard(),
+      getProfilePublicId(user.id),
     ]);
 
   const summary = computeProgress(attempts, totalQuestions);
@@ -59,7 +60,7 @@ export default async function Dashboard({
   const pct = totalQuestions
     ? Math.round((summary.solvedCount / totalQuestions) * 100)
     : 0;
-  const rankIdx = leaderboard.findIndex((r) => r.user_id === user.id);
+  const rankIdx = leaderboard.findIndex((r) => r.public_id === publicId);
   const rank = rankIdx >= 0 ? rankIdx + 1 : null;
   const totalRanked = leaderboard.length;
   const percentileTop =
@@ -107,9 +108,9 @@ export default async function Dashboard({
     else bySet.set(r.set_id, [r]);
   }
   const myMocks = [...bySet.entries()]
-    .filter(([, rows]) => rows.some((r) => r.user_id === user.id))
+    .filter(([, rows]) => rows.some((r) => r.public_id === publicId))
     .map(([setId, rows]) => {
-      const idx = rows.findIndex((r) => r.user_id === user.id);
+      const idx = rows.findIndex((r) => r.public_id === publicId);
       const me = rows[idx];
       const p =
         rows.length > 1
@@ -139,17 +140,14 @@ export default async function Dashboard({
       score: r.score,
       total: r.total,
       timeSeconds: r.time_seconds,
-      me: r.user_id === user.id,
+      me: r.public_id === publicId,
     })),
   }));
 
   // Three-way solution comparison — your solved questions vs top solver vs model.
   const mySubmissions = await getUserSubmissions(user.id);
   const compareIds = mySubmissions.map((s) => s.question_id);
-  const [compareQ, topSolMap] = await Promise.all([
-    getQuestionsByIds(compareIds),
-    getTopSolutionsMap(compareIds),
-  ]);
+  const compareQ = await getQuestionsByIds(compareIds);
   const qMetaById = new Map(compareQ.map((q) => [q.id, q]));
   const myCodeById = new Map(mySubmissions.map((s) => [s.question_id, s.code]));
   const compareItems: CompareItem[] = compareIds.flatMap((qid) => {
@@ -164,7 +162,6 @@ export default async function Dashboard({
         body: q.body_md,
         samples: q.samples,
         myCode: myCodeById.get(qid) ?? null,
-        tops: topSolMap[qid] ?? [],
         solution: q.solution_md,
       },
     ];

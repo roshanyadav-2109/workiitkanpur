@@ -7,6 +7,9 @@ import { getSubjectBySlug, getTestSets } from "@/lib/queries";
 import { scorePaper, type ScoredSection } from "@/lib/scoring";
 import { logEvent } from "@/lib/activity";
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const MAX_ANSWER = 200_000;
+
 export type TestActionResult =
   | { ok: true; score: number; total: number }
   | { ok: false; error: string };
@@ -24,6 +27,14 @@ export async function startTestAttempt(input: {
   setId: string;
   environment: "learning" | "exam";
 }): Promise<{ attemptId: string } | { error: string }> {
+  if (
+    !input ||
+    typeof input.slug !== "string" ||
+    typeof input.setId !== "string" ||
+    input.slug.length > 100 ||
+    input.setId.length > 100 ||
+    !["learning", "exam"].includes(input.environment)
+  ) return { error: "Invalid test request." };
   const supabase = await createClient();
   const {
     data: { user },
@@ -97,6 +108,30 @@ export async function submitTestAttempt(input: {
   leaveCount: number;
   timeSeconds: number;
 }): Promise<TestActionResult> {
+  if (
+    !input ||
+    typeof input.attemptId !== "string" ||
+    !UUID.test(input.attemptId) ||
+    !Array.isArray(input.answers) ||
+    input.answers.length > 200 ||
+    !Number.isFinite(input.leaveCount) ||
+    !Number.isFinite(input.timeSeconds)
+  ) return { ok: false, error: "Invalid test submission." };
+
+  const answerIds = new Set<string>();
+  for (const answer of input.answers) {
+    if (
+      !answer ||
+      typeof answer.questionId !== "string" ||
+      !UUID.test(answer.questionId) ||
+      answerIds.has(answer.questionId) ||
+      (answer.answer != null &&
+        (typeof answer.answer !== "string" || answer.answer.length > MAX_ANSWER)) ||
+      !["none", "answered", "review"].includes(answer.status) ||
+      !Number.isFinite(answer.timeSpent)
+    ) return { ok: false, error: "Invalid test answer." };
+    answerIds.add(answer.questionId);
+  }
   const supabase = await createClient();
   const {
     data: { user },
@@ -145,7 +180,7 @@ export async function submitTestAttempt(input: {
       answer: a?.answer ?? null,
       is_correct: isCorrect,
       q_status: a?.status ?? "none",
-      time_spent_seconds: Math.max(0, Math.round(a?.timeSpent ?? 0)),
+      time_spent_seconds: Math.min(604800, Math.max(0, Math.round(a?.timeSpent ?? 0))),
     };
   });
 
@@ -153,7 +188,7 @@ export async function submitTestAttempt(input: {
     const { error: aErr } = await supabase
       .from("test_answers")
       .upsert(rows, { onConflict: "attempt_id,question_id" });
-    if (aErr) return { ok: false, error: aErr.message };
+    if (aErr) return { ok: false, error: "Could not save test answers." };
   }
 
   // Score from the paper's own rules: each question's marks, and each section's
@@ -173,12 +208,12 @@ export async function submitTestAttempt(input: {
       status: "submitted",
       score,
       total,
-      time_seconds: Math.max(0, Math.round(input.timeSeconds)),
-      leave_count: Math.max(0, Math.round(input.leaveCount)),
+      time_seconds: Math.min(604800, Math.max(0, Math.round(input.timeSeconds))),
+      leave_count: Math.min(100000, Math.max(0, Math.round(input.leaveCount))),
       submitted_at: new Date().toISOString(),
     })
     .eq("id", input.attemptId);
-  if (tErr) return { ok: false, error: tErr.message };
+  if (tErr) return { ok: false, error: "Could not submit this test." };
 
   await logEvent({
     event: "test_submit",

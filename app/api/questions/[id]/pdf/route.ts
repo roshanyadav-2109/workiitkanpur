@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { getQuestionById } from "@/lib/queries";
+import { getQuestionById, getQuestionSolutions } from "@/lib/queries";
 import { buildQuestionPdf } from "@/lib/question-pdf";
 import { createClient } from "@/lib/supabase/server";
 import { hasPhoneOnFile } from "@/lib/require-phone";
@@ -39,6 +39,7 @@ export async function GET(
 
   const ctx = await getQuestionById(id);
   if (!ctx) return new Response("Not found", { status: 404 });
+  const solutionMd = (await getQuestionSolutions([id])).get(id) ?? null;
 
   const { question, subject, topic } = ctx;
 
@@ -48,7 +49,7 @@ export async function GET(
     topic: topic?.name ?? null,
     week: topic?.week ?? null,
     bodyMd: question.body_md,
-    solutionMd: question.solution_md,
+    solutionMd,
     url: new URL(`/app/questions/${id}`, req.url).toString(),
     screenshot: await editorScreenshot(),
   });

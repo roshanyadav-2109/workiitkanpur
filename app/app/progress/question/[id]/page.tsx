@@ -5,17 +5,13 @@ import {
   getCurrentUser,
   getMySubmission,
   getNote,
+  getProfilePublicId,
   getQuestionById,
   getQuestionLeaderboard,
-  getQuestionTopSolutions,
 } from "@/lib/queries";
 import { Markdown } from "@/components/markdown";
 import { IconChevron } from "@/components/icons";
 import { RankMedal } from "@/components/progress/rank-medal";
-import {
-  SolutionCompare,
-  type CompareSolution,
-} from "@/components/progress/solution-compare";
 import { buttonVariants } from "@/components/ui/button";
 import { formatClock, cn } from "@/lib/utils";
 
@@ -36,11 +32,11 @@ export default async function QuestionAnalysisPage({
   const ctx = await getQuestionById(id);
   if (!ctx) notFound();
 
-  const [board, solutions, mySub, myNote] = await Promise.all([
+  const [board, mySub, myNote, publicId] = await Promise.all([
     getQuestionLeaderboard(id, 10),
-    getQuestionTopSolutions(id, 10),
     getMySubmission(user.id, id),
     getNote(user.id, id),
+    getProfilePublicId(user.id),
   ]);
 
   const times = board.map((b) => b.best_time);
@@ -48,17 +44,8 @@ export default async function QuestionAnalysisPage({
   const avg = times.length
     ? Math.round(times.reduce((s, t) => s + t, 0) / times.length)
     : null;
-  const myIdx = board.findIndex((b) => b.user_id === user.id);
+  const myIdx = board.findIndex((b) => b.public_id === publicId);
   const myTime = myIdx >= 0 ? board[myIdx].best_time : null;
-
-  const compareSolutions: CompareSolution[] = solutions.map((s) => ({
-    user_id: s.user_id,
-    name: s.name,
-    best_time: s.best_time,
-    code: s.code,
-    note: s.note,
-    me: s.user_id === user.id,
-  }));
 
   const publicTests = ctx.question.tests.filter((t) => !t.hidden);
   const hiddenCount = ctx.question.tests.filter((t) => t.hidden).length;
@@ -167,20 +154,40 @@ export default async function QuestionAnalysisPage({
 
           {/* compare — your code/notes vs the toppers' */}
           <div className="mt-6">
-            <h2 className="text-[16px] font-semibold">
-              How the top solvers approached it
-            </h2>
+            <h2 className="text-[16px] font-semibold">Your saved work</h2>
             <p className="mb-4 text-[13px] text-fg-muted">
-              Pick a solver to compare their code and notes against your own.
+              Your submitted code and notes are private to your account.
             </p>
-            <SolutionCompare
-              mine={
-                mySub || myNote
-                  ? { code: mySub?.code ?? null, note: myNote?.content_md ?? null }
-                  : null
-              }
-              solutions={compareSolutions}
-            />
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="overflow-hidden rounded-[10px] border border-hairline bg-canvas">
+                <div className="border-b border-hairline px-4 py-2.5 text-[13.5px] font-semibold text-accent">
+                  Your solution
+                </div>
+                {mySub?.code ? (
+                  <pre className="max-h-[340px] overflow-auto bg-[#0f0b1e] p-4 font-mono text-[12.5px] leading-relaxed text-white/90">
+                    {mySub.code}
+                  </pre>
+                ) : (
+                  <p className="px-4 py-8 text-center text-[13px] text-fg-muted">
+                    Submit this question to save your code here.
+                  </p>
+                )}
+              </div>
+              <div className="overflow-hidden rounded-[10px] border border-hairline bg-canvas">
+                <div className="border-b border-hairline px-4 py-2.5 text-[13.5px] font-semibold">
+                  Your notes
+                </div>
+                {myNote?.content_md ? (
+                  <div className="prose-oppe max-h-[340px] overflow-auto p-4 text-[13px]">
+                    <Markdown>{myNote.content_md}</Markdown>
+                  </div>
+                ) : (
+                  <p className="px-4 py-8 text-center text-[13px] text-fg-muted">
+                    You have not saved a note for this question.
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -198,11 +205,11 @@ export default async function QuestionAnalysisPage({
                 </p>
               ) : (
                 board.map((b, i) => {
-                  const me = b.user_id === user.id;
+                  const me = b.public_id === publicId;
                   const delta = fastest != null ? b.best_time - fastest : 0;
                   return (
                     <div
-                      key={b.user_id}
+                      key={b.public_id}
                       className={cn(
                         "flex items-center gap-3 rounded-[7px] px-3 py-2 text-[13.5px]",
                         me ? "bg-accent-weak" : "bg-canvas",

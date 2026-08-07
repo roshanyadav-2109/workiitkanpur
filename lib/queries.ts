@@ -1,3 +1,5 @@
+import "server-only";
+
 import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
@@ -78,6 +80,20 @@ export const getProfilePhone = cache(async function getProfilePhone(
     .eq("id", userId)
     .maybeSingle();
   return data?.phone ?? null;
+});
+
+/** Stable public identifier for recognising the signed-in learner's own
+ * aggregate row without exposing their authentication UUID. */
+export const getProfilePublicId = cache(async function getProfilePublicId(
+  userId: string,
+): Promise<string | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("public_id")
+    .eq("id", userId)
+    .maybeSingle();
+  return (data?.public_id as string | null | undefined) ?? null;
 });
 
 export const getSubjects = cached(
@@ -246,7 +262,7 @@ export const getTopicsForSubject = cached(async function getTopicsForSubject(sub
     .order("sort_order", { ascending: true })
     .order("week", { ascending: true });
   return data ?? [];
-}, ["topics"], CONTENT);
+}, ["topics", QUESTION_CONTENT_REVISION], CONTENT);
 
 /** One row of the practice list / IDE side-nav. List columns only. */
 export interface QuestionListItem {
@@ -331,19 +347,26 @@ export const getSubjectQuestionPage = cached(async function getSubjectQuestionPa
  * The exam runner used to load every question in the subject and keep the
  * eight it needed; this fetches only those eight.
  */
-export const getQuestionsForRun = cached(async function getQuestionsForRun(
+export async function getQuestionsForRun(
   ids: string[],
 ): Promise<QuestionWithTopic[]> {
   if (ids.length === 0) return [];
-  const supabase = createPublicClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("questions")
     .select(
-      "id, title, body_md, solution_md, kind, tests, mcq_options, mcq_answer, setup_sql, starter_code, language, harness, input_labels, difficulty",
+      "id, subject_id, topic_id, title, body_md, difficulty, kind, tags, sort_order, created_at, tests, mcq_options, mcq_answer, setup_sql, starter_code, language, harness, input_labels, exam, practice_only",
     )
     .in("id", ids);
-  return (data as unknown as QuestionWithTopic[]) ?? [];
-}, ["questions-for-run", QUESTION_CONTENT_REVISION], CONTENT);
+  const solutions = await getQuestionSolutions(ids);
+  return (
+    (data as unknown as Omit<QuestionWithTopic, "solution_md" | "topic">[]) ?? []
+  ).map((question) => ({
+    ...question,
+    solution_md: solutions.get(question.id) ?? null,
+    topic: null,
+  }));
+}
 
 export interface QuestionContext {
   question: Question;
@@ -366,7 +389,7 @@ export const getQuestionById = cached(async function getQuestionById(
   const { data } = await supabase
     .from("questions")
     .select(
-      "*, subject:subjects(id, slug, name, short_code, is_active), topic:topics(id, name, week)",
+      "id, subject_id, topic_id, title, body_md, difficulty, kind, tags, sort_order, created_at, tests, mcq_options, mcq_answer, setup_sql, input_labels, exam, starter_code, language, harness, practice_only, subject:subjects(id, slug, name, short_code, is_active), topic:topics(id, name, week)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -377,7 +400,11 @@ export const getQuestionById = cached(async function getQuestionById(
     topic: QuestionContext["topic"];
   };
   if (!subject?.is_active) return null;
-  return { question, subject, topic };
+  return {
+    question: { ...question, solution_md: null },
+    subject,
+    topic,
+  };
 }, ["question-by-id", QUESTION_CONTENT_REVISION], CONTENT);
 
 /** All of a user's attempts, newest first. */
@@ -482,7 +509,7 @@ export async function getAllQuestionsMinimal(): Promise<QuestionMinimal[]> {
 }
 
 export interface LeaderboardRow {
-  user_id: string;
+  public_id: string;
   name: string;
   solved: number;
   total_seconds: number;
@@ -493,7 +520,7 @@ export const getLeaderboard = cached(async function getLeaderboard(limit: number
   const supabase = createPublicClient();
   const { data } = await supabase
     .from("leaderboard_overall")
-    .select("user_id, name, solved, total_seconds")
+    .select("public_id, name, solved, total_seconds")
     .order("solved", { ascending: false })
     .order("total_seconds", { ascending: true })
     .limit(limit);
@@ -506,7 +533,7 @@ export const getLeaderboard = cached(async function getLeaderboard(limit: number
 export interface MockRow {
   set_id: string;
   set_name: string;
-  user_id: string;
+  public_id: string;
   name: string;
   score: number;
   total: number;
@@ -519,7 +546,7 @@ export const getMockBoard = cached(async function getMockBoard(): Promise<MockRo
   const supabase = createPublicClient();
   const { data } = await supabase
     .from("mock_leaderboard")
-    .select("set_id, set_name, user_id, name, score, total, time_seconds, submitted_at")
+    .select("set_id, set_name, public_id, name, score, total, time_seconds, submitted_at")
     .order("set_id", { ascending: true })
     .order("score", { ascending: false })
     .order("time_seconds", { ascending: true });
@@ -562,7 +589,7 @@ export async function getTestAttempts(
 
 export interface QuestionLeaderRow {
   question_id: string;
-  user_id: string;
+  public_id: string;
   name: string;
   best_time: number;
 }
@@ -575,35 +602,11 @@ export async function getQuestionLeaderboard(
   const supabase = await createClient();
   const { data } = await supabase
     .from("question_leaderboard")
-    .select("question_id, user_id, name, best_time")
+    .select("question_id, public_id, name, best_time")
     .eq("question_id", questionId)
     .order("best_time", { ascending: true })
     .limit(limit);
   return (data as QuestionLeaderRow[]) ?? [];
-}
-
-export interface QuestionSolution {
-  user_id: string;
-  name: string;
-  best_time: number;
-  code: string | null;
-  language: string | null;
-  note: string | null;
-}
-
-/** Top solvers of a question with their last submitted code + note, fastest first. */
-export async function getQuestionTopSolutions(
-  questionId: string,
-  limit = 10,
-): Promise<QuestionSolution[]> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("question_top_solutions")
-    .select("user_id, name, best_time, code, language, note")
-    .eq("question_id", questionId)
-    .order("best_time", { ascending: true })
-    .limit(limit);
-  return (data as QuestionSolution[]) ?? [];
 }
 
 /** All of the current user's submissions (question_id → last code). */
@@ -628,6 +631,24 @@ export interface CompareQuestion {
   samples: { stdin: string; expected: string }[];
 }
 
+/** Authenticated access path for model solutions. Raw SELECT on questions does
+ * not grant this column, so anonymous API calls cannot dump it. */
+export async function getQuestionSolutions(
+  ids: string[],
+): Promise<Map<string, string | null>> {
+  if (ids.length === 0) return new Map();
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("get_question_solutions", {
+    target_ids: ids.slice(0, 100),
+  });
+  if (error) return new Map();
+  return new Map(
+    ((data ?? []) as { question_id: string; solution_md: string | null }[]).map(
+      (row) => [row.question_id, row.solution_md],
+    ),
+  );
+}
+
 /** Question body + model solution + section + sample tests, for a set of ids. */
 export async function getQuestionsByIds(
   ids: string[],
@@ -636,14 +657,14 @@ export async function getQuestionsByIds(
   const supabase = await createClient();
   const { data } = await supabase
     .from("questions")
-    .select("id, title, body_md, solution_md, tests, topic:topics(name, week)")
+    .select("id, title, body_md, tests, topic:topics(name, week)")
     .in("id", ids);
+  const solutions = await getQuestionSolutions(ids);
   return (
     (data as unknown as {
       id: string;
       title: string;
       body_md: string;
-      solution_md: string | null;
       tests: { stdin: string; expected: string; hidden?: boolean }[] | null;
       topic: { name: string; week: number | null } | null;
     }[]) ?? []
@@ -651,36 +672,13 @@ export async function getQuestionsByIds(
     id: q.id,
     title: q.title,
     body_md: q.body_md,
-    solution_md: q.solution_md,
+    solution_md: solutions.get(q.id) ?? null,
     section: q.topic?.name ?? "Other",
     week: q.topic?.week ?? null,
     samples: (q.tests ?? [])
       .filter((t) => !t.hidden)
       .map((t) => ({ stdin: t.stdin, expected: t.expected })),
   }));
-}
-
-/** Up to the top 3 fastest solvers (name + code) per question. */
-export async function getTopSolutionsMap(
-  ids: string[],
-): Promise<Record<string, { name: string; code: string | null }[]>> {
-  if (ids.length === 0) return {};
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("question_top_solutions")
-    .select("question_id, name, code, best_time")
-    .in("question_id", ids)
-    .order("best_time", { ascending: true });
-  const map: Record<string, { name: string; code: string | null }[]> = {};
-  for (const r of (data ?? []) as {
-    question_id: string;
-    name: string;
-    code: string | null;
-  }[]) {
-    const arr = map[r.question_id] ?? (map[r.question_id] = []);
-    if (arr.length < 3) arr.push({ name: r.name, code: r.code });
-  }
-  return map;
 }
 
 /** The current user's own last submitted code for a question (RLS: own row). */

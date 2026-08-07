@@ -21,6 +21,12 @@ export type ActivityEvent =
   | "test_start"
   | "test_submit";
 
+const EVENTS = new Set<ActivityEvent>([
+  "page_view", "question_open", "run_code", "run_tests", "submit",
+  "solved", "pdf_download", "test_start", "test_submit",
+]);
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export async function logEvent(input: {
   event: ActivityEvent;
   questionId?: string | null;
@@ -30,6 +36,17 @@ export async function logEvent(input: {
   meta?: Record<string, unknown>;
 }): Promise<void> {
   try {
+    if (
+      !input ||
+      !EVENTS.has(input.event) ||
+      (input.questionId != null && !UUID.test(input.questionId)) ||
+      (input.subjectId != null && !UUID.test(input.subjectId)) ||
+      (input.setSlug != null && input.setSlug.length > 100) ||
+      (input.path != null && input.path.length > 300)
+    ) return;
+    const meta = input.meta ?? {};
+    if (new TextEncoder().encode(JSON.stringify(meta)).length > 4096) return;
+
     const supabase = await createClient();
     const {
       data: { user },
@@ -43,7 +60,7 @@ export async function logEvent(input: {
       subject_id: input.subjectId ?? null,
       set_slug: input.setSlug ?? null,
       path: input.path?.slice(0, 300) ?? null,
-      meta: input.meta ?? {},
+      meta,
     });
   } catch {
     /* never let logging break the page */

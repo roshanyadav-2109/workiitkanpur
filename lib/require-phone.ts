@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { createClient } from "@/lib/supabase/server";
 
 type Client = Awaited<ReturnType<typeof createClient>>;
