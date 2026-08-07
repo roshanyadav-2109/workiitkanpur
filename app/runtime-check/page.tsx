@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { RuntimeCheckHarness } from "./harness";
 
-export const metadata: Metadata = { title: "Runtime check" };
+export const metadata: Metadata = {
+  title: "Runtime check",
+  robots: { index: false, follow: false },
+};
 
 /**
  * Development-only check that the in-browser Python and Postgres runtimes work

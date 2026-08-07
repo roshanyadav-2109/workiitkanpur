@@ -3,10 +3,11 @@ import { AuthForm } from "@/components/auth/auth-form";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Sign in",
+  title: "Sign in to OPPE Practice",
   description:
-    "Sign in to IITM BS Community to practise for the IIT Madras BS Degree OPPE — save your progress, download solutions and join the leaderboard.",
+    "Sign in to IIT Madras BS Degree OPPE Practice to run code, submit solutions, save progress, take mock tests and join the leaderboard.",
   path: "/login",
+  index: true,
 });
 
 const ERROR_MESSAGES: Record<string, string> = {

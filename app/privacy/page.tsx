@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Privacy Policy",
   description:
-    "How IITM BS Community collects, uses and protects your data on the OPPE practice platform for the IIT Madras BS Degree.",
+    "Read how IIT Madras BS Degree OPPE Practice collects, uses and protects account, progress and feedback data on this independent student platform.",
   path: "/privacy",
 });
 

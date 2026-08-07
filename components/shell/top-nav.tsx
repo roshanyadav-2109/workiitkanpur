@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 import { MobileNav } from "@/components/marketing/mobile-nav";
+import { SITE_NAME, SITE_SHORT_NAME } from "@/lib/seo";
 
 /**
  * The one site-wide top bar: brand + primary nav on the left, an auth/account
@@ -12,9 +13,10 @@ export function TopNav({ right }: { right?: React.ReactNode }) {
     <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-hairline bg-canvas/95 px-3 backdrop-blur-sm sm:gap-6 sm:px-8">
       <div className="flex items-center gap-3 sm:gap-8">
         <MobileNav />
-        <Link href="/" className="flex items-center text-fg">
+        <Link href="/" aria-label={SITE_NAME} className="flex items-center text-fg">
           <span className="text-[15px] font-medium tracking-[-0.01em]">
-            OPPE Practice
+            <span className="lg:hidden">{SITE_SHORT_NAME}</span>
+            <span className="hidden lg:inline">{SITE_NAME}</span>
           </span>
         </Link>
         <MarketingNav />

@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt =
-  "IITM BS Community — OPPE Practice for the IIT Madras BS Degree";
+export const alt = "IIT Madras BS Degree OPPE Practice";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,7 +25,7 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", fontSize: 30, fontWeight: 600, letterSpacing: -0.5 }}>
-          IIT Madras Online BS Degree
+          IIT Madras BS Degree OPPE Practice
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>

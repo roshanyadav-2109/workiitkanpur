@@ -11,8 +11,11 @@ import type { Metadata } from "next";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
-export const SITE_NAME = "IITM BS Community";
-export const SITE_TAGLINE = "OPPE Practice for the IIT Madras BS Degree";
+export const SITE_NAME = "IIT Madras BS Degree OPPE Practice";
+export const SITE_SHORT_NAME = "OPPE Practice";
+export const PUBLISHER_NAME = "IITM BS Community";
+export const SITE_TAGLINE =
+  "IIT Madras BS Degree OPPE practice with PYQs, coding questions and timed mock tests";
 export const SITE_LOCALE = "en_IN";
 
 /** Absolute URL for a path, with a clean canonical for the root. */
@@ -27,6 +30,7 @@ export function absoluteUrl(path = "/"): string {
  * Madras BS Degree OPPE — practice, quizzes, previous-year questions and mocks.
  */
 export const BASE_KEYWORDS = [
+  "IIT Madras BS Degree OPPE Practice",
   "IITM BS Community",
   "IIT Madras BS Degree",
   "IITM BS Degree",
@@ -105,7 +109,8 @@ export function websiteNode() {
     "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
     name: SITE_NAME,
-    description: `${SITE_TAGLINE} — previous-year questions and timed mocks with instant grading.`,
+    alternateName: [SITE_SHORT_NAME, "oppepractice.iitmbsdegree.in"],
+    description: `${SITE_TAGLINE}, instant test-case grading and progress tracking.`,
     inLanguage: "en-IN",
     publisher: { "@id": `${SITE_URL}/#organization` },
   };
@@ -115,11 +120,33 @@ export function organizationNode() {
   return {
     "@type": "EducationalOrganization",
     "@id": `${SITE_URL}/#organization`,
-    name: SITE_NAME,
+    name: PUBLISHER_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/iitm-logo-color.svg`,
     description:
-      "A practice platform for the IIT Madras Online BS Degree OPPE exams — quizzes, previous-year questions and timed mock tests.",
+      "The independent student community behind IIT Madras BS Degree OPPE Practice, with question banks, PYQs and timed mock tests.",
+  };
+}
+
+export function webApplicationNode() {
+  return {
+    "@type": "WebApplication",
+    "@id": `${SITE_URL}/#application`,
+    name: SITE_NAME,
+    alternateName: SITE_SHORT_NAME,
+    url: SITE_URL,
+    description: `${SITE_TAGLINE} with instant grading in the browser.`,
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires a modern web browser",
+    isAccessibleForFree: true,
+    inLanguage: "en-IN",
+    provider: { "@id": `${SITE_URL}/#organization` },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "INR",
+    },
   };
 }
 
@@ -151,6 +178,38 @@ export function courseNode({
     description,
     url: absoluteUrl(path),
     inLanguage: "en-IN",
+    isAccessibleForFree: true,
+    educationalLevel: "IIT Madras BS Degree",
+    provider: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+export function learningResourceNode({
+  name,
+  description,
+  path,
+  subject,
+  difficulty,
+  resourceType,
+}: {
+  name: string;
+  description: string;
+  path: string;
+  subject: string;
+  difficulty: string;
+  resourceType: string;
+}) {
+  return {
+    "@type": "LearningResource",
+    "@id": `${absoluteUrl(path)}#learning-resource`,
+    name,
+    description,
+    url: absoluteUrl(path),
+    inLanguage: "en-IN",
+    isAccessibleForFree: true,
+    learningResourceType: resourceType,
+    educationalLevel: difficulty,
+    about: [subject, "IIT Madras BS Degree OPPE"],
     provider: { "@id": `${SITE_URL}/#organization` },
   };
 }
@@ -164,6 +223,26 @@ export function itemListNode(items: { name: string; path: string }[]) {
       name: it.name,
       url: absoluteUrl(it.path),
     })),
+  };
+}
+
+export function collectionPageNode({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@type": "CollectionPage",
+    "@id": `${absoluteUrl(path)}#collection`,
+    name,
+    description,
+    url: absoluteUrl(path),
+    inLanguage: "en-IN",
+    isPartOf: { "@id": `${SITE_URL}/#website` },
   };
 }
 

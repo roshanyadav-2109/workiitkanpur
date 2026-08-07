@@ -2,9 +2,9 @@ import { PageFrame } from "@/components/marketing/page-frame";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Contact us",
+  title: "Contact OPPE Practice",
   description:
-    "Questions, bugs, or a subject request for IITM BS Community? Get in touch — we read every message.",
+    "Contact IIT Madras BS Degree OPPE Practice to report a problem, request a subject, suggest a question or share feedback with the student team.",
   path: "/contact",
 });
 

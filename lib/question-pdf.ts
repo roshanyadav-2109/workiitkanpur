@@ -1,4 +1,5 @@
 import { jsPDF } from "jspdf";
+import { SITE_NAME } from "@/lib/seo";
 
 /**
  * Renders a question + its solution as a clean, print-ready PDF.
@@ -148,7 +149,7 @@ export function buildQuestionPdf(q: QuestionPdfInput): ArrayBuffer {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8.5);
     doc.setTextColor(MUTED);
-    doc.text("IITM BS Community · practice handout", MARGIN, PAGE_H - 28);
+    doc.text(`${SITE_NAME} · practice handout`, MARGIN, PAGE_H - 28);
     doc.text(`${p} / ${pages}`, PAGE_W - MARGIN, PAGE_H - 28, {
       align: "right",
     });

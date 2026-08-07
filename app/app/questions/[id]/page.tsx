@@ -16,6 +16,35 @@ import {
 } from "@/components/question/question-ide";
 import { QuestionLoginGate } from "@/components/auth/question-login-gate";
 import type { QuestionStatus } from "@/components/ui/status";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbNode,
+  jsonLdGraph,
+  learningResourceNode,
+  pageMetadata,
+} from "@/lib/seo";
+
+const KIND_LABEL = {
+  coding: "coding exercise",
+  sql: "SQL exercise",
+  shell: "shell exercise",
+  mcq: "multiple-choice question",
+} as const;
+
+function questionDescription({
+  title,
+  subject,
+  difficulty,
+  kind,
+}: {
+  title: string;
+  subject: string;
+  difficulty: string;
+  kind: keyof typeof KIND_LABEL;
+}) {
+  const article = difficulty === "easy" ? "an" : "a";
+  return `Solve ${title}, ${article} ${difficulty} ${KIND_LABEL[kind]} for ${subject} OPPE practice. Read the problem, run your answer and check it against test cases.`;
+}
 
 export async function generateMetadata({
   params,
@@ -24,7 +53,32 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const ctx = await getQuestionById(id);
-  return { title: ctx?.question.title ?? "Question" };
+  if (!ctx) {
+    return pageMetadata({
+      title: "OPPE Practice Question",
+      description: "OPPE programming practice question for the IIT Madras BS Degree.",
+      path: `/app/questions/${id}`,
+      index: false,
+    });
+  }
+  const { question, subject } = ctx;
+  return pageMetadata({
+    title: `${question.title} — ${subject.short_code} OPPE Question`,
+    description: questionDescription({
+      title: question.title,
+      subject: subject.name,
+      difficulty: question.difficulty,
+      kind: question.kind,
+    }),
+    path: `/app/questions/${id}`,
+    keywords: [
+      question.title,
+      `${subject.name} OPPE question`,
+      `${subject.short_code} OPPE practice`,
+      `${question.difficulty} ${KIND_LABEL[question.kind]}`,
+    ],
+    index: question.practice_only,
+  });
 }
 
 export default async function QuestionPage({
@@ -79,9 +133,32 @@ export default async function QuestionPage({
   );
 
   const returnTo = `/app/questions/${id}`;
+  const description = questionDescription({
+    title: question.title,
+    subject: subject.name,
+    difficulty: question.difficulty,
+    kind: question.kind,
+  });
+  const jsonLd = jsonLdGraph([
+    breadcrumbNode([
+      { name: "Home", path: "/" },
+      { name: "Subjects", path: "/app/subjects" },
+      { name: subject.name, path: `/app/subjects/${subject.slug}` },
+      { name: question.title, path: returnTo },
+    ]),
+    learningResourceNode({
+      name: question.title,
+      description,
+      path: returnTo,
+      subject: subject.name,
+      difficulty: question.difficulty,
+      resourceType: KIND_LABEL[question.kind],
+    }),
+  ]);
 
   return (
     <>
+      <JsonLd data={jsonLd} />
       <QuestionIDE
         subject={{ name: subject.name, slug: subject.slug }}
         resourcesMd={getSubjectResources(subject.slug)}

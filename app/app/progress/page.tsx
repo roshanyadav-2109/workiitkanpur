@@ -17,7 +17,7 @@ import {
 } from "@/lib/queries";
 import type { CompareItem } from "@/components/progress/mock-compare";
 import { accuracyByTopic, computeProgress } from "@/lib/metrics";
-import { dayKey, formatClock, pluralize, timeAgo, cn } from "@/lib/utils";
+import { dayKey, formatClock, pluralize, cn } from "@/lib/utils";
 import { SkillBars } from "@/components/progress/skill-bars";
 import { MockHistory } from "@/components/progress/mock-history";
 import { ProgressRail } from "@/components/progress/progress-rail";
@@ -27,7 +27,10 @@ import { Sparkline } from "@/components/charts/sparkline";
 import { HBarList } from "@/components/charts/h-bar";
 import { ActivityCard } from "@/components/progress/activity-card";
 
-export const metadata: Metadata = { title: "Dashboard" };
+export const metadata: Metadata = {
+  title: "Dashboard",
+  robots: { index: false, follow: false },
+};
 
 export default async function Dashboard({
   searchParams,

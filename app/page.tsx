@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ProfileMenu } from "@/components/shell/profile-menu";
 import { SiteFooter } from "@/components/marketing/site-footer";
@@ -17,15 +18,16 @@ import {
   websiteNode,
   organizationNode,
   faqNode,
+  SITE_NAME,
+  webApplicationNode,
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
-    absolute:
-      "OPPE Practice — Practise OPPE Exams of the Online IIT Madras BS Degree",
+    absolute: `${SITE_NAME} — PYQs & Mock Tests`,
   },
   description:
-    "OPPE practice for the Online IIT Madras BS Degree. Practise OPPE exams with previous-year questions (PYQs) and full timed mock tests in Programming in Python, DBMS and more — write and run code, get graded instantly, and climb the leaderboard.",
+    "Practise IIT Madras BS Degree OPPE questions for Python, DBMS and more. Solve PYQs, take timed mock tests and get instant test-case grading.",
   alternates: { canonical: "/" },
 };
 
@@ -34,8 +36,7 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     question: "What is the IIT Madras BS Degree OPPE?",
-    answer:
-      "The OPPE (Online Proctored Programming Exam) is the practical, proctored exam in IIT Madras BS Degree programming courses such as Programming in Python and DBMS. IITM BS Community lets you practise for it with real question types, a timer and instant grading.",
+    answer: `The OPPE (Online Proctored Programming Exam) is the practical, proctored exam in IIT Madras BS Degree programming courses such as Programming in Python and DBMS. ${SITE_NAME} lets you practise for it with real question types, a timer and instant grading.`,
   },
   {
     question: "How can I practise for the OPPE?",
@@ -55,12 +56,17 @@ const FAQS = [
   {
     question: "Which subjects can I practise?",
     answer:
-      "Programming in Python is live now, with Database Management (DBMS) and more subjects across the Data Science and Electronic Systems branches on the way.",
+      "Programming in Python and Database Management Systems (DBMS) are available now. More IIT Madras BS Degree programming subjects will be added as their practice material is ready.",
   },
 ];
 
 // Structured data: the site, the organisation, and the FAQ above.
-const jsonLd = jsonLdGraph([websiteNode(), organizationNode(), faqNode(FAQS)]);
+const jsonLd = jsonLdGraph([
+  websiteNode(),
+  organizationNode(),
+  webApplicationNode(),
+  faqNode(FAQS),
+]);
 
 export default async function LandingPage() {
   const supabase = await createClient();
@@ -108,9 +114,36 @@ export default async function LandingPage() {
           {/* Hero — centred */}
           <section className="mx-auto flex w-full max-w-[1500px] flex-col items-center px-3 pb-10 pt-12 text-center sm:w-[85%] sm:px-5 sm:pt-16">
             <h1 className="text-[32px] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-[46px]">
-              Practice for your{" "}
-              <span className="highlight-word">OPPE Exams</span>
+              Practise for your{" "}
+              <span className="highlight-word">IIT Madras BS Degree OPPE</span>
             </h1>
+
+            <p className="mt-5 max-w-[760px] text-[15px] leading-7 text-fg-muted sm:text-[17px]">
+              Solve topic-wise programming questions, previous-year papers and
+              full timed mock tests with instant grading against sample and
+              hidden test cases.
+            </p>
+
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
+              <Link
+                href="/practice"
+                className="inline-flex h-11 items-center rounded-[8px] bg-accent px-5 text-[14px] font-semibold text-accent-fg transition-colors hover:bg-accent-hover"
+              >
+                Start OPPE practice
+              </Link>
+              <Link
+                href="/pyqs"
+                className="inline-flex h-11 items-center rounded-[8px] border border-[#3d3d3d] bg-canvas px-5 text-[14px] font-semibold text-fg transition-colors hover:bg-surface"
+              >
+                Browse PYQs
+              </Link>
+              <Link
+                href="/test-series"
+                className="inline-flex h-11 items-center rounded-[8px] border border-[#3d3d3d] bg-canvas px-5 text-[14px] font-semibold text-fg transition-colors hover:bg-surface"
+              >
+                Take a mock test
+              </Link>
+            </div>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               {shownSubjects.map((s) => (

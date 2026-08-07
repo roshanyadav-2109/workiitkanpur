@@ -19,7 +19,10 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 import { formatClock, cn } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Question analysis" };
+export const metadata: Metadata = {
+  title: "Question analysis",
+  robots: { index: false, follow: false },
+};
 
 export default async function QuestionAnalysisPage({
   params,

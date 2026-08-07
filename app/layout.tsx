@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { PUBLISHER_NAME, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 // Google Analytics 4 (gtag.js) measurement ID.
 const GA_ID = "G-JK1FNY0TB5";
@@ -28,18 +29,15 @@ const fraunces = Fraunces({
 });
 
 // Public origin — used as the base for canonical URLs, sitemap and OG tags.
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://oppepractice.iitmbsdegree.in";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "OPPE Practice — Practise OPPE Exams of the Online IIT Madras BS Degree",
+    default: `${SITE_NAME} — PYQs & Mock Tests`,
     template: "%s",
   },
   description:
-    "OPPE practice for the IIT Madras BS Degree. Solve previous-year OPPE questions (PYQs) and full timed mock tests in Python, DBMS and more — write code, get instant grading, and track your progress.",
-  applicationName: "IITM BS Community",
+    "Practise IIT Madras BS Degree OPPE questions for Python, DBMS and more. Solve PYQs, take timed mock tests and get instant test-case grading.",
+  applicationName: SITE_NAME,
   keywords: [
     "IIT Madras BS Degree",
     "IITM BS",
@@ -57,24 +55,24 @@ export const metadata: Metadata = {
     "IITM BS data science",
     "OPPE mock test",
   ],
-  authors: [{ name: "IITM BS Community" }],
-  creator: "IITM BS Community",
-  publisher: "IITM BS Community",
+  authors: [{ name: PUBLISHER_NAME }],
+  creator: PUBLISHER_NAME,
+  publisher: PUBLISHER_NAME,
   category: "education",
   openGraph: {
     type: "website",
-    siteName: "IITM BS Community",
-    title: "OPPE Practice for the IIT Madras BS Degree",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
     description:
-      "Solve previous-year OPPE questions and full timed mocks in Python, DBMS and more — write code and get instant grading.",
+      "IIT Madras BS Degree OPPE practice with PYQs, coding questions and timed mock tests for Python, DBMS and more.",
     url: SITE_URL,
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OPPE Practice for the IIT Madras BS Degree",
+    title: SITE_NAME,
     description:
-      "Previous-year OPPE questions and timed mocks with instant grading. Python, DBMS and more.",
+      "Practise IIT Madras BS Degree OPPE questions, PYQs and timed mock tests with instant grading.",
   },
   robots: {
     index: true,

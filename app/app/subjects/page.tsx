@@ -22,9 +22,9 @@ import {
 } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Practice Subjects",
+  title: "IIT Madras BS OPPE Practice Subjects",
   description:
-    "Browse every subject you can practise for the IIT Madras BS Degree OPPE — Programming in Python, DBMS and more. Solve questions and take timed mock tests with instant grading.",
+    "Browse IIT Madras BS Degree OPPE practice by subject. Solve Python and DBMS questions, previous-year papers and timed mock tests with instant grading.",
   path: "/app/subjects",
   keywords: [
     "OPPE subjects",

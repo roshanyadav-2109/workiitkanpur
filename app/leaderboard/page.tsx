@@ -17,9 +17,9 @@ import { formatClock, formatDurationHuman, cn } from "@/lib/utils";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Leaderboard",
+  title: "IIT Madras BS OPPE Practice Leaderboard",
   description:
-    "See the fastest solvers on IITM BS Community. Race the clock on OPPE practice questions and climb the IIT Madras BS Degree leaderboard.",
+    "View the IIT Madras BS Degree OPPE practice leaderboard. Compare solved questions and completion times across Python, DBMS and other subjects.",
   path: "/leaderboard",
   keywords: [
     "OPPE leaderboard",

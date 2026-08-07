@@ -472,6 +472,19 @@ export const getQuestionCount = cached(async function getQuestionCount(): Promis
   return count ?? 0;
 }, ["question-count"], CONTENT);
 
+/** Public practice-row count for one subject, used by lightweight SEO hubs. */
+export const getSubjectPracticeCount = cached(async function getSubjectPracticeCount(
+  subjectId: string,
+): Promise<number> {
+  const supabase = createPublicClient();
+  const { count } = await supabase
+    .from("questions")
+    .select("id", { count: "exact", head: true })
+    .eq("subject_id", subjectId)
+    .eq("practice_only", true);
+  return count ?? 0;
+}, ["subject-practice-count", QUESTION_CONTENT_REVISION], CONTENT);
+
 /** Lightweight question rows for cross-subject aggregation. */
 export async function getAllQuestionsMinimal(): Promise<QuestionMinimal[]> {
   const supabase = await createClient();

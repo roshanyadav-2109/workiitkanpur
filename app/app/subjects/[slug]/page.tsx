@@ -159,9 +159,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const subject = await getSubjectBySlug(slug);
-  // Only a slug that isn't a real subject stays out of search. Every real
-  // subject is indexed with the same normal, keyword-rich snippet — whether or
-  // not practice is live yet — so search results never reveal "coming soon".
+  // Unknown and coming-soon subjects stay out of search so the index and
+  // potential sitelinks focus on pages that already provide useful content.
   if (!subject) {
     return pageMetadata({
       title: "Subject",
@@ -171,8 +170,8 @@ export async function generateMetadata({
     });
   }
   return pageMetadata({
-    title: subject.name,
-    description: `Practise ${subject.name} for the IIT Madras BS Degree OPPE. Solve previous-year questions (PYQs) and full timed mock tests, write code, and get graded instantly.`,
+    title: `${subject.name} OPPE Practice`,
+    description: `Practise ${subject.name} OPPE questions with topic-wise problems, previous-year papers, hidden test cases and timed mocks for the IIT Madras BS Degree.`,
     path: `/app/subjects/${slug}`,
     keywords: [
       `${subject.name} OPPE`,
@@ -181,6 +180,7 @@ export async function generateMetadata({
       `${subject.name} quiz`,
       `${subject.name} mock test`,
     ],
+    index: subject.is_active,
   });
 }
 

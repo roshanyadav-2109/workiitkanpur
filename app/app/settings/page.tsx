@@ -13,7 +13,10 @@ import { CountryFlag } from "@/components/settings/phone-input";
 import { IconDoorOpen } from "@/components/icons";
 import { parsePhone } from "@/lib/phone";
 
-export const metadata: Metadata = { title: "Settings" };
+export const metadata: Metadata = {
+  title: "Settings",
+  robots: { index: false, follow: false },
+};
 
 function GoogleG({ size = 14 }: { size?: number }) {
   return (

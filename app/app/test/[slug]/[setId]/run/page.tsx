@@ -12,7 +12,10 @@ import { startTestAttempt } from "@/lib/test-actions";
 import { TestRunner } from "@/components/test/test-runner";
 import { TestDeviceGuard } from "@/components/test/device-guard";
 
-export const metadata: Metadata = { title: "Test in progress" };
+export const metadata: Metadata = {
+  title: "Test in progress",
+  robots: { index: false, follow: false },
+};
 
 export default async function RunPage({
   params,

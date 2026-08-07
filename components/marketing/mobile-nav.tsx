@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { displayName } from "@/lib/utils";
 
@@ -25,11 +24,25 @@ const SUBJECTS: { label: string; slug: string }[] = [
   { label: "Programming in C", slug: "c" },
   { label: "System Commands", slug: "syscmd" },
 ];
-const subjectItems = (tab?: string): Item[] =>
-  SUBJECTS.map((s) => ({
+const subjectItems = (tab?: string): Item[] => {
+  const subjects = SUBJECTS.map((s) => ({
     label: s.label,
     href: `/app/subjects/${s.slug}${tab ? `?tab=${tab}` : ""}`,
   }));
+  const hub =
+    tab === "pyqs"
+      ? "/pyqs"
+      : tab === "test-series"
+        ? "/test-series"
+        : "/practice";
+  const label =
+    tab === "pyqs"
+      ? "All OPPE PYQs"
+      : tab === "test-series"
+        ? "All test series"
+        : "All practice subjects";
+  return [{ label, href: hub }, ...subjects];
+};
 
 /** Top-level mobile tabs. A tab with `children` opens its own sub-screen. */
 const TABS: Tab[] = [
@@ -65,8 +78,6 @@ export function MobileNav() {
   const [user, setUser] = useState<{ name: string; photo: string | null } | null>(
     null,
   );
-  const pathname = usePathname();
-
   // Pull the signed-in user so the footer button can show their photo + name.
   useEffect(() => {
     const supabase = createClient();

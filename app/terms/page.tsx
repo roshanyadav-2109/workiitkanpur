@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Terms & Conditions",
   description:
-    "The terms of use for IITM BS Community, the OPPE practice platform for the IIT Madras BS Degree.",
+    "Read the terms for using IIT Madras BS Degree OPPE Practice, including accounts, question content, acceptable use and the independence notice.",
   path: "/terms",
 });
 
