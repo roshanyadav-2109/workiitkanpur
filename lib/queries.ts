@@ -10,7 +10,10 @@ import { displayName } from "@/lib/utils";
  * for every visitor — Supabase is hit at most once per revalidate window
  * instead of once per request. Tags allow on-demand invalidation.
  */
-const CONTENT = { revalidate: 3600, tags: ["content"] } as const; // subjects/questions/sets — 1h
+// Public course content changes through the admin/database workflow, whose
+// revalidation endpoint expires this tag explicitly. Keep it shared until then
+// so a cold Supabase read is paid once rather than once per visitor or per hour.
+const CONTENT = { revalidate: false, tags: ["content"] } as const;
 const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
 
 /** unstable_cache wrapper that preserves the wrapped function's exact type
@@ -18,7 +21,7 @@ const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboar
 function cached<A extends unknown[], R>(
   fn: (...args: A) => Promise<R>,
   keyParts: string[],
-  opts: { revalidate: number; tags: readonly string[] },
+  opts: { revalidate: number | false; tags: readonly string[] },
 ): (...args: A) => Promise<R> {
   return unstable_cache(fn, keyParts, {
     revalidate: opts.revalidate,
@@ -137,14 +140,19 @@ const TEST_SET_COLUMNS =
   "questions:test_set_questions(question_id, section, marks, sort_order)";
 const TEST_SET_RULES = ", rules:test_set_sections(name, best_of, note, sort_order)";
 
-export const getTestSets = cached(async function getTestSets(subjectId: string): Promise<TestSet[]> {
+export const getTestSets = cached(async function getTestSets(
+  subjectId: string,
+  category?: TestSet["category"],
+): Promise<TestSet[]> {
   const supabase = createPublicClient();
-  const read = (columns: string) =>
-    supabase
+  const read = (columns: string) => {
+    const query = supabase
       .from("test_sets")
       .select(columns)
       .eq("subject_id", subjectId)
       .order("sort_order", { ascending: true });
+    return category ? query.eq("category", category) : query;
+  };
 
   // Per-section rules live in their own table, which a deployment can reach
   // before its migration has run. A paper without that table still has its
@@ -270,9 +278,48 @@ export const getSubjectQuestionList = cached(async function getSubjectQuestionLi
     .eq("subject_id", subjectId)
     .eq("practice_only", true)
     .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: true })
+    .order("id", { ascending: true });
   return (data as unknown as QuestionListItem[]) ?? [];
 }, ["subject-question-list"], CONTENT);
+
+export interface SubjectQuestionPage {
+  questions: QuestionListItem[];
+  hasMore: boolean;
+}
+
+/**
+ * One shared page of practice rows. `range` is inclusive, so one extra record
+ * is requested only to determine whether another page exists. Function
+ * arguments form part of the Data Cache key, making every batch reusable
+ * across visitors.
+ */
+export const getSubjectQuestionPage = cached(async function getSubjectQuestionPage(
+  subjectId: string,
+  offset: number,
+  limit: number,
+): Promise<SubjectQuestionPage> {
+  const safeOffset = Math.max(0, Math.floor(offset));
+  const safeLimit = Math.min(50, Math.max(1, Math.floor(limit)));
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from("questions")
+    .select(
+      "id, title, topic_id, kind, exam, difficulty, tags, practice_only, topic:topics(id, name, week)",
+    )
+    .eq("subject_id", subjectId)
+    .eq("practice_only", true)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
+    .range(safeOffset, safeOffset + safeLimit);
+
+  const questions = (data as unknown as QuestionListItem[]) ?? [];
+  return {
+    questions: questions.slice(0, safeLimit),
+    hasMore: questions.length > safeLimit,
+  };
+}, ["subject-question-page"], CONTENT);
 
 /**
  * Full question payloads for the handful of questions in one paper.
@@ -338,6 +385,31 @@ export async function getUserAttempts(userId: string): Promise<Attempt[]> {
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
   return data ?? [];
+}
+
+/** Only the attempt fields needed to decorate one subject's question rows. */
+export async function getUserAttemptsForSubject(
+  userId: string,
+  subjectId: string,
+): Promise<Pick<Attempt, "question_id" | "status" | "time_spent_seconds">[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("attempts")
+    .select(
+      "question_id, status, time_spent_seconds, question:questions!inner(subject_id)",
+    )
+    .eq("user_id", userId)
+    .eq("question.subject_id", subjectId);
+
+  return ((data ?? []) as unknown as {
+    question_id: string;
+    status: Attempt["status"];
+    time_spent_seconds: number;
+  }[]).map(({ question_id, status, time_spent_seconds }) => ({
+    question_id,
+    status,
+    time_spent_seconds,
+  }));
 }
 
 export interface AttemptWithQuestion extends Attempt {

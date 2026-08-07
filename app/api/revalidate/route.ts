@@ -7,8 +7,7 @@ export const dynamic = "force-dynamic";
  * Admin cache-buster. Public content (subjects, questions, sets, leaderboards)
  * is cached in the Data Cache and edited directly in the database — the app
  * itself doesn't mutate it — so after a content change (e.g. flipping a subject
- * live, adding questions) hit this to refresh the cache immediately instead of
- * waiting out the revalidate window.
+ * live or adding questions), hit this endpoint to refresh the shared cache.
  *
  *   GET /api/revalidate?secret=...            -> refreshes everything
  *   GET /api/revalidate?secret=...&tag=content

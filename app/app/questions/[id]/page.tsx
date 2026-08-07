@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
   getCurrentUser,
@@ -10,12 +10,11 @@ import {
 import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
 import { extractSqlBlock } from "@/lib/sql";
 import { getSubjectResources } from "@/lib/subject-content";
-import { createClient } from "@/lib/supabase/server";
-import { hasPhoneOnFile } from "@/lib/require-phone";
 import {
   QuestionIDE,
   type IDETopicGroup,
 } from "@/components/question/question-ide";
+import { QuestionLoginGate } from "@/components/auth/question-login-gate";
 import type { QuestionStatus } from "@/components/ui/status";
 
 export async function generateMetadata({
@@ -42,16 +41,6 @@ export default async function QuestionPage({
     getSubjectQuestionList(subject.id),
     getCurrentUser(),
   ]);
-
-  // Middleware already required a session here; a phone number is the other
-  // half of the gate, and this is where it is enforced rather than trusted from
-  // the button that linked in. Back to the subject with the picker asking for
-  // it, which is where the learner can actually supply one.
-  if (!user) redirect(`/login?next=/app/questions/${id}`);
-  const supabase = await createClient();
-  if (!(await hasPhoneOnFile(supabase, user.id))) {
-    redirect(`/app/subjects/${subject.slug}?needphone=1`);
-  }
 
   let status = new Map<string, QuestionStatus>();
   let bestSeconds: number | null = null;
@@ -89,37 +78,48 @@ export default async function QuestionPage({
     (a, b) => (a.week ?? 99) - (b.week ?? 99),
   );
 
+  const returnTo = `/app/questions/${id}`;
+
   return (
-    <QuestionIDE
-      subject={{ name: subject.name, slug: subject.slug }}
-      resourcesMd={getSubjectResources(subject.slug)}
-      current={{
-        id: question.id,
-        title: question.title,
-        kind: question.kind,
-        difficulty: question.difficulty,
-        body_md: question.body_md,
-        solution_md: question.solution_md,
-        input_labels: question.input_labels,
-        tests: question.tests,
-        mcq_options: question.mcq_options,
-        mcq_answer: question.mcq_answer,
-        setup_sql: question.setup_sql,
-        starter_code: question.starter_code,
-        language: question.language,
-        harness: question.harness,
-        reference_sql:
-          question.kind === "sql"
-            ? extractSqlBlock(question.solution_md)
-            : null,
-        topicName: topic?.name ?? null,
-        week: topic?.week ?? null,
-      }}
-      groups={groups}
-      isAuthed={!!user}
-      initialStatus={status.get(id) ?? "unsolved"}
-      initialNote={note}
-      initialBestSeconds={bestSeconds}
-    />
+    <>
+      <QuestionIDE
+        subject={{ name: subject.name, slug: subject.slug }}
+        resourcesMd={getSubjectResources(subject.slug)}
+        current={{
+          id: question.id,
+          title: question.title,
+          kind: question.kind,
+          difficulty: question.difficulty,
+          body_md: question.body_md,
+          solution_md: question.solution_md,
+          input_labels: question.input_labels,
+          tests: question.tests,
+          mcq_options: question.mcq_options,
+          mcq_answer: question.mcq_answer,
+          setup_sql: question.setup_sql,
+          starter_code: question.starter_code,
+          language: question.language,
+          harness: question.harness,
+          reference_sql:
+            question.kind === "sql"
+              ? extractSqlBlock(question.solution_md)
+              : null,
+          topicName: topic?.name ?? null,
+          week: topic?.week ?? null,
+        }}
+        groups={groups}
+        isAuthed={!!user}
+        initialStatus={status.get(id) ?? "unsolved"}
+        initialNote={note}
+        initialBestSeconds={bestSeconds}
+      />
+      {!user && (
+        <QuestionLoginGate
+          questionTitle={question.title}
+          subjectName={subject.name}
+          returnTo={returnTo}
+        />
+      )}
+    </>
   );
 }

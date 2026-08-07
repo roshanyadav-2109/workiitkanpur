@@ -37,6 +37,7 @@ import type {
   RuntimeQuestion,
 } from "@/components/execution/types";
 import type { Difficulty as DifficultyLevel } from "@/lib/types";
+import { peekQuestionListReturn } from "@/lib/question-list-return";
 
 export interface IDEListQuestion {
   id: string;
@@ -325,6 +326,11 @@ export function QuestionIDE({
     });
   }
 
+  function returnToSubject() {
+    const saved = peekQuestionListReturn(subject.slug);
+    router.push(saved?.href ?? `/app/subjects/${subject.slug}?tab=practice`);
+  }
+
   const isCoding = current.kind === "coding";
   // Code-editor kinds share the same full-height editor frame (Python, SQL, …);
   // only the editor and how it runs differ.
@@ -346,14 +352,15 @@ export function QuestionIDE({
     <div className="flex h-[calc(100dvh-3.5rem)] w-full">
       {/* Icon rail — back to the subject dashboard, and this question's progress */}
       <nav className="flex w-12 shrink-0 flex-col items-center gap-1 border-r border-hairline py-3">
-        <Link
-          href={`/app/subjects/${subject.slug}`}
+        <button
+          type="button"
+          onClick={returnToSubject}
           title="Back to dashboard"
           aria-label="Back to dashboard"
           className="grid h-9 w-9 place-items-center rounded-[3px] text-fg-muted transition-colors hover:bg-surface hover:text-fg"
         >
           <IconDashboard size={24} />
-        </Link>
+        </button>
         <button
           onClick={() => setRightView("progress")}
           title="Question progress"
@@ -479,13 +486,14 @@ export function QuestionIDE({
         <section className="flex min-h-0 min-w-0 flex-1 flex-col border-b border-hairline lg:border-b-0 lg:border-r">
           <div className="flex items-start justify-between gap-3 border-b border-hairline px-4 py-2.5">
             <div className="flex min-w-0 items-start gap-2">
-              <Link
-                href={`/app/subjects/${subject.slug}`}
+              <button
+                type="button"
+                onClick={returnToSubject}
                 aria-label="Back to subject"
                 className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-md text-fg-muted hover:bg-surface hover:text-fg"
               >
                 <IconChevron size={16} className="rotate-180" />
-              </Link>
+              </button>
               <div className="min-w-0">
                 <h1 className="line-clamp-2 text-[15px] font-medium leading-tight">
                   {current.title}

@@ -34,6 +34,17 @@ export interface Article extends ArticleMeta {
 
 const ARTICLES_DIR = join(process.cwd(), "content", "articles");
 
+/** Check tab availability without reading and parsing every article file. */
+export const hasArticles = cache(function hasArticles(subject: string): boolean {
+  try {
+    return readdirSync(join(ARTICLES_DIR, subject)).some((file) =>
+      file.endsWith(".md"),
+    );
+  } catch {
+    return false;
+  }
+});
+
 /** Minimal frontmatter parser: a leading --- … --- block of `key: value`. */
 function parseFrontmatter(raw: string): {
   data: Record<string, string>;

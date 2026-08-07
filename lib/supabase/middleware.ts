@@ -3,16 +3,15 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Routes that require a signed-in user. The subject lists stay public so the
- * catalogue can be browsed, but opening a question is the start of solving it,
- * so that needs an account (and, checked on the page itself, a phone number).
+ * catalogue and question previews stay public. A signed-out shared-question
+ * visit is gated inside the page after it renders, so the learner can see what
+ * they were sent and Google can return them to that exact URL.
  */
 function requiresAuth(pathname: string): boolean {
   return (
     pathname === "/app" ||
     pathname.startsWith("/app/progress") ||
     pathname.startsWith("/app/settings") ||
-    // Solving a question, and the PDF of it, are gated.
-    pathname.startsWith("/app/questions") ||
     // Test Series papers are graded and stored per learner.
     pathname.startsWith("/app/test")
   );

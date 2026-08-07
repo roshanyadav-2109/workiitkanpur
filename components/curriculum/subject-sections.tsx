@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface Section {
@@ -52,8 +53,8 @@ const SECTIONS: Section[] = [
 /** Section switcher for a subject.
  *  Desktop: a left section sidebar.
  *  Mobile: a horizontal, scrollable filter row of chips below the title.
- *  Content renders once either way — Practice renders `children`, Test Series
- *  renders `testSeries`; the rest are placeholders until their content ships. */
+ *  A tab click navigates with `?tab=` so the server fetches only that section;
+ *  inactive section payloads are never downloaded with the current one. */
 export function SubjectSections({
   children,
   testSeries,
@@ -62,7 +63,8 @@ export function SubjectSections({
   articles,
   resources,
   live = true,
-  initialSection,
+  activeSection,
+  availableSections,
 }: {
   children: React.ReactNode;
   testSeries?: React.ReactNode;
@@ -73,30 +75,29 @@ export function SubjectSections({
   /** When false the subject isn't open yet: Practice / Test Series / PYQs show
    *  a "coming soon" placeholder, while Syllabus / Articles still show content. */
   live?: boolean;
-  /** Section to open on load (from a `?tab=` link in the navbar). */
-  initialSection?: string;
+  /** Server-selected section; only its data is included in this response. */
+  activeSection: string;
+  /** Availability is metadata, independent of which section was fetched. */
+  availableSections: string[];
 }) {
-  const defaultSection = live
-    ? "practice"
-    : syllabus
-      ? "syllabus"
-      : articles
-        ? "articles"
-        : "practice";
-  // Honour a ?tab= link only if that section actually exists.
-  const validInitial =
-    initialSection && SECTIONS.some((s) => s.id === initialSection)
-      ? initialSection
-      : defaultSection;
-  const [active, setActive] = useState(validInitial);
-  // Practice / Test Series / PYQs are live only when the subject is live.
-  // Syllabus / Articles light up when the page carries that content.
-  const isAvailable = (s: Section) => {
-    if (s.id === "syllabus") return !!syllabus;
-    if (s.id === "articles") return !!articles;
-    if (s.id === "resources") return !!resources;
-    return live;
-  };
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const active = SECTIONS.some((s) => s.id === activeSection)
+    ? activeSection
+    : "practice";
+
+  function openSection(id: string) {
+    if (id === active) return;
+    const next = new URL(window.location.href);
+    next.searchParams.set("tab", id);
+    startTransition(() => {
+      router.push(`${next.pathname}${next.search}`, { scroll: false });
+    });
+  }
+
+  // Availability comes from lightweight server metadata, not from whether the
+  // inactive tab's full payload happened to be included in this response.
+  const isAvailable = (s: Section) => availableSections.includes(s.id);
   const current = SECTIONS.find((s) => s.id === active) ?? SECTIONS[0];
 
   const chip =
@@ -108,7 +109,10 @@ export function SubjectSections({
     // the sticky rail pin under the navbar — the same behaviour a long list gets
     // for free. The floor only adds empty space below short content; long
     // content grows past it as before.
-    <div className="flex flex-col gap-4 lg:min-h-[calc(100vh-3.5rem)] lg:flex-row lg:gap-7">
+    <div
+      aria-busy={isPending}
+      className="flex flex-col gap-4 lg:min-h-[calc(100vh-3.5rem)] lg:flex-row lg:gap-7"
+    >
       {/* Desktop — left section nav. It scrolls away with the banner, then pins
           just under the (sticky, h-14) navbar so only the question list keeps
           moving. `self-start` is what makes that work: a stretched flex child
@@ -120,7 +124,7 @@ export function SubjectSections({
             return (
               <button
                 key={s.id}
-                onClick={() => setActive(s.id)}
+                onClick={() => openSection(s.id)}
                 aria-current={on ? "page" : undefined}
                 className={cn(
                   "flex w-full items-center justify-between gap-2 border-b border-hairline px-4 py-3 text-left transition-colors last:border-b-0",
@@ -151,7 +155,7 @@ export function SubjectSections({
               <button
                 key={s.id}
                 type="button"
-                onClick={() => setActive(s.id)}
+              onClick={() => openSection(s.id)}
                 aria-current={on ? "page" : undefined}
                 className={cn(
                   chip,

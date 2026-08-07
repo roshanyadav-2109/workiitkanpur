@@ -1,9 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { type QuestionStatus } from "@/components/ui/status";
 import { Input, Select } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
 import { IconSearch, IconFilePdf } from "@/components/icons";
@@ -11,23 +9,16 @@ import { formatClock, cn } from "@/lib/utils";
 import { degreeLabel, type Curriculum } from "@/lib/curriculum";
 import { usePhoneGate } from "@/components/phone/phone-gate";
 import { logEvent } from "@/lib/activity";
+import {
+  consumeQuestionListReturn,
+  saveQuestionListReturn,
+} from "@/lib/question-list-return";
 import type { Difficulty, QuestionKind } from "@/lib/types";
-
-export interface QuestionRow {
-  id: string;
-  title: string;
-  topicId: string | null;
-  topicName: string | null;
-  week: number | null;
-  kind: QuestionKind;
-  exam: string | null;
-  difficulty: Difficulty;
-  branch?: string | null;
-  level?: string | null;
-  tags: string[];
-  status: QuestionStatus;
-  bestTimeSeconds: number | null;
-}
+import {
+  type QuestionBatchResponse,
+  type QuestionProgress,
+  type QuestionRow,
+} from "@/lib/question-list-data";
 
 type StatusFilter = "all" | "solved" | "unsolved";
 type KindFilter = "all" | QuestionKind;
@@ -85,19 +76,58 @@ const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
   { value: "solved", label: "Solved" },
 ];
 
+function addProgress(
+  rows: QuestionRow[],
+  progress: QuestionProgress,
+): QuestionRow[] {
+  return rows.map((row) => ({
+    ...row,
+    status: progress[row.id]?.status ?? row.status,
+    bestTimeSeconds:
+      progress[row.id]?.bestTimeSeconds ?? row.bestTimeSeconds,
+  }));
+}
+
+async function fetchQuestionBatch(
+  subjectSlug: string,
+  offset: number,
+  signal?: AbortSignal,
+): Promise<QuestionBatchResponse> {
+  const response = await fetch(
+    `/api/subjects/${encodeURIComponent(subjectSlug)}/questions?offset=${offset}`,
+    { signal },
+  );
+  if (!response.ok) throw new Error("Unable to load more questions");
+  return (await response.json()) as QuestionBatchResponse;
+}
+
 export function QuestionTable({
-  rows,
+  subjectSlug,
+  rows: initialRows,
   topics,
   initialExam,
+  initialHasMore,
+  progress,
   curriculum,
 }: {
+  subjectSlug: string;
   rows: QuestionRow[];
   topics: { id: string; name: string; week: number | null }[];
   initialExam?: string;
+  initialHasMore: boolean;
+  progress: QuestionProgress;
   curriculum: Curriculum;
 }) {
   const router = useRouter();
   const gate = usePhoneGate();
+  const [rows, setRows] = useState(initialRows);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const loadingRef = useRef(false);
+  const hasMoreRef = useRef(initialHasMore);
+  const nextOffsetRef = useRef(initialRows.length);
+  const loadTriggerRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [topic, setTopic] = useState<string>("all");
@@ -108,6 +138,147 @@ export function QuestionTable({
   // Question-kind (MCQ / coding) filtering stays wired up for when other exam
   // types go live, but the control is hidden while everything is coding-only.
   const [kind] = useState<KindFilter>("all");
+
+  // A fresh subject navigation starts normally. Returning from a question is
+  // the exception: restore the exact filters and page position saved at click.
+  useEffect(() => {
+    const saved = consumeQuestionListReturn(subjectSlug);
+    if (!saved) return;
+    const snapshot = saved;
+
+    const controller = new AbortController();
+    let firstScrollFrame = 0;
+    let secondScrollFrame = 0;
+
+    async function restore() {
+      setQuery(snapshot.filters.query);
+      setStatus(snapshot.filters.status as StatusFilter);
+      setTopic(snapshot.filters.topic);
+      setExam(snapshot.filters.exam);
+      setBranch(snapshot.filters.branch);
+      setLevel(snapshot.filters.level);
+      setDifficulty(snapshot.filters.difficulty as DifficultyFilter);
+
+      const targetCount = Math.min(
+        10_000,
+        Math.max(
+          initialRows.length,
+          snapshot.loadedCount ?? initialRows.length,
+        ),
+      );
+      let restoredRows = initialRows;
+      let offset = initialRows.length;
+      let more = initialHasMore;
+
+      if (more && offset < targetCount) {
+        loadingRef.current = true;
+        setLoadingMore(true);
+        try {
+          while (more && offset < targetCount) {
+            const batch = await fetchQuestionBatch(
+              subjectSlug,
+              offset,
+              controller.signal,
+            );
+            const known = new Set(restoredRows.map((row) => row.id));
+            const incoming = addProgress(batch.rows, progress).filter(
+              (row) => !known.has(row.id),
+            );
+            restoredRows = [...restoredRows, ...incoming];
+            offset = batch.nextOffset;
+            more = batch.hasMore;
+          }
+        } catch (error) {
+          if (!(error instanceof DOMException && error.name === "AbortError")) {
+            setLoadError("Could not restore every previously loaded question.");
+          }
+        } finally {
+          if (!controller.signal.aborted) {
+            nextOffsetRef.current = offset;
+            hasMoreRef.current = more;
+            setRows(restoredRows);
+            setHasMore(more);
+            loadingRef.current = false;
+            setLoadingMore(false);
+          }
+        }
+      }
+
+      if (controller.signal.aborted) return;
+      // Let the restored rows and filters commit before applying the old
+      // document offset; otherwise the browser clamps against a shorter list.
+      firstScrollFrame = window.requestAnimationFrame(() => {
+        secondScrollFrame = window.requestAnimationFrame(() => {
+          window.scrollTo({ top: snapshot.scrollY, behavior: "auto" });
+        });
+      });
+    }
+
+    void restore();
+
+    return () => {
+      controller.abort();
+      window.cancelAnimationFrame(firstScrollFrame);
+      window.cancelAnimationFrame(secondScrollFrame);
+    };
+  }, [initialHasMore, initialRows, progress, subjectSlug]);
+
+  const loadMore = useCallback(async () => {
+    if (loadingRef.current || !hasMoreRef.current) return;
+    loadingRef.current = true;
+    setLoadingMore(true);
+    setLoadError(null);
+
+    try {
+      const batch = await fetchQuestionBatch(
+        subjectSlug,
+        nextOffsetRef.current,
+      );
+      nextOffsetRef.current = batch.nextOffset;
+      hasMoreRef.current = batch.hasMore;
+      setHasMore(batch.hasMore);
+      setRows((current) => {
+        const known = new Set(current.map((row) => row.id));
+        const incoming = addProgress(batch.rows, progress).filter(
+          (row) => !known.has(row.id),
+        );
+        return [...current, ...incoming];
+      });
+    } catch {
+      setLoadError("Questions could not be loaded. Please try again.");
+    } finally {
+      loadingRef.current = false;
+      setLoadingMore(false);
+    }
+  }, [progress, subjectSlug]);
+
+  // Begin fetching shortly before the learner reaches the last loaded row.
+  // Recreating the observer after each batch also keeps loading when filters
+  // leave the sentinel visible.
+  useEffect(() => {
+    const trigger = loadTriggerRef.current;
+    if (!trigger || !hasMore || loadingMore) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) void loadMore();
+      },
+      { rootMargin: "500px 0px" },
+    );
+    observer.observe(trigger);
+    return () => observer.disconnect();
+  }, [hasMore, loadMore, loadingMore, rows.length]);
+
+  function rememberListPosition() {
+    const url = new URL(window.location.href);
+    // The active section is client state, so make it explicit in the return URL.
+    url.searchParams.set("tab", "practice");
+    saveQuestionListReturn(subjectSlug, {
+      href: `${url.pathname}${url.search}`,
+      scrollY: window.scrollY,
+      loadedCount: rows.length,
+      filters: { query, status, topic, exam, branch, level, difficulty },
+    });
+  }
 
   // Filter options come only from tags the questions actually carry.
   const exams = useMemo(
@@ -281,7 +452,11 @@ export function QuestionTable({
       {filtered.length === 0 ? (
         <EmptyState
           title="No matching questions"
-          description="Try a different search term or clear the filters."
+          description={
+            hasMore
+              ? "More questions are loading for this filter."
+              : "Try a different search term or clear the filters."
+          }
         />
       ) : (
         <div className="space-y-3">
@@ -321,10 +496,9 @@ export function QuestionTable({
                   </p>
                 </div>
 
-                {/* Both actions go through the gate first: the handout carries
-                    the solution, and opening a question is the start of solving
-                    it. The server enforces this too -- these just make the ask
-                    happen here instead of after a bounce. */}
+                {/* The handout stays gated because it carries the solution.
+                    Questions themselves can open for signed-out visitors; their
+                    shared-link login gate returns them to the exact question. */}
                 <div className="flex shrink-0 items-center gap-2">
                   <button
                     type="button"
@@ -346,15 +520,14 @@ export function QuestionTable({
                   </button>
                   <button
                     type="button"
-                    onClick={() =>
-                      gate.requirePhone(() => {
-                        void logEvent({
-                          event: "question_open",
-                          questionId: r.id,
-                        });
-                        router.push(`/app/questions/${r.id}`);
-                      })
-                    }
+                    onClick={() => {
+                      rememberListPosition();
+                      void logEvent({
+                        event: "question_open",
+                        questionId: r.id,
+                      });
+                      router.push(`/app/questions/${r.id}`);
+                    }}
                     className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-3.5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd] sm:px-5"
                   >
                     {solved ? "Solve again" : "Attempt"}
@@ -364,6 +537,31 @@ export function QuestionTable({
             );
           })}
         </div>
+      )}
+
+      {hasMore && (
+        <div
+          ref={loadTriggerRef}
+          className="mt-5 flex min-h-16 flex-col items-center justify-center gap-2"
+        >
+          <button
+            type="button"
+            onClick={() => void loadMore()}
+            disabled={loadingMore}
+            className="inline-flex h-10 items-center rounded-[6px] border border-[#3d3d3d] bg-canvas px-5 text-[13px] font-medium text-fg transition-colors hover:bg-surface disabled:cursor-wait disabled:opacity-60"
+          >
+            {loadingMore ? "Loading questions…" : "Load more questions"}
+          </button>
+          <span className="text-[11px] text-fg-faint">
+            {rows.length} questions loaded
+          </span>
+        </div>
+      )}
+
+      {loadError && (
+        <p className="mt-3 text-center text-[12px] text-err" role="status">
+          {loadError}
+        </p>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { cache } from "react";
 
@@ -16,6 +16,14 @@ export interface SubjectContent {
 
 const CONTENT_DIR = join(process.cwd(), "content", "subjects");
 const RESOURCES_DIR = join(process.cwd(), "content", "resources");
+
+export const hasSubjectContent = cache((slug: string) =>
+  existsSync(join(CONTENT_DIR, `${slug}.md`)),
+);
+
+export const hasSubjectResources = cache((slug: string) =>
+  existsSync(join(RESOURCES_DIR, `${slug}.md`)),
+);
 
 export const getSubjectContent = cache(function getSubjectContent(
   slug: string,
