@@ -11,31 +11,25 @@ const SITE_URL =
  * stay out so crawlers can focus on useful candidates for search sitelinks.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
-
   const entries: MetadataRoute.Sitemap = [
-    { url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: SITE_URL, changeFrequency: "weekly", priority: 1 },
     {
       url: `${SITE_URL}/practice`,
-      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/pyqs`,
-      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/test-series`,
-      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/app/subjects`,
-      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
     },
@@ -53,7 +47,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const s of activeSubjects) {
       entries.push({
         url: `${SITE_URL}/app/subjects/${s.slug}`,
-        lastModified: now,
         changeFrequency: "weekly",
         priority: 0.8,
       });
@@ -69,7 +62,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (const question of questions ?? []) {
         entries.push({
           url: `${SITE_URL}/app/questions/${question.id}`,
-          lastModified: now,
           changeFrequency: "monthly",
           priority: 0.6,
         });
@@ -81,7 +73,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   entries.push({
     url: `${SITE_URL}/leaderboard`,
-    lastModified: now,
     changeFrequency: "weekly",
     priority: 0.7,
   });
@@ -89,7 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const article of listAllArticles()) {
     entries.push({
       url: `${SITE_URL}/app/subjects/${article.subject}/articles/${article.slug}`,
-      lastModified: article.date || now,
+      ...(article.date ? { lastModified: article.date } : {}),
       changeFrequency: "monthly",
       priority: 0.65,
     });
@@ -103,7 +94,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]) {
     entries.push({
       url: `${SITE_URL}${page.path}`,
-      lastModified: now,
       changeFrequency: "monthly",
       priority: page.priority,
     });
