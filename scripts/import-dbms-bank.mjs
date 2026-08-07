@@ -601,7 +601,7 @@ const rows = candidates.map(({ group, question }) => {
     mcq_answer: null,
     setup_sql: database.dump,
     input_labels: null,
-    exam: question.setType === "PYQ" ? "PYQ" : null,
+    exam: question.setType === "PYQ" ? "OPPE" : null,
     starter_code:
       question.type === "python" ? "# Write your Python solution here.\n" : null,
     language: question.type === "sql" ? "sql" : "python",
@@ -821,7 +821,7 @@ for (const set of paperSets) {
           subject_id: subject.id,
           slug,
           title,
-          exam: "DBMS OPPE",
+          exam: "OPPE",
           year,
           source: null,
           category,

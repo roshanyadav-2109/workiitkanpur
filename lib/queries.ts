@@ -23,6 +23,7 @@ const QUESTION_CONTENT_REVISION = "2026-08-dbms-topics";
 // Never allow pre-hardening leaderboard rows (auth UUID + profile-derived
 // names) to survive a deployment through the persistent Data Cache.
 const LEADERBOARD_SECURITY_REVISION = "2026-08-public-names-v2";
+const TEST_SET_CONTENT_REVISION = "2026-08-dbms-oppe-label";
 const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
 
 /** unstable_cache wrapper that preserves the wrapped function's exact type
@@ -244,7 +245,7 @@ export const getTestSets = cached(async function getTestSets(
       sections,
     };
   });
-}, ["test-sets"], CONTENT);
+}, ["test-sets", TEST_SET_CONTENT_REVISION], CONTENT);
 
 export const getSubjectBySlug = cached(async function getSubjectBySlug(slug: string): Promise<Subject | null> {
   const supabase = createPublicClient();
