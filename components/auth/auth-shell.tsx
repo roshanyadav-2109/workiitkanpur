@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { AuthMotion } from "@/components/auth/auth-motion";
-import { SITE_NAME } from "@/lib/seo";
 
 /** Two-pane auth frame: an animated brand panel on the left, the form on the
  *  right with a "Welcome" heading set in Fraunces. */
@@ -26,7 +25,7 @@ export function AuthShell({
         <header className="flex h-14 items-center px-6 sm:px-10">
           <Link href="/" className="flex items-center lg:hidden">
             <span className="text-[15px] font-medium tracking-[-0.01em]">
-              {SITE_NAME}
+              IITM BS Community
             </span>
           </Link>
         </header>

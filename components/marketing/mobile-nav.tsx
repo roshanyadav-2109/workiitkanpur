@@ -24,25 +24,11 @@ const SUBJECTS: { label: string; slug: string }[] = [
   { label: "Programming in C", slug: "c" },
   { label: "System Commands", slug: "syscmd" },
 ];
-const subjectItems = (tab?: string): Item[] => {
-  const subjects = SUBJECTS.map((s) => ({
+const subjectItems = (tab?: string): Item[] =>
+  SUBJECTS.map((s) => ({
     label: s.label,
     href: `/app/subjects/${s.slug}${tab ? `?tab=${tab}` : ""}`,
   }));
-  const hub =
-    tab === "pyqs"
-      ? "/pyqs"
-      : tab === "test-series"
-        ? "/test-series"
-        : "/practice";
-  const label =
-    tab === "pyqs"
-      ? "All OPPE PYQs"
-      : tab === "test-series"
-        ? "All test series"
-        : "All practice subjects";
-  return [{ label, href: hub }, ...subjects];
-};
 
 /** Top-level mobile tabs. A tab with `children` opens its own sub-screen. */
 const TABS: Tab[] = [

@@ -58,15 +58,6 @@ export async function GET() {
   L.push("## Key pages");
   L.push(`- [Home](${SITE_URL}/): what ${SITE_NAME} is and how it works.`);
   L.push(
-    `- [Practice questions](${SITE_URL}/practice): subject-wise OPPE problem banks with test-case grading.`,
-  );
-  L.push(
-    `- [Previous-year questions](${SITE_URL}/pyqs): available OPPE PYQ papers grouped by subject.`,
-  );
-  L.push(
-    `- [Test series](${SITE_URL}/test-series): full timed OPPE mock tests.`,
-  );
-  L.push(
     `- [All subjects](${SITE_URL}/app/subjects): every subject with OPPE practice.`,
   );
   L.push(

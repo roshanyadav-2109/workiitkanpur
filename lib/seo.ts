@@ -226,26 +226,6 @@ export function itemListNode(items: { name: string; path: string }[]) {
   };
 }
 
-export function collectionPageNode({
-  name,
-  description,
-  path,
-}: {
-  name: string;
-  description: string;
-  path: string;
-}) {
-  return {
-    "@type": "CollectionPage",
-    "@id": `${absoluteUrl(path)}#collection`,
-    name,
-    description,
-    url: absoluteUrl(path),
-    inLanguage: "en-IN",
-    isPartOf: { "@id": `${SITE_URL}/#website` },
-  };
-}
-
 export function faqNode(items: { question: string; answer: string }[]) {
   return {
     "@type": "FAQPage",

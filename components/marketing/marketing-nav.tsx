@@ -18,23 +18,10 @@ const SUBJECTS: { label: string; slug: string }[] = [
 // tab is appended to the subject URL so the subject page opens on that section.
 function subjectItems(tab?: string) {
   const q = tab ? `?tab=${tab}` : "";
-  const subjects = SUBJECTS.map((s) => ({
+  return SUBJECTS.map((s) => ({
     label: s.label,
     href: `/app/subjects/${s.slug}${q}`,
   }));
-  const hub =
-    tab === "pyqs"
-      ? "/pyqs"
-      : tab === "test-series"
-        ? "/test-series"
-        : "/practice";
-  const label =
-    tab === "pyqs"
-      ? "All OPPE PYQs"
-      : tab === "test-series"
-        ? "All test series"
-        : "All practice subjects";
-  return [{ label, href: hub }, ...subjects];
 }
 
 const LINKS = [
