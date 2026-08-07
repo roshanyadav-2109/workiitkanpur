@@ -22,7 +22,7 @@ const CONTENT = { revalidate: false, tags: ["content"] } as const;
 const QUESTION_CONTENT_REVISION = "2026-08-dbms-topics";
 // Never allow pre-hardening leaderboard rows (auth UUID + profile-derived
 // names) to survive a deployment through the persistent Data Cache.
-const LEADERBOARD_SECURITY_REVISION = "2026-08-pseudonymous-v1";
+const LEADERBOARD_SECURITY_REVISION = "2026-08-public-names-v2";
 const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
 
 /** unstable_cache wrapper that preserves the wrapped function's exact type
