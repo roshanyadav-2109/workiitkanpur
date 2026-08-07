@@ -1,6 +1,7 @@
 // Import the public DBMS practice bank into this project's live Supabase.
 //
 //   npm run import:dbms-bank             # audit only
+//   npm run import:dbms-bank -- --print-titles
 //   npm run import:dbms-bank -- --commit # insert missing questions
 //
 // The visible records intentionally use neutral topic names and tags. A rerun
@@ -13,6 +14,7 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const COMMIT = process.argv.includes("--commit");
+const PRINT_TITLES = process.argv.includes("--print-titles");
 const REMOTE = "https://oppe.dev";
 const SUBJECT_SLUG = "dbms";
 const MAX_POST_CHARS = 2_500_000;
@@ -144,28 +146,196 @@ function schemaFromDump(dump) {
   return tables.join("\n\n").trim();
 }
 
-function titleFromQuestion(question, kind) {
-  let title = coreStatement(question)
-    .replace(/\s+/g, " ")
-    .replace(
-      /^(?:in this question,?\s+you must\s+)?write\s+(?:an?\s+)?(?:sql query|python program)\s+to\s+/i,
-      "",
-    )
-    .replace(/^find\s+/i, "Find ")
-    .trim();
-  title = title.split(/(?<=[.!?])\s+/)[0].replace(/[.!?]+$/, "");
-  if (!title) title = kind === "sql" ? "SQL practice question" : "Python database question";
-  title = title[0].toUpperCase() + title.slice(1);
-  if (title.length <= 96) return title;
-  const shortened = title.slice(0, 93).replace(/\s+\S*$/, "");
-  return `${shortened || title.slice(0, 93)}...`;
+const TITLE_STOP_WORDS = new Set([
+  "a",
+  "all",
+  "along",
+  "an",
+  "and",
+  "are",
+  "as",
+  "based",
+  "be",
+  "been",
+  "corresponding",
+  "currently",
+  "each",
+  "every",
+  "for",
+  "from",
+  "given",
+  "has",
+  "have",
+  "having",
+  "in",
+  "is",
+  "it",
+  "of",
+  "on",
+  "or",
+  "respective",
+  "that",
+  "the",
+  "their",
+  "them",
+  "they",
+  "this",
+  "those",
+  "to",
+  "using",
+  "was",
+  "were",
+  "which",
+  "who",
+  "whose",
+  "you",
+]);
+const MAX_TITLE_WORDS = 8;
+const MAX_TITLE_CHARS = 58;
+
+function pythonTitle(question) {
+  const text = coreStatement(question).toLowerCase();
+  const lineFunction = titleQualifier(question);
+  if (/user name.*user_id/.test(text)) return "User name by ID";
+  if (/manager of the player/.test(text) && /leap year/.test(text)) {
+    return "Player manager and leap-year check";
+  }
+  if (/mobile number of user/.test(text) && /user id/.test(text)) {
+    return "User mobile number by ID";
+  }
+  if (/department name/.test(text) && /even.*odd/.test(text)) {
+    return "Student department and birth-year parity";
+  }
+  if (/name of referee/.test(text) && /referee_id/.test(text)) {
+    return "Referee name by ID";
+  }
+  if (/players/.test(text) && /jersey number is a prime/.test(text)) {
+    return "Players with prime jersey numbers";
+  }
+  if (/encoding of the ids of the teams/.test(text)) {
+    return "Encoded team IDs by jersey colour";
+  }
+  if (/jersey number of the player/.test(text)) return "Player jersey number";
+  if (/last name of the student in reverse/.test(text)) {
+    return "Reversed student last name";
+  }
+  if (/roll number of the student/.test(text)) return "Student roll number";
+  if (/isbn numbers of books/.test(text)) {
+    return `Book ISBNs by computed year${lineFunction ? ` — ${lineFunction}` : ""}`;
+  }
+  if (/playground of the given team id/.test(text)) return "Team playground by ID";
+  if (/email id of user/.test(text)) return "User email by ID";
+  if (/first name, last name/.test(text) && /evenyear/.test(text)) {
+    return "Student name and birth-year parity";
+  }
+  if (/faculty's first name/.test(text) && /date of joining/.test(text)) {
+    return "Faculty name and joining date";
+  }
+  if (/student's gender/.test(text)) return "Student gender";
+  if (/student's date of birth/.test(text) && /sum of all digits/.test(text)) {
+    return "Birth-date digit sum";
+  }
+  if (/consonants/.test(text)) return "Last-name consonant count";
+  if (/student's mobile number/.test(text) && /sum of all digits/.test(text)) {
+    return "Mobile-number digit sum";
+  }
+  return null;
 }
 
-function uniqueTitle(base, used) {
+/**
+ * Rows need scan-friendly labels, not a copy of the question paragraph. Keep
+ * the complete wording in body_md and derive a stable 3-8 word title here.
+ */
+function titleFromQuestion(question, kind) {
+  if (kind === "python") {
+    const known = pythonTitle(question);
+    if (known) return known;
+  }
+
+  const normalizedCore = coreStatement(question).toLowerCase();
+  if (/^retrieve all details of every user/.test(normalizedCore)) {
+    return "User details";
+  }
+  if (/names of all teams\.?$/.test(normalizedCore)) return "All team names";
+  if (/number of female students in each department/.test(normalizedCore)) {
+    return /department name/.test(normalizedCore)
+      ? "Female students by department name"
+      : "Female students by department code";
+  }
+
+  let phrase = coreStatement(question)
+    .replace(/\s+/g, " ")
+    .replace(/^["'“”]+\s*/, "")
+    .replace(
+      /^in this (?:question|problem),?\s+you (?:have to|must)\s+write\s+(?:an?\s+)?python program\s+to\s+/i,
+      "",
+    )
+    .replace(
+      /^write\s+(?:an?\s+)?(?:sql(?:\s+(?:query|statement))?|query|python program)(?:\s+that)?\s+to\s+/i,
+      "",
+    )
+    .replace(/^write\s+(?:an?\s+)?python program\s+that\s+/i, "")
+    .replace(
+      /^(?:find out|find|retrieve|fetch|list|calculate|identify|generate|print|output|display|obtain|provide|return)\s+/i,
+      "",
+    )
+    .replace(/^all details of (?:every|each|the)?\s*(.+?) from (?:the )?database$/i, "$1 details")
+    .replace(/\b(?:the )?total number of\b/gi, "count of")
+    .replace(/\bcount\s+(?:the\s+)?count\b/gi, "count")
+    .replace(/\bfor each\b/gi, "per")
+    .replace(/\bof each\b/gi, "per")
+    .trim();
+
+  phrase = phrase
+    .split(/(?<=[!?])\s+|(?<=\.)\s+(?=[A-Z"'“])/)[0]
+    .replace(/[.!?"'“”]+$/, "")
+    .trim();
+
+  const words = phrase.match(/[\p{L}\p{N}_]+(?:[-'’][\p{L}\p{N}_]+)*/gu) ?? [];
+  const meaningful = words.filter(
+    (word) => !TITLE_STOP_WORDS.has(word.toLocaleLowerCase("en")),
+  );
+  const pool = meaningful.length >= 3 ? meaningful : words;
+  const picked = [];
+  for (const word of pool) {
+    if (picked.length >= MAX_TITLE_WORDS) break;
+    const next = [...picked, word].join(" ");
+    if (next.length > MAX_TITLE_CHARS && picked.length >= 3) break;
+    picked.push(word);
+  }
+
+  let title = picked.join(" ").trim();
+  if (!title) {
+    title = kind === "sql" ? "SQL practice question" : "Python database question";
+  }
+  return title[0].toUpperCase() + title.slice(1);
+}
+
+function titleQualifier(question) {
+  const lineFunction = /\b(L\d+)\s*\(/i.exec(question)?.[1];
+  if (lineFunction) return lineFunction.toUpperCase();
+  return null;
+}
+
+function truncateTitle(title, limit) {
+  if (title.length <= limit) return title;
+  return title.slice(0, limit).replace(/\s+\S*$/, "") || title.slice(0, limit);
+}
+
+function uniqueTitle(base, used, question = "") {
   let title = base;
+  const qualifier = titleQualifier(question);
+  if (used.has(title.toLowerCase()) && qualifier) {
+    const available = MAX_TITLE_CHARS - qualifier.length - 3;
+    const shortBase = truncateTitle(base, available);
+    title = `${shortBase} — ${qualifier}`;
+  }
   let suffix = 2;
   while (used.has(title.toLowerCase())) {
-    title = `${base} (${suffix})`;
+    const marker = ` (${suffix})`;
+    const available = MAX_TITLE_CHARS - marker.length;
+    const shortBase = truncateTitle(base, available);
+    title = `${shortBase}${marker}`;
     suffix += 1;
   }
   used.add(title.toLowerCase());
@@ -273,7 +443,7 @@ const [subject] = await rest(
 if (!subject) throw new Error(`Subject "${SUBJECT_SLUG}" does not exist.`);
 
 const existing = await rest(
-  `questions?select=id,title,body_md,kind,tags,sort_order,practice_only` +
+  `questions?select=id,title,body_md,kind,tags,sort_order,practice_only,topic_id` +
     `&subject_id=eq.${subject.id}&limit=1000`,
 );
 const existingExact = new Map(
@@ -336,7 +506,35 @@ const nextTopicOrder =
 const sqlTopic = await ensureTopic(topicNames.sql, nextTopicOrder);
 const pythonTopic = await ensureTopic(topicNames.python, nextTopicOrder + 1);
 
-const usedTitles = new Set(existing.map((question) => question.title.toLowerCase()));
+const importedTopicIds = new Set([sqlTopic.id, pythonTopic.id]);
+// Recompute imported titles in feed order so reruns can shorten old rows while
+// keeping their labels deterministic. Titles outside these two neutral import
+// topics are reserved and never renamed by this script.
+const usedTitles = new Set(
+  existing
+    .filter((question) => !importedTopicIds.has(question.topic_id))
+    .map((question) => question.title.toLowerCase()),
+);
+const matchedExisting = new Map(
+  skipped.map(({ question, existing: match }) => [
+    normalizedStatement(question.question),
+    match,
+  ]),
+);
+const plannedTitles = new Map();
+for (const [key, group] of grouped) {
+  const match = matchedExisting.get(key);
+  if (match && !importedTopicIds.has(match.topic_id)) continue;
+  plannedTitles.set(
+    key,
+    uniqueTitle(
+      titleFromQuestion(group[0].question, group[0].type),
+      usedTitles,
+      group[0].question,
+    ),
+  );
+}
+
 let sortOrder = Math.max(0, ...existing.map((question) => question.sort_order ?? 0)) + 1;
 const rows = candidates.map(({ group, question }) => {
   const database = databases.get(question.databaseName);
@@ -366,10 +564,9 @@ const rows = candidates.map(({ group, question }) => {
   return {
     subject_id: subject.id,
     topic_id: question.type === "sql" ? sqlTopic.id : pythonTopic.id,
-    title: uniqueTitle(
+    title:
+      plannedTitles.get(normalizedStatement(question.question)) ??
       titleFromQuestion(question.question, question.type),
-      usedTitles,
-    ),
     body_md: body,
     difficulty:
       question.setType === "Ace"
@@ -415,6 +612,10 @@ const existingPaperMoves = skipped.filter(
     match.practice_only,
 ).length;
 const newPaperOnly = rows.filter((row) => !row.practice_only).length;
+const existingTitleUpdates = [...plannedTitles].filter(([key, title]) => {
+  const match = matchedExisting.get(key);
+  return match && match.title !== title;
+}).length;
 
 console.log(`DBMS bank audit for "${subject.name}"`);
 console.log(`  feed rows:                 ${sourceRows.length}`);
@@ -427,14 +628,28 @@ console.log(`  new Python questions:      ${codingRows.length}`);
 console.log(`  total new questions:       ${rows.length}`);
 console.log(`  new paper-only questions:  ${newPaperOnly}`);
 console.log(`  existing rows to move:     ${existingPaperMoves}`);
+console.log(`  existing titles to shorten:${String(existingTitleUpdates).padStart(5)}`);
 console.log(`  PYQ papers:                ${paperSets.filter((set) => paperCategory(set) === "pyq").length}`);
 console.log(`  mock papers:               ${paperSets.filter((set) => paperCategory(set) === "mock").length}`);
 console.log(
-  `  content fingerprint:      ${statementHash(rows.map((row) => row.body_md).join("\n"))}`,
+  `  content fingerprint:      ${statementHash(
+    [...grouped.values()]
+      .map((group) => coreStatement(group[0].question))
+      .join("\n"),
+  )}`,
 );
 
+if (PRINT_TITLES) {
+  console.log("\nImported question titles:");
+  let index = 0;
+  for (const title of plannedTitles.values()) {
+    index += 1;
+    console.log(`  ${String(index).padStart(3, "0")}. ${title}`);
+  }
+}
+
 if (!COMMIT) {
-  console.log("\nDRY RUN - re-run with --commit to insert these rows.");
+  console.log("\nDRY RUN - re-run with --commit to synchronize these rows.");
   process.exit(0);
 }
 
@@ -449,7 +664,7 @@ for (const batch of batches) {
 // Resolve every remote statement to its single local row. This includes the
 // rows that were already present before this import and the rows just added.
 const current = await rest(
-  `questions?select=id,title,body_md,practice_only` +
+  `questions?select=id,title,body_md,practice_only,topic_id` +
     `&subject_id=eq.${subject.id}&limit=1000`,
 );
 const currentExact = new Map(
@@ -465,6 +680,30 @@ for (const [key, group] of grouped) {
   }
   if (!local) throw new Error(`Could not resolve imported statement ${group[0].id}.`);
   resolved.set(key, local);
+}
+
+const titleUpdates = [];
+for (const [key, title] of plannedTitles) {
+  const local = resolved.get(key);
+  if (
+    local &&
+    importedTopicIds.has(local.topic_id) &&
+    local.title !== title
+  ) {
+    titleUpdates.push({ id: local.id, title });
+  }
+}
+for (let index = 0; index < titleUpdates.length; index += 20) {
+  await Promise.all(
+    titleUpdates.slice(index, index + 20).map(({ id, title }) =>
+      rest(
+        `questions?id=eq.${id}`,
+        "PATCH",
+        { title },
+        "return=minimal",
+      ),
+    ),
+  );
 }
 
 // Questions that belong to a paper must not also appear in Practice.
@@ -600,5 +839,6 @@ for (const set of paperSets) {
 }
 
 console.log(`\nInserted ${inserted} deduplicated DBMS questions.`);
+console.log(`Shortened ${titleUpdates.length} imported question titles.`);
 console.log(`Moved ${idsToMove.length} questions out of Practice.`);
 console.log(`Created ${papersCreated} papers; ${paperSets.length} are synchronized.`);

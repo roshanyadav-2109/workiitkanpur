@@ -14,6 +14,10 @@ import { displayName } from "@/lib/utils";
 // revalidation endpoint expires this tag explicitly. Keep it shared until then
 // so a cold Supabase read is paid once rather than once per visitor or per hour.
 const CONTENT = { revalidate: false, tags: ["content"] } as const;
+// Bump only when content changed directly and the production revalidation hook
+// was unavailable. This refreshes the shorter DBMS titles once; every batch is
+// then shared across visitors indefinitely again.
+const QUESTION_CONTENT_REVISION = "2026-08-short-titles";
 const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
 
 /** unstable_cache wrapper that preserves the wrapped function's exact type
@@ -281,7 +285,7 @@ export const getSubjectQuestionList = cached(async function getSubjectQuestionLi
     .order("created_at", { ascending: true })
     .order("id", { ascending: true });
   return (data as unknown as QuestionListItem[]) ?? [];
-}, ["subject-question-list"], CONTENT);
+}, ["subject-question-list", QUESTION_CONTENT_REVISION], CONTENT);
 
 export interface SubjectQuestionPage {
   questions: QuestionListItem[];
@@ -319,7 +323,7 @@ export const getSubjectQuestionPage = cached(async function getSubjectQuestionPa
     questions: questions.slice(0, safeLimit),
     hasMore: questions.length > safeLimit,
   };
-}, ["subject-question-page"], CONTENT);
+}, ["subject-question-page", QUESTION_CONTENT_REVISION], CONTENT);
 
 /**
  * Full question payloads for the handful of questions in one paper.
@@ -339,7 +343,7 @@ export const getQuestionsForRun = cached(async function getQuestionsForRun(
     )
     .in("id", ids);
   return (data as unknown as QuestionWithTopic[]) ?? [];
-}, ["questions-for-run"], CONTENT);
+}, ["questions-for-run", QUESTION_CONTENT_REVISION], CONTENT);
 
 export interface QuestionContext {
   question: Question;
@@ -374,7 +378,7 @@ export const getQuestionById = cached(async function getQuestionById(
   };
   if (!subject?.is_active) return null;
   return { question, subject, topic };
-}, ["question-by-id"], CONTENT);
+}, ["question-by-id", QUESTION_CONTENT_REVISION], CONTENT);
 
 /** All of a user's attempts, newest first. */
 export async function getUserAttempts(userId: string): Promise<Attempt[]> {
