@@ -20,6 +20,9 @@ const CONTENT = { revalidate: false, tags: ["content"] } as const;
 // was unavailable. This refreshes the restored DBMS topic labels once; every
 // batch is then shared across visitors indefinitely again.
 const QUESTION_CONTENT_REVISION = "2026-08-dbms-topics";
+// Never allow pre-hardening leaderboard rows (auth UUID + profile-derived
+// names) to survive a deployment through the persistent Data Cache.
+const LEADERBOARD_SECURITY_REVISION = "2026-08-pseudonymous-v1";
 const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
 
 /** unstable_cache wrapper that preserves the wrapped function's exact type
@@ -528,7 +531,7 @@ export const getLeaderboard = cached(async function getLeaderboard(limit: number
     ...r,
     name: displayName(r.name),
   }));
-}, ["leaderboard-overall"], BOARD);
+}, ["leaderboard-overall", LEADERBOARD_SECURITY_REVISION], BOARD);
 
 export interface MockRow {
   set_id: string;
@@ -554,7 +557,7 @@ export const getMockBoard = cached(async function getMockBoard(): Promise<MockRo
     ...r,
     name: displayName(r.name),
   }));
-}, ["mock-board"], BOARD);
+}, ["mock-board", LEADERBOARD_SECURITY_REVISION], BOARD);
 
 export interface TestAttemptRow {
   id: string;
