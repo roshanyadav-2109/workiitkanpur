@@ -24,6 +24,7 @@ import {
 } from "@/components/icons";
 import { describeSectionRule } from "@/lib/scoring";
 import type { RunSummary, RuntimeQuestion } from "@/components/execution/types";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 
 interface RunnerQuestion extends RuntimeQuestion {
   title: string;
@@ -88,6 +89,7 @@ export function TestRunner({
   environment: "learning" | "exam";
   resourcesMd?: string | null;
 }) {
+  const { requirePhone } = usePhoneGate();
   const isExam = environment === "exam";
   const [curSec, setCurSec] = useState(0);
   const [curQ, setCurQ] = useState(0);
@@ -215,11 +217,21 @@ export function TestRunner({
       setRemaining(rem);
       if (rem <= 0) {
         window.clearInterval(id);
-        void finalize(); // auto-submit the moment the set time ends
+        // The paper may be opened with login alone; ask for a phone only when
+        // its work is actually about to be submitted.
+        requirePhone(() => void finalize());
       }
     }, 1000);
     return () => window.clearInterval(id);
-  }, [submitted, started, isExam, startedAt, durationSeconds, finalize]);
+  }, [
+    submitted,
+    started,
+    isExam,
+    startedAt,
+    durationSeconds,
+    finalize,
+    requirePhone,
+  ]);
 
   // Restore an in-progress exam after a refresh or navigating away and back:
   // the clock keeps ticking from the stored start time; switches/answers return.
@@ -854,7 +866,7 @@ export function TestRunner({
                 Keep working
               </button>
               <button
-                onClick={() => void finalize()}
+                onClick={() => requirePhone(() => void finalize())}
                 disabled={saving}
                 className="inline-flex h-9 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-4 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 disabled:opacity-60"
               >

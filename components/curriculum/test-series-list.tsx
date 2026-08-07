@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { formatClock } from "@/lib/utils";
 import { formatDurationMin, type TestSetMeta } from "@/lib/test-series";
 import type { TestAttemptRow } from "@/lib/queries";
-import { usePhoneGate } from "@/components/phone/phone-gate";
 import { Select } from "@/components/ui/input";
 
 const MONTHS = [
@@ -31,7 +30,6 @@ export function TestSeriesList({
   past?: TestAttemptRow[];
 }) {
   const router = useRouter();
-  const gate = usePhoneGate();
   const available = sets.filter((s) => s.available);
   const submittedPast = past.filter((a) => a.status === "submitted");
   const [picking, setPicking] = useState<TestSetMeta | null>(null);
@@ -87,7 +85,7 @@ export function TestSeriesList({
             </p>
           </div>
           <button
-            onClick={() => gate.requirePhone(() => setPicking(s))}
+            onClick={() => setPicking(s)}
             className="inline-flex h-9 shrink-0 items-center rounded-[3px] bg-gradient-to-b from-[#6d5ce2] to-[#5a48d6] px-5 text-[13px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:from-[#7a6ae8] hover:to-[#6455dd]"
           >
             Start test →

@@ -202,8 +202,8 @@ export function PhoneGateProvider({
               Verify your phone number
             </h2>
             <p className="mt-1.5 text-[14px] leading-relaxed text-fg-muted">
-              A phone number is required before you practise. Add it once — we
-              use it to confirm it&apos;s really you.
+              A phone number is required before you run or submit work. Add it
+              once — we use it to confirm it&apos;s really you.
             </p>
 
             <div className="mt-4">

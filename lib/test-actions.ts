@@ -12,10 +12,9 @@ export type TestActionResult =
   | { ok: false; error: string };
 
 /**
- * Open a Test Series attempt. Called from the run page once the learner is on
- * the paper — the row is what everything else hangs off, so the clock, the
- * answers and the score all belong to a real server-side attempt rather than
- * to localStorage.
+ * Open a Test Series attempt after login. Phone verification is deliberately
+ * deferred until final submission; the row is what the clock, answers and
+ * score hang off, rather than localStorage.
  *
  * An in-progress attempt for the same set is reused, so a refresh resumes
  * instead of opening a second row.
@@ -30,8 +29,6 @@ export async function startTestAttempt(input: {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { error: "Not signed in." };
-  if (!(await hasPhoneOnFile(supabase, user.id)))
-    return { error: PHONE_REQUIRED };
 
   const subject = await getSubjectBySlug(input.slug);
   if (!subject) return { error: "Subject not found." };

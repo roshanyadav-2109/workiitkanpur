@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { IconCheck, IconClose } from "@/components/icons";
 import type { RuntimeProps } from "@/components/execution/types";
+import { usePhoneGate } from "@/components/phone/phone-gate";
 
 /** Render `inline code` segments (backtick-delimited) within an option label. */
 function renderLabel(label: string): React.ReactNode {
@@ -30,6 +31,7 @@ export function McqRuntime({
   onGraded,
   initialAnswer,
 }: RuntimeProps) {
+  const gate = usePhoneGate();
   const [selected, setSelected] = useState<string>(initialAnswer ?? "");
   const [checked, setChecked] = useState(false);
 
@@ -101,7 +103,7 @@ export function McqRuntime({
           <Button
             variant="primary"
             size="sm"
-            onClick={onCheck}
+            onClick={() => gate.requirePhone(onCheck)}
             disabled={!selected || checked}
           >
             Check answer

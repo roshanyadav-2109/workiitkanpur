@@ -237,7 +237,7 @@ export function PythonRuntime({
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => runGraded("testrun")}
+                onClick={() => gate.requirePhone(() => runGraded("testrun"))}
                 disabled={running || testing}
                 title="Runs every test so you can check your code — nothing is submitted."
               >
@@ -247,7 +247,7 @@ export function PythonRuntime({
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => runGraded("submit")}
+                onClick={() => gate.requirePhone(() => runGraded("submit"))}
                 disabled={running || testing}
               >
                 {testing && <IconSpinner size={14} />}{testing ? "Submitting…" : "Submit"}

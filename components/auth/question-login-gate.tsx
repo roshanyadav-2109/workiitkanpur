@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AuthForm } from "@/components/auth/auth-form";
 import { AuthMotion } from "@/components/auth/auth-motion";
-import { IconLock } from "@/components/icons";
 
 const OPEN_DELAY_MS = 2000;
 
@@ -13,12 +12,8 @@ const OPEN_DELAY_MS = 2000;
  * AuthForm receives the exact question URL, so Google returns here afterwards.
  */
 export function QuestionLoginGate({
-  questionTitle,
-  subjectName,
   returnTo,
 }: {
-  questionTitle: string;
-  subjectName: string;
   returnTo: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -77,39 +72,17 @@ export function QuestionLoginGate({
         </div>
 
         <div className="flex min-h-0 min-w-0 flex-col overflow-y-auto bg-canvas">
-          <header className="flex min-w-0 items-center justify-between gap-3 border-b border-hairline px-4 py-4 sm:px-9">
-            <span className="shrink-0 text-[14px] font-semibold tracking-[-0.01em] text-fg">
-              OPPE Practice
-            </span>
-            <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full border border-accent-border bg-accent-weak px-2 py-1 text-[10px] font-medium text-accent sm:px-2.5 sm:text-[11px]">
-              <IconLock size={13} /> IITM
-              <span className="hidden sm:inline">students</span>
-            </span>
-          </header>
-
           <main className="mx-auto flex w-full min-w-0 max-w-[460px] flex-1 flex-col justify-center px-4 py-7 text-center sm:px-10 sm:py-8">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-accent">
-              {subjectName}
-            </p>
             <h2
               id="question-login-title"
-              className="mt-3 text-[28px] font-semibold leading-[1.04] tracking-[-0.025em] text-fg sm:text-[40px]"
+              className="text-[28px] font-semibold leading-[1.04] tracking-[-0.025em] text-fg sm:text-[40px]"
               style={{ fontFamily: "var(--font-fraunces)" }}
             >
               Sign in to continue
             </h2>
-            <p className="mx-auto mt-3 max-w-[38ch] text-[14px] leading-relaxed text-fg-muted">
-              You opened <span className="font-medium text-fg">{questionTitle}</span>.
-              Sign in and we will bring you straight back to this exact question.
-            </p>
-
-            <div className="my-6 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.08em] text-fg-faint">
-              <span className="h-px flex-1 bg-hairline" />
-              Your place is saved
-              <span className="h-px flex-1 bg-hairline" />
+            <div className="mt-8">
+              <AuthForm next={returnTo} />
             </div>
-
-            <AuthForm next={returnTo} />
           </main>
         </div>
       </div>

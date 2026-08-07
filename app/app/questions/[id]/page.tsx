@@ -114,11 +114,7 @@ export default async function QuestionPage({
         initialBestSeconds={bestSeconds}
       />
       {!user && (
-        <QuestionLoginGate
-          questionTitle={question.title}
-          subjectName={subject.name}
-          returnTo={returnTo}
-        />
+        <QuestionLoginGate returnTo={returnTo} />
       )}
     </>
   );

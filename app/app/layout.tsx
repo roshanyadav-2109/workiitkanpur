@@ -13,8 +13,8 @@ export default async function AppLayout({
   // reuses the same auth round-trip instead of making its own.
   const user = await getCurrentUser();
 
-  // Browsing stays open, but practising needs a number on file — signed-out
-  // visitors are sent to sign in first rather than waved through.
+  // Browsing and opening a workspace stay open. The provider asks for a number
+  // only when a signed-in learner runs, tests or submits work.
   const hasPhone = user ? !!(await getProfilePhone(user.id)) : false;
 
   return (
