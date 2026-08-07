@@ -15,9 +15,9 @@ import { displayName } from "@/lib/utils";
 // so a cold Supabase read is paid once rather than once per visitor or per hour.
 const CONTENT = { revalidate: false, tags: ["content"] } as const;
 // Bump only when content changed directly and the production revalidation hook
-// was unavailable. This refreshes the shorter DBMS titles once; every batch is
-// then shared across visitors indefinitely again.
-const QUESTION_CONTENT_REVISION = "2026-08-short-titles";
+// was unavailable. This refreshes the restored DBMS topic labels once; every
+// batch is then shared across visitors indefinitely again.
+const QUESTION_CONTENT_REVISION = "2026-08-dbms-topics";
 const BOARD = { revalidate: 120, tags: ["leaderboard"] } as const; // leaderboards — 2m
 
 /** unstable_cache wrapper that preserves the wrapped function's exact type

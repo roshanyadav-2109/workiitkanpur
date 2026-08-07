@@ -4,9 +4,9 @@
 //   npm run import:dbms-bank -- --print-titles
 //   npm run import:dbms-bank -- --commit # insert missing questions
 //
-// The visible records intentionally use neutral topic names and tags. A rerun
-// compares normalized statements with every existing DBMS question before it
-// writes, so the remote collection can grow without duplicating this bank.
+// Imported records reuse the established OPE topic names. A rerun compares
+// normalized statements with every existing DBMS question before it writes, so
+// the remote collection can grow without duplicating this bank.
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -18,6 +18,7 @@ const PRINT_TITLES = process.argv.includes("--print-titles");
 const REMOTE = "https://oppe.dev";
 const SUBJECT_SLUG = "dbms";
 const MAX_POST_CHARS = 2_500_000;
+const IMPORTED_TAG = "dbms-bank";
 
 function credentials() {
   const out = { ...process.env };
@@ -479,6 +480,10 @@ for (const group of grouped.values()) {
 }
 
 const topicNames = {
+  sql: "OPE SQL Questions",
+  python: "OPE Python-PostgreSQL Questions",
+};
+const legacyTopicNames = {
   sql: "SQL Practice Bank",
   python: "Python-PostgreSQL Practice Bank",
 };
@@ -506,13 +511,20 @@ const nextTopicOrder =
 const sqlTopic = await ensureTopic(topicNames.sql, nextTopicOrder);
 const pythonTopic = await ensureTopic(topicNames.python, nextTopicOrder + 1);
 
-const importedTopicIds = new Set([sqlTopic.id, pythonTopic.id]);
+const legacyTopics = Object.values(legacyTopicNames)
+  .map((name) => topics.get(name))
+  .filter(Boolean);
+const legacyTopicIds = new Set(legacyTopics.map((topic) => topic.id));
+const isManagedQuestion = (question) =>
+  legacyTopicIds.has(question.topic_id) ||
+  (question.tags ?? []).includes(IMPORTED_TAG);
+
 // Recompute imported titles in feed order so reruns can shorten old rows while
-// keeping their labels deterministic. Titles outside these two neutral import
-// topics are reserved and never renamed by this script.
+// keeping their labels deterministic. Existing OPE questions are reserved and
+// never renamed; imported rows share their established topic labels.
 const usedTitles = new Set(
   existing
-    .filter((question) => !importedTopicIds.has(question.topic_id))
+    .filter((question) => !isManagedQuestion(question))
     .map((question) => question.title.toLowerCase()),
 );
 const matchedExisting = new Map(
@@ -524,7 +536,7 @@ const matchedExisting = new Map(
 const plannedTitles = new Map();
 for (const [key, group] of grouped) {
   const match = matchedExisting.get(key);
-  if (match && !importedTopicIds.has(match.topic_id)) continue;
+  if (match && !isManagedQuestion(match)) continue;
   plannedTitles.set(
     key,
     uniqueTitle(
@@ -578,6 +590,7 @@ const rows = candidates.map(({ group, question }) => {
     solution_md: referenceSolution(question),
     tags: [
       "dbms",
+      IMPORTED_TAG,
       category,
       question.type === "sql" ? "sql" : "python-postgresql",
       `db:${question.databaseName}`,
@@ -612,6 +625,12 @@ const existingPaperMoves = skipped.filter(
     match.practice_only,
 ).length;
 const newPaperOnly = rows.filter((row) => !row.practice_only).length;
+const existingTopicMoves = existing.filter(
+  (question) =>
+    isManagedQuestion(question) &&
+    question.topic_id !==
+      (question.kind === "sql" ? sqlTopic.id : pythonTopic.id),
+).length;
 const existingTitleUpdates = [...plannedTitles].filter(([key, title]) => {
   const match = matchedExisting.get(key);
   return match && match.title !== title;
@@ -628,6 +647,7 @@ console.log(`  new Python questions:      ${codingRows.length}`);
 console.log(`  total new questions:       ${rows.length}`);
 console.log(`  new paper-only questions:  ${newPaperOnly}`);
 console.log(`  existing rows to move:     ${existingPaperMoves}`);
+console.log(`  imported topic moves:      ${existingTopicMoves}`);
 console.log(`  existing titles to shorten:${String(existingTitleUpdates).padStart(5)}`);
 console.log(`  PYQ papers:                ${paperSets.filter((set) => paperCategory(set) === "pyq").length}`);
 console.log(`  mock papers:               ${paperSets.filter((set) => paperCategory(set) === "mock").length}`);
@@ -664,7 +684,7 @@ for (const batch of batches) {
 // Resolve every remote statement to its single local row. This includes the
 // rows that were already present before this import and the rows just added.
 const current = await rest(
-  `questions?select=id,title,body_md,practice_only,topic_id` +
+  `questions?select=id,title,body_md,practice_only,topic_id,tags` +
     `&subject_id=eq.${subject.id}&limit=1000`,
 );
 const currentExact = new Map(
@@ -682,28 +702,46 @@ for (const [key, group] of grouped) {
   resolved.set(key, local);
 }
 
-const titleUpdates = [];
+const questionUpdates = [];
+let titleUpdates = 0;
 for (const [key, title] of plannedTitles) {
   const local = resolved.get(key);
-  if (
-    local &&
-    importedTopicIds.has(local.topic_id) &&
-    local.title !== title
-  ) {
-    titleUpdates.push({ id: local.id, title });
+  if (!local || !isManagedQuestion(local)) continue;
+  const expectedTopic =
+    grouped.get(key)[0].type === "sql" ? sqlTopic.id : pythonTopic.id;
+  const patch = {};
+  if (local.title !== title) {
+    patch.title = title;
+    titleUpdates += 1;
   }
+  if (local.topic_id !== expectedTopic) patch.topic_id = expectedTopic;
+  if (!(local.tags ?? []).includes(IMPORTED_TAG)) {
+    patch.tags = [...(local.tags ?? []), IMPORTED_TAG];
+  }
+  if (Object.keys(patch).length) questionUpdates.push({ id: local.id, patch });
 }
-for (let index = 0; index < titleUpdates.length; index += 20) {
+for (let index = 0; index < questionUpdates.length; index += 20) {
   await Promise.all(
-    titleUpdates.slice(index, index + 20).map(({ id, title }) =>
+    questionUpdates.slice(index, index + 20).map(({ id, patch }) =>
       rest(
         `questions?id=eq.${id}`,
         "PATCH",
-        { title },
+        patch,
         "return=minimal",
       ),
     ),
   );
+}
+
+let removedLegacyTopics = 0;
+for (const topic of legacyTopics) {
+  const remaining = await rest(
+    `questions?select=id&topic_id=eq.${topic.id}&limit=1`,
+  );
+  if (remaining.length === 0) {
+    await rest(`topics?id=eq.${topic.id}`, "DELETE", undefined, "return=minimal");
+    removedLegacyTopics += 1;
+  }
 }
 
 // Questions that belong to a paper must not also appear in Practice.
@@ -839,6 +877,8 @@ for (const set of paperSets) {
 }
 
 console.log(`\nInserted ${inserted} deduplicated DBMS questions.`);
-console.log(`Shortened ${titleUpdates.length} imported question titles.`);
+console.log(`Shortened ${titleUpdates} imported question titles.`);
+console.log(`Moved ${existingTopicMoves} imports into the existing OPE topics.`);
+console.log(`Removed ${removedLegacyTopics} obsolete import topics.`);
 console.log(`Moved ${idsToMove.length} questions out of Practice.`);
 console.log(`Created ${papersCreated} papers; ${paperSets.length} are synchronized.`);
