@@ -35,6 +35,12 @@ export interface Topic {
 export interface TestCase {
   stdin: string;
   expected: string;
+  /**
+   * Some imported whole-program questions publish only a SHA-256 digest of the
+   * reference stdout. Keeping the digest here lets us grade the real output
+   * without inventing or exposing an expected-output fixture.
+   */
+  expected_hash?: string;
   hidden?: boolean;
   /**
    * Files placed in the program's working directory before it runs, as

@@ -22,6 +22,26 @@ interface Outcome {
 }
 
 const STARTER = "# Read input with input(); print your answer.\n";
+const HASHED_EXPECTED = "Checked against the reference output";
+
+async function sha256(value: string): Promise<string> {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+}
+
+async function passesTest(test: TestCase, stdout: string): Promise<boolean> {
+  if (test.expected_hash) {
+    return (await sha256(stdout)) === test.expected_hash.toLowerCase();
+  }
+  return gradeOutput(test, stdout);
+}
+
+function expectedLabel(test: TestCase): string {
+  return test.expected_hash ? HASHED_EXPECTED : normalizeOutput(test.expected);
+}
 
 export function PythonRuntime({
   question,
@@ -136,13 +156,13 @@ export function PythonRuntime({
     for (let i = 0; i < question.tests.length; i++) {
       const t = question.tests[i];
       const res = await runner.run(withHarness(code), t.stdin, contextFor(t));
-      const passed = res.ok && gradeOutput(t, res.stdout);
+      const passed = res.ok && (await passesTest(t, res.stdout));
       results.push({
         index: i,
         hidden: !!t.hidden,
         passed,
         stdin: t.stdin,
-        expected: normalizeOutput(t.expected),
+        expected: expectedLabel(t),
         got: normalizeOutput(res.stdout),
         stderr: res.stderr,
       });
@@ -165,13 +185,13 @@ export function PythonRuntime({
     const results: Outcome[] = [];
     for (const { t, index } of toRun) {
       const res = await runner.run(withHarness(code), t.stdin, contextFor(t));
-      const passed = res.ok && gradeOutput(t, res.stdout);
+      const passed = res.ok && (await passesTest(t, res.stdout));
       results.push({
         index,
         hidden: !!t.hidden,
         passed,
         stdin: t.stdin,
-        expected: normalizeOutput(t.expected),
+        expected: expectedLabel(t),
         got: normalizeOutput(res.stdout),
         stderr: res.stderr,
       });

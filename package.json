@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "import:dbms-bank": "node scripts/import-dbms-bank.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.4",
