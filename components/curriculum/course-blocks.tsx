@@ -16,22 +16,22 @@ export function SubjectBlock({ subject }: { subject: SubjectLite }) {
       onClick={() =>
         subject.is_active ? goToSubject(subject.slug) : router.push("/app/subjects")
       }
-      className="group inline-flex h-14 items-center gap-3 rounded-[10px] border border-black bg-black px-5 font-sans text-[15px] font-medium text-white transition-colors hover:bg-neutral-800"
+      className="group inline-flex h-14 items-center gap-3 rounded-[10px] border border-black bg-transparent px-5 font-sans text-[15px] font-medium text-fg transition-colors hover:bg-surface"
     >
       <SubjectLogo
         slug={subject.slug}
         size={24}
         className={subject.is_active ? "" : "opacity-50"}
       />
-      <span className={subject.is_active ? "" : "text-white/65"}>
+      <span className={subject.is_active ? "" : "text-fg-muted"}>
         {subject.name}
       </span>
       {subject.is_active ? (
-        <span className="-translate-x-1 text-white/70 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+        <span className="-translate-x-1 text-fg-muted opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
           ›
         </span>
       ) : (
-        <span className="text-[11px] font-normal text-white/55">soon</span>
+        <span className="text-[11px] font-normal text-fg-faint">soon</span>
       )}
     </button>
   );
