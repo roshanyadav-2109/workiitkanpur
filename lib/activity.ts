@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getVerifiedUserId } from "@/lib/supabase/auth";
 
 /**
  * Record one thing a learner did.
@@ -48,13 +49,11 @@ export async function logEvent(input: {
     if (new TextEncoder().encode(JSON.stringify(meta)).length > 4096) return;
 
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return; // signed-out browsing is not attributed to anyone
+    const userId = await getVerifiedUserId(supabase);
+    if (!userId) return; // signed-out browsing is not attributed to anyone
 
     await supabase.from("activity_events").insert({
-      user_id: user.id,
+      user_id: userId,
       event: input.event,
       question_id: input.questionId ?? null,
       subject_id: input.subjectId ?? null,

@@ -3,6 +3,7 @@ import path from "node:path";
 import { getQuestionById, getQuestionSolutions } from "@/lib/queries";
 import { buildQuestionPdf } from "@/lib/question-pdf";
 import { createClient } from "@/lib/supabase/server";
+import { getVerifiedUserId } from "@/lib/supabase/auth";
 import { hasPhoneOnFile } from "@/lib/require-phone";
 
 /** The same editor screenshot rides along in every handout — read it once. */
@@ -25,13 +26,11 @@ export async function GET(
   // practising: signed in, with a phone number on file. This is the enforcement
   // point — the buttons that link here can be bypassed by pasting the URL.
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) {
     return new Response("Sign in to download this question.", { status: 401 });
   }
-  if (!(await hasPhoneOnFile(supabase, user.id))) {
+  if (!(await hasPhoneOnFile(supabase, userId))) {
     return new Response("Add your phone number to download this question.", {
       status: 403,
     });

@@ -44,8 +44,11 @@ export function ProfileMenu() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      const u = data.user;
+    // This is display-only state. The server verifies authorization with
+    // getClaims(); reading the local browser session here avoids another
+    // `/auth/v1/user` response just to paint the avatar.
+    supabase.auth.getSession().then(({ data }) => {
+      const u = data.session?.user;
       if (u) {
         const m = u.user_metadata ?? {};
         setMe({

@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import {
   getCurrentUser,
   getNote,
+  getMyQuestionProgress,
   getQuestionById,
   getQuestionSolutions,
   getSubjectQuestionList,
-  getUserAttempts,
 } from "@/lib/queries";
-import { bestTimeByQuestion, statusByQuestion } from "@/lib/metrics";
+import { statusByQuestion } from "@/lib/metrics";
 import { extractSqlBlock } from "@/lib/sql";
 import { getSubjectResources } from "@/lib/subject-content";
 import {
@@ -102,13 +102,17 @@ export default async function QuestionPage({
   let note = "";
   let solutionMd: string | null = null;
   if (user) {
-    const [attempts, existing, solutions] = await Promise.all([
-      getUserAttempts(user.id),
+    const [progress, existing, solutions] = await Promise.all([
+      getMyQuestionProgress(subject.id),
       getNote(user.id, id),
       getQuestionSolutions([id]),
     ]);
-    status = statusByQuestion(attempts);
-    bestSeconds = bestTimeByQuestion(attempts).get(id) ?? null;
+    status = statusByQuestion(progress);
+    const currentProgress = progress.find((row) => row.question_id === id);
+    bestSeconds =
+      currentProgress?.status === "solved"
+        ? currentProgress.time_spent_seconds
+        : null;
     note = existing?.content_md ?? "";
     solutionMd = solutions.get(id) ?? null;
   }

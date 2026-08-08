@@ -67,8 +67,10 @@ export function MobileNav() {
   // Pull the signed-in user so the footer button can show their photo + name.
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      const u = data.user;
+    // Display-only state: authorization is verified on the server. Reading the
+    // browser session avoids a second Auth user download in the same header.
+    supabase.auth.getSession().then(({ data }) => {
+      const u = data.session?.user;
       if (!u) return setUser(null);
       const m = u.user_metadata ?? {};
       setUser({

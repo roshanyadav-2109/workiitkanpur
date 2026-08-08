@@ -4,6 +4,7 @@ import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createPublicClient } from "@/lib/supabase/public";
+import { getVerifiedUser } from "@/lib/supabase/auth";
 import { displayName } from "@/lib/utils";
 
 /**
@@ -50,27 +51,16 @@ import type {
 import type { Curriculum } from "@/lib/curriculum";
 import type { TestSection, TestSet } from "@/lib/test-series";
 
-export interface QuestionMinimal {
-  id: string;
-  subject_id: string;
-  topic_id: string | null;
-  difficulty: Difficulty;
-  exam: string | null;
-}
-
 /**
  * The signed-in user, or null.
  *
- * `auth.getUser()` is a network round-trip to the Auth server, and the layout
- * plus the page underneath it both want the user. React `cache()` collapses
- * those into one call per request.
+ * The ES256 access token is verified locally with Supabase's cached public key,
+ * rather than downloading the Auth user record on every request. React
+ * `cache()` also collapses layout/page callers into one verification.
  */
 export const getCurrentUser = cache(async function getCurrentUser() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+  return getVerifiedUser(supabase);
 });
 
 /** Whether the user has a phone on file — cached alongside the user lookup. */
@@ -351,21 +341,32 @@ export const getSubjectQuestionPage = cached(async function getSubjectQuestionPa
  * The exam runner used to load every question in the subject and keep the
  * eight it needed; this fetches only those eight.
  */
-export async function getQuestionsForRun(
+const getQuestionsForRunContent = cached(async function getQuestionsForRunContent(
   ids: string[],
-): Promise<QuestionWithTopic[]> {
+): Promise<Omit<QuestionWithTopic, "solution_md" | "topic">[]> {
   if (ids.length === 0) return [];
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("questions")
     .select(
       "id, subject_id, topic_id, title, body_md, difficulty, kind, tags, sort_order, created_at, tests, mcq_options, mcq_answer, setup_sql, starter_code, language, harness, input_labels, exam, practice_only",
     )
     .in("id", ids);
-  const solutions = await getQuestionSolutions(ids);
   return (
-    (data as unknown as Omit<QuestionWithTopic, "solution_md" | "topic">[]) ?? []
-  ).map((question) => ({
+    (data as unknown as Omit<QuestionWithTopic, "solution_md" | "topic">[]) ??
+    []
+  );
+}, ["questions-for-run", QUESTION_CONTENT_REVISION], CONTENT);
+
+export async function getQuestionsForRun(
+  ids: string[],
+): Promise<QuestionWithTopic[]> {
+  if (ids.length === 0) return [];
+  const [questions, solutions] = await Promise.all([
+    getQuestionsForRunContent(ids),
+    getQuestionSolutions(ids),
+  ]);
+  return questions.map((question) => ({
     ...question,
     solution_md: solutions.get(question.id) ?? null,
     topic: null,
@@ -411,43 +412,107 @@ export const getQuestionById = cached(async function getQuestionById(
   };
 }, ["question-by-id", QUESTION_CONTENT_REVISION], CONTENT);
 
-/** All of a user's attempts, newest first. */
-export async function getUserAttempts(userId: string): Promise<Attempt[]> {
+export type AttemptSummary = Pick<
+  Attempt,
+  "id" | "question_id" | "status" | "time_spent_seconds" | "created_at"
+>;
+
+/** Only the attempt fields used by progress metrics, newest first. */
+export async function getUserAttempts(userId: string): Promise<AttemptSummary[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("attempts")
-    .select("*")
+    .select("id, question_id, status, time_spent_seconds, created_at")
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
-  return data ?? [];
+  return (data as AttemptSummary[]) ?? [];
 }
 
-/** Only the attempt fields needed to decorate one subject's question rows. */
-export async function getUserAttemptsForSubject(
-  userId: string,
-  subjectId: string,
-): Promise<Pick<Attempt, "question_id" | "status" | "time_spent_seconds">[]> {
+export interface MyQuestionProgress {
+  question_id: string;
+  subject_id: string;
+  topic_id: string | null;
+  status: Attempt["status"];
+  time_spent_seconds: number;
+}
+
+type QuestionProgressSource = Pick<
+  Attempt,
+  "question_id" | "status" | "time_spent_seconds"
+> & {
+  question: { subject_id: string; topic_id: string | null } | null;
+};
+
+function aggregateQuestionProgress(
+  rows: readonly QuestionProgressSource[],
+): MyQuestionProgress[] {
+  const grouped = new Map<string, MyQuestionProgress>();
+  for (const row of rows) {
+    if (!row.question) continue;
+    const current = grouped.get(row.question_id);
+    const solved = row.status === "solved";
+    grouped.set(row.question_id, {
+      question_id: row.question_id,
+      subject_id: row.question.subject_id,
+      topic_id: row.question.topic_id,
+      status: solved ? "solved" : (current?.status ?? "attempted"),
+      time_spent_seconds: solved
+        ? current?.status === "solved"
+          ? Math.min(current.time_spent_seconds, row.time_spent_seconds)
+          : row.time_spent_seconds
+        : (current?.time_spent_seconds ?? 0),
+    });
+  }
+  return [...grouped.values()];
+}
+
+/** One aggregate row per attempted question for the current JWT identity. */
+export async function getMyQuestionProgress(
+  subjectId: string | null = null,
+): Promise<MyQuestionProgress[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from("attempts")
+    .select(
+      "question_id, status, time_spent_seconds, question:questions!inner(subject_id, topic_id)",
+    );
+  if (subjectId) query = query.eq("question.subject_id", subjectId);
+
+  const { data } = await query;
+  return aggregateQuestionProgress(
+    (data as unknown as QuestionProgressSource[]) ?? [],
+  );
+}
+
+/** Dashboard attempt history and question/topic progress from one PostgREST
+ * response, avoiding two overlapping downloads of the same attempt rows. */
+export async function getUserProgressData(userId: string): Promise<{
+  attempts: AttemptSummary[];
+  progress: MyQuestionProgress[];
+}> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("attempts")
     .select(
-      "question_id, status, time_spent_seconds, question:questions!inner(subject_id)",
+      "id, question_id, status, time_spent_seconds, created_at, question:questions!inner(subject_id, topic_id)",
     )
     .eq("user_id", userId)
-    .eq("question.subject_id", subjectId);
-
-  return ((data ?? []) as unknown as {
-    question_id: string;
-    status: Attempt["status"];
-    time_spent_seconds: number;
-  }[]).map(({ question_id, status, time_spent_seconds }) => ({
-    question_id,
-    status,
-    time_spent_seconds,
-  }));
+    .order("created_at", { ascending: false });
+  const rows =
+    (data as unknown as (AttemptSummary & QuestionProgressSource)[]) ?? [];
+  return {
+    attempts: rows.map((row) => ({
+      id: row.id,
+      question_id: row.question_id,
+      status: row.status,
+      time_spent_seconds: row.time_spent_seconds,
+      created_at: row.created_at,
+    })),
+    progress: aggregateQuestionProgress(rows),
+  };
 }
 
-export interface AttemptWithQuestion extends Attempt {
+export interface AttemptWithQuestion extends AttemptSummary {
   question: Pick<Question, "id" | "title" | "difficulty"> | null;
 }
 
@@ -459,7 +524,9 @@ export async function getRecentActivity(
   const supabase = await createClient();
   const { data } = await supabase
     .from("attempts")
-    .select("*, question:questions(id, title, difficulty)")
+    .select(
+      "id, question_id, status, time_spent_seconds, created_at, question:questions(id, title, difficulty)",
+    )
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
     .limit(limit);
@@ -503,14 +570,47 @@ export const getQuestionCount = cached(async function getQuestionCount(): Promis
   return count ?? 0;
 }, ["question-count"], CONTENT);
 
-/** Lightweight question rows for cross-subject aggregation. */
-export async function getAllQuestionsMinimal(): Promise<QuestionMinimal[]> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("questions")
-    .select("id, subject_id, topic_id, difficulty, exam");
-  return (data as QuestionMinimal[]) ?? [];
+export interface SubjectQuestionStats {
+  subject_id: string;
+  total: number;
+  exams: string[];
 }
+
+/** Compact, accurate catalogue counts. The narrow source rows are paged past
+ * PostgREST's 1,000-row response cap, aggregated once, then shared from Next's
+ * Data Cache instead of downloading the global question index per visitor. */
+export const getSubjectQuestionStats = cached(async function getSubjectQuestionStats(): Promise<SubjectQuestionStats[]> {
+  const supabase = createPublicClient();
+  const rows: { subject_id: string; exam: string | null }[] = [];
+  const pageSize = 1000;
+
+  for (let offset = 0; ; offset += pageSize) {
+    const { data, error } = await supabase
+      .from("questions")
+      .select("subject_id, exam")
+      .order("id", { ascending: true })
+      .range(offset, offset + pageSize - 1);
+    if (error || !data?.length) break;
+    rows.push(...data);
+    if (data.length < pageSize) break;
+  }
+
+  const grouped = new Map<string, { total: number; exams: Set<string> }>();
+  for (const row of rows) {
+    const current = grouped.get(row.subject_id) ?? {
+      total: 0,
+      exams: new Set<string>(),
+    };
+    current.total += 1;
+    if (row.exam) current.exams.add(row.exam);
+    grouped.set(row.subject_id, current);
+  }
+  return [...grouped].map(([subject_id, value]) => ({
+    subject_id,
+    total: value.total,
+    exams: [...value.exams].sort(),
+  }));
+}, ["subject-question-stats", QUESTION_CONTENT_REVISION], CONTENT);
 
 export interface LeaderboardRow {
   public_id: string;
@@ -599,11 +699,11 @@ export interface QuestionLeaderRow {
 }
 
 /** Fastest solvers of a single question (across all users). */
-export async function getQuestionLeaderboard(
+export const getQuestionLeaderboard = cached(async function getQuestionLeaderboard(
   questionId: string,
-  limit = 10,
+  limit: number = 10,
 ): Promise<QuestionLeaderRow[]> {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("question_leaderboard")
     .select("question_id, public_id, name, best_time")
@@ -611,17 +711,21 @@ export async function getQuestionLeaderboard(
     .order("best_time", { ascending: true })
     .limit(limit);
   return (data as QuestionLeaderRow[]) ?? [];
-}
+}, ["question-leaderboard", LEADERBOARD_SECURITY_REVISION], BOARD);
 
 /** All of the current user's submissions (question_id → last code). */
 export async function getUserSubmissions(
   userId: string,
+  limit = 30,
 ): Promise<{ question_id: string; code: string | null }[]> {
+  const safeLimit = Math.min(100, Math.max(1, Math.floor(limit)));
   const supabase = await createClient();
   const { data } = await supabase
     .from("submissions")
     .select("question_id, code")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("updated_at", { ascending: false })
+    .limit(safeLimit);
   return (data as { question_id: string; code: string | null }[]) ?? [];
 }
 

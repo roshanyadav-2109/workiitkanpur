@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getVerifiedUserId } from "@/lib/supabase/auth";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import type { AttemptStatus } from "@/lib/types";
 
@@ -38,15 +39,13 @@ export async function recordAttempt(input: {
     return { ok: false, error: "Invalid language." };
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, error: "You need to sign in to save progress." };
-  if (!(await hasPhoneOnFile(supabase, user.id)))
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { ok: false, error: "You need to sign in to save progress." };
+  if (!(await hasPhoneOnFile(supabase, userId)))
     return { ok: false, error: PHONE_REQUIRED };
 
   const { error } = await supabase.from("attempts").insert({
-    user_id: user.id,
+    user_id: userId,
     question_id: input.questionId,
     status: input.status,
     time_spent_seconds: Math.min(604800, Math.max(0, Math.round(input.timeSpentSeconds))),
@@ -59,7 +58,7 @@ export async function recordAttempt(input: {
   if (input.code != null && input.code.trim() !== "") {
     await supabase.from("submissions").upsert(
       {
-        user_id: user.id,
+        user_id: userId,
         question_id: input.questionId,
         code: input.code,
         language: input.language ?? null,
@@ -89,17 +88,15 @@ export async function saveSubmission(input: {
   if (input.language != null && input.language.length > 32)
     return { ok: false, error: "Invalid language." };
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, error: "You need to sign in to save your code." };
-  if (!(await hasPhoneOnFile(supabase, user.id)))
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { ok: false, error: "You need to sign in to save your code." };
+  if (!(await hasPhoneOnFile(supabase, userId)))
     return { ok: false, error: PHONE_REQUIRED };
   if (!input.code.trim()) return { ok: true };
 
   const { error } = await supabase.from("submissions").upsert(
     {
-      user_id: user.id,
+      user_id: userId,
       question_id: input.questionId,
       code: input.code,
       language: input.language ?? null,
@@ -120,14 +117,12 @@ export async function saveNote(input: {
   if (typeof input.content !== "string" || input.content.length > MAX_NOTE)
     return { ok: false, error: "Please keep notes under 20,000 characters." };
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, error: "You need to sign in to save notes." };
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { ok: false, error: "You need to sign in to save notes." };
 
   const { error } = await supabase.from("notes").upsert(
     {
-      user_id: user.id,
+      user_id: userId,
       question_id: input.questionId,
       content_md: input.content,
       updated_at: new Date().toISOString(),
@@ -147,10 +142,8 @@ export async function updateProfile(input: {
   if (!input || typeof input.displayName !== "string" || typeof input.phone !== "string")
     return { ok: false, error: "Invalid profile details." };
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, error: "Not signed in." };
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { ok: false, error: "Not signed in." };
 
   const { error } = await supabase
     .from("profiles")
@@ -158,7 +151,7 @@ export async function updateProfile(input: {
       display_name: input.displayName.trim().slice(0, 80),
       phone: input.phone.trim().slice(0, 20) || null,
     })
-    .eq("id", user.id);
+    .eq("id", userId);
   if (error) return { ok: false, error: "Could not update your profile." };
 
   revalidatePath("/app");
@@ -171,15 +164,13 @@ export async function savePhone(phone: string): Promise<ActionResult> {
   if (typeof phone !== "string" || phone.length > 32)
     return { ok: false, error: "Invalid phone number." };
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, error: "Not signed in." };
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { ok: false, error: "Not signed in." };
 
   const { error } = await supabase
     .from("profiles")
     .update({ phone: phone.trim().slice(0, 20) || null })
-    .eq("id", user.id);
+    .eq("id", userId);
   if (error) return { ok: false, error: "Could not save your phone number." };
 
   revalidatePath("/app/settings");

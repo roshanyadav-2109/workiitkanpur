@@ -17,11 +17,38 @@ function requiresAuth(pathname: string): boolean {
   );
 }
 
+/** Supabase's SSR client stores the session in this cookie (chunked as .0,
+ * .1, ... when necessary). Anonymous requests have none, so there is nothing
+ * to refresh or validate and no reason to contact Auth for them. */
+function hasSessionCookie(request: NextRequest): boolean {
+  const projectRef = new URL(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  ).hostname.split(".")[0];
+  const base = `sb-${projectRef}-auth-token`;
+  return request.cookies
+    .getAll()
+    .some(({ name }) => name === base || name.startsWith(`${base}.`));
+}
+
 /**
  * Refreshes the Supabase auth session on every request (so Server Components
  * always see a valid user) and gates the authenticated areas of the app.
  */
 export async function updateSession(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+
+  // This is the dominant anonymous-traffic saving: crawlers and signed-out
+  // visitors no longer turn every page/image-data request into an Auth call.
+  if (!hasSessionCookie(request)) {
+    if (requiresAuth(path)) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("next", `${path}${request.nextUrl.search}`);
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -45,14 +72,13 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // IMPORTANT: getUser() must be called to refresh the token; do not remove.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getClaims refreshes an expiring session and verifies ES256 tokens locally.
+  // Unlike getSession, it is safe for authorization decisions; unlike getUser,
+  // it does not download the full Auth user record on every request.
+  const { data, error } = await supabase.auth.getClaims();
+  const signedIn = !error && !!data?.claims.sub;
 
-  const path = request.nextUrl.pathname;
-
-  if (!user && requiresAuth(path)) {
+  if (!signedIn && requiresAuth(path)) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", `${path}${request.nextUrl.search}`);
@@ -60,7 +86,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Signed-in users skip the auth screens.
-  if (user && (path === "/login" || path === "/signup")) {
+  if (signedIn && (path === "/login" || path === "/signup")) {
     const url = request.nextUrl.clone();
     url.pathname = "/app";
     url.search = "";

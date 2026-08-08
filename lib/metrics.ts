@@ -2,8 +2,18 @@ import type { Attempt, Question } from "@/lib/types";
 import { dayKey } from "@/lib/utils";
 import type { QuestionStatus } from "@/components/ui/status";
 
+type ProgressAttempt = Pick<
+  Attempt,
+  "question_id" | "status" | "time_spent_seconds" | "created_at"
+>;
+
 /** Best (minimum) solved time per question, in seconds. */
-export function bestTimeByQuestion(attempts: Attempt[]): Map<string, number> {
+export function bestTimeByQuestion(
+  attempts: readonly Pick<
+    Attempt,
+    "question_id" | "status" | "time_spent_seconds"
+  >[],
+): Map<string, number> {
   const m = new Map<string, number>();
   for (const a of attempts) {
     if (a.status !== "solved") continue;
@@ -17,7 +27,7 @@ export function bestTimeByQuestion(attempts: Attempt[]): Map<string, number> {
 
 /** Highest reached status per question (solved beats attempted). */
 export function statusByQuestion(
-  attempts: Attempt[],
+  attempts: readonly Pick<Attempt, "question_id" | "status">[],
 ): Map<string, QuestionStatus> {
   const m = new Map<string, QuestionStatus>();
   for (const a of attempts) {
@@ -43,7 +53,10 @@ export interface Streaks {
 }
 
 /** Consecutive-day activity streaks computed from attempt timestamps. */
-export function computeStreaks(attempts: Attempt[], today = new Date()): Streaks {
+export function computeStreaks(
+  attempts: readonly Pick<Attempt, "created_at">[],
+  today = new Date(),
+): Streaks {
   const activeDays = new Set(
     attempts.map((a) => dayKey(new Date(a.created_at))),
   );
@@ -86,7 +99,7 @@ export interface ProgressSummary {
  * the raw attempt log + the question set. No colour, just numbers.
  */
 export function computeProgress(
-  attempts: Attempt[],
+  attempts: readonly ProgressAttempt[],
   totalQuestions: number,
   today = new Date(),
 ): ProgressSummary {
@@ -170,7 +183,7 @@ export function computeProgress(
 
 /** Accuracy (solved / attempted) grouped by topic, for the Progress view. */
 export function accuracyByTopic(
-  attempts: Attempt[],
+  attempts: readonly Pick<Attempt, "question_id" | "status">[],
   questions: Pick<Question, "id" | "topic_id">[],
   topics: { id: string; name: string }[],
 ): { topic: string; solved: number; attempted: number; pct: number }[] {

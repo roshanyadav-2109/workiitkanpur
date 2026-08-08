@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import {
-  getAllQuestionsMinimal,
   getAllTopics,
   getCurrentUser,
   getLeaderboard,
@@ -11,7 +10,7 @@ import {
   getQuestionCount,
   getQuestionsByIds,
   getRecentActivity,
-  getUserAttempts,
+  getUserProgressData,
   getUserSubmissions,
   type MockRow,
 } from "@/lib/queries";
@@ -42,20 +41,27 @@ export default async function Dashboard({
   const { tab } = await searchParams;
   const isMock = tab === "mock";
 
-  const [attempts, totalQuestions, leaderboard, questions, topics, recent, mockBoard, publicId] =
+  const [progressData, totalQuestions, leaderboard, topics, recent, mockBoard, publicId] =
     await Promise.all([
-      getUserAttempts(user.id),
+      getUserProgressData(user.id),
       getQuestionCount(),
-      getLeaderboard(100),
-      getAllQuestionsMinimal(),
+      isMock ? Promise.resolve([]) : getLeaderboard(100),
       getAllTopics(),
-      getRecentActivity(user.id, 12),
-      getMockBoard(),
+      isMock ? Promise.resolve([]) : getRecentActivity(user.id, 12),
+      isMock ? getMockBoard() : Promise.resolve([]),
       getProfilePublicId(user.id),
     ]);
 
+  const { attempts, progress: progressRows } = progressData;
   const summary = computeProgress(attempts, totalQuestions);
-  const topicAccuracy = accuracyByTopic(attempts, questions, topics);
+  const topicAccuracy = accuracyByTopic(
+    progressRows,
+    progressRows.map((row) => ({
+      id: row.question_id,
+      topic_id: row.topic_id,
+    })),
+    topics,
+  );
   const weakest = [...topicAccuracy].sort((a, b) => a.pct - b.pct).slice(0, 6);
   const pct = totalQuestions
     ? Math.round((summary.solvedCount / totalQuestions) * 100)
@@ -145,27 +151,32 @@ export default async function Dashboard({
   }));
 
   // Three-way solution comparison — your solved questions vs top solver vs model.
-  const mySubmissions = await getUserSubmissions(user.id);
-  const compareIds = mySubmissions.map((s) => s.question_id);
-  const compareQ = await getQuestionsByIds(compareIds);
-  const qMetaById = new Map(compareQ.map((q) => [q.id, q]));
-  const myCodeById = new Map(mySubmissions.map((s) => [s.question_id, s.code]));
-  const compareItems: CompareItem[] = compareIds.flatMap((qid) => {
-    const q = qMetaById.get(qid);
-    if (!q) return [];
-    return [
-      {
-        questionId: qid,
-        title: q.title,
-        section: q.section,
-        week: q.week,
-        body: q.body_md,
-        samples: q.samples,
-        myCode: myCodeById.get(qid) ?? null,
-        solution: q.solution_md,
-      },
-    ];
-  });
+  let compareItems: CompareItem[] = [];
+  if (isMock && myMocks.length > 0) {
+    const mySubmissions = await getUserSubmissions(user.id, 30);
+    const compareIds = mySubmissions.map((s) => s.question_id);
+    const compareQ = await getQuestionsByIds(compareIds);
+    const qMetaById = new Map(compareQ.map((q) => [q.id, q]));
+    const myCodeById = new Map(
+      mySubmissions.map((s) => [s.question_id, s.code]),
+    );
+    compareItems = compareIds.flatMap((qid) => {
+      const q = qMetaById.get(qid);
+      if (!q) return [];
+      return [
+        {
+          questionId: qid,
+          title: q.title,
+          section: q.section,
+          week: q.week,
+          body: q.body_md,
+          samples: q.samples,
+          myCode: myCodeById.get(qid) ?? null,
+          solution: q.solution_md,
+        },
+      ];
+    });
+  }
 
   return (
     <ProgressLayout
@@ -179,7 +190,7 @@ export default async function Dashboard({
           struggling={struggling}
         />
       }
-      mock={
+      mock={isMock ? (
         <>
             {/* On mobile the dropdown already names the view — hide the repeat title */}
             <h1 className="hidden text-[24px] font-semibold tracking-[-0.02em] lg:block">
@@ -209,8 +220,8 @@ export default async function Dashboard({
               </div>
             )}
           </>
-      }
-      progress={
+      ) : null}
+      progress={!isMock ? (
         <>
             {/* On mobile the dropdown already names the view — hide the repeat title */}
             <h1 className="hidden text-[24px] font-semibold tracking-[-0.02em] lg:block">
@@ -351,7 +362,7 @@ export default async function Dashboard({
               </>
             )}
         </>
-      }
+      ) : null}
     />
   );
 }

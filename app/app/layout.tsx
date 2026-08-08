@@ -9,8 +9,8 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Both cached per request, so the page rendering underneath this layout
-  // reuses the same auth round-trip instead of making its own.
+  // Both cached per request, so the page underneath reuses the same verified
+  // JWT claims and profile lookup instead of repeating either operation.
   const user = await getCurrentUser();
 
   // Browsing and opening a workspace stay open. The provider asks for a number

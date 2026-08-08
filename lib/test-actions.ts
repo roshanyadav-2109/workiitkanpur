@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getVerifiedUserId } from "@/lib/supabase/auth";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import { getSubjectBySlug, getTestSets } from "@/lib/queries";
 import { scorePaper, type ScoredSection } from "@/lib/scoring";
@@ -36,10 +37,8 @@ export async function startTestAttempt(input: {
     !["learning", "exam"].includes(input.environment)
   ) return { error: "Invalid test request." };
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { error: "Not signed in." };
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { error: "Not signed in." };
 
   const subject = await getSubjectBySlug(input.slug);
   if (!subject) return { error: "Subject not found." };
@@ -50,7 +49,7 @@ export async function startTestAttempt(input: {
   const { data: open } = await supabase
     .from("test_attempts")
     .select("id")
-    .eq("user_id", user.id)
+    .eq("user_id", userId)
     .eq("set_id", set.id)
     .eq("subject_slug", input.slug)
     .eq("environment", input.environment)
@@ -64,7 +63,7 @@ export async function startTestAttempt(input: {
   const { data: attempt, error } = await supabase
     .from("test_attempts")
     .insert({
-      user_id: user.id,
+      user_id: userId,
       subject_id: subject.id,
       subject_slug: input.slug,
       set_id: set.id,
@@ -133,11 +132,9 @@ export async function submitTestAttempt(input: {
     answerIds.add(answer.questionId);
   }
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, error: "Not signed in." };
-  if (!(await hasPhoneOnFile(supabase, user.id)))
+  const userId = await getVerifiedUserId(supabase);
+  if (!userId) return { ok: false, error: "Not signed in." };
+  if (!(await hasPhoneOnFile(supabase, userId)))
     return { ok: false, error: PHONE_REQUIRED };
 
   const { data: attempt } = await supabase
@@ -145,7 +142,7 @@ export async function submitTestAttempt(input: {
     .select("id, user_id, question_ids, status, subject_slug, set_id, score, total")
     .eq("id", input.attemptId)
     .maybeSingle();
-  if (!attempt || attempt.user_id !== user.id)
+  if (!attempt || attempt.user_id !== userId)
     return { ok: false, error: "Attempt not found." };
   // Already closed (e.g. the timer auto-submitted first) — report the stored
   // score rather than grading a second time.
@@ -175,7 +172,7 @@ export async function submitTestAttempt(input: {
     correctById.set(qid, isCorrect);
     return {
       attempt_id: input.attemptId,
-      user_id: user.id,
+      user_id: userId,
       question_id: qid,
       answer: a?.answer ?? null,
       is_correct: isCorrect,

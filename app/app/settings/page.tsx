@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import {
+  getCurrentUser,
   getUserAttempts,
   getQuestionCount,
   getLeaderboard,
@@ -31,9 +32,7 @@ function GoogleG({ size = 14 }: { size?: number }) {
 
 export default async function SettingsPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) redirect("/login?next=/app/settings");
 
   const [{ data: profile }, attempts, totalQuestions, board] = await Promise.all([

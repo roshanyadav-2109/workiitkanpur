@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getVerifiedUserId } from "@/lib/supabase/auth";
 
 export type FeedbackResult = { ok: true } | { ok: false; error: string };
 
@@ -33,12 +34,10 @@ export async function submitFeedback(input: {
     return { ok: false, error: "Enter a valid email address." };
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const userId = await getVerifiedUserId(supabase);
 
   const { error } = await supabase.from("feedback").insert({
-    user_id: user?.id ?? null,
+    user_id: userId,
     name: name || null,
     email: email || null,
     phone: phone || null,

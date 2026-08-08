@@ -7,7 +7,7 @@ import {
   getSubjectQuestionPage,
   getSubjectBySlug,
   getTopicsForSubject,
-  getUserAttemptsForSubject,
+  getMyQuestionProgress,
   getTestAttempts,
   getCurriculum,
   getTestSets,
@@ -97,7 +97,7 @@ async function PracticeTab({
 }) {
   const userPromise = getCurrentUser();
   const attemptsPromise = userPromise.then((user) =>
-    user ? getUserAttemptsForSubject(user.id, subjectId) : [],
+    user ? getMyQuestionProgress(subjectId) : [],
   );
   const [topics, page, curriculum, attempts] = await Promise.all([
     getTopicsForSubject(subjectId),

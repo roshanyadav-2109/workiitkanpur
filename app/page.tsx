@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
 import { ProfileMenu } from "@/components/shell/profile-menu";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { CoursePickerProvider } from "@/components/curriculum/course-picker-provider";
@@ -7,7 +6,12 @@ import { SubjectBlock, BranchBlock } from "@/components/curriculum/course-blocks
 import { HomeCarousel } from "@/components/home/home-carousel";
 import { HomeDemo } from "@/components/home/home-demo";
 import { TopNav } from "@/components/shell/top-nav";
-import { getCurriculum, getCurrentUser, getProfilePhone } from "@/lib/queries";
+import {
+  getCurriculum,
+  getCurrentUser,
+  getProfilePhone,
+  getSubjects,
+} from "@/lib/queries";
 import { displayName } from "@/lib/utils";
 import { levelsForDegree, type SubjectLite } from "@/lib/curriculum";
 import { FeedbackForm } from "@/components/home/feedback-form";
@@ -69,8 +73,10 @@ const jsonLd = jsonLdGraph([
 ]);
 
 export default async function LandingPage() {
-  const supabase = await createClient();
-  const curriculum = await getCurriculum();
+  const [curriculum, subjects] = await Promise.all([
+    getCurriculum(),
+    getSubjects(),
+  ]);
 
   // Pre-fill the feedback form for a signed-in visitor (still fully editable).
   const user = await getCurrentUser();
@@ -80,12 +86,7 @@ export default async function LandingPage() {
     email: user?.email || "",
     phone: user ? ((await getProfilePhone(user.id)) ?? "") : "",
   };
-  const { data: subjects } = await supabase
-    .from("subjects")
-    .select("slug, name, short_code, is_active")
-    .order("sort_order");
-
-  const allSubjects: SubjectLite[] = (subjects ?? []).map((s) => ({
+  const allSubjects: SubjectLite[] = subjects.map((s) => ({
     slug: s.slug,
     name: s.name,
     is_active: s.is_active,

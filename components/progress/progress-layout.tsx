@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useTransition, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 /* Bespoke tab icons (not from an icon library). */
@@ -35,9 +36,9 @@ const TABS = [
 ];
 
 /**
- * Both panels are rendered by the server once and passed in as props; switching
- * tabs just flips which one is visible — instant, with no server round-trip or
- * data refetch. The URL is kept in sync so the tab is deep-linkable / refresh-safe.
+ * Only the requested panel is rendered by the server. Switching changes the
+ * URL and fetches that panel, so Progress no longer downloads Mock history,
+ * saved code and model solutions (or vice versa).
  */
 export function ProgressLayout({
   initialMock,
@@ -50,16 +51,15 @@ export function ProgressLayout({
   progress: ReactNode;
   mock: ReactNode;
 }) {
-  const [isMock, setIsMock] = useState(initialMock);
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const isMock = initialMock;
 
   function select(next: boolean) {
     if (next === isMock) return;
-    setIsMock(next);
-    window.history.replaceState(
-      null,
-      "",
-      next ? "/app/progress?tab=mock" : "/app/progress",
-    );
+    startTransition(() => {
+      router.push(next ? "/app/progress?tab=mock" : "/app/progress");
+    });
   }
 
   return (
@@ -76,6 +76,7 @@ export function ProgressLayout({
                   type="button"
                   onClick={() => select(t.mock)}
                   aria-current={active ? "page" : undefined}
+                  disabled={pending}
                   className={cn(
                     "relative flex items-center gap-2.5 rounded-[8px] px-4 py-2.5 text-left text-[16px] text-fg transition-colors",
                     active ? "font-semibold" : "font-normal",
@@ -109,6 +110,7 @@ export function ProgressLayout({
                 type="button"
                 onClick={() => select(t.mock)}
                 aria-current={active ? "page" : undefined}
+                disabled={pending}
                 className={cn(
                   "flex items-center justify-center gap-1.5 rounded-[7px] px-2 py-2 text-[13.5px] font-medium transition-colors",
                   active
