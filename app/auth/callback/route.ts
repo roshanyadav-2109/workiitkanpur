@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { addToAnnouncementGroups } from "@/lib/group-signup";
 import { createClient } from "@/lib/supabase/server";
 
 /** Exchanges the OAuth / email-confirmation code for a session cookie. */
@@ -21,6 +22,8 @@ export async function GET(request: Request) {
       const email = data.user?.email?.toLowerCase() ?? "";
       const domain = email.split("@")[1] ?? "";
       if (domain === "iitm.ac.in" || domain.endsWith(".iitm.ac.in")) {
+        // Into the announcement groups, once the response is on its way.
+        after(() => addToAnnouncementGroups(supabase, email));
         return NextResponse.redirect(`${origin}${next}`);
       }
       await supabase.auth.signOut();
