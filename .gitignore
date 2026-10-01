@@ -49,4 +49,20 @@ scripts/_questions.json
 .claude/
 
 # Question bank sources and seeds: never in a public repo (see supabase/migrations/0025_content_lock.sql)
-scripts/dbms-databases.json scripts/dbms-oppe-paper.json scripts/grpa-week1-5-questions.json scripts/oppe-mock-sets.json scripts/oppe1-pyq-2025-sets.json scripts/oppe1-pyq-papers.json scripts/oppe1-questions.json scripts/ppa-week1-6-questions.json scripts/week7-oppe-mock.json scripts/seed_solutions.sql scripts/seed_starter_code.sql scripts/seed_exam.sql scripts/seed_language.sql scripts/seed_input_labels.sql supabase/seed.sql supabase/seed_dbms.sql supabase/seed_tests.sql
+scripts/dbms-databases.json
+scripts/dbms-oppe-paper.json
+scripts/grpa-week1-5-questions.json
+scripts/oppe-mock-sets.json
+scripts/oppe1-pyq-2025-sets.json
+scripts/oppe1-pyq-papers.json
+scripts/oppe1-questions.json
+scripts/ppa-week1-6-questions.json
+scripts/week7-oppe-mock.json
+scripts/seed_solutions.sql
+scripts/seed_starter_code.sql
+scripts/seed_exam.sql
+scripts/seed_language.sql
+scripts/seed_input_labels.sql
+supabase/seed.sql
+supabase/seed_dbms.sql
+supabase/seed_tests.sql
