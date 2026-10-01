@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createContentClient } from "@/lib/supabase/content";
 import { getVerifiedUserId } from "@/lib/supabase/auth";
 import { PHONE_REQUIRED, hasPhoneOnFile } from "@/lib/require-phone";
 import { getSubjectBySlug, getTestSets } from "@/lib/queries";
@@ -150,7 +151,9 @@ export async function submitTestAttempt(input: {
     return { ok: true, score: attempt.score ?? 0, total: attempt.total ?? 0 };
 
   const questionIds: string[] = attempt.question_ids ?? [];
-  const { data: questions } = await supabase
+  // The answer key is read with the server's own key: the signed-in key can no
+  // longer read it (0025), and the browser must never be able to.
+  const { data: questions } = await createContentClient()
     .from("questions")
     .select("id, kind, mcq_answer")
     .in("id", questionIds);
