@@ -112,6 +112,12 @@ export default function RootLayout({
         {/* Accent bar across the very top, above every page's navbar. */}
         <div className="h-1.5 w-full bg-accent" />
         <ThemeProvider>{children}</ThemeProvider>
+        {/* The trap: invisible, unfocusable and closed to crawlers in robots.txt,
+            so only a scraper that follows every link and ignores robots reaches
+            it. A plain <a>, never next/link, whose prefetch would spring it. */}
+        <a href="/all-questions" rel="nofollow" tabIndex={-1} aria-hidden="true" hidden>
+          All questions
+        </a>
 
         {/* Google Tag Manager loader. beforeInteractive so it lands in the
             server-rendered head, as high up as possible. */}
