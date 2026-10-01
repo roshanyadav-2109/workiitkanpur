@@ -6,6 +6,7 @@ const SITE_URL =
 // Internal paths no crawler needs.
 const DISALLOW = [
   "/api/",
+  "/all-questions",
   "/auth/",
   "/app/settings",
   "/app/progress",
