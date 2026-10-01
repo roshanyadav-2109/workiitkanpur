@@ -5,6 +5,7 @@ import { buildQuestionPdf } from "@/lib/question-pdf";
 import { createClient } from "@/lib/supabase/server";
 import { getVerifiedUserId } from "@/lib/supabase/auth";
 import { hasPhoneOnFile } from "@/lib/require-phone";
+import { openQuestion, recordSignal } from "@/lib/access";
 
 /** The same editor screenshot rides along in every handout — read it once. */
 let shotPromise: Promise<string | undefined> | null = null;
@@ -38,6 +39,14 @@ export async function GET(
 
   const ctx = await getQuestionById(id);
   if (!ctx) return new Response("Not found", { status: 404 });
+
+  // A handout is another way of opening the question, so it counts toward the
+  // same per-account limit — and releases the solution the same way.
+  const opened = await openQuestion(id);
+  if (!opened.allowed) {
+    await recordSignal({ kind: "limit", userId, questionId: id, path: `/api/questions/${id}/pdf` });
+    return new Response("You are opening questions very quickly. Try again in an hour.", { status: 429 });
+  }
   const solutionMd = (await getQuestionSolutions([id])).get(id) ?? null;
 
   const { question, subject, topic } = ctx;
