@@ -4,6 +4,7 @@ import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createPublicClient } from "@/lib/supabase/public";
+import { createContentClient } from "@/lib/supabase/content";
 import { getVerifiedUser } from "@/lib/supabase/auth";
 import { displayName } from "@/lib/utils";
 
@@ -345,7 +346,7 @@ const getQuestionsForRunContent = cached(async function getQuestionsForRunConten
   ids: string[],
 ): Promise<Omit<QuestionWithTopic, "solution_md" | "topic">[]> {
   if (ids.length === 0) return [];
-  const supabase = createPublicClient();
+  const supabase = createContentClient();
   const { data } = await supabase
     .from("questions")
     .select(
@@ -390,7 +391,7 @@ export interface QuestionContext {
 export const getQuestionById = cached(async function getQuestionById(
   id: string,
 ): Promise<QuestionContext | null> {
-  const supabase = createPublicClient();
+  const supabase = createContentClient();
   const { data } = await supabase
     .from("questions")
     .select(
@@ -762,7 +763,7 @@ export async function getQuestionsByIds(
   ids: string[],
 ): Promise<CompareQuestion[]> {
   if (ids.length === 0) return [];
-  const supabase = await createClient();
+  const supabase = createContentClient();
   const { data } = await supabase
     .from("questions")
     .select("id, title, body_md, tests, topic:topics(name, week)")
