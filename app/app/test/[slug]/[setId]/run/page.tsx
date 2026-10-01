@@ -9,6 +9,9 @@ import {
 import { extractSqlBlock } from "@/lib/sql";
 import { getSubjectResources } from "@/lib/subject-content";
 import { startTestAttempt } from "@/lib/test-actions";
+import { SlowDown } from "@/components/question/slow-down";
+import { openTestSet, recordSignal } from "@/lib/access";
+import { watermarkMarkdown } from "@/lib/watermark";
 import { TestRunner } from "@/components/test/test-runner";
 import { TestDeviceGuard } from "@/components/test/device-guard";
 
@@ -42,6 +45,15 @@ export default async function RunPage({
 
   const set = sets.find((s) => s.id === setId);
   if (!set || !set.available) notFound();
+
+  // Each paper opened is counted, and an account that opens papers far faster
+  // than anyone sits them is refused for a while (lib/access.ts). Solutions are
+  // released only for papers opened here, so this comes before the read below.
+  const opened = await openTestSet(set.id);
+  if (!opened.allowed) {
+    await recordSignal({ kind: "limit", userId: user.id, setId: set.id, path: `/app/test/${slug}/${setId}/run` });
+    return <SlowDown />;
+  }
 
   // Only this paper's questions — not every question in the subject.
   const questions = await getQuestionsForRun(
@@ -78,7 +90,7 @@ export default async function RunPage({
           id: q.id,
           title: q.title,
           marks: s.marks?.[q.id] ?? null,
-          body_md: q.body_md,
+          body_md: watermarkMarkdown(q.body_md, user.id),
           solution_md: isExam ? null : q.solution_md,
           kind: q.kind,
           tests: q.tests,
