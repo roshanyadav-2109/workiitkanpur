@@ -15,6 +15,8 @@ import {
   QuestionIDE,
   type IDETopicGroup,
 } from "@/components/question/question-ide";
+import { SlowDown } from "@/components/question/slow-down";
+import { forAnonymous, marked, openQuestion, recordSignal } from "@/lib/access";
 import { QuestionLoginGate } from "@/components/auth/question-login-gate";
 import type { QuestionStatus } from "@/components/ui/status";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -90,12 +92,26 @@ export default async function QuestionPage({
   const { id } = await params;
   const ctx = await getQuestionById(id);
   if (!ctx) notFound();
-  const { question, subject, topic } = ctx;
+  const { subject, topic } = ctx;
 
   const [allQuestions, user] = await Promise.all([
     getSubjectQuestionList(subject.id),
     getCurrentUser(),
   ]);
+
+  // A signed-in student gets the whole question, marked with their account, and
+  // each new one is counted; anyone else gets it without the hidden tests and
+  // the answer key (lib/access.ts).
+  if (user) {
+    const opened = await openQuestion(id);
+    if (!opened.allowed) {
+      await recordSignal({ kind: "limit", userId: user.id, questionId: id, path: `/app/questions/${id}` });
+      return <SlowDown />;
+    }
+  }
+  const question = user
+    ? marked(ctx.question, user.id)
+    : forAnonymous(ctx.question);
 
   let status = new Map<string, QuestionStatus>();
   let bestSeconds: number | null = null;
