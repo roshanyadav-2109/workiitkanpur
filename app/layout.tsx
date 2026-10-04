@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { PUBLISHER_NAME, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 // Google Analytics 4 (gtag.js) measurement ID.
 const GA_ID = "G-JK1FNY0TB5";
@@ -143,6 +144,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_ID}');`}
         </Script>
+        <Analytics />
       </body>
     </html>
   );
